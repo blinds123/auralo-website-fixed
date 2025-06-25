@@ -25,3 +25,7 @@ test_*.js
 apply_fixes.js
 fixes.html
 production_patch.html
+
+# Allow deployment guide
+!DEPLOYMENT.md
+.vercel
