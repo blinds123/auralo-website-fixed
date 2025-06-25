@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Build
+dist/
+build/
+
+# Original files
+index_original.html
+index_fixed.html
+
+# Test files
+test_*.js
+apply_fixes.js
+fixes.html
+production_patch.html
