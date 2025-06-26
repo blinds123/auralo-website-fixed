@@ -22,10 +22,18 @@
         @media (max-width: 768px) {
             .xl-simple-popup,
             .butler-popup,
-            [class*="overlay"],
-            [class*="popup"] {
+            [class*="overlay"]:not(#xlPopupOverlay),
+            [class*="popup"]:not(#xlSelloutPopup):not(.xl-sellout-popup) {
                 display: none !important;
                 visibility: hidden !important;
+            }
+            
+            /* Allow XL popup to show on mobile */
+            #xlPopupOverlay,
+            #xlSelloutPopup,
+            .xl-sellout-popup {
+                display: block !important;
+                visibility: visible !important;
             }
             
             body {
@@ -1448,14 +1456,13 @@
         }
         
         .carousel-nav:hover {
-            background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(102,126,234,0.4);
+            background: #5a5a5a;
+            transform: scale(1.05);
         }
         
         .carousel-nav:active {
-            transform: translateY(0px);
-            box-shadow: 0 2px 4px rgba(102,126,234,0.3);
+            transform: scale(0.95);
+            background: #3a3a3a;
         }
         
         /* Navigation container styling */
@@ -3297,16 +3304,25 @@
         /* Hide ALL popups on mobile devices to prevent auto-scroll */
         @media (max-width: 768px) {
             .butler-popup,
-            .xl-simple-popup,
             .iman-popup,
-            [class*="popup"],
+            [class*="popup"]:not(#xlSelloutPopup):not(.xl-sellout-popup):not(.xl-simple-popup),
             .social-notification,
             .notification-popup,
-            #imanPopup,
-            #xl-soldout-overlay {
+            #imanPopup {
                 display: none !important;
                 visibility: hidden !important;
                 opacity: 0 !important;
+            }
+            
+            /* Ensure XL popups can show on mobile */
+            #xlPopupOverlay,
+            #xlSelloutPopup, 
+            .xl-sellout-popup,
+            .xl-simple-popup,
+            #xl-soldout-overlay {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
             }
             
             /* Disable carousel animations on mobile */
@@ -4388,27 +4404,27 @@
                     <button class="size-option sold-out" disabled>
                         <span class="size-label">XS</span>
                         <span class="size-status">Sold Out</span>
-                    </a>
+                    </button>
                     <button class="size-option available" data-size="S">
                         <span class="size-label">S</span>
                         <span class="size-status">Available</span>
-                    </a>
+                    </button>
                     <button class="size-option available selected" data-size="M">
                         <span class="size-label">M</span>
                         <span class="size-status">Most Popular</span>
-                    </a>
+                    </button>
                     <button class="size-option available" data-size="L">
                         <span class="size-label">L</span>
                         <span class="size-status">Available</span>
-                    </a>
-                    <button class="size-option sold-out" disabled>
+                    </button>
+                    <button class="size-option available" data-size="XL">
                         <span class="size-label">XL</span>
-                        <span class="size-status">Sold Out</span>
-                    </a>
+                        <span class="size-status">Available</span>
+                    </button>
                     <button class="size-option sold-out" disabled>
                         <span class="size-label">XXL</span>
                         <span class="size-status">Sold Out</span>
-                    </a>
+                    </button>
                 </div>
                 
                 
@@ -4550,9 +4566,9 @@
             <h2 class="section-title">Why This Hoodie Exists</h2>
             
             <!-- NAVIGATION BUTTONS COMPLETELY SEPARATED FROM CAROUSEL -->
-            <div class="carousel-nav-container" style="display: flex; justify-content: flex-start; gap: 10px; margin: 20px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; backdrop-filter: blur(5px);">
-                <button class="carousel-nav carousel-nav-left" id="storyPrevBtn" aria-label="Previous slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; width: 36px; height: 36px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(102,126,234,0.25); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px);">‹</button>
-                <button class="carousel-nav carousel-nav-right" id="storyNextBtn" aria-label="Next slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; width: 36px; height: 36px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(102,126,234,0.25); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px);">›</button>
+            <div class="carousel-nav-container" style="display: flex; justify-content: flex-start; gap: 4px; margin: 20px 0; padding: 10px;">
+                <button class="carousel-nav carousel-nav-left" id="storyPrevBtn" aria-label="Previous slide" style="background: #4a4a4a; color: white; border: none; width: 28px; height: 28px; border-radius: 3px; font-size: 12px; font-weight: 400; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;"><</button>
+                <button class="carousel-nav carousel-nav-right" id="storyNextBtn" aria-label="Next slide" style="background: #4a4a4a; color: white; border: none; width: 28px; height: 28px; border-radius: 3px; font-size: 12px; font-weight: 400; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;">></button>
             </div>
             
             <div class="story-carousel" id="storyCarousel">
@@ -4596,9 +4612,9 @@
             <h2 class="section-title">What People Are Saying on TikTok</h2>
             
             <!-- NAVIGATION BUTTONS COMPLETELY SEPARATED FROM CAROUSEL -->
-            <div class="carousel-nav-container" style="display: flex; justify-content: flex-start; gap: 10px; margin: 20px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; backdrop-filter: blur(5px);">
-                <button class="carousel-nav carousel-nav-left" id="tiktokPrevBtn" aria-label="Previous slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; width: 36px; height: 36px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(102,126,234,0.25); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px);">‹</button>
-                <button class="carousel-nav carousel-nav-right" id="tiktokNextBtn" aria-label="Next slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; width: 36px; height: 36px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(102,126,234,0.25); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px);">›</button>
+            <div class="carousel-nav-container" style="display: flex; justify-content: flex-start; gap: 4px; margin: 20px 0; padding: 10px;">
+                <button class="carousel-nav carousel-nav-left" id="tiktokPrevBtn" aria-label="Previous slide" style="background: #4a4a4a; color: white; border: none; width: 28px; height: 28px; border-radius: 3px; font-size: 12px; font-weight: 400; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;"><</button>
+                <button class="carousel-nav carousel-nav-right" id="tiktokNextBtn" aria-label="Next slide" style="background: #4a4a4a; color: white; border: none; width: 28px; height: 28px; border-radius: 3px; font-size: 12px; font-weight: 400; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;">></button>
             </div>
             
             <div class="review-carousel" id="tiktokCarousel">
@@ -4661,9 +4677,9 @@
             <h2 class="section-title">What People Are Saying on Trustpilot</h2>
             
             <!-- NAVIGATION BUTTONS COMPLETELY SEPARATED FROM CAROUSEL -->
-            <div class="carousel-nav-container" style="display: flex; justify-content: flex-start; gap: 10px; margin: 20px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; backdrop-filter: blur(5px);">
-                <button class="carousel-nav carousel-nav-left" id="trustpilotPrevBtn" aria-label="Previous slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; width: 36px; height: 36px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(102,126,234,0.25); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px);">‹</button>
-                <button class="carousel-nav carousel-nav-right" id="trustpilotNextBtn" aria-label="Next slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; width: 36px; height: 36px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(102,126,234,0.25); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px);">›</button>
+            <div class="carousel-nav-container" style="display: flex; justify-content: flex-start; gap: 4px; margin: 20px 0; padding: 10px;">
+                <button class="carousel-nav carousel-nav-left" id="trustpilotPrevBtn" aria-label="Previous slide" style="background: #4a4a4a; color: white; border: none; width: 28px; height: 28px; border-radius: 3px; font-size: 12px; font-weight: 400; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;"><</button>
+                <button class="carousel-nav carousel-nav-right" id="trustpilotNextBtn" aria-label="Next slide" style="background: #4a4a4a; color: white; border: none; width: 28px; height: 28px; border-radius: 3px; font-size: 12px; font-weight: 400; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;">></button>
             </div>
             
             <div class="review-carousel" id="trustpilotCarousel">
