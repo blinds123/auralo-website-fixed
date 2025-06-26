@@ -85,6 +85,15 @@
                 position: absolute !important;
                 z-index: 10 !important;
             }
+            
+            /* CRITICAL: Allow XL popup to use fixed positioning on mobile */
+            #xlPopupOverlay,
+            #xlSelloutPopup,
+            .xl-sellout-popup,
+            .popup-overlay {
+                position: fixed !important;
+                z-index: 999999 !important;
+            }
         }
         
         /* IMAN'S 4-HOUR REBUILD - AUTHENTIC FOCUS */
@@ -7282,6 +7291,9 @@
     <!-- XL Sold Out Popup HTML -->
     <div class="popup-overlay" id="xlPopupOverlay" onclick="closeXLPopup()" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.3); z-index: 9999; cursor: pointer;"></div>
     <div class="xl-sellout-popup" id="xlSelloutPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 35px; border-radius: 16px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25); z-index: 10000; max-width: 90%; width: 420px; text-align: center; border: 1px solid #e5e5e5;">
+        <!-- X Close Button -->
+        <button onclick="closeXLPopup()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: #999; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.2s ease;" onmouseover="this.style.background='#f0f0f0'; this.style.color='#333'" onmouseout="this.style.background='none'; this.style.color='#999'">×</button>
+        
         <div style="margin-bottom: 8px;">
             <div style="width: 40px; height: 3px; background: #2196f3; margin: 0 auto; border-radius: 2px;"></div>
         </div>
