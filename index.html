@@ -4,7 +4,7 @@
     <!-- Version 3.1 - Fixed mobile carousel buttons, hotspots visibility, cache headers -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You Are Not For Everyone - $20 (v3.5-14SEC-TIMER)</title>
+    <title>You Are Not For Everyone - $20 (v3.6-TIMER-FIX)</title>
     <!-- PERFORMANCE OPTIMIZATIONS -->
     <link rel="preload" href="./images/main-hoodie.jpg" as="image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4505,7 +4505,7 @@
 <body>
     <!-- DEBUG VERSION INDICATOR -->
     <div id="debug-banner" style="background: #ff4757; color: white; text-align: center; padding: 10px; font-weight: bold; position: fixed; top: 0; left: 0; right: 0; z-index: 99999; cursor: pointer;" onclick="testPopupNow()">
-        DEBUG v3.5 - 14 SECOND TIMER ACTIVE (tap to test now)
+        DEBUG v3.6 - TIMER FIXED - Wait for countdown (tap to test now)
     </div>
     <script>
         // Direct popup test function
@@ -5968,12 +5968,33 @@
                 console.log('🔴 Debug button added to page - should be visible bottom-right');
             });
             
-            // FORCE START UNIVERSAL XL TIMER ON ALL PLATFORMS - IMMEDIATE EXECUTION
-            console.log('🚀 STARTING UNIVERSAL XL TIMER ON PAGE LOAD - ALL PLATFORMS!');
-            
-            // Start timer immediately
-            forceXLPopupOnAllPlatforms();
         });
+        
+        // FORCE START UNIVERSAL XL TIMER ON ALL PLATFORMS - IMMEDIATE EXECUTION
+        console.log('🚀 STARTING UNIVERSAL XL TIMER ON PAGE LOAD - ALL PLATFORMS!');
+        
+        // Wait a moment for page setup then start timer
+        setTimeout(() => {
+            console.log('🕐 Starting 14-second countdown NOW...');
+            if (typeof forceXLPopupOnAllPlatforms === 'function') {
+                forceXLPopupOnAllPlatforms();
+            } else {
+                console.error('❌ forceXLPopupOnAllPlatforms not found! Creating inline timer...');
+                // Inline backup timer
+                let countdown = 14;
+                const banner = document.getElementById('debug-banner');
+                const countInterval = setInterval(() => {
+                    countdown--;
+                    if (banner) banner.textContent = `DEBUG v3.6 - Popup in ${countdown} seconds (tap to test now)`;
+                    console.log(`⏰ Timer: ${countdown} seconds remaining...`);
+                    if (countdown <= 0) {
+                        clearInterval(countInterval);
+                        // Show popup directly
+                        testPopupNow();
+                    }
+                }, 1000);
+            }
+        }, 500);
 
         // 🚀 COMPREHENSIVE CUSTOMER EXPERIENCE AUTO-ENHANCEMENT
         // This script automatically provides all customers with enhanced functionality
