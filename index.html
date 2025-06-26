@@ -7206,11 +7206,17 @@
     <!-- AURALO WEBSITE PRODUCTION PATCH -->
     <!-- XL Sold Out Popup HTML -->
     <div class="popup-overlay" id="xlPopupOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); z-index: 9999;"></div>
-    <div class="xl-sellout-popup" id="xlSelloutPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); z-index: 10000; max-width: 90%; width: 400px; text-align: center;">
-        <div class="popup-message" style="font-size: 18px; font-weight: 600; color: #333; margin-bottom: 20px; line-height: 1.4;">
-            XL just vanished. These are going fast – secure yours now before your size disappears.
+    <div class="xl-sellout-popup" id="xlSelloutPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 35px; border-radius: 16px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25); z-index: 10000; max-width: 90%; width: 420px; text-align: center; border: 1px solid #e5e5e5;">
+        <div style="margin-bottom: 8px;">
+            <div style="width: 40px; height: 3px; background: #2196f3; margin: 0 auto; border-radius: 2px;"></div>
         </div>
-        <button class="popup-close" onclick="closeXLPopup()" style="background: #2196f3; color: white; border: none; padding: 12px 30px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer;">Got it</button>
+        <div class="popup-message" style="font-size: 20px; font-weight: 700; color: #1a1a1a; margin-bottom: 12px; line-height: 1.3; letter-spacing: -0.02em;">
+            Size XL — Sold Out
+        </div>
+        <div style="font-size: 15px; color: #666; margin-bottom: 25px; line-height: 1.5;">
+            This size has reached capacity. Remaining sizes are moving quickly.
+        </div>
+        <button class="popup-close" onclick="closeXLPopup()" style="background: #000; color: white; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; letter-spacing: 0.5px;">CONTINUE SHOPPING</button>
     </div>
 
     <!-- Additional Styles -->
@@ -7225,11 +7231,17 @@
         @media (max-width: 768px) {
             .xl-sellout-popup {
                 width: 85%;
-                padding: 25px;
+                padding: 30px 25px;
+                border-radius: 12px;
             }
             
             .popup-message {
-                font-size: 16px;
+                font-size: 18px;
+            }
+            
+            .popup-close {
+                padding: 12px 28px !important;
+                font-size: 14px !important;
             }
         }
     </style>
