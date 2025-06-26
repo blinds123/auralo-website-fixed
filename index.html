@@ -79,6 +79,16 @@
                 position: absolute !important;
             }
             
+            /* Ensure hotspots work on mobile with proper positioning and visibility */
+            .hotspot,
+            .hotspot-dot,
+            .hotspot-pulse {
+                position: absolute !important;
+                z-index: 100 !important;
+                display: block !important;
+                visibility: visible !important;
+            }
+            
             /* Ensure carousel navigation buttons are properly positioned */
             .carousel-nav-left,
             .carousel-nav-right {
@@ -4586,8 +4596,8 @@
             
             <!-- NAVIGATION BUTTONS COMPLETELY SEPARATED FROM CAROUSEL -->
             <div class="carousel-nav-container" style="display: flex; justify-content: flex-start; gap: 4px; margin: 20px 0; padding: 10px;">
-                <button class="carousel-nav carousel-nav-left" id="storyPrevBtn" aria-label="Previous slide" style="background: #4a4a4a; color: white; border: none; width: 28px; height: 28px; border-radius: 3px; font-size: 12px; font-weight: 400; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;"><</button>
-                <button class="carousel-nav carousel-nav-right" id="storyNextBtn" aria-label="Next slide" style="background: #4a4a4a; color: white; border: none; width: 28px; height: 28px; border-radius: 3px; font-size: 12px; font-weight: 400; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;">></button>
+                <button class="carousel-nav carousel-nav-left" id="storyPrevBtn" aria-label="Previous slide" style="background: rgba(0, 0, 0, 0.8); color: white; border: none; width: 50px; height: 50px; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;"><</button>
+                <button class="carousel-nav carousel-nav-right" id="storyNextBtn" aria-label="Next slide" style="background: rgba(0, 0, 0, 0.8); color: white; border: none; width: 50px; height: 50px; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;">></button>
             </div>
             
             <div class="story-carousel" id="storyCarousel">
@@ -4632,8 +4642,8 @@
             
             <!-- NAVIGATION BUTTONS COMPLETELY SEPARATED FROM CAROUSEL -->
             <div class="carousel-nav-container" style="display: flex; justify-content: flex-start; gap: 4px; margin: 20px 0; padding: 10px;">
-                <button class="carousel-nav carousel-nav-left" id="tiktokPrevBtn" aria-label="Previous slide" style="background: #4a4a4a; color: white; border: none; width: 28px; height: 28px; border-radius: 3px; font-size: 12px; font-weight: 400; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;"><</button>
-                <button class="carousel-nav carousel-nav-right" id="tiktokNextBtn" aria-label="Next slide" style="background: #4a4a4a; color: white; border: none; width: 28px; height: 28px; border-radius: 3px; font-size: 12px; font-weight: 400; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;">></button>
+                <button class="carousel-nav carousel-nav-left" id="tiktokPrevBtn" aria-label="Previous slide" style="background: rgba(0, 0, 0, 0.8); color: white; border: none; width: 50px; height: 50px; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;"><</button>
+                <button class="carousel-nav carousel-nav-right" id="tiktokNextBtn" aria-label="Next slide" style="background: rgba(0, 0, 0, 0.8); color: white; border: none; width: 50px; height: 50px; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;">></button>
             </div>
             
             <div class="review-carousel" id="tiktokCarousel">
@@ -4697,8 +4707,8 @@
             
             <!-- NAVIGATION BUTTONS COMPLETELY SEPARATED FROM CAROUSEL -->
             <div class="carousel-nav-container" style="display: flex; justify-content: flex-start; gap: 4px; margin: 20px 0; padding: 10px;">
-                <button class="carousel-nav carousel-nav-left" id="trustpilotPrevBtn" aria-label="Previous slide" style="background: #4a4a4a; color: white; border: none; width: 28px; height: 28px; border-radius: 3px; font-size: 12px; font-weight: 400; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;"><</button>
-                <button class="carousel-nav carousel-nav-right" id="trustpilotNextBtn" aria-label="Next slide" style="background: #4a4a4a; color: white; border: none; width: 28px; height: 28px; border-radius: 3px; font-size: 12px; font-weight: 400; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;">></button>
+                <button class="carousel-nav carousel-nav-left" id="trustpilotPrevBtn" aria-label="Previous slide" style="background: rgba(0, 0, 0, 0.8); color: white; border: none; width: 50px; height: 50px; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;"><</button>
+                <button class="carousel-nav carousel-nav-right" id="trustpilotNextBtn" aria-label="Next slide" style="background: rgba(0, 0, 0, 0.8); color: white; border: none; width: 50px; height: 50px; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;">></button>
             </div>
             
             <div class="review-carousel" id="trustpilotCarousel">
