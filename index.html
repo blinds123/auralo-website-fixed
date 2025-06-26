@@ -3998,6 +3998,24 @@
                             /* animation: popIn 0.3s ease forwards; */
                         ">
                             <div style="font-size: 4rem; margin-bottom: 20px; /* animation: bounce 1s infinite; DISABLED FOR TESTING */">⚡️💥⚡️</div>
+                            <button onclick="this.closest('.xl-simple-popup').remove()" style="
+                                position: absolute;
+                                top: 15px;
+                                right: 15px;
+                                background: rgba(255,255,255,0.2);
+                                border: 2px solid white;
+                                color: white;
+                                width: 40px;
+                                height: 40px;
+                                border-radius: 50%;
+                                font-size: 20px;
+                                font-weight: bold;
+                                cursor: pointer;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                z-index: 1000;
+                            ">×</button>
                             <h2 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">XL SIZE JUST DISAPPEARED!</h2>
                             <p style="margin-bottom: 25px; font-size: 1.1rem; opacity: 0.95;">Girl, this is your sign! Other sizes are flying off the shelves too - secure yours before it's too late! 💫</p>
                             <button onclick="this.closest('.xl-simple-popup').remove()" style="
@@ -7139,108 +7157,85 @@
         console.log('🔵 GUARANTEED MOBILE HOTSPOT SYSTEM STARTING');
         
         function createMobileHotspots() {
-            console.log('🔵 Creating guaranteed mobile hotspots...');
+            console.log('🔵 Enhancing Your Life, Elevated hotspots for mobile...');
             
-            // Find ONLY story carousel images that should have hotspots (NOT main product image)
-            const images = document.querySelectorAll('img[src*="slide-1_final"], img[src*="slide-2_final"], img[src*="slide-3_captioned"]');
-            console.log('📷 Found product images:', images.length);
+            // Find all existing hotspots in the Your Life, Elevated section
+            const lifeElevatedHotspots = document.querySelectorAll('.lifestyle-moments .hotspot');
+            console.log(`📍 Found ${lifeElevatedHotspots.length} existing hotspots in Your Life, Elevated section`);
             
-            // Hotspot data for story carousel images only
-            const hotspotData = [
-                // slide-1 image hotspots (first story image)
-                { text: "5:47 AM deep work session", left: "25%", top: "30%" },
-                { text: "Kangaroo pocket storage", left: "75%", top: "70%" },
+            // Enhance each hotspot for mobile functionality
+            lifeElevatedHotspots.forEach((hotspot, index) => {
+                const tipText = hotspot.getAttribute('data-tip') || `Feature ${index + 1}`;
                 
-                // slide-2 image hotspots (second story image)
-                { text: "Perfect oversized fit", left: "30%", top: "40%" },
-                { text: "Breathable fabric", left: "70%", top: "60%" },
+                // Ensure mobile visibility and functionality
+                hotspot.style.cssText += `
+                    position: absolute !important;
+                    width: 48px !important;
+                    height: 48px !important;
+                    cursor: pointer !important;
+                    z-index: 1000 !important;
+                    display: block !important;
+                    visibility: visible !important;
+                `;
                 
-                // slide-3 image hotspots (third story image)
-                { text: "Elevated streetwear", left: "25%", top: "35%" },
-                { text: "All-day comfort", left: "75%", top: "65%" }
-            ];
-            
-            let hotspotIndex = 0;
-            images.forEach((img, imgIndex) => {
-                const container = img.parentElement;
-                if (!container) return;
-                
-                // Make container relative for absolute positioning
-                container.style.position = 'relative';
-                
-                // Add 2 hotspots per image
-                for (let i = 0; i < 2; i++) {
-                    if (hotspotIndex >= hotspotData.length) break;
+                // Add mobile-friendly click handler
+                hotspot.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
                     
-                    const data = hotspotData[hotspotIndex];
+                    // Show tooltip text on mobile
+                    const tooltip = document.createElement('div');
+                    tooltip.style.cssText = `
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: rgba(0,0,0,0.9);
+                        color: white;
+                        padding: 15px 25px;
+                        border-radius: 10px;
+                        font-size: 16px;
+                        z-index: 10000;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                        max-width: 300px;
+                        text-align: center;
+                    `;
+                    tooltip.textContent = tipText;
                     
-                    // Create hotspot container
-                    const hotspot = document.createElement('div');
-                    hotspot.className = `mobile-hotspot mobile-hotspot-${hotspotIndex + 1}`;
-                    hotspot.style.cssText = `
-                        position: absolute !important;
-                        top: ${data.top} !important;
-                        left: ${data.left} !important;
-                        width: 48px !important;
-                        height: 48px !important;
-                        z-index: 1000 !important;
-                        cursor: pointer !important;
+                    // Add close functionality
+                    tooltip.addEventListener('click', () => tooltip.remove());
+                    setTimeout(() => tooltip.remove(), 3000);
+                    
+                    document.body.appendChild(tooltip);
+                    console.log(`🔵 Your Life, Elevated hotspot clicked: "${tipText}"`);
+                });
+                
+                // Ensure dot and pulse are visible on mobile
+                const dot = hotspot.querySelector('.hotspot-dot');
+                const pulse = hotspot.querySelector('.hotspot-pulse');
+                
+                if (dot) {
+                    dot.style.cssText += `
                         display: block !important;
                         visibility: visible !important;
-                    `;
-                    
-                    // Create blue dot
-                    const dot = document.createElement('div');
-                    dot.className = 'mobile-hotspot-dot';
-                    dot.style.cssText = `
-                        position: absolute !important;
-                        top: 50% !important;
-                        left: 50% !important;
-                        transform: translate(-50%, -50%) !important;
-                        width: 18px !important;
-                        height: 18px !important;
                         background: #2196f3 !important;
                         border: 3px solid #ffffff !important;
-                        border-radius: 50% !important;
-                        box-shadow: 0 6px 16px rgba(33, 150, 243, 0.8) !important;
-                        display: block !important;
-                        visibility: visible !important;
                     `;
-                    
-                    // Create pulse animation
-                    const pulse = document.createElement('div');
-                    pulse.className = 'mobile-hotspot-pulse';
-                    pulse.style.cssText = `
-                        position: absolute !important;
-                        top: 0 !important;
-                        left: 0 !important;
-                        width: 100% !important;
-                        height: 100% !important;
-                        border: 3px solid #2196f3 !important;
-                        border-radius: 50% !important;
-                        opacity: 0.6 !important;
-                        animation: pulse 2s infinite !important;
-                        display: block !important;
-                        visibility: visible !important;
-                    `;
-                    
-                    // Add click handler to show text
-                    hotspot.addEventListener('click', function() {
-                        alert(data.text);
-                        console.log('🔵 Hotspot clicked:', data.text);
-                    });
-                    
-                    // Assemble hotspot
-                    hotspot.appendChild(dot);
-                    hotspot.appendChild(pulse);
-                    container.appendChild(hotspot);
-                    
-                    console.log(`✅ Created mobile hotspot ${hotspotIndex + 1}: "${data.text}"`);
-                    hotspotIndex++;
                 }
+                
+                if (pulse) {
+                    pulse.style.cssText += `
+                        display: block !important;
+                        visibility: visible !important;
+                        border: 3px solid #2196f3 !important;
+                        animation: pulse 2s infinite !important;
+                    `;
+                }
+                
+                console.log(`✅ Enhanced hotspot ${index + 1} for mobile: "${tipText}"`);
             });
             
-            console.log(`🔵 Created ${hotspotIndex} guaranteed mobile hotspots`);
+            console.log(`🔵 Enhanced ${lifeElevatedHotspots.length} Your Life, Elevated hotspots for mobile`);
         }
         
         // Run when page loads
