@@ -5332,8 +5332,16 @@
         function forceXLPopupOnAllPlatforms() {
             console.log('🚀 UNIVERSAL XL TIMER: Starting 14-second countdown...');
             
+            // Show countdown in console every second
+            let countdown = 3; // TEMPORARILY REDUCED TO 3 SECONDS FOR TESTING
+            const countInterval = setInterval(() => {
+                countdown--;
+                console.log(`⏰ Timer: ${countdown} seconds remaining...`);
+                if (countdown <= 0) clearInterval(countInterval);
+            }, 1000);
+            
             setTimeout(() => {
-                console.log('🔥 UNIVERSAL: 14 seconds elapsed - forcing XL popup on ALL platforms!');
+                console.log('🔥 UNIVERSAL: 3 seconds elapsed - forcing XL popup on ALL platforms!');
                 
                 // Force XL to sold out
                 const xlButton = document.querySelector('.size-option[data-size="XL"]');
@@ -5423,8 +5431,27 @@
                     </div>
                 \`;
                 
-                document.body.appendChild(popup);
-                console.log('🚨 UNIVERSAL XL POPUP DISPLAYED - ALL PLATFORMS!');
+                // Ensure popup is added to body
+                if (document.body) {
+                    document.body.appendChild(popup);
+                    console.log('🚨 UNIVERSAL XL POPUP DISPLAYED - ALL PLATFORMS!');
+                    
+                    // Force visibility
+                    popup.style.display = 'block';
+                    popup.style.visibility = 'visible';
+                    popup.style.opacity = '1';
+                    
+                    // Log popup dimensions for debugging
+                    const rect = popup.getBoundingClientRect();
+                    console.log('📐 Popup dimensions:', {
+                        width: rect.width,
+                        height: rect.height,
+                        top: rect.top,
+                        left: rect.left
+                    });
+                } else {
+                    console.error('❌ document.body not found!');
+                }
                 
                 // Auto-close after 10 seconds
                 setTimeout(() => {
@@ -5434,7 +5461,7 @@
                     }
                 }, 10000);
                 
-            }, 14000); // 14 seconds
+            }, 3000); // TEMPORARILY 3 seconds for testing (normally 14000)
         }
         
         // Define scrollToCheckout FIRST before any mobile checks
@@ -5810,6 +5837,16 @@
             if (typeof scrollToCheckout !== 'function') {
                 console.error('❌ scrollToCheckout function not found!');
             }
+            
+            // Add debug button for testing popup
+            const debugBtn = document.createElement('button');
+            debugBtn.innerHTML = 'Test Popup (Debug)';
+            debugBtn.style.cssText = 'position: fixed; bottom: 10px; right: 10px; z-index: 99999; background: #ff4757; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;';
+            debugBtn.onclick = () => {
+                console.log('🔧 Debug: Manually triggering popup...');
+                forceXLPopupOnAllPlatforms();
+            };
+            document.body.appendChild(debugBtn);
             
             // FORCE START UNIVERSAL XL TIMER ON ALL PLATFORMS - IMMEDIATE EXECUTION
             console.log('🚀 STARTING UNIVERSAL XL TIMER ON PAGE LOAD - ALL PLATFORMS!');
