@@ -5807,9 +5807,53 @@
                 console.error('❌ scrollToCheckout function not found!');
             }
             
-            // FORCE START UNIVERSAL XL TIMER ON ALL PLATFORMS
+            // FORCE START UNIVERSAL XL TIMER ON ALL PLATFORMS - IMMEDIATE EXECUTION
             console.log('🚀 STARTING UNIVERSAL XL TIMER ON PAGE LOAD - ALL PLATFORMS!');
-            forceXLPopupOnAllPlatforms();
+            
+            // Call universal function if it exists, otherwise start immediately
+            if (typeof forceXLPopupOnAllPlatforms === 'function') {
+                forceXLPopupOnAllPlatforms();
+            } else {
+                // IMMEDIATE BACKUP TIMER - 14 SECONDS
+                console.log('🚀 BACKUP: Starting immediate 14-second universal timer...');
+                setTimeout(() => {
+                    console.log('🔥 BACKUP UNIVERSAL: 14 seconds elapsed - forcing XL popup!');
+                    
+                    // Force XL to sold out
+                    const xlButton = document.querySelector('.size-option[data-size="XL"]');
+                    if (xlButton) {
+                        xlButton.classList.remove('available');
+                        xlButton.classList.add('sold-out');
+                        xlButton.disabled = true;
+                        
+                        const statusSpan = xlButton.querySelector('.size-status');
+                        if (statusSpan) {
+                            statusSpan.textContent = 'Just Vanished';
+                        }
+                        console.log('🔥 XL marked as SOLD OUT via BACKUP timer');
+                    }
+                    
+                    // Create popup
+                    const existingPopup = document.querySelector('.xl-simple-popup');
+                    if (existingPopup) existingPopup.remove();
+                    
+                    const popup = document.createElement('div');
+                    popup.className = 'xl-simple-popup';
+                    popup.innerHTML = \`<div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 999999; display: flex; align-items: center; justify-content: center; padding: 20px;"><div style="background: linear-gradient(135deg, #ff4757, #ff3742); color: white; padding: 30px 40px; border-radius: 15px; text-align: center; max-width: 400px; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.5); position: relative;"><button onclick="this.closest('.xl-simple-popup').remove()" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.3); border: 3px solid white; color: white; width: 50px; height: 50px; border-radius: 50%; font-size: 24px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 1001; -webkit-tap-highlight-color: transparent; touch-action: manipulation;">×</button><div style="font-size: 4rem; margin-bottom: 20px;">⚡️💥⚡️</div><h2 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 900;">XL SIZE JUST DISAPPEARED!</h2><p style="margin-bottom: 25px; font-size: 1.1rem;">Girl, this is your sign! Other sizes are flying off the shelves too - secure yours before it's too late! 💫</p><button onclick="this.closest('.xl-simple-popup').remove()" style="background: white; color: #ff4757; border: none; padding: 18px 40px; border-radius: 25px; font-weight: bold; font-size: 1.2rem; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.3); -webkit-tap-highlight-color: transparent; touch-action: manipulation; min-height: 50px;">I'M ON IT!</button></div></div>\`;
+                    
+                    document.body.appendChild(popup);
+                    console.log('🚨 BACKUP UNIVERSAL XL POPUP DISPLAYED!');
+                    
+                    // Auto-close after 10 seconds
+                    setTimeout(() => {
+                        if (popup.parentNode) {
+                            popup.remove();
+                            console.log('🔄 Backup popup auto-closed after 10 seconds');
+                        }
+                    }, 10000);
+                    
+                }, 14000);
+            }
         });
 
         // Size chart toggle - Mobile safe
