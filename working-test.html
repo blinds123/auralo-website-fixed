@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>XL Timer Test - Copy This Code</title>
+</head>
+<body>
+    <h1>MANUAL SOLUTION FOR YOUR PHONE</h1>
+    
+    <p><strong>Since all hosting is broken, here's what you can do:</strong></p>
+    
+    <ol>
+        <li>Go to: <a href="https://auralo-website-fixed.netlify.app">https://auralo-website-fixed.netlify.app</a></li>
+        <li>Open Developer Console on your phone (Safari > Advanced > Web Inspector)</li>
+        <li>Copy and paste this code:</li>
+    </ol>
+    
+    <textarea style="width: 100%; height: 300px; font-family: monospace;">
+// MANUAL 14-SECOND XL TIMER - COPY THIS TO CONSOLE
+console.log('🚀 MANUAL: Starting 14-second XL timer...');
+
+setTimeout(() => {
+    console.log('🔥 14 seconds elapsed - making XL sold out!');
+    
+    // Find and update XL button
+    const xlButton = document.querySelector('.size-option[data-size="XL"]');
+    if (xlButton) {
+        xlButton.classList.remove('available');
+        xlButton.classList.add('sold-out');
+        xlButton.disabled = true;
+        const statusSpan = xlButton.querySelector('.size-status');
+        if (statusSpan) statusSpan.textContent = 'Just Vanished';
+    }
+    
+    // Create popup
+    const popup = document.createElement('div');
+    popup.className = 'xl-simple-popup';
+    popup.innerHTML = '<div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 999999; display: flex; align-items: center; justify-content: center; padding: 20px;"><div style="background: linear-gradient(135deg, #ff4757, #ff3742); color: white; padding: 30px 40px; border-radius: 15px; text-align: center; max-width: 400px; width: 100%; position: relative;"><button onclick="this.closest(\'.xl-simple-popup\').remove()" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.3); border: 3px solid white; color: white; width: 50px; height: 50px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center;">×</button><div style="font-size: 4rem; margin-bottom: 20px;">⚡️💥⚡️</div><h2 style="font-size: 2.2rem; margin-bottom: 15px;">XL SIZE JUST DISAPPEARED!</h2><p style="margin-bottom: 25px;">Girl, this is your sign! Other sizes are flying off the shelves too!</p><button onclick="this.closest(\'.xl-simple-popup\').remove()" style="background: white; color: #ff4757; border: none; padding: 18px 40px; border-radius: 25px; font-weight: bold; font-size: 1.2rem; cursor: pointer;">I\'M ON IT!</button></div></div>';
+    
+    document.body.appendChild(popup);
+    console.log('✅ XL popup displayed!');
+    
+    // Auto-close after 10 seconds
+    setTimeout(() => {
+        if (popup.parentNode) popup.remove();
+    }, 10000);
+    
+}, 14000);
+
+console.log('✅ Timer started - XL will become sold out in 14 seconds!');
+    </textarea>
+    
+    <p><strong>This will work 100% because you're running it directly in the browser console!</strong></p>
+</body>
+</html>

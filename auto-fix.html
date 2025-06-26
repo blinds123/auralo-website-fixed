@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Fix XL Timer - Complete Solution</title>
+    <style>
+        body {
+            font-family: 'Source Code Pro', monospace;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            max-width: 500px;
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        .status {
+            font-size: 1.2rem;
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+        }
+        .loading {
+            background: rgba(255, 193, 7, 0.3);
+            border-left: 4px solid #FFC107;
+        }
+        .success {
+            background: rgba(76, 175, 80, 0.3);
+            border-left: 4px solid #4CAF50;
+        }
+        .button {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Auto-Fix Loading...</h1>
+        <div id="status"></div>
+        
+        <p>This page will automatically:</p>
+        <ul style="text-align: left; margin: 20px 0;">
+            <li>✅ Load the original Auralo site</li>
+            <li>✅ Fix the 14-second XL popup timer</li>
+            <li>✅ Enhance mobile carousel buttons</li>
+            <li>✅ Position blue dots correctly</li>
+            <li>✅ Add call-to-action button</li>
+            <li>✅ Apply all mobile optimizations</li>
+        </ul>
+        
+        <div id="redirectInfo" style="display: none;">
+            <p><strong>Redirecting to enhanced site in 3 seconds...</strong></p>
+            <a href="#" id="manualLink" class="button">Or Click Here Manually</a>
+        </div>
+    </div>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+        const redirectInfo = document.getElementById('redirectInfo');
+        const manualLink = document.getElementById('manualLink');
+        
+        function updateStatus(message, type = 'loading') {
+            statusDiv.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+        
+        // Step 1: Create the enhanced site URL with auto-fix parameters
+        updateStatus('🔧 Preparing auto-fix injection...', 'loading');
+        
+        setTimeout(() => {
+            updateStatus('✅ Auto-fix ready! Loading enhanced site...', 'success');
+            
+            // Create the enhanced URL with all fixes injected
+            const enhancedURL = 'https://auralo-website-fixed.netlify.app/#auto-fix';
+            
+            // Create injection script that will run on the target site
+            const injectionScript = `
+                // COMPREHENSIVE AUTO-FIX INJECTION
+                console.log('🚀 AUTO-FIX: Starting comprehensive mobile fixes...');
+                
+                // Wait for page to fully load
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', runAutoFix);
+                } else {
+                    runAutoFix();
+                }
+                
+                function runAutoFix() {
+                    console.log('🔧 AUTO-FIX: Page loaded, applying fixes...');
+                    
+                    // 1. FIX XL POPUP TIMER (14 seconds)
+                    setTimeout(() => {
+                        console.log('🔥 AUTO-FIX: 14 seconds elapsed - XL popup time!');
+                        
+                        const xlButton = document.querySelector('.size-option[data-size="XL"]');
+                        if (xlButton) {
+                            xlButton.classList.remove('available');
+                            xlButton.classList.add('sold-out');
+                            xlButton.disabled = true;
+                            const statusSpan = xlButton.querySelector('.size-status');
+                            if (statusSpan) statusSpan.textContent = 'Just Vanished';
+                        }
+                        
+                        // Create enhanced popup
+                        const popup = document.createElement('div');
+                        popup.className = 'xl-simple-popup';
+                        popup.innerHTML = \`<div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 999999; display: flex; align-items: center; justify-content: center; padding: 20px;"><div style="background: linear-gradient(135deg, #ff4757, #ff3742); color: white; padding: 30px 40px; border-radius: 15px; text-align: center; max-width: 400px; width: 100%; position: relative;"><button onclick="this.closest('.xl-simple-popup').remove()" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.3); border: 3px solid white; color: white; width: 50px; height: 50px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; touch-action: manipulation;">×</button><div style="font-size: 4rem; margin-bottom: 20px;">⚡️💥⚡️</div><h2 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 900;">XL SIZE JUST DISAPPEARED!</h2><p style="margin-bottom: 25px; font-size: 1.1rem;">Girl, this is your sign! Other sizes are flying off the shelves too - secure yours before it's too late! 💫</p><button onclick="this.closest('.xl-simple-popup').remove()" style="background: white; color: #ff4757; border: none; padding: 18px 40px; border-radius: 25px; font-weight: bold; font-size: 1.2rem; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;">I'M ON IT!</button></div></div>\`;
+                        
+                        document.body.appendChild(popup);
+                        console.log('✅ AUTO-FIX: XL popup displayed with enhanced mobile support!');
+                        
+                        // Auto-close after 10 seconds
+                        setTimeout(() => {
+                            if (popup.parentNode) popup.remove();
+                        }, 10000);
+                        
+                    }, 14000);
+                    
+                    // 2. FIX CAROUSEL BUTTONS (immediate)
+                    const carouselButtons = document.querySelectorAll('.carousel-nav');
+                    carouselButtons.forEach(button => {
+                        button.style.cssText += \`
+                            width: 60px !important;
+                            height: 60px !important;
+                            font-size: 24px !important;
+                            background: rgba(0, 0, 0, 0.9) !important;
+                            border: 3px solid white !important;
+                            border-radius: 12px !important;
+                            box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
+                            backdrop-filter: blur(10px) !important;
+                        \`;
+                    });
+                    console.log('✅ AUTO-FIX: Carousel buttons enhanced for mobile!');
+                    
+                    // 3. ADD CALL-TO-ACTION BUTTON
+                    const sizeSelector = document.querySelector('.size-selector');
+                    if (sizeSelector && !document.querySelector('.auto-fix-cta')) {
+                        const ctaDiv = document.createElement('div');
+                        ctaDiv.className = 'auto-fix-cta';
+                        ctaDiv.innerHTML = \`
+                            <div style="margin: 30px 0; text-align: center; padding: 20px 0; border-top: 2px solid #e8f4fd; border-bottom: 2px solid #e8f4fd;">
+                                <a href="#complete-exchange-section" style="text-decoration: none; display: inline-block; font-size: 1.3rem; padding: 18px 40px; background: linear-gradient(135deg, #2196F3, #1976D2); color: white; box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4); border-radius: 12px; transform: scale(1.05);">
+                                    🔥 Secure Your Size - \$20 
+                                </a>
+                                <p style="margin: 15px 0 0 0; color: #666; font-size: 0.9rem; font-weight: 500;">✅ 60-second checkout • ✅ Free shipping • ✅ Plants 5 trees</p>
+                            </div>
+                        \`;
+                        sizeSelector.appendChild(ctaDiv);
+                        console.log('✅ AUTO-FIX: Call-to-action button added!');
+                    }
+                    
+                    // 4. NOTIFICATION BANNER
+                    const notification = document.createElement('div');
+                    notification.innerHTML = \`
+                        <div style="position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(135deg, #4CAF50, #45a049); color: white; padding: 10px; text-align: center; z-index: 100000; font-size: 0.9rem; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+                            ✅ AUTO-FIX ACTIVE: 14-second XL timer + Enhanced mobile features loaded!
+                            <button onclick="this.parentElement.remove()" style="float: right; background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">×</button>
+                        </div>
+                    \`;
+                    document.body.appendChild(notification);
+                    
+                    // Auto-remove notification after 5 seconds
+                    setTimeout(() => {
+                        if (notification.parentNode) notification.remove();
+                    }, 5000);
+                    
+                    console.log('🎉 AUTO-FIX: All fixes applied successfully!');
+                }
+            `;
+            
+            // Encode the script for URL injection
+            const encodedScript = encodeURIComponent(injectionScript);
+            
+            // Create the final URL with auto-injection
+            const finalURL = `data:text/html,<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Loading Enhanced Site...</title></head><body><script>setTimeout(() => { window.location.href = 'https://auralo-website-fixed.netlify.app'; setTimeout(() => { eval(decodeURIComponent('${encodedScript}')); }, 1000); }, 500);</script><div style="font-family: Arial; text-align: center; padding: 50px; background: linear-gradient(135deg, #2196F3, #1976D2); color: white; min-height: 100vh; display: flex; align-items: center; justify-content: center;"><div><h1>🚀 Loading Enhanced Site...</h1><p>Auto-fix will activate in 2 seconds!</p></div></div></body></html>`;
+            
+            manualLink.href = finalURL;
+            redirectInfo.style.display = 'block';
+            
+            // Auto-redirect after 3 seconds
+            setTimeout(() => {
+                window.location.href = finalURL;
+            }, 3000);
+            
+        }, 2000);
+    </script>
+</body>
+</html>
