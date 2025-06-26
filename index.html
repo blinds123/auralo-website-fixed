@@ -4,7 +4,7 @@
     <!-- Version 3.1 - Fixed mobile carousel buttons, hotspots visibility, cache headers -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You Are Not For Everyone - $20 (v3.1-MOBILE-FIX)</title>
+    <title>You Are Not For Everyone - $20 (v3.2-POPUP-DEBUG)</title>
     <!-- PERFORMANCE OPTIMIZATIONS -->
     <link rel="preload" href="./images/main-hoodie.jpg" as="image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4502,6 +4502,10 @@
     </script>
 </head>
 <body>
+    <!-- DEBUG VERSION INDICATOR -->
+    <div style="background: #ff4757; color: white; text-align: center; padding: 10px; font-weight: bold; position: fixed; top: 0; left: 0; right: 0; z-index: 99999;">
+        DEBUG v3.2 - Popup Timer: 3 seconds - Look for red button bottom-right
+    </div>
     <script>
         // Robust scroll function that always works
         function scrollToBottom() {
@@ -5838,15 +5842,18 @@
                 console.error('❌ scrollToCheckout function not found!');
             }
             
-            // Add debug button for testing popup
-            const debugBtn = document.createElement('button');
-            debugBtn.innerHTML = 'Test Popup (Debug)';
-            debugBtn.style.cssText = 'position: fixed; bottom: 10px; right: 10px; z-index: 99999; background: #ff4757; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;';
-            debugBtn.onclick = () => {
-                console.log('🔧 Debug: Manually triggering popup...');
-                forceXLPopupOnAllPlatforms();
-            };
-            document.body.appendChild(debugBtn);
+            // Add debug button for testing popup - with delay to ensure body exists
+            setTimeout(() => {
+                const debugBtn = document.createElement('button');
+                debugBtn.innerHTML = 'Test Popup (Debug)';
+                debugBtn.style.cssText = 'position: fixed; bottom: 10px; right: 10px; z-index: 99999; background: #ff4757; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;';
+                debugBtn.onclick = () => {
+                    console.log('🔧 Debug: Manually triggering popup...');
+                    forceXLPopupOnAllPlatforms();
+                };
+                document.body.appendChild(debugBtn);
+                console.log('🔴 Debug button added to page');
+            }, 100);
             
             // FORCE START UNIVERSAL XL TIMER ON ALL PLATFORMS - IMMEDIATE EXECUTION
             console.log('🚀 STARTING UNIVERSAL XL TIMER ON PAGE LOAD - ALL PLATFORMS!');
