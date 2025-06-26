@@ -1,0 +1,6 @@
+DEPLOYMENT TEST - 14-SECOND XL TIMER VERSION
+Created: 2025-06-26T07:20:00Z
+Status: Testing deployment pipeline
+User Issue: Changes not visible on iPhone
+Expected: 14-second XL popup timer should work on all platforms
+This file confirms if deployment is working.
