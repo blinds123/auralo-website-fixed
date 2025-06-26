@@ -7203,9 +7203,84 @@
     <!-- GUARANTEED WORKING SYSTEMS -->
     <!-- <script src="./working-systems.js"></script> DISABLED - causing notifications -->
 
+    <!-- SIMPLE XL POPUP SYSTEM - GUARANTEED TO WORK -->
+    <script>
+        console.log('🚀 STARTING SIMPLE XL POPUP SYSTEM');
+        
+        function startXLTimer() {
+            // Wait for page to be fully loaded
+            setTimeout(() => {
+                console.log('🔍 Checking XL button...');
+                
+                const xlButton = document.querySelector('.size-option[data-size="XL"]');
+                if (!xlButton) {
+                    console.log('❌ XL button not found');
+                    return;
+                }
+                
+                // Only proceed if XL is available
+                if (!xlButton.classList.contains('available')) {
+                    console.log('❌ XL not available initially');
+                    return;
+                }
+                
+                console.log('✅ XL is available - starting 13 second countdown');
+                
+                // Set timer for exactly 13 seconds
+                setTimeout(() => {
+                    console.log('⚡ 13 SECONDS UP - SHOWING XL POPUP!');
+                    
+                    // Change XL to sold out
+                    const xl = document.querySelector('.size-option[data-size="XL"]');
+                    if (xl) {
+                        xl.classList.remove('available');
+                        xl.classList.add('sold-out');
+                        xl.disabled = true;
+                        
+                        const status = xl.querySelector('.size-status');
+                        if (status) {
+                            status.textContent = 'Sold Out';
+                        }
+                    }
+                    
+                    // Show the popup with force
+                    const popup = document.getElementById('xlSelloutPopup');
+                    const overlay = document.getElementById('xlPopupOverlay');
+                    
+                    if (popup && overlay) {
+                        // Force display with non-obtrusive styling
+                        popup.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important; position: fixed !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) !important; z-index: 999999 !important;';
+                        overlay.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important; position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; z-index: 999998 !important; background: rgba(0, 0, 0, 0.3) !important;';
+                        
+                        console.log('✅ XL POPUP SHOWN SUCCESSFULLY!');
+                        
+                        // Auto-hide after 4 seconds (non-obtrusive)
+                        setTimeout(() => {
+                            popup.style.display = 'none';
+                            overlay.style.display = 'none';
+                            console.log('🕐 Popup auto-hidden after 4 seconds');
+                        }, 4000);
+                    } else {
+                        console.log('❌ Popup elements missing');
+                    }
+                    
+                }, 13000); // 13 seconds
+                
+            }, 2000); // Wait 2 seconds for page to load
+        }
+        
+        // Start immediately
+        startXLTimer();
+        
+        // Also start on DOMContentLoaded as backup
+        document.addEventListener('DOMContentLoaded', startXLTimer);
+        
+        console.log('⏰ XL timer system initialized');
+    </script>
+
     <!-- AURALO WEBSITE PRODUCTION PATCH -->
     <!-- XL Sold Out Popup HTML -->
-    <div class="popup-overlay" id="xlPopupOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); z-index: 9999;"></div>
+    <div class="popup-overlay" id="xlPopupOverlay" onclick="closeXLPopup()" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.3); z-index: 9999; cursor: pointer;"></div>
     <div class="xl-sellout-popup" id="xlSelloutPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 35px; border-radius: 16px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25); z-index: 10000; max-width: 90%; width: 420px; text-align: center; border: 1px solid #e5e5e5;">
         <div style="margin-bottom: 8px;">
             <div style="width: 40px; height: 3px; background: #2196f3; margin: 0 auto; border-radius: 2px;"></div>
@@ -7214,7 +7289,7 @@
             Size XL — Sold Out
         </div>
         <div style="font-size: 15px; color: #666; margin-bottom: 25px; line-height: 1.5;">
-            This size has reached capacity. Remaining sizes are moving quickly.
+            This size just sold out. Secure your preferred size now before we reach capacity.
         </div>
         <button class="popup-close" onclick="closeXLPopup()" style="background: #000; color: white; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; letter-spacing: 0.5px;">CONTINUE SHOPPING</button>
     </div>
