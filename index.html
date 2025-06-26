@@ -87,12 +87,22 @@
             }
             
             /* CRITICAL: Allow XL popup to use fixed positioning on mobile */
+            div#xlPopupOverlay.popup-overlay,
+            div#xlSelloutPopup.xl-sellout-popup,
             #xlPopupOverlay,
             #xlSelloutPopup,
             .xl-sellout-popup,
             .popup-overlay {
                 position: fixed !important;
                 z-index: 999999 !important;
+            }
+            
+            /* Ultra-specific override for popup positioning */
+            @media (max-width: 768px) {
+                div[id="xlPopupOverlay"],
+                div[id="xlSelloutPopup"] {
+                    position: fixed !important;
+                }
             }
         }
         
@@ -7469,9 +7479,19 @@
                 const overlay = document.getElementById('xlPopupOverlay');
                 
                 if (popup && overlay) {
-                    popup.style.display = 'block';
-                    overlay.style.display = 'block';
+                    // Force display with maximum CSS priority to override mobile CSS
+                    popup.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important; position: fixed !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) !important; z-index: 999999 !important; background: white !important; padding: 35px !important; border-radius: 16px !important; max-width: 90% !important; width: 420px !important; text-align: center !important; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25) !important; border: 1px solid #e5e5e5 !important;';
+                    overlay.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important; position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; z-index: 999998 !important; background: rgba(0, 0, 0, 0.3) !important;';
+                    
+                    console.log('✅ XL POPUP SHOWN WITH MAXIMUM CSS PRIORITY!');
                     sessionStorage.setItem('xlPopupShown', 'true');
+                    
+                    // Auto-hide after 4 seconds (non-obtrusive)
+                    setTimeout(() => {
+                        popup.style.display = 'none';
+                        overlay.style.display = 'none';
+                        console.log('🕐 Popup auto-hidden after 4 seconds');
+                    }, 4000);
                 }
             }
         }
