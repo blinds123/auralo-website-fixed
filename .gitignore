@@ -29,3 +29,6 @@ production_patch.html
 # Allow deployment guide
 !DEPLOYMENT.md
 .vercel
+
+# Local Netlify folder
+.netlify

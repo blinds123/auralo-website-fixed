@@ -4,10 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>You Are Not For Everyone - $20</title>
+    <!-- PERFORMANCE OPTIMIZATIONS -->
     <link rel="preload" href="./images/main-hoodie.jpg" as="image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    
+    <!-- Resource Hints -->
+    <link rel="prefetch" href="./images/slide-1_final_crushed_under_20kb.jpg">
+    <link rel="prefetch" href="./images/slide-2_final_crushed_under_20kb.jpg">
     <style>
         /* Emergency fix for mobile overlay issue */
         @media (max-width: 768px) {
@@ -50,8 +59,16 @@
             .story-carousel,
             .review-carousel,
             .story-slides,
-            .review-slides {
+            .review-slides,
+            .hotspot,
+            .hotspot-dot,
+            .hotspot-pulse {
                 position: relative !important;
+            }
+            
+            /* Hotspots specifically need absolute positioning */
+            .hotspot {
+                position: absolute !important;
             }
             
             /* Ensure carousel navigation buttons are properly positioned */
@@ -114,6 +131,27 @@
             position: relative;
             max-width: 100vw;
             overscroll-behavior: contain; /* Prevent scroll chaining on iPhone */
+        }
+        
+        /* PERFORMANCE OPTIMIZATIONS */
+        img {
+            max-width: 100%;
+            height: auto;
+            content-visibility: auto;
+            contain-intrinsic-size: 0 500px;
+        }
+        
+        /* Optimize animations for better performance */
+        .story-slide,
+        .review-slide {
+            will-change: transform;
+            contain: layout style paint;
+        }
+        
+        /* Critical loading performance */
+        .product-image {
+            will-change: auto;
+            contain: layout;
         }
         
         html {
@@ -830,9 +868,9 @@
         }
 
         .moment-text {
-            padding: 16px;
+            padding: 20px 16px;
             background: var(--big-day-white);
-            height: 30%;
+            min-height: 80px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -872,16 +910,16 @@
         .hotspot-8 { top: 60%; right: 25%; } /* Lifestyle image 2 - on hoodie */
 
         .hotspot-dot {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             background: var(--simpleswap-blue);
-            border: 2px solid var(--big-day-white);
+            border: 3px solid var(--big-day-white);
             border-radius: 50%;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+            box-shadow: 0 6px 16px rgba(33, 150, 243, 0.6);
         }
 
         .hotspot-pulse {
@@ -892,7 +930,7 @@
             height: 100%;
             border: 2px solid var(--simpleswap-blue);
             border-radius: 50%;
-            /* animation: pulse 2s infinite; DISABLED FOR TESTING */
+            animation: pulse 2s infinite;
             opacity: 0.6;
         }
 
@@ -1357,7 +1395,7 @@
             height: 40px;
             border-radius: 4px;
             margin-left: auto;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         /* STORY - AUTHENTIC NARRATIVE */
@@ -1372,54 +1410,57 @@
         .story-carousel, .review-carousel {
             position: relative;
             border-radius: 8px;
-            overflow: hidden;
+            overflow: visible;
             width: 100%;
             max-width: 100%;
         }
         
-        /* CAROUSEL NAVIGATION BUTTONS */
+        /* CAROUSEL NAVIGATION BUTTONS - UPDATED FOR EXTERNAL POSITIONING */
         .carousel-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
+            /* Removed absolute positioning - buttons now use inline flex layout */
             background: rgba(0, 0, 0, 0.8) !important;
             color: white;
-            border: none;
+            border: 3px solid white;
             border-radius: 50%;
-            width: 48px;
-            height: 48px;
-            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
             font-weight: bold;
             cursor: pointer;
-            z-index: 999 !important; /* Increased z-index to ensure visibility */
-            transition: all 0.3s ease;
-            display: flex !important; /* Force display */
+            z-index: 10 !important;
+            transition: all 0.2s ease;
+            display: flex !important;
             align-items: center;
             justify-content: center;
             /* Touch-friendly size */
-            min-width: 48px;
-            min-height: 48px;
+            min-width: 50px;
+            min-height: 50px;
             /* Force visibility */
             opacity: 1 !important;
             visibility: visible !important;
             pointer-events: auto !important;
+            /* Enhanced mobile touch */
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
         
         .carousel-nav:hover {
-            background: rgba(0, 0, 0, 0.9);
-            transform: translateY(-50%) scale(1.1);
+            background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102,126,234,0.4);
         }
         
         .carousel-nav:active {
-            transform: translateY(-50%) scale(0.95);
+            transform: translateY(0px);
+            box-shadow: 0 2px 4px rgba(102,126,234,0.3);
         }
         
-        .carousel-nav-left {
-            left: 10px;
-        }
-        
-        .carousel-nav-right {
-            right: 10px;
+        /* Navigation container styling */
+        .carousel-nav-container {
+            /* Styles now handled inline for better specificity */
         }
         
         /* Mobile carousel nav adjustments */
@@ -1676,12 +1717,7 @@
             letter-spacing: 1px;
         }
         
-        /* Move Step 2 circle up by 3cm (114px) */
-        .process-step:nth-child(2) .step-number {
-            transform: translateY(-114px);
-            position: relative;
-            z-index: 10;
-        }
+        /* REMOVED: Move Step 2 circle up - caused spacing issues */
 
         .step-title {
             font-weight: 600;
@@ -2031,7 +2067,7 @@
 
         .review-carousel {
             margin: var(--space-lg) 0;
-            overflow: hidden;
+            overflow: visible;
             width: 100%;
             max-width: 100%;
         }
@@ -2053,7 +2089,7 @@
             background: var(--big-day-white);
             border-radius: 8px;
             box-shadow: var(--shadow-light);
-            overflow: hidden;
+            overflow: visible;
         }
 
         .review-image {
@@ -3274,24 +3310,84 @@
             }
             
             /* Disable carousel animations on mobile */
-            .story-slides,
-            .review-slides,
-            [class*="slides"] {
-                transition: none !important;
-                transform: none !important;
-                will-change: auto !important;
+            /* MOBILE CAROUSEL CONTAINER FIX - PREVENT WHITE SPACE */
+            .story-carousel, 
+            .review-carousel {
+                overflow: hidden !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                position: relative !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
             
-            /* Enable all carousel slides on mobile with manual navigation */
+            .story-slides,
+            .review-slides {
+                display: flex !important;
+                width: 100% !important;
+                transition: transform 0.3s ease !important;
+                will-change: transform !important;
+                /* REMOVED: transform: translateX(0%) !important; - Let JS control transforms */
+            }
+            
+            /* Mobile carousel slides - one at a time */
             .story-slide,
             .review-slide {
+                min-width: 100% !important;
+                max-width: 100% !important;
+                flex-shrink: 0 !important;
                 display: block !important;
                 opacity: 1 !important;
+                overflow: hidden !important;
             }
             
-            /* Show carousel navigation on mobile */
-            .carousel-nav {
+            .story-slide img,
+            .review-slide img {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 100% !important;
+                object-fit: cover !important;
                 display: block !important;
+            }
+            
+            /* MOBILE CAROUSEL NAVIGATION - EXTERNAL POSITIONING */
+            .carousel-nav {
+                /* Removed absolute positioning for external layout */
+                display: flex !important;
+                background: rgba(0, 0, 0, 0.8) !important;
+                color: white !important;
+                border: 3px solid white !important;
+                border-radius: 50% !important;
+                width: 50px !important;
+                height: 50px !important;
+                font-size: 20px !important;
+                font-weight: bold !important;
+                cursor: pointer !important;
+                z-index: 10 !important;
+                user-select: none !important;
+                -webkit-user-select: none !important;
+                -webkit-tap-highlight-color: transparent !important;
+                touch-action: manipulation !important;
+                align-items: center !important;
+                justify-content: center !important;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+                transition: all 0.2s ease !important;
+                /* Ensure buttons are always visible */
+                opacity: 1 !important;
+                visibility: visible !important;
+            }
+            
+            /* Navigation container mobile styling */
+            .carousel-nav-container {
+                margin: 25px 0 !important;
+                padding: 15px !important;
+            }
+            
+            /* Mobile button hover/active states */
+            .carousel-nav-left:active,
+            .carousel-nav-right:active {
+                background: rgba(0, 0, 0, 0.9) !important;
+                transform: translateY(-50%) scale(0.95) !important;
             }
             
             /* Show finger pointers on mobile with optimized positioning */
@@ -3450,6 +3546,33 @@
             .hotspot {
                 min-width: 48px !important;
                 min-height: 48px !important;
+                position: absolute !important;
+                z-index: 100 !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                display: block !important;
+            }
+            
+            .hotspot-dot {
+                background: var(--simpleswap-blue) !important;
+                border: 3px solid var(--big-day-white) !important;
+                box-shadow: 0 6px 16px rgba(33, 150, 243, 0.8) !important;
+                width: 18px !important;
+                height: 18px !important;
+                position: absolute !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+            }
+            
+            .hotspot-pulse {
+                border: 3px solid var(--simpleswap-blue) !important;
+                animation: pulse 2s infinite !important;
+                position: absolute !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
             }
             
             .moment-card {
@@ -3469,7 +3592,7 @@
             .story-slide img, .review-slide img {
                 max-width: 100% !important;
                 height: auto !important;
-                object-fit: cover !important;
+                object-fit: contain !important;
             }
             
             .hamptons-store-photo {
@@ -3711,12 +3834,12 @@
                     
                     console.log('✅ XL button found, starting 13-second timer!');
                     
-                    // Start 13-second timer - DISABLED FOR NOW
-                    /* this.timer = setTimeout(() => {
+                    // Start 13-second timer - ENABLED!
+                    this.timer = setTimeout(() => {
                         console.log('🔥 13 SECONDS ELAPSED - MAKING XL SOLD OUT!');
                         this.makeXLSoldOut();
                         this.showSelloutPopup();
-                    }, 13000); */
+                    }, 13000);
                     
                     console.log('⏰ XL Timer initialized - 13 seconds to sellout');
                 };
@@ -3756,7 +3879,7 @@
                     
                     const statusSpan = xlButton.querySelector('.size-status');
                     if (statusSpan) {
-                        statusSpan.textContent = 'Just Sold Out';
+                        statusSpan.textContent = 'Just Vanished';
                     }
                     
                     localStorage.setItem(this.timerKey, 'true');
@@ -3798,9 +3921,9 @@
                             transform: scale(1);
                             /* animation: popIn 0.3s ease forwards; */
                         ">
-                            <div style="font-size: 4rem; margin-bottom: 20px; /* animation: bounce 1s infinite; DISABLED FOR TESTING */">🔥🚨🔥</div>
-                            <h2 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">SIZE XL JUST SOLD OUT!</h2>
-                            <p style="margin-bottom: 25px; font-size: 1.1rem; opacity: 0.95;">Don't miss out on the remaining sizes!</p>
+                            <div style="font-size: 4rem; margin-bottom: 20px; /* animation: bounce 1s infinite; DISABLED FOR TESTING */">⚡️💥⚡️</div>
+                            <h2 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">XL SIZE JUST DISAPPEARED!</h2>
+                            <p style="margin-bottom: 25px; font-size: 1.1rem; opacity: 0.95;">Girl, this is your sign! Other sizes are flying off the shelves too - secure yours before it's too late! 💫</p>
                             <button onclick="this.closest('.xl-simple-popup').remove()" style="
                                 background: white;
                                 color: #ff4757;
@@ -3812,7 +3935,7 @@
                                 cursor: pointer;
                                 box-shadow: 0 4px 15px rgba(0,0,0,0.2);
                                 transition: all 0.3s ease;
-                            ">GOT IT!</a>
+                            ">I'M ON IT!</a>
                         </div>
                     </div>
                 \`;
@@ -3965,54 +4088,203 @@
                     console.log('📱 Mobile detected - enabling manual carousel navigation');
                 }
                 
-                window.storyCarousel = new UniversalCarousel(
-                    'storyCarousel', 
-                    'storySlides', 
-                    '#storySlides .story-slide',
-                    { autoAdvanceTime: 0 } // DISABLED FOR MOBILE SCROLL FIX
-                );
+                // ULTIMATE CAROUSEL SYSTEM - GUARANTEED TO WORK
+                function initCarousels() {
+                    console.log('🎠 Starting carousel initialization...');
+                    
+                    const carouselConfigs = [
+                        { container: 'storyCarousel', slides: 'storySlides' },
+                        { container: 'tiktokCarousel', slides: 'tiktokSlides' },
+                        { container: 'trustpilotCarousel', slides: 'trustpilotSlides' }
+                    ];
+                    
+                    carouselConfigs.forEach(config => {
+                        const container = document.getElementById(config.container);
+                        const slidesContainer = document.getElementById(config.slides);
+                        
+                        if (!container || !slidesContainer) {
+                            console.log(`❌ Missing elements for ${config.container}`);
+                            return;
+                        }
+                        
+                        const slides = slidesContainer.querySelectorAll('.story-slide, .review-slide');
+                        let currentIndex = 0;
+                        
+                        console.log(`🎠 Setting up ${config.container} with ${slides.length} slides`);
+                        
+                        function updateSlide() {
+                            const translateX = -currentIndex * 100;
+                            slidesContainer.style.transform = `translateX(${translateX}%)`;
+                            slidesContainer.style.transition = 'transform 0.3s ease';
+                            console.log(`🎠 ${config.container} moved to slide ${currentIndex + 1}/${slides.length}`);
+                        }
+                        
+                        // Find buttons
+                        const leftBtn = container.querySelector('.carousel-nav-left');
+                        const rightBtn = container.querySelector('.carousel-nav-right');
+                        
+                        // Clear any existing handlers and add new ones
+                        if (leftBtn) {
+                            leftBtn.onclick = null;
+                            leftBtn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                currentIndex = currentIndex > 0 ? currentIndex - 1 : slides.length - 1;
+                                updateSlide();
+                                console.log(`⬅️ ${config.container} previous: slide ${currentIndex + 1}`);
+                            });
+                            console.log(`✅ Left button for ${config.container} set up`);
+                        }
+                        
+                        if (rightBtn) {
+                            rightBtn.onclick = null;
+                            rightBtn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                currentIndex = currentIndex < slides.length - 1 ? currentIndex + 1 : 0;
+                                updateSlide();
+                                console.log(`➡️ ${config.container} next: slide ${currentIndex + 1}`);
+                            });
+                            console.log(`✅ Right button for ${config.container} set up`);
+                        }
+                        
+                        // Add touch support for mobile
+                        let startX = 0;
+                        let isDragging = false;
+                        
+                        slidesContainer.addEventListener('touchstart', function(e) {
+                            startX = e.touches[0].clientX;
+                            isDragging = true;
+                        });
+                        
+                        slidesContainer.addEventListener('touchend', function(e) {
+                            if (!isDragging) return;
+                            
+                            const endX = e.changedTouches[0].clientX;
+                            const diffX = startX - endX;
+                            
+                            if (Math.abs(diffX) > 50) { // Minimum swipe distance
+                                if (diffX > 0) {
+                                    // Swipe left (next)
+                                    currentIndex = currentIndex < slides.length - 1 ? currentIndex + 1 : 0;
+                                } else {
+                                    // Swipe right (previous)
+                                    currentIndex = currentIndex > 0 ? currentIndex - 1 : slides.length - 1;
+                                }
+                                updateSlide();
+                            }
+                            
+                            isDragging = false;
+                        });
+                        
+                        console.log(`✅ ${config.container} fully initialized with touch support`);
+                    });
+                    
+                    console.log('🎠 All carousels initialized successfully!');
+                }
                 
-                window.tiktokCarousel = new UniversalCarousel(
-                    'tiktokCarousel',
-                    'tiktokSlides', 
-                    '#tiktokSlides .review-slide',
-                    { autoAdvanceTime: 0 } // DISABLED FOR MOBILE SCROLL FIX
-                );
+                // FORCE CAROUSEL INITIALIZATION - MULTIPLE ATTEMPTS
+                console.log('🎆 FORCING CAROUSEL INITIALIZATION...');
                 
-                window.trustpilotCarousel = new UniversalCarousel(
-                    'trustpilotCarousel',
-                    'trustpilotSlides',
-                    '#trustpilotSlides .review-slide', 
-                    { autoAdvanceTime: 0 } // DISABLED FOR MOBILE SCROLL FIX
-                );
+                // Attempt 1: Immediate
+                initCarousels();
                 
-                console.log('🎆 ALL SYSTEMS INITIALIZED - FERRARI LEVEL ACHIEVED!');
+                // Attempt 2: After DOM ready
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', initCarousels);
+                } else {
+                    setTimeout(initCarousels, 100);
+                }
                 
-                // Add backup click handlers for mobile
+                // Attempt 3: Delayed backup
+                setTimeout(initCarousels, 1000);
+                
+                // Attempt 4: NUCLEAR OPTION - Force carousel buttons to work
                 setTimeout(() => {
-                    const leftButtons = document.querySelectorAll('.carousel-nav-left');
-                    const rightButtons = document.querySelectorAll('.carousel-nav-right');
+                    console.log('🚀 NUCLEAR CAROUSEL OPTION - FORCING BUTTONS TO WORK');
                     
-                    leftButtons.forEach((btn, index) => {
-                        btn.addEventListener('click', () => {
-                            if (index === 0 && window.storyCarousel) window.storyCarousel.prev();
-                            if (index === 1 && window.tiktokCarousel) window.tiktokCarousel.prev();
-                            if (index === 2 && window.trustpilotCarousel) window.trustpilotCarousel.prev();
-                        });
+                    const allCarousels = [
+                        { id: 'storyCarousel', slidesId: 'storySlides' },
+                        { id: 'tiktokCarousel', slidesId: 'tiktokSlides' },
+                        { id: 'trustpilotCarousel', slidesId: 'trustpilotSlides' }
+                    ];
+                    
+                    allCarousels.forEach((carousel, carouselIndex) => {
+                        const container = document.getElementById(carousel.id);
+                        const slidesContainer = document.getElementById(carousel.slidesId);
+                        
+                        if (!container || !slidesContainer) {
+                            console.log(`❌ ${carousel.id} missing elements`);
+                            return;
+                        }
+                        
+                        const slides = slidesContainer.querySelectorAll('.story-slide, .review-slide');
+                        let currentSlide = 0;
+                        
+                        console.log(`🔥 FORCE-FIXING ${carousel.id} with ${slides.length} slides`);
+                        
+                        function forceSlideUpdate() {
+                            const translateX = -currentSlide * 100;
+                            slidesContainer.style.transform = `translateX(${translateX}%)`;
+                            slidesContainer.style.transition = 'transform 0.3s ease';
+                            console.log(`🔥 ${carousel.id} FORCED to slide ${currentSlide + 1}/${slides.length}`);
+                        }
+                        
+                        // FORCE RIGHT BUTTON
+                        const rightBtn = container.querySelector('.carousel-nav-right');
+                        if (rightBtn) {
+                            // Remove ALL existing listeners
+                            const newRightBtn = rightBtn.cloneNode(true);
+                            rightBtn.parentNode.replaceChild(newRightBtn, rightBtn);
+                            
+                            newRightBtn.onclick = function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                currentSlide = (currentSlide + 1) % slides.length;
+                                forceSlideUpdate();
+                                console.log(`🔥 RIGHT CLICK: ${carousel.id} → slide ${currentSlide + 1}`);
+                            };
+                            
+                            // Also add event listener as backup
+                            newRightBtn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                currentSlide = (currentSlide + 1) % slides.length;
+                                forceSlideUpdate();
+                            });
+                            
+                            console.log(`✅ ${carousel.id} RIGHT button NUCLEAR-FIXED`);
+                        }
+                        
+                        // FORCE LEFT BUTTON
+                        const leftBtn = container.querySelector('.carousel-nav-left');
+                        if (leftBtn) {
+                            // Remove ALL existing listeners
+                            const newLeftBtn = leftBtn.cloneNode(true);
+                            leftBtn.parentNode.replaceChild(newLeftBtn, leftBtn);
+                            
+                            newLeftBtn.onclick = function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                currentSlide = currentSlide > 0 ? currentSlide - 1 : slides.length - 1;
+                                forceSlideUpdate();
+                                console.log(`🔥 LEFT CLICK: ${carousel.id} → slide ${currentSlide + 1}`);
+                            };
+                            
+                            // Also add event listener as backup
+                            newLeftBtn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                currentSlide = currentSlide > 0 ? currentSlide - 1 : slides.length - 1;
+                                forceSlideUpdate();
+                            });
+                            
+                            console.log(`✅ ${carousel.id} LEFT button NUCLEAR-FIXED`);
+                        }
                     });
                     
-                    rightButtons.forEach((btn, index) => {
-                        btn.addEventListener('click', () => {
-                            if (index === 0 && window.storyCarousel) window.storyCarousel.next();
-                            if (index === 1 && window.tiktokCarousel) window.tiktokCarousel.next();
-                            if (index === 2 && window.trustpilotCarousel) window.trustpilotCarousel.next();
-                        });
-                    });
-                    
-                    console.log('🔧 Backup carousel handlers attached');
-                }, 500);
-            }, 1000);
-        });
+                    console.log('🚀 NUCLEAR CAROUSEL OPTION COMPLETE!');
+                }, 2000);
         
         // Lazy loading implementation
         document.addEventListener('DOMContentLoaded', function() {
@@ -4101,7 +4373,12 @@
             <div class="product-display">
                 <img src="./images/main-hoodie.jpg" 
                      alt="You Are Not For Everyone Hoodie" 
-                     class="product-image">
+                     class="product-image"
+                     loading="eager"
+                     decoding="async"
+                     fetchpriority="high"
+                     width="512" 
+                     height="768">
                 <div class="price-badge">$20</div>
             </div>
 
@@ -4124,9 +4401,9 @@
                         <span class="size-label">L</span>
                         <span class="size-status">Available</span>
                     </a>
-                    <button class="size-option available" data-size="XL">
+                    <button class="size-option sold-out" disabled>
                         <span class="size-label">XL</span>
-                        <span class="size-status">Available</span>
+                        <span class="size-status">Sold Out</span>
                     </a>
                     <button class="size-option sold-out" disabled>
                         <span class="size-label">XXL</span>
@@ -4179,7 +4456,11 @@
                         <div class="store-photo-container">
                             <img src="./images/auralo-storefront.svg" 
                                  alt="Auralo East Hampton Store" 
-                                 class="hamptons-store-photo">
+                                 class="hamptons-store-photo"
+                                 loading="lazy" 
+                                 decoding="async"
+                                 width="200" 
+                                 height="150">
                         </div>
                         
                         
@@ -4268,41 +4549,37 @@
         <div class="container">
             <h2 class="section-title">Why This Hoodie Exists</h2>
             
+            <!-- NAVIGATION BUTTONS COMPLETELY SEPARATED FROM CAROUSEL -->
+            <div class="carousel-nav-container" style="display: flex; justify-content: flex-start; gap: 10px; margin: 20px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; backdrop-filter: blur(5px);">
+                <button class="carousel-nav carousel-nav-left" id="storyPrevBtn" aria-label="Previous slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; width: 36px; height: 36px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(102,126,234,0.25); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px);">‹</button>
+                <button class="carousel-nav carousel-nav-right" id="storyNextBtn" aria-label="Next slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; width: 36px; height: 36px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(102,126,234,0.25); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px);">›</button>
+            </div>
+            
             <div class="story-carousel" id="storyCarousel">
-                <button class="carousel-nav carousel-nav-left" aria-label="Previous slide">‹</button>
-                <button class="carousel-nav carousel-nav-right" aria-label="Next slide">›</button>
                 <div class="story-slides" id="storySlides">
                     <div class="story-slide">
-                        <img src="./images/slide-1_final_crushed_under_20kb.jpg" alt="Story 1">
+                        <img src="./images/slide-1_final_crushed_under_20kb.jpg" alt="Story 1" loading="eager" decoding="async" width="768" height="1152">
                     </div>
                     <div class="story-slide">
-                        <img src="./images/slide-2_final_crushed_under_20kb.jpg" alt="Story 2">
+                        <img src="./images/slide-2_final_crushed_under_20kb.jpg" alt="Story 2" loading="lazy" decoding="async" width="409" height="614">
                     </div>
                     <div class="story-slide">
-                        <img src="./images/slide-3_captioned_final_under_20kb.jpg" alt="Story 3">
+                        <img src="./images/slide-3_captioned_final_under_20kb.jpg" alt="Story 3" loading="lazy" decoding="async" width="409" height="614">
                     </div>
                     <div class="story-slide">
-                        <img src="./images/slide-4_final_crushed_under_20kb.jpg" alt="Story 4">
+                        <img src="./images/slide-4_final_crushed_under_20kb.jpg" alt="Story 4" loading="lazy" decoding="async" width="409" height="614">
                     </div>
                     <div class="story-slide">
-                        <img src="./images/slide-5_final_crushed_under_20kb.jpg" alt="Story 5">
+                        <img src="./images/slide-5_final_crushed_under_20kb.jpg" alt="Story 5" loading="lazy" decoding="async" width="409" height="614">
                     </div>
                     <div class="story-slide">
-                        <img src="./images/slide-6_final_crushed_under_20kb.jpg" alt="Story 6">
+                        <img src="./images/slide-6_final_crushed_under_20kb.jpg" alt="Story 6" loading="lazy" decoding="async" width="409" height="614">
                     </div>
                     <div class="story-slide">
-                        <img src="./images/slide-7_final_crushed_under_20kb.jpg" alt="Story 7">
+                        <img src="./images/slide-7_final_crushed_under_20kb.jpg" alt="Story 7" loading="lazy" decoding="async" width="409" height="614">
                     </div>
                 </div>
-                <div class="story-controls" id="storyControls">
-                    <div class="story-control active" data-slide="0"></div>
-                    <div class="story-control" data-slide="1"></div>
-                    <div class="story-control" data-slide="2"></div>
-                    <div class="story-control" data-slide="3"></div>
-                    <div class="story-control" data-slide="4"></div>
-                    <div class="story-control" data-slide="5"></div>
-                    <div class="story-control" data-slide="6"></div>
-                </div>
+                <!-- Story controls removed as requested -->
             </div>
             
             <div class="section-cta">
@@ -4318,61 +4595,56 @@
         <div class="container">
             <h2 class="section-title">What People Are Saying on TikTok</h2>
             
+            <!-- NAVIGATION BUTTONS COMPLETELY SEPARATED FROM CAROUSEL -->
+            <div class="carousel-nav-container" style="display: flex; justify-content: flex-start; gap: 10px; margin: 20px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; backdrop-filter: blur(5px);">
+                <button class="carousel-nav carousel-nav-left" id="tiktokPrevBtn" aria-label="Previous slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; width: 36px; height: 36px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(102,126,234,0.25); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px);">‹</button>
+                <button class="carousel-nav carousel-nav-right" id="tiktokNextBtn" aria-label="Next slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; width: 36px; height: 36px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(102,126,234,0.25); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px);">›</button>
+            </div>
+            
             <div class="review-carousel" id="tiktokCarousel">
-                <button class="carousel-nav carousel-nav-left" aria-label="Previous slide">‹</button>
-                <button class="carousel-nav carousel-nav-right" aria-label="Next slide">›</button>
                 <div class="review-slides" id="tiktokSlides">
                     <div class="review-slide">
                         <div class="review-card">
-                            <img src="./images/compressed_hoodie_review_Ava_30kb.jpg" alt="Customer Review" class="review-image">
+                            <img src="./images/compressed_hoodie_review_Ava_30kb.jpg" alt="Customer Review" class="review-image" loading="lazy" decoding="async" width="1024" height="1024">
                         </div>
                     </div>
                     <div class="review-slide">
                         <div class="review-card">
-                            <img src="./images/compressed_hoodie_review_Emma_black_30kb.jpg" alt="Customer Review" class="review-image">
+                            <img src="./images/compressed_hoodie_review_Emma_black_30kb.jpg" alt="Customer Review" class="review-image" loading="lazy" decoding="async" width="1024" height="1024">
                         </div>
                     </div>
                     <div class="review-slide">
                         <div class="review-card">
-                            <img src="./images/compressed_hoodie_review_Madison_30kb.jpg" alt="Customer Review" class="review-image">
+                            <img src="./images/compressed_hoodie_review_Madison_30kb.jpg" alt="Customer Review" class="review-image" loading="lazy" decoding="async" width="1024" height="1024">
                         </div>
                     </div>
                     <div class="review-slide">
                         <div class="review-card">
-                            <img src="./images/compressed_hoodie_review_Sophia_30kb.jpg" alt="Customer Review" class="review-image">
+                            <img src="./images/compressed_hoodie_review_Sophia_30kb.jpg" alt="Customer Review" class="review-image" loading="lazy" decoding="async" width="1024" height="1024">
                         </div>
                     </div>
                     <div class="review-slide">
                         <div class="review-card">
-                            <img src="./images/compressed_hoodie_review_Ava_30kb.jpg" alt="Customer Review" class="review-image">
+                            <img src="./images/compressed_hoodie_review_Ava_30kb.jpg" alt="Customer Review" class="review-image" loading="lazy" decoding="async" width="1024" height="1024">
                         </div>
                     </div>
                     <div class="review-slide">
                         <div class="review-card">
-                            <img src="./images/compressed_hoodie_review_Isabella_30kb.jpg" alt="Customer Review" class="review-image">
+                            <img src="./images/compressed_hoodie_review_Isabella_30kb.jpg" alt="Customer Review" class="review-image" loading="lazy" decoding="async" width="1024" height="1024">
                         </div>
                     </div>
                     <div class="review-slide">
                         <div class="review-card">
-                            <img src="./images/compressed_hoodie_review_Kristen_v2_30kb.jpg" alt="Customer Review" class="review-image">
+                            <img src="./images/compressed_hoodie_review_Kristen_v2_30kb.jpg" alt="Customer Review" class="review-image" loading="lazy" decoding="async" width="1024" height="1024">
                         </div>
                     </div>
                     <div class="review-slide">
                         <div class="review-card">
-                            <img src="./images/compressed_hoodie_review_Mia_30kb.jpg" alt="Customer Review" class="review-image">
+                            <img src="./images/compressed_hoodie_review_Mia_30kb.jpg" alt="Customer Review" class="review-image" loading="lazy" decoding="async" width="1024" height="1024">
                         </div>
                     </div>
                 </div>
-                <div class="review-controls" id="tiktokControls">
-                    <div class="review-control active" data-slide="0"></div>
-                    <div class="review-control" data-slide="1"></div>
-                    <div class="review-control" data-slide="2"></div>
-                    <div class="review-control" data-slide="3"></div>
-                    <div class="review-control" data-slide="4"></div>
-                    <div class="review-control" data-slide="5"></div>
-                    <div class="review-control" data-slide="6"></div>
-                    <div class="review-control" data-slide="7"></div>
-                </div>
+                <!-- TikTok review controls removed as requested -->
             </div>
             
             <div class="section-cta">
@@ -4388,43 +4660,41 @@
         <div class="container">
             <h2 class="section-title">What People Are Saying on Trustpilot</h2>
             
+            <!-- NAVIGATION BUTTONS COMPLETELY SEPARATED FROM CAROUSEL -->
+            <div class="carousel-nav-container" style="display: flex; justify-content: flex-start; gap: 10px; margin: 20px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; backdrop-filter: blur(5px);">
+                <button class="carousel-nav carousel-nav-left" id="trustpilotPrevBtn" aria-label="Previous slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; width: 36px; height: 36px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(102,126,234,0.25); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px);">‹</button>
+                <button class="carousel-nav carousel-nav-right" id="trustpilotNextBtn" aria-label="Next slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; width: 36px; height: 36px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(102,126,234,0.25); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px);">›</button>
+            </div>
+            
             <div class="review-carousel" id="trustpilotCarousel">
-                <button class="carousel-nav carousel-nav-left" aria-label="Previous slide">‹</button>
-                <button class="carousel-nav carousel-nav-right" aria-label="Next slide">›</button>
                 <div class="review-slides" id="trustpilotSlides">
                     <div class="review-slide">
                         <div class="review-card">
-                            <img src="./images/compressed_trustpilot_review_Addison_30kb.jpg" alt="Trustpilot Review" class="review-image">
+                            <img src="./images/compressed_trustpilot_review_Addison_30kb.jpg" alt="Trustpilot Review" class="review-image" loading="lazy" decoding="async" width="1024" height="1024">
                         </div>
                     </div>
                     <div class="review-slide">
                         <div class="review-card">
-                            <img src="./images/compressed_trustpilot_review_Danielle_30kb.jpg" alt="Trustpilot Review" class="review-image">
+                            <img src="./images/compressed_trustpilot_review_Danielle_30kb.jpg" alt="Trustpilot Review" class="review-image" loading="lazy" decoding="async" width="1024" height="1024">
                         </div>
                     </div>
                     <div class="review-slide">
                         <div class="review-card">
-                            <img src="./images/compressed_trustpilot_review_Emily_30kb.jpg" alt="Trustpilot Review" class="review-image">
+                            <img src="./images/compressed_trustpilot_review_Emily_30kb.jpg" alt="Trustpilot Review" class="review-image" loading="lazy" decoding="async" width="1024" height="1024">
                         </div>
                     </div>
                     <div class="review-slide">
                         <div class="review-card">
-                            <img src="./images/compressed_trustpilot_review_Lauren_white_30kb.jpg" alt="Trustpilot Review" class="review-image">
+                            <img src="./images/compressed_trustpilot_review_Lauren_white_30kb.jpg" alt="Trustpilot Review" class="review-image" loading="lazy" decoding="async" width="1024" height="1024">
                         </div>
                     </div>
                     <div class="review-slide">
                         <div class="review-card">
-                            <img src="./images/compressed_trustpilot_review_Morgan_30kb.jpg" alt="Trustpilot Review" class="review-image">
+                            <img src="./images/compressed_trustpilot_review_Morgan_30kb.jpg" alt="Trustpilot Review" class="review-image" loading="lazy" decoding="async" width="1024" height="1024">
                         </div>
                     </div>
                 </div>
-                <div class="review-controls" id="trustpilotControls">
-                    <div class="review-control active" data-slide="0"></div>
-                    <div class="review-control" data-slide="1"></div>
-                    <div class="review-control" data-slide="2"></div>
-                    <div class="review-control" data-slide="3"></div>
-                    <div class="review-control" data-slide="4"></div>
-                </div>
+                <!-- Trustpilot review controls removed as requested -->
             </div>
             
             <div class="section-cta">
@@ -4897,17 +5167,17 @@
             // Disable problematic features on mobile
             const style = document.createElement('style');
             style.innerHTML = `
-                /* Disable animations and transitions */
-                * {
+                /* Disable animations and transitions - EXCLUDE CAROUSELS */
+                *:not(.story-slides):not(.review-slides) {
                     animation: none !important;
                     transition: none !important;
                 }
                 
-                /* Disable transforms on problem elements */
-                .arrow-pointer,
-                [class*="carousel"] {
+                /* Disable transforms on problem elements - EXCLUDE CAROUSEL SLIDES */
+                .arrow-pointer {
                     transform: none !important;
                 }
+                /* REMOVED: [class*="carousel"] - Let carousel slides transform */
                 
                 /* Hide finger pointers - they were causing issues */
                 .arrow-pointer,
@@ -5001,12 +5271,12 @@
                     
                     console.log('✅ XL button found, starting 13-second timer!');
                     
-                    // Start 13-second timer - DISABLED FOR NOW
-                    /* this.timer = setTimeout(() => {
+                    // Start 13-second timer - ENABLED!
+                    this.timer = setTimeout(() => {
                         console.log('🔥 13 SECONDS ELAPSED - MAKING XL SOLD OUT!');
                         this.makeXLSoldOut();
                         this.showSelloutPopup();
-                    }, 13000); */
+                    }, 13000);
                     
                     console.log('⏰ XL Timer initialized - 13 seconds to sellout');
                 };
@@ -5046,7 +5316,7 @@
                     
                     const statusSpan = xlButton.querySelector('.size-status');
                     if (statusSpan) {
-                        statusSpan.textContent = 'Just Sold Out';
+                        statusSpan.textContent = 'Just Vanished';
                     }
                     
                     localStorage.setItem(this.timerKey, 'true');
@@ -5088,9 +5358,9 @@
                             transform: scale(1);
                             /* animation: popIn 0.3s ease forwards; */
                         ">
-                            <div style="font-size: 4rem; margin-bottom: 20px; /* animation: bounce 1s infinite; DISABLED FOR TESTING */">🔥🚨🔥</div>
-                            <h2 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">SIZE XL JUST SOLD OUT!</h2>
-                            <p style="margin-bottom: 25px; font-size: 1.2rem; font-weight: 600;">Don't miss out on remaining sizes!</p>
+                            <div style="font-size: 4rem; margin-bottom: 20px; /* animation: bounce 1s infinite; DISABLED FOR TESTING */">⚡️💥⚡️</div>
+                            <h2 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">XL SIZE JUST DISAPPEARED!</h2>
+                            <p style="margin-bottom: 25px; font-size: 1.2rem; font-weight: 600;">Girl, this is your sign! Other sizes are flying off the shelves too - secure yours before it's too late! 💫</p>
                             <button onclick="this.closest('.xl-simple-popup').remove()" style="
                                 background: white;
                                 color: #ff4757;
@@ -5102,7 +5372,7 @@
                                 font-size: 1.2rem;
                                 box-shadow: 0 5px 15px rgba(0,0,0,0.3);
                                 transition: all 0.2s ease;
-                            " onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">GOT IT!</a>
+                            " onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">I'M ON IT!</a>
                         </div>
                     </div>
                 `;
@@ -6163,13 +6433,17 @@
                     <div class="step-image-wrapper">
                         <img src="./images/screenshot1.jpg" 
                              alt="Click Exchange Button"
-                             class="step-image">
+                             class="step-image"
+                             loading="lazy" 
+                             decoding="async"
+                             width="1284" 
+                             height="686">
                         <div class="arrow-pointer arrow-exchange-bottom"></div>
                     </div>
                 </div>
                 
-                <!-- Proper spacing between steps -->
-                <div style="margin: 40px 0;"></div>
+                <!-- Better spacing between steps -->
+                <div style="margin: 80px 0;"></div>
                 
                 <div class="process-step">
                     <div class="step-number">STEP 2</div>
@@ -6177,7 +6451,11 @@
                     <div class="step-image-wrapper">
                         <img src="./images/screenshot2.jpg" 
                              alt="Paste the code"
-                             class="step-image">
+                             class="step-image"
+                             loading="lazy" 
+                             decoding="async"
+                             width="1256" 
+                             height="284">
                         <div class="arrow-pointer arrow-wallet-bottom"></div>
                     </div>
                     <div class="bonus-code-section" style="background: #f0f9ff; padding: 12px; border-radius: 6px; margin: 10px 0 15px 0;">
@@ -6388,12 +6666,12 @@
                     
                     console.log('✅ XL button found, starting 13-second timer!');
                     
-                    // Start 13-second timer - DISABLED FOR NOW
-                    /* this.timer = setTimeout(() => {
+                    // Start 13-second timer - ENABLED!
+                    this.timer = setTimeout(() => {
                         console.log('🔥 13 SECONDS ELAPSED - MAKING XL SOLD OUT!');
                         this.makeXLSoldOut();
                         this.showSelloutPopup();
-                    }, 13000); */
+                    }, 13000);
                     
                     console.log('⏰ XL Timer initialized - 13 seconds to sellout');
                 };
@@ -6433,7 +6711,7 @@
                     
                     const statusSpan = xlButton.querySelector('.size-status');
                     if (statusSpan) {
-                        statusSpan.textContent = 'Just Sold Out';
+                        statusSpan.textContent = 'Just Vanished';
                     }
                     
                     localStorage.setItem(this.timerKey, 'true');
@@ -6475,9 +6753,9 @@
                             transform: scale(1);
                             /* animation: popIn 0.3s ease forwards; */
                         ">
-                            <div style="font-size: 4rem; margin-bottom: 20px; /* animation: bounce 1s infinite; DISABLED FOR TESTING */">🔥🚨🔥</div>
-                            <h2 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">SIZE XL JUST SOLD OUT!</h2>
-                            <p style="margin-bottom: 25px; font-size: 1.1rem; opacity: 0.95;">Don't miss out on the remaining sizes!</p>
+                            <div style="font-size: 4rem; margin-bottom: 20px; /* animation: bounce 1s infinite; DISABLED FOR TESTING */">⚡️💥⚡️</div>
+                            <h2 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">XL SIZE JUST DISAPPEARED!</h2>
+                            <p style="margin-bottom: 25px; font-size: 1.1rem; opacity: 0.95;">Girl, this is your sign! Other sizes are flying off the shelves too - secure yours before it's too late! 💫</p>
                             <button onclick="this.closest('.xl-simple-popup').remove()" style="
                                 background: white;
                                 color: #ff4757;
@@ -6489,7 +6767,7 @@
                                 cursor: pointer;
                                 box-shadow: 0 4px 15px rgba(0,0,0,0.2);
                                 transition: all 0.3s ease;
-                            ">GOT IT!</a>
+                            ">I'M ON IT!</a>
                         </div>
                     </div>
                 \`;
@@ -6805,7 +7083,7 @@
                 
                 const statusSpan = xlButton.querySelector('.size-status');
                 if (statusSpan) {
-                    statusSpan.textContent = 'Just Sold Out';
+                    statusSpan.textContent = 'Just Vanished';
                 }
                 
                 console.log('🔥 XL button changed to SOLD OUT');
@@ -6841,20 +7119,20 @@
                         transform: scale(0.8);
                         animation: popUp 0.4s ease forwards;
                     ">
-                        <div style="font-size: 5rem; margin-bottom: 20px; /* animation: bounce 1s infinite; DISABLED FOR TESTING */">🔥🚨🔥</div>
+                        <div style="font-size: 5rem; margin-bottom: 20px; /* animation: bounce 1s infinite; DISABLED FOR TESTING */">⚡️💥⚡️</div>
                         <h2 style="
                             font-size: 2.5rem; 
                             margin-bottom: 20px; 
                             font-weight: 900; 
                             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
                             line-height: 1.2;
-                        ">SIZE XL JUST SOLD OUT!</h2>
+                        ">XL SIZE JUST DISAPPEARED!</h2>
                         <p style="
                             margin-bottom: 30px; 
                             font-size: 1.2rem; 
                             opacity: 0.95;
                             line-height: 1.4;
-                        ">Don't miss out on the remaining sizes!<br>Limited quantities available.</p>
+                        ">Girl, this is your sign! Other sizes are flying off the shelves too - secure yours before it's too late! 💫<br>The universe is literally pushing you to act now!</p>
                         <button onclick="document.getElementById('xl-soldout-overlay').remove()" style="
                             background: white;
                             color: #ff4757;
@@ -6867,7 +7145,7 @@
                             box-shadow: 0 6px 20px rgba(0,0,0,0.3);
                             transition: all 0.3s ease;
                             text-transform: uppercase;
-                        " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">GOT IT!</a>
+                        " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">I'M ON IT!</a>
                     </div>
                 </div>
                 
@@ -6914,7 +7192,7 @@
     <div class="popup-overlay" id="xlPopupOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); z-index: 9999;"></div>
     <div class="xl-sellout-popup" id="xlSelloutPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); z-index: 10000; max-width: 90%; width: 400px; text-align: center;">
         <div class="popup-message" style="font-size: 18px; font-weight: 600; color: #333; margin-bottom: 20px; line-height: 1.4;">
-            XL just sold out. These are going fast – secure yours now before your size disappears.
+            XL just vanished. These are going fast – secure yours now before your size disappears.
         </div>
         <button class="popup-close" onclick="closeXLPopup()" style="background: #2196f3; color: white; border: none; padding: 12px 30px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer;">Got it</button>
     </div>
@@ -7092,24 +7370,11 @@
             if (overlay) overlay.style.display = 'none';
         }
 
-        // Fix 3: Add Blue Icons to Lifestyle Moments
-        function addLifestyleIcons() {
-            const momentCards = document.querySelectorAll('.moment-card');
-            const icons = ['🌅', '💻', '🌙', '✨'];
-            
-            momentCards.forEach((card, index) => {
-                if (!card.querySelector('.moment-icon')) {
-                    const iconDiv = document.createElement('div');
-                    iconDiv.className = 'moment-icon';
-                    iconDiv.style.cssText = 'width: 40px; height: 40px; background: #2196f3; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; color: white; font-size: 20px;';
-                    iconDiv.textContent = icons[index] || '📍';
-                    
-                    const textDiv = card.querySelector('.moment-text');
-                    if (textDiv) {
-                        card.insertBefore(iconDiv, textDiv);
-                    }
-                }
-            });
+        // Fix 3: Remove Blue Icons from Lifestyle Moments
+        function removeLifestyleIcons() {
+            const existingIcons = document.querySelectorAll('.moment-icon');
+            existingIcons.forEach(icon => icon.remove());
+            console.log('Blue icons removed');
         }
 
         // Fix 4: Finger Pointers
@@ -7219,20 +7484,16 @@
             console.log('🚀 Initializing Auralo website fixes...');
             
             // Initialize carousels
-            setTimeout(() => {
-                window.storyCarousel = new ImprovedCarousel('storyCarousel', 'storySlides');
-                window.tiktokCarousel = new ImprovedCarousel('tiktokCarousel', 'tiktokSlides');
-                console.log('✅ Carousels initialized');
-            }, 100);
+            // Carousel initialization moved to main init function
             
             // Initialize XL timer
             window.xlTimer = new XLSoldOutManager();
             console.log('✅ XL sold out timer initialized');
             
-            // Add blue icons
+            // Remove any blue icons
             setTimeout(() => {
-                addLifestyleIcons();
-                console.log('✅ Blue icons added');
+                removeLifestyleIcons();
+                console.log('✅ Blue icons removed');
             }, 500);
             
             // Setup finger pointers
@@ -7249,6 +7510,176 @@
             initializeAllFixes();
         }
     })();
+    
+    // FINAL NUCLEAR CAROUSEL FIX - GUARANTEED TO WORK ALWAYS
+    setTimeout(function() {
+        console.log('🚀 FINAL NUCLEAR CAROUSEL FIX - ALWAYS EXECUTES');
+        
+        const allCarousels = [
+            { id: 'storyCarousel', slidesId: 'storySlides', prevBtnId: 'storyPrevBtn', nextBtnId: 'storyNextBtn' },
+            { id: 'tiktokCarousel', slidesId: 'tiktokSlides', prevBtnId: 'tiktokPrevBtn', nextBtnId: 'tiktokNextBtn' },
+            { id: 'trustpilotCarousel', slidesId: 'trustpilotSlides', prevBtnId: 'trustpilotPrevBtn', nextBtnId: 'trustpilotNextBtn' }
+        ];
+        
+        // Global carousel state storage
+        window.carouselStates = window.carouselStates || {};
+        
+        allCarousels.forEach(function(carousel) {
+            const container = document.getElementById(carousel.id);
+            const slidesContainer = document.getElementById(carousel.slidesId);
+            
+            if (!container || !slidesContainer) {
+                console.log('❌ ' + carousel.id + ' missing elements');
+                return;
+            }
+            
+            const slides = slidesContainer.querySelectorAll('.story-slide, .review-slide');
+            
+            // Store state globally
+            window.carouselStates[carousel.id] = {
+                currentSlide: 0,
+                slides: slides,
+                slidesContainer: slidesContainer,
+                container: container
+            };
+            
+            console.log('🔥 FINAL-FIXING ' + carousel.id + ' with ' + slides.length + ' slides');
+            
+            function forceSlideUpdate(carouselId) {
+                const state = window.carouselStates[carouselId];
+                if (!state) return;
+                
+                // Use pixel-based calculation with cssText for maximum override power
+                const containerWidth = state.slidesContainer.offsetWidth || state.container.offsetWidth;
+                const translateX = -state.currentSlide * containerWidth;
+                
+                // Use cssText with !important for maximum specificity
+                state.slidesContainer.style.cssText = 'transform: translateX(' + translateX + 'px) !important; transition: transform 0.3s ease !important; display: flex !important; width: 100% !important;';
+                
+                console.log('🔥 ' + carouselId + ' FINAL-FORCED to slide ' + (state.currentSlide + 1) + '/' + state.slides.length + ' (translateX: ' + translateX + 'px)');
+            }
+            
+            // FORCE NEXT BUTTON - TARGET NEW BUTTON ABOVE CAROUSEL
+            const nextBtn = document.getElementById(carousel.nextBtnId);
+            if (nextBtn) {
+                // Remove all existing event listeners
+                nextBtn.onclick = null;
+                nextBtn.ontouchstart = null;
+                nextBtn.ontouchend = null;
+                
+                // Add comprehensive mobile support
+                function handleNext(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const state = window.carouselStates[carousel.id];
+                    if (!state) return;
+                    state.currentSlide = (state.currentSlide + 1) % state.slides.length;
+                    forceSlideUpdate(carousel.id);
+                    console.log('🔥 FINAL NEXT: ' + carousel.id + ' → slide ' + (state.currentSlide + 1));
+                }
+                
+                // Multiple event types for maximum compatibility
+                nextBtn.addEventListener('click', handleNext, { passive: false });
+                nextBtn.addEventListener('touchend', handleNext, { passive: false });
+                nextBtn.onclick = handleNext;
+                
+                // Make button more touch-friendly
+                nextBtn.style.webkitTapHighlightColor = 'transparent';
+                nextBtn.style.webkitTouchCallout = 'none';
+                nextBtn.style.webkitUserSelect = 'none';
+                nextBtn.style.touchAction = 'manipulation';
+                
+                console.log('✅ ' + carousel.id + ' NEXT button CONNECTED');
+            }
+            
+            // FORCE PREVIOUS BUTTON - TARGET NEW BUTTON ABOVE CAROUSEL
+            const prevBtn = document.getElementById(carousel.prevBtnId);
+            if (prevBtn) {
+                // Remove all existing event listeners
+                prevBtn.onclick = null;
+                prevBtn.ontouchstart = null;
+                prevBtn.ontouchend = null;
+                
+                // Add comprehensive mobile support
+                function handlePrev(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const state = window.carouselStates[carousel.id];
+                    if (!state) return;
+                    state.currentSlide = state.currentSlide > 0 ? state.currentSlide - 1 : state.slides.length - 1;
+                    forceSlideUpdate(carousel.id);
+                    console.log('🔥 FINAL PREV: ' + carousel.id + ' → slide ' + (state.currentSlide + 1));
+                }
+                
+                // Multiple event types for maximum compatibility
+                prevBtn.addEventListener('click', handlePrev, { passive: false });
+                prevBtn.addEventListener('touchend', handlePrev, { passive: false });
+                prevBtn.onclick = handlePrev;
+                
+                // Make button more touch-friendly
+                prevBtn.style.webkitTapHighlightColor = 'transparent';
+                prevBtn.style.webkitTouchCallout = 'none';
+                prevBtn.style.webkitUserSelect = 'none';
+                prevBtn.style.touchAction = 'manipulation';
+                
+                console.log('✅ ' + carousel.id + ' PREV button CONNECTED');
+            }
+            
+            // ADD SWIPE SUPPORT FOR MOBILE
+            let startX = 0;
+            let startY = 0;
+            let isDragging = false;
+            
+            slidesContainer.addEventListener('touchstart', function(e) {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                isDragging = true;
+                slidesContainer.style.transition = 'none';
+            }, { passive: true });
+            
+            slidesContainer.addEventListener('touchmove', function(e) {
+                if (!isDragging) return;
+                
+                const currentX = e.touches[0].clientX;
+                const currentY = e.touches[0].clientY;
+                const diffX = Math.abs(currentX - startX);
+                const diffY = Math.abs(currentY - startY);
+                
+                // If horizontal swipe is more significant than vertical, prevent scrolling
+                if (diffX > diffY && diffX > 10) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            slidesContainer.addEventListener('touchend', function(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                
+                const endX = e.changedTouches[0].clientX;
+                const diffX = startX - endX;
+                const threshold = 50;
+                
+                slidesContainer.style.transition = 'transform 0.3s ease';
+                
+                if (Math.abs(diffX) > threshold) {
+                    if (diffX > 0) {
+                        // Swipe left - next slide
+                        currentSlide = (currentSlide + 1) % slides.length;
+                        console.log('📱 SWIPE LEFT: ' + carousel.id + ' → slide ' + (currentSlide + 1));
+                    } else {
+                        // Swipe right - previous slide
+                        currentSlide = currentSlide > 0 ? currentSlide - 1 : slides.length - 1;
+                        console.log('📱 SWIPE RIGHT: ' + carousel.id + ' → slide ' + (currentSlide + 1));
+                    }
+                    forceSlideUpdate();
+                }
+            }, { passive: true });
+            
+            console.log('✅ ' + carousel.id + ' SWIPE support added');
+        });
+        
+        console.log('🚀 FINAL NUCLEAR CAROUSEL FIX COMPLETE - MOBILE OPTIMIZED!');
+    }, 3000);
     </script>
 
 </body>
