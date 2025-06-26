@@ -4,7 +4,7 @@
     <!-- Version 3.1 - Fixed mobile carousel buttons, hotspots visibility, cache headers -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You Are Not For Everyone - $20 (v3.2-POPUP-DEBUG)</title>
+    <title>You Are Not For Everyone - $20 (v3.3-TAP-BANNER)</title>
     <!-- PERFORMANCE OPTIMIZATIONS -->
     <link rel="preload" href="./images/main-hoodie.jpg" as="image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4503,9 +4503,30 @@
 </head>
 <body>
     <!-- DEBUG VERSION INDICATOR -->
-    <div style="background: #ff4757; color: white; text-align: center; padding: 10px; font-weight: bold; position: fixed; top: 0; left: 0; right: 0; z-index: 99999;">
-        DEBUG v3.2 - Popup Timer: 3 seconds - Look for red button bottom-right
+    <div id="debug-banner" style="background: #ff4757; color: white; text-align: center; padding: 10px; font-weight: bold; position: fixed; top: 0; left: 0; right: 0; z-index: 99999; cursor: pointer;" onclick="testPopupNow()">
+        DEBUG v3.3 - TAP HERE TO TEST POPUP (or wait 3 seconds)
     </div>
+    <script>
+        // Direct popup test function
+        function testPopupNow() {
+            const existingPopup = document.querySelector('.xl-simple-popup');
+            if (existingPopup) existingPopup.remove();
+            
+            const popup = document.createElement('div');
+            popup.className = 'xl-simple-popup';
+            popup.style.cssText = 'position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; background: rgba(0,0,0,0.85) !important; z-index: 999999 !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 20px !important;';
+            popup.innerHTML = `
+                <div style="background: linear-gradient(135deg, #ff4757, #ff3742); color: white; padding: 30px 40px; border-radius: 15px; text-align: center; max-width: 400px; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.5); position: relative;">
+                    <button onclick="this.closest('.xl-simple-popup').remove()" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.3); border: 3px solid white; color: white; width: 50px; height: 50px; border-radius: 50%; font-size: 24px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;">×</button>
+                    <div style="font-size: 4rem; margin-bottom: 20px;">⚡️💥⚡️</div>
+                    <h2 style="font-size: 2rem; margin-bottom: 15px; font-weight: 900;">XL SIZE JUST DISAPPEARED!</h2>
+                    <p style="margin-bottom: 25px; font-size: 1.1rem;">Girl, this is your sign! Other sizes are flying off the shelves too!</p>
+                    <button onclick="this.closest('.xl-simple-popup').remove()" style="background: white; color: #ff4757; border: none; padding: 18px 40px; border-radius: 25px; font-weight: bold; font-size: 1.2rem; cursor: pointer;">I'M ON IT!</button>
+                </div>
+            `;
+            document.body.appendChild(popup);
+        }
+    </script>
     <script>
         // Robust scroll function that always works
         function scrollToBottom() {
@@ -5842,18 +5863,108 @@
                 console.error('❌ scrollToCheckout function not found!');
             }
             
-            // Add debug button for testing popup - with delay to ensure body exists
-            setTimeout(() => {
+            // Add debug button with better mobile visibility
+            window.addEventListener('DOMContentLoaded', () => {
                 const debugBtn = document.createElement('button');
-                debugBtn.innerHTML = 'Test Popup (Debug)';
-                debugBtn.style.cssText = 'position: fixed; bottom: 10px; right: 10px; z-index: 99999; background: #ff4757; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;';
+                debugBtn.innerHTML = 'Test Popup';
+                debugBtn.style.cssText = `
+                    position: fixed !important;
+                    bottom: 20px !important;
+                    right: 20px !important;
+                    z-index: 999999 !important;
+                    background: #ff4757 !important;
+                    color: white !important;
+                    padding: 15px 25px !important;
+                    border: none !important;
+                    border-radius: 5px !important;
+                    cursor: pointer !important;
+                    font-size: 16px !important;
+                    font-weight: bold !important;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+                    -webkit-tap-highlight-color: transparent !important;
+                    touch-action: manipulation !important;
+                `;
                 debugBtn.onclick = () => {
                     console.log('🔧 Debug: Manually triggering popup...');
-                    forceXLPopupOnAllPlatforms();
+                    // Call function directly inline to ensure it works
+                    const existingPopup = document.querySelector('.xl-simple-popup');
+                    if (existingPopup) existingPopup.remove();
+                    
+                    const popup = document.createElement('div');
+                    popup.className = 'xl-simple-popup';
+                    popup.style.cssText = `
+                        position: fixed !important;
+                        top: 0 !important;
+                        left: 0 !important;
+                        right: 0 !important;
+                        bottom: 0 !important;
+                        background: rgba(0,0,0,0.85) !important;
+                        z-index: 999999 !important;
+                        display: flex !important;
+                        align-items: center !important;
+                        justify-content: center !important;
+                        padding: 20px !important;
+                    `;
+                    popup.innerHTML = `
+                        <div style="
+                            background: linear-gradient(135deg, #ff4757, #ff3742);
+                            color: white;
+                            padding: 30px 40px;
+                            border-radius: 15px;
+                            text-align: center;
+                            max-width: 400px;
+                            width: 100%;
+                            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+                            position: relative;
+                        ">
+                            <button onclick="this.closest('.xl-simple-popup').remove()" 
+                                    style="
+                                position: absolute;
+                                top: 15px;
+                                right: 15px;
+                                background: rgba(255,255,255,0.3);
+                                border: 3px solid white;
+                                color: white;
+                                width: 50px;
+                                height: 50px;
+                                border-radius: 50%;
+                                font-size: 24px;
+                                font-weight: bold;
+                                cursor: pointer;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                z-index: 1001;
+                                -webkit-tap-highlight-color: transparent;
+                                touch-action: manipulation;
+                            ">×</button>
+                            <div style="font-size: 4rem; margin-bottom: 20px;">⚡️💥⚡️</div>
+                            <h2 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 900;">XL SIZE JUST DISAPPEARED!</h2>
+                            <p style="margin-bottom: 25px; font-size: 1.1rem;">Girl, this is your sign! Other sizes are flying off the shelves too - secure yours before it's too late! 💫</p>
+                            <button onclick="this.closest('.xl-simple-popup').remove()" 
+                                    style="
+                                background: white;
+                                color: #ff4757;
+                                border: none;
+                                padding: 18px 40px;
+                                border-radius: 25px;
+                                font-weight: bold;
+                                font-size: 1.2rem;
+                                cursor: pointer;
+                                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                                transform: scale(1);
+                                transition: transform 0.2s ease;
+                                -webkit-tap-highlight-color: transparent;
+                                touch-action: manipulation;
+                            ">I'M ON IT!</button>
+                        </div>
+                    `;
+                    document.body.appendChild(popup);
+                    console.log('🚨 Popup displayed from debug button!');
                 };
                 document.body.appendChild(debugBtn);
-                console.log('🔴 Debug button added to page');
-            }, 100);
+                console.log('🔴 Debug button added to page - should be visible bottom-right');
+            });
             
             // FORCE START UNIVERSAL XL TIMER ON ALL PLATFORMS - IMMEDIATE EXECUTION
             console.log('🚀 STARTING UNIVERSAL XL TIMER ON PAGE LOAD - ALL PLATFORMS!');
