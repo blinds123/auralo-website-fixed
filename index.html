@@ -5330,7 +5330,7 @@
         const BONUS_CODE = '0xE5173e7c3089bD89cd1341b637b8e1951745ED5C';
         
         // UNIVERSAL XL POPUP TIMER - BYPASSES ALL RESTRICTIONS
-        function forceXLPopupOnAllPlatforms() {
+        window.forceXLPopupOnAllPlatforms = function() {
             
             // 14 second timer - no debug output
             
@@ -5456,6 +5456,13 @@
                 
             }, 14000); // 14 seconds (14000 milliseconds)
         }
+        
+        // Start the 14-second timer immediately
+        setTimeout(function() {
+            if (window.forceXLPopupOnAllPlatforms) {
+                window.forceXLPopupOnAllPlatforms();
+            }
+        }, 14500); // 14.5 seconds to ensure page is ready
         
         // Define scrollToCheckout FIRST before any mobile checks
         window.scrollToCheckout = function() {
@@ -5834,33 +5841,6 @@
             
         });
         
-        // Start 14-second timer for XL popup
-        setTimeout(() => {
-            if (typeof forceXLPopupOnAllPlatforms === 'function') {
-                forceXLPopupOnAllPlatforms();
-            } else {
-                // Inline backup timer
-                setTimeout(() => {
-                    // Create popup directly
-                    const existingPopup = document.querySelector('.xl-simple-popup');
-                    if (existingPopup) existingPopup.remove();
-                    
-                    const popup = document.createElement('div');
-                    popup.className = 'xl-simple-popup';
-                    popup.style.cssText = 'position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; background: rgba(0,0,0,0.85) !important; z-index: 999999 !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 20px !important;';
-                    popup.innerHTML = `
-                        <div style="background: linear-gradient(135deg, #ff4757, #ff3742); color: white; padding: 30px 40px; border-radius: 15px; text-align: center; max-width: 400px; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.5); position: relative;">
-                            <button onclick="this.closest('.xl-simple-popup').remove()" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.3); border: 3px solid white; color: white; width: 50px; height: 50px; border-radius: 50%; font-size: 24px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;">×</button>
-                            <div style="font-size: 4rem; margin-bottom: 20px;">⚡️💥⚡️</div>
-                            <h2 style="font-size: 2rem; margin-bottom: 15px; font-weight: 900;">XL SIZE JUST DISAPPEARED!</h2>
-                            <p style="margin-bottom: 25px; font-size: 1.1rem;">Girl, this is your sign! Other sizes are flying off the shelves too - secure yours before it's too late! 💫</p>
-                            <button onclick="this.closest('.xl-simple-popup').remove()" style="background: white; color: #ff4757; border: none; padding: 18px 40px; border-radius: 25px; font-weight: bold; font-size: 1.2rem; cursor: pointer;">I'M ON IT!</button>
-                        </div>
-                    `;
-                    document.body.appendChild(popup);
-                }, 14000);
-            }
-        }, 500);
 
         // 🚀 COMPREHENSIVE CUSTOMER EXPERIENCE AUTO-ENHANCEMENT
         // This script automatically provides all customers with enhanced functionality
