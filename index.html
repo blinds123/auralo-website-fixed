@@ -4,7 +4,7 @@
     <!-- Version 3.1 - Fixed mobile carousel buttons, hotspots visibility, cache headers -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You Are Not For Everyone - $20 (v3.3-TAP-BANNER)</title>
+    <title>You Are Not For Everyone - $20 (v3.4-POPUP-FIX)</title>
     <!-- PERFORMANCE OPTIMIZATIONS -->
     <link rel="preload" href="./images/main-hoodie.jpg" as="image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,10 +21,9 @@
     <style>
         /* Emergency fix for mobile overlay issue */
         @media (max-width: 768px) {
-            .xl-simple-popup,
             .butler-popup,
             [class*="overlay"]:not(#xlPopupOverlay),
-            [class*="popup"]:not(#xlSelloutPopup):not(.xl-sellout-popup) {
+            [class*="popup"]:not(#xlSelloutPopup):not(.xl-sellout-popup):not(.xl-simple-popup) {
                 display: none !important;
                 visibility: hidden !important;
             }
@@ -32,9 +31,11 @@
             /* Allow XL popup to show on mobile */
             #xlPopupOverlay,
             #xlSelloutPopup,
-            .xl-sellout-popup {
+            .xl-sellout-popup,
+            .xl-simple-popup {
                 display: block !important;
                 visibility: visible !important;
+                opacity: 1 !important;
             }
             
             body {
@@ -4504,7 +4505,7 @@
 <body>
     <!-- DEBUG VERSION INDICATOR -->
     <div id="debug-banner" style="background: #ff4757; color: white; text-align: center; padding: 10px; font-weight: bold; position: fixed; top: 0; left: 0; right: 0; z-index: 99999; cursor: pointer;" onclick="testPopupNow()">
-        DEBUG v3.3 - TAP HERE TO TEST POPUP (or wait 3 seconds)
+        DEBUG v3.4 - TAP HERE TO TEST POPUP (CSS fix applied)
     </div>
     <script>
         // Direct popup test function

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup Test - Standalone</title>
+</head>
+<body style="margin: 0; padding: 20px; font-family: Arial, sans-serif;">
+    <h1>Popup Test Page</h1>
+    <p>This is a standalone test to ensure popups work on your device.</p>
+    
+    <button onclick="showTestPopup()" style="
+        background: #ff4757;
+        color: white;
+        border: none;
+        padding: 20px 40px;
+        font-size: 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 20px 0;
+    ">Click to Show Popup</button>
+    
+    <p>If the popup doesn't appear when you click the button, there may be browser restrictions.</p>
+    
+    <script>
+        function showTestPopup() {
+            console.log('Button clicked - creating popup...');
+            
+            // Remove any existing popup
+            const existing = document.getElementById('test-popup');
+            if (existing) existing.remove();
+            
+            // Create popup
+            const popup = document.createElement('div');
+            popup.id = 'test-popup';
+            popup.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.8);
+                z-index: 999999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            `;
+            
+            popup.innerHTML = `
+                <div style="
+                    background: white;
+                    padding: 40px;
+                    border-radius: 10px;
+                    max-width: 400px;
+                    width: 100%;
+                    text-align: center;
+                    position: relative;
+                ">
+                    <button onclick="document.getElementById('test-popup').remove()" style="
+                        position: absolute;
+                        top: 10px;
+                        right: 10px;
+                        background: #ff4757;
+                        color: white;
+                        border: none;
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        font-size: 20px;
+                        cursor: pointer;
+                    ">×</button>
+                    
+                    <h2 style="color: #333; margin: 0 0 20px 0;">Popup Test Successful!</h2>
+                    <p style="color: #666; margin: 0 0 30px 0;">If you can see this, popups work on your device.</p>
+                    <button onclick="document.getElementById('test-popup').remove()" style="
+                        background: #ff4757;
+                        color: white;
+                        border: none;
+                        padding: 15px 30px;
+                        border-radius: 5px;
+                        font-size: 16px;
+                        cursor: pointer;
+                    ">Close Popup</button>
+                </div>
+            `;
+            
+            document.body.appendChild(popup);
+            console.log('Popup created and added to page');
+            
+            // Also try alert as fallback
+            setTimeout(() => {
+                if (!document.getElementById('test-popup')) {
+                    alert('Popup may have been blocked. This alert confirms JavaScript is working.');
+                }
+            }, 100);
+        }
+        
+        // Auto-test after 2 seconds
+        setTimeout(() => {
+            console.log('Auto-testing popup in 2 seconds...');
+            showTestPopup();
+        }, 2000);
+    </script>
+</body>
+</html>
