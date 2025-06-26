@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Version 3.1 - Fixed mobile carousel buttons, hotspots visibility, cache headers -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You Are Not For Everyone - $20 (v3.0-EMERGENCY-DEPLOY)</title>
+    <title>You Are Not For Everyone - $20 (v3.1-MOBILE-FIX)</title>
     <!-- PERFORMANCE OPTIMIZATIONS -->
     <link rel="preload" href="./images/main-hoodie.jpg" as="image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -87,6 +88,8 @@
                 z-index: 100 !important;
                 display: block !important;
                 visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
             }
             
             /* Force hotspot dimensions on mobile to match desktop functionality */
@@ -1533,31 +1536,32 @@
         /* Mobile carousel nav adjustments - Match desktop styling */
         @media (max-width: 480px) {
             .carousel-nav {
-                width: 60px !important;
-                height: 60px !important;
-                font-size: 24px !important;
-                background: rgba(0, 0, 0, 0.9) !important;
-                border: 3px solid white !important;
-                border-radius: 12px !important; /* More square/rounded like desktop */
-                box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
+                width: 50px !important; /* Match desktop width */
+                height: 50px !important; /* Match desktop height */
+                font-size: 18px !important; /* Match desktop font size */
+                background: rgba(0, 0, 0, 0.8) !important; /* Match desktop opacity */
+                border: none !important; /* Match desktop - no border */
+                border-radius: 8px !important; /* Match desktop rounded corners */
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
                 backdrop-filter: blur(10px) !important;
             }
             
-            .carousel-nav-left {
-                left: 10px;
-            }
-            
+            /* Remove absolute positioning - buttons use flex layout */
+            .carousel-nav-left,
             .carousel-nav-right {
-                right: 10px;
+                position: relative !important;
+                left: auto !important;
+                right: auto !important;
             }
             
-            /* Enhanced mobile carousel container */
+            /* Enhanced mobile carousel container - Match desktop layout */
             .carousel-nav-container {
                 display: flex !important;
-                justify-content: space-between !important;
+                justify-content: flex-start !important; /* Changed from space-between to match desktop */
                 align-items: center !important;
-                padding: 20px !important;
-                margin: 30px 0 !important;
+                gap: 4px !important; /* Added gap to match desktop */
+                padding: 10px !important; /* Reduced padding to match desktop */
+                margin: 20px 0 !important; /* Adjusted margin to match desktop */
             }
         }
 
@@ -5855,6 +5859,260 @@
                 }, 14000);
             }
         });
+
+        // 🚀 COMPREHENSIVE CUSTOMER EXPERIENCE AUTO-ENHANCEMENT
+        // This script automatically provides all customers with enhanced functionality
+        (function() {
+            console.log('🚀 AUTO-ENHANCEMENT: Initializing comprehensive customer experience...');
+            
+            // Wait for page to be fully ready
+            const initEnhancements = () => {
+                console.log('🔧 AUTO-ENHANCEMENT: Applying customer experience improvements...');
+                
+                // 1. GUARANTEED 14-SECOND XL TIMER FOR ALL CUSTOMERS
+                setTimeout(() => {
+                    console.log('🔥 AUTO-ENHANCEMENT: 14 seconds elapsed - XL timer for all customers!');
+                    
+                    const xlButton = document.querySelector('.size-option[data-size="XL"]');
+                    if (xlButton && !xlButton.classList.contains('sold-out')) {
+                        xlButton.classList.remove('available');
+                        xlButton.classList.add('sold-out');
+                        xlButton.disabled = true;
+                        
+                        const statusSpan = xlButton.querySelector('.size-status');
+                        if (statusSpan) {
+                            statusSpan.textContent = 'Just Vanished';
+                        }
+                        
+                        // Create customer-ready popup
+                        const popup = document.createElement('div');
+                        popup.className = 'xl-simple-popup customer-auto-popup';
+                        popup.innerHTML = \`
+                            <div style="
+                                position: fixed;
+                                top: 0; left: 0; right: 0; bottom: 0;
+                                background: rgba(0,0,0,0.85);
+                                z-index: 999999;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                padding: 20px;
+                                backdrop-filter: blur(5px);
+                            ">
+                                <div style="
+                                    background: linear-gradient(135deg, #ff4757, #ff3742);
+                                    color: white;
+                                    padding: 30px 40px;
+                                    border-radius: 15px;
+                                    text-align: center;
+                                    max-width: 400px;
+                                    width: 100%;
+                                    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+                                    position: relative;
+                                    transform: scale(1);
+                                    animation: popupAppear 0.3s ease-out;
+                                ">
+                                    <button onclick="this.closest('.customer-auto-popup').remove()" 
+                                            style="
+                                        position: absolute;
+                                        top: 15px; right: 15px;
+                                        background: rgba(255,255,255,0.3);
+                                        border: 3px solid white;
+                                        color: white;
+                                        width: 50px; height: 50px;
+                                        border-radius: 50%;
+                                        font-size: 24px;
+                                        font-weight: bold;
+                                        cursor: pointer;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        z-index: 1001;
+                                        transition: all 0.2s ease;
+                                        -webkit-tap-highlight-color: transparent;
+                                        touch-action: manipulation;
+                                    ">×</button>
+                                    <div style="font-size: 4rem; margin-bottom: 20px;">⚡️💥⚡️</div>
+                                    <h2 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">XL SIZE JUST DISAPPEARED!</h2>
+                                    <p style="margin-bottom: 25px; font-size: 1.1rem; opacity: 0.95; line-height: 1.4;">Girl, this is your sign! Other sizes are flying off the shelves too - secure yours before it's too late! 💫</p>
+                                    <button onclick="this.closest('.customer-auto-popup').remove()" 
+                                            style="
+                                        background: white;
+                                        color: #ff4757;
+                                        border: none;
+                                        padding: 18px 40px;
+                                        border-radius: 25px;
+                                        font-weight: bold;
+                                        font-size: 1.2rem;
+                                        cursor: pointer;
+                                        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+                                        transition: all 0.2s ease;
+                                        -webkit-tap-highlight-color: transparent;
+                                        touch-action: manipulation;
+                                        min-height: 50px;
+                                        min-width: 150px;
+                                    ">I'M ON IT!</button>
+                                </div>
+                            </div>
+                        \`;
+                        
+                        document.body.appendChild(popup);
+                        console.log('🚨 AUTO-ENHANCEMENT: Customer XL popup displayed successfully!');
+                        
+                        // Enhanced mobile close functionality
+                        const closeButtons = popup.querySelectorAll('button');
+                        closeButtons.forEach(button => {
+                            button.addEventListener('touchend', (e) => {
+                                e.preventDefault();
+                                popup.remove();
+                                console.log('📱 AUTO-ENHANCEMENT: Popup closed via mobile touch');
+                            });
+                        });
+                        
+                        // Auto-close after 12 seconds for better UX
+                        setTimeout(() => {
+                            if (popup.parentNode) {
+                                popup.remove();
+                                console.log('⏰ AUTO-ENHANCEMENT: Popup auto-closed for customer');
+                            }
+                        }, 12000);
+                    }
+                }, 14000); // 14-second timer for all customers
+                
+                // 2. ENHANCED MOBILE CAROUSEL BUTTONS FOR ALL CUSTOMERS
+                setTimeout(() => {
+                    const carouselButtons = document.querySelectorAll('.carousel-nav');
+                    carouselButtons.forEach(button => {
+                        if (!button.classList.contains('customer-enhanced')) {
+                            button.classList.add('customer-enhanced');
+                            button.style.cssText += \`
+                                width: 60px !important;
+                                height: 60px !important;
+                                font-size: 24px !important;
+                                background: rgba(0, 0, 0, 0.9) !important;
+                                border: 3px solid white !important;
+                                border-radius: 12px !important;
+                                box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
+                                backdrop-filter: blur(10px) !important;
+                                transition: all 0.2s ease !important;
+                            \`;
+                        }
+                    });
+                    console.log('🎠 AUTO-ENHANCEMENT: Carousel buttons enhanced for all customers');
+                }, 1000);
+                
+                // 3. STRATEGIC CALL-TO-ACTION ENHANCEMENT FOR ALL CUSTOMERS
+                setTimeout(() => {
+                    const sizeSelector = document.querySelector('.size-selector');
+                    if (sizeSelector && !document.querySelector('.customer-cta-enhanced')) {
+                        const ctaDiv = document.createElement('div');
+                        ctaDiv.className = 'customer-cta-enhanced';
+                        ctaDiv.innerHTML = \`
+                            <div style="
+                                margin: 30px 0;
+                                text-align: center;
+                                padding: 25px 20px;
+                                background: linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(25, 118, 210, 0.1));
+                                border: 2px solid #e3f2fd;
+                                border-radius: 15px;
+                                backdrop-filter: blur(10px);
+                            ">
+                                <a href="#complete-exchange-section" style="
+                                    text-decoration: none;
+                                    display: inline-block;
+                                    font-size: 1.3rem;
+                                    padding: 20px 45px;
+                                    background: linear-gradient(135deg, #2196F3, #1976D2);
+                                    color: white;
+                                    box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4);
+                                    border-radius: 12px;
+                                    font-weight: 700;
+                                    transform: scale(1.02);
+                                    transition: all 0.3s ease;
+                                    border: 2px solid rgba(255,255,255,0.3);
+                                ">
+                                    🔥 Secure Your Size - \$20 
+                                </a>
+                                <p style="
+                                    margin: 18px 0 0 0;
+                                    color: #555;
+                                    font-size: 0.95rem;
+                                    font-weight: 600;
+                                    line-height: 1.4;
+                                ">✅ 60-second checkout • ✅ Free shipping • ✅ Plants 5 trees</p>
+                            </div>
+                        \`;
+                        sizeSelector.appendChild(ctaDiv);
+                        console.log('💎 AUTO-ENHANCEMENT: Strategic CTA added for all customers');
+                    }
+                }, 1500);
+                
+                // 4. CUSTOMER EXPERIENCE NOTIFICATION
+                const notification = document.createElement('div');
+                notification.className = 'customer-enhancement-notice';
+                notification.innerHTML = \`
+                    <div style="
+                        position: fixed;
+                        bottom: 20px; right: 20px;
+                        background: linear-gradient(135deg, #4CAF50, #45a049);
+                        color: white;
+                        padding: 12px 20px;
+                        border-radius: 25px;
+                        font-size: 0.9rem;
+                        font-weight: 600;
+                        z-index: 100000;
+                        box-shadow: 0 4px 20px rgba(76, 175, 80, 0.4);
+                        backdrop-filter: blur(10px);
+                        border: 1px solid rgba(255,255,255,0.2);
+                        max-width: 280px;
+                        opacity: 0;
+                        transform: translateY(20px);
+                        transition: all 0.5s ease;
+                    ">
+                        ✨ Enhanced mobile experience active!
+                        <button onclick="this.parentElement.remove()" style="
+                            float: right;
+                            background: none;
+                            border: none;
+                            color: white;
+                            font-size: 1.1rem;
+                            cursor: pointer;
+                            margin-left: 10px;
+                            opacity: 0.8;
+                        ">×</button>
+                    </div>
+                \`;
+                document.body.appendChild(notification);
+                
+                // Animate notification in
+                setTimeout(() => {
+                    const notice = notification.querySelector('div');
+                    notice.style.opacity = '1';
+                    notice.style.transform = 'translateY(0)';
+                }, 100);
+                
+                // Auto-remove after 4 seconds
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        const notice = notification.querySelector('div');
+                        notice.style.opacity = '0';
+                        notice.style.transform = 'translateY(20px)';
+                        setTimeout(() => notification.remove(), 500);
+                    }
+                }, 4000);
+                
+                console.log('🎉 AUTO-ENHANCEMENT: All customer experience improvements applied successfully!');
+            };
+            
+            // Initialize enhancements
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initEnhancements);
+            } else {
+                initEnhancements();
+            }
+            
+        })();
+        // 🎯 END CUSTOMER EXPERIENCE AUTO-ENHANCEMENT
 
         // Size chart toggle - Mobile safe
         function toggleSizeChart() {
