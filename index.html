@@ -7424,6 +7424,130 @@
     })();
     </script>
 
+    <!-- GUARANTEED MOBILE HOTSPOT SYSTEM -->
+    <script>
+    // Force hotspots to work on mobile devices
+    (function() {
+        console.log('🔵 GUARANTEED MOBILE HOTSPOT SYSTEM STARTING');
+        
+        function createMobileHotspots() {
+            console.log('🔵 Creating guaranteed mobile hotspots...');
+            
+            // Find all product images that should have hotspots
+            const images = document.querySelectorAll('img[src*="vcvjjr"], img[src*="fggt5cvhj"], img[src*="fvcf"], img[src*="morning2"]');
+            console.log('📷 Found product images:', images.length);
+            
+            // Hotspot data for each image
+            const hotspotData = [
+                // vcvjjr image hotspots
+                { text: "5:47 AM deep work session", left: "20%", top: "35%" },
+                { text: "Perfect oversized fit", left: "85%", top: "65%" },
+                
+                // fggt5cvhj image hotspots  
+                { text: "Kangaroo pocket storage", left: "20%", top: "30%" },
+                { text: "Breathable fabric", left: "85%", top: "70%" },
+                
+                // fvcf image hotspots
+                { text: "Elevated streetwear", left: "25%", top: "35%" },
+                { text: "Statement piece", left: "80%", top: "65%" },
+                
+                // morning2 image hotspots
+                { text: "Versatile daily style", left: "30%", top: "40%" },
+                { text: "All-day comfort", left: "75%", top: "60%" }
+            ];
+            
+            let hotspotIndex = 0;
+            images.forEach((img, imgIndex) => {
+                const container = img.parentElement;
+                if (!container) return;
+                
+                // Make container relative for absolute positioning
+                container.style.position = 'relative';
+                
+                // Add 2 hotspots per image
+                for (let i = 0; i < 2; i++) {
+                    if (hotspotIndex >= hotspotData.length) break;
+                    
+                    const data = hotspotData[hotspotIndex];
+                    
+                    // Create hotspot container
+                    const hotspot = document.createElement('div');
+                    hotspot.className = `mobile-hotspot mobile-hotspot-${hotspotIndex + 1}`;
+                    hotspot.style.cssText = `
+                        position: absolute !important;
+                        top: ${data.top} !important;
+                        left: ${data.left} !important;
+                        width: 48px !important;
+                        height: 48px !important;
+                        z-index: 1000 !important;
+                        cursor: pointer !important;
+                        display: block !important;
+                        visibility: visible !important;
+                    `;
+                    
+                    // Create blue dot
+                    const dot = document.createElement('div');
+                    dot.className = 'mobile-hotspot-dot';
+                    dot.style.cssText = `
+                        position: absolute !important;
+                        top: 50% !important;
+                        left: 50% !important;
+                        transform: translate(-50%, -50%) !important;
+                        width: 18px !important;
+                        height: 18px !important;
+                        background: #2196f3 !important;
+                        border: 3px solid #ffffff !important;
+                        border-radius: 50% !important;
+                        box-shadow: 0 6px 16px rgba(33, 150, 243, 0.8) !important;
+                        display: block !important;
+                        visibility: visible !important;
+                    `;
+                    
+                    // Create pulse animation
+                    const pulse = document.createElement('div');
+                    pulse.className = 'mobile-hotspot-pulse';
+                    pulse.style.cssText = `
+                        position: absolute !important;
+                        top: 0 !important;
+                        left: 0 !important;
+                        width: 100% !important;
+                        height: 100% !important;
+                        border: 3px solid #2196f3 !important;
+                        border-radius: 50% !important;
+                        opacity: 0.6 !important;
+                        animation: pulse 2s infinite !important;
+                        display: block !important;
+                        visibility: visible !important;
+                    `;
+                    
+                    // Add click handler to show text
+                    hotspot.addEventListener('click', function() {
+                        alert(data.text);
+                        console.log('🔵 Hotspot clicked:', data.text);
+                    });
+                    
+                    // Assemble hotspot
+                    hotspot.appendChild(dot);
+                    hotspot.appendChild(pulse);
+                    container.appendChild(hotspot);
+                    
+                    console.log(`✅ Created mobile hotspot ${hotspotIndex + 1}: "${data.text}"`);
+                    hotspotIndex++;
+                }
+            });
+            
+            console.log(`🔵 Created ${hotspotIndex} guaranteed mobile hotspots`);
+        }
+        
+        // Run when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', createMobileHotspots);
+        } else {
+            createMobileHotspots();
+        }
+    })();
+    </script>
+
     <!-- Additional Styles -->
     <style>
         /* Finger Pointer Animation */
