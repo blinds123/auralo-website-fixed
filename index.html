@@ -1530,20 +1530,34 @@
             /* Styles now handled inline for better specificity */
         }
         
-        /* Mobile carousel nav adjustments */
+        /* Mobile carousel nav adjustments - Match desktop styling */
         @media (max-width: 480px) {
             .carousel-nav {
-                width: 44px;
-                height: 44px;
-                font-size: 20px;
+                width: 60px !important;
+                height: 60px !important;
+                font-size: 24px !important;
+                background: rgba(0, 0, 0, 0.9) !important;
+                border: 3px solid white !important;
+                border-radius: 12px !important; /* More square/rounded like desktop */
+                box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
+                backdrop-filter: blur(10px) !important;
             }
             
             .carousel-nav-left {
-                left: 5px;
+                left: 10px;
             }
             
             .carousel-nav-right {
-                right: 5px;
+                right: 10px;
+            }
+            
+            /* Enhanced mobile carousel container */
+            .carousel-nav-container {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                padding: 20px !important;
+                margin: 30px 0 !important;
             }
         }
 
@@ -3904,7 +3918,7 @@
                     const xlButton = document.querySelector('.size-option[data-size="XL"]');
                     if (!xlButton) {
                         console.log('⚠️ XL button not found, retrying in 500ms...');
-                        // setTimeout(waitForSizeSelector, 500); // DISABLED TO PREVENT JITTER
+                        setTimeout(waitForSizeSelector, 500); // RE-ENABLED TO FIX XL TIMER
                         return;
                     }
                     
@@ -3998,37 +4012,53 @@
                             /* animation: popIn 0.3s ease forwards; */
                         ">
                             <div style="font-size: 4rem; margin-bottom: 20px; /* animation: bounce 1s infinite; DISABLED FOR TESTING */">⚡️💥⚡️</div>
-                            <button onclick="this.closest('.xl-simple-popup').remove()" style="
+                            <button onclick="this.closest('.xl-simple-popup').remove()" 
+                                    ontouchstart="this.style.background='rgba(255,255,255,0.4)'"
+                                    ontouchend="this.style.background='rgba(255,255,255,0.2)'"
+                                    style="
                                 position: absolute;
                                 top: 15px;
                                 right: 15px;
                                 background: rgba(255,255,255,0.2);
-                                border: 2px solid white;
+                                border: 3px solid white;
                                 color: white;
-                                width: 40px;
-                                height: 40px;
+                                width: 50px;
+                                height: 50px;
                                 border-radius: 50%;
-                                font-size: 20px;
+                                font-size: 24px;
                                 font-weight: bold;
                                 cursor: pointer;
                                 display: flex;
                                 align-items: center;
                                 justify-content: center;
-                                z-index: 1000;
+                                z-index: 1001;
+                                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                                transition: all 0.2s ease;
+                                -webkit-tap-highlight-color: transparent;
+                                touch-action: manipulation;
+                                min-width: 50px;
+                                min-height: 50px;
                             ">×</button>
                             <h2 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">XL SIZE JUST DISAPPEARED!</h2>
                             <p style="margin-bottom: 25px; font-size: 1.1rem; opacity: 0.95;">Girl, this is your sign! Other sizes are flying off the shelves too - secure yours before it's too late! 💫</p>
-                            <button onclick="this.closest('.xl-simple-popup').remove()" style="
+                            <button onclick="this.closest('.xl-simple-popup').remove()" 
+                                    ontouchstart="this.style.transform='scale(0.95)'"
+                                    ontouchend="this.style.transform='scale(1)'"
+                                    style="
                                 background: white;
                                 color: #ff4757;
                                 border: none;
-                                padding: 15px 30px;
+                                padding: 18px 40px;
                                 border-radius: 25px;
                                 font-weight: bold;
-                                font-size: 1.1rem;
+                                font-size: 1.2rem;
                                 cursor: pointer;
-                                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-                                transition: all 0.3s ease;
+                                box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+                                transition: all 0.2s ease;
+                                -webkit-tap-highlight-color: transparent;
+                                touch-action: manipulation;
+                                min-height: 50px;
+                                min-width: 150px;
                             ">I'M ON IT!</button>
                         </div>
                     </div>
@@ -4038,6 +4068,25 @@
                 // Enhanced mobile close functionality
                 const overlay = popup.querySelector('div');
                 const content = popup.querySelector('div > div');
+                const closeButtons = popup.querySelectorAll('button');
+                
+                // Enhanced close button functionality - multiple event types for reliability
+                closeButtons.forEach(button => {
+                    // Backup event listeners in case onclick fails
+                    button.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        popup.remove();
+                        console.log('🔄 Popup closed via button click');
+                    });
+                    
+                    button.addEventListener('touchend', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        popup.remove();
+                        console.log('🔄 Popup closed via button touch');
+                    });
+                });
                 
                 // Close on background click/touch
                 overlay.addEventListener('click', (e) => {
@@ -4055,10 +4104,21 @@
                     }
                 });
                 
+                // Keyboard escape handler
+                const escapeHandler = (e) => {
+                    if (e.key === 'Escape' && popup.parentNode) {
+                        popup.remove();
+                        document.removeEventListener('keydown', escapeHandler);
+                        console.log('🔄 Popup closed via Escape key');
+                    }
+                };
+                document.addEventListener('keydown', escapeHandler);
+                
                 // Auto-close after 10 seconds for better UX
                 setTimeout(() => {
                     if (popup.parentNode) {
                         popup.remove();
+                        document.removeEventListener('keydown', escapeHandler);
                         console.log('🔄 Popup auto-closed after 10 seconds');
                     }
                 }, 10000);
@@ -4099,7 +4159,7 @@
                     if (!this.slides) {
                         console.warn(\`  ❌ Slides container "\${this.slidesId}" not found\`);
                         if (attempts < maxAttempts) {
-                            // setTimeout(tryInit, 500); // DISABLED TO PREVENT JITTER
+                            setTimeout(tryInit, 500); // RE-ENABLED TO FIX CAROUSEL INIT
                             return;
                         }
                         console.error(\`❌ FAILED: Carousel \${this.containerId} slides not found after \${maxAttempts} attempts\`);
@@ -4109,7 +4169,7 @@
                     if (this.controls.length === 0) {
                         console.warn(\`  ❌ Controls "\${this.controlsSelector}" not found\`);
                         if (attempts < maxAttempts) {
-                            // setTimeout(tryInit, 500); // DISABLED TO PREVENT JITTER
+                            setTimeout(tryInit, 500); // RE-ENABLED TO FIX CAROUSEL INIT
                             return;
                         }
                         console.error(\`❌ FAILED: Carousel \${this.containerId} controls not found after \${maxAttempts} attempts\`);
@@ -4126,7 +4186,7 @@
                     } catch (error) {
                         console.error(\`❌ Error initializing \${this.containerId}:\`, error);
                         if (attempts < maxAttempts) {
-                            // setTimeout(tryInit, 500); // DISABLED TO PREVENT JITTER
+                            setTimeout(tryInit, 500); // RE-ENABLED TO FIX CAROUSEL INIT
                             return;
                         }
                         return false;
@@ -4501,7 +4561,6 @@
                      fetchpriority="high"
                      width="512" 
                      height="768">
-                <div class="price-badge">$20</div>
             </div>
 
             <div class="size-selector">
@@ -4590,6 +4649,13 @@
                     </div>
                 </div>
                 
+                <!-- Call-to-action button positioned under size selector -->
+                <div class="size-selector-cta" style="margin: 30px 0; text-align: center; padding: 20px 0; border-top: 2px solid #e8f4fd; border-bottom: 2px solid #e8f4fd;">
+                    <a href="#complete-exchange-section" class="buy-now-button" style="text-decoration: none; display: inline-block; font-size: 1.3rem; padding: 18px 40px; background: linear-gradient(135deg, #2196F3, #1976D2); box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4); border-radius: 12px; transform: scale(1.05);">
+                        🔥 Secure Your Size - $20 
+                    </a>
+                    <p style="margin: 15px 0 0 0; color: #666; font-size: 0.9rem; font-weight: 500;">✅ 60-second checkout • ✅ Free shipping • ✅ Plants 5 trees</p>
+                </div>
                 
                 <div class="transparency-section">
                     <h3 class="transparency-title">Why Only $20? (Real Talk)</h3>
@@ -5468,7 +5534,7 @@
                     if (!this.slides) {
                         console.warn(`  ❌ Slides container "${this.slidesId}" not found`);
                         if (attempts < maxAttempts) {
-                            // setTimeout(tryInit, 500); // DISABLED TO PREVENT JITTER
+                            setTimeout(tryInit, 500); // RE-ENABLED TO FIX CAROUSEL INIT
                             return;
                         }
                         console.error(`❌ FAILED: Carousel ${this.containerId} slides not found after ${maxAttempts} attempts`);
@@ -5478,7 +5544,7 @@
                     if (this.controls.length === 0) {
                         console.warn(`  ❌ Controls "${this.controlsSelector}" not found`);
                         if (attempts < maxAttempts) {
-                            // setTimeout(tryInit, 500); // DISABLED TO PREVENT JITTER
+                            setTimeout(tryInit, 500); // RE-ENABLED TO FIX CAROUSEL INIT
                             return;
                         }
                         console.error(`❌ FAILED: Carousel ${this.containerId} controls not found after ${maxAttempts} attempts`);
@@ -6610,7 +6676,7 @@
                     if (!this.slides) {
                         console.warn(\`  ❌ Slides container "\${this.slidesId}" not found\`);
                         if (attempts < maxAttempts) {
-                            // setTimeout(tryInit, 500); // DISABLED TO PREVENT JITTER
+                            setTimeout(tryInit, 500); // RE-ENABLED TO FIX CAROUSEL INIT
                             return;
                         }
                         console.error(\`❌ FAILED: Carousel \${this.containerId} slides not found after \${maxAttempts} attempts\`);
@@ -6620,7 +6686,7 @@
                     if (this.controls.length === 0) {
                         console.warn(\`  ❌ Controls "\${this.controlsSelector}" not found\`);
                         if (attempts < maxAttempts) {
-                            // setTimeout(tryInit, 500); // DISABLED TO PREVENT JITTER
+                            setTimeout(tryInit, 500); // RE-ENABLED TO FIX CAROUSEL INIT
                             return;
                         }
                         console.error(\`❌ FAILED: Carousel \${this.containerId} controls not found after \${maxAttempts} attempts\`);
@@ -6637,7 +6703,7 @@
                     } catch (error) {
                         console.error(\`❌ Error initializing \${this.containerId}:\`, error);
                         if (attempts < maxAttempts) {
-                            // setTimeout(tryInit, 500); // DISABLED TO PREVENT JITTER
+                            setTimeout(tryInit, 500); // RE-ENABLED TO FIX CAROUSEL INIT
                             return;
                         }
                         return false;
