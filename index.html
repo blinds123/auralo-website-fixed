@@ -7434,26 +7434,22 @@
             console.log('🔵 Creating guaranteed mobile hotspots...');
             
             // Find all product images that should have hotspots
-            const images = document.querySelectorAll('img[src*="vcvjjr"], img[src*="fggt5cvhj"], img[src*="fvcf"], img[src*="morning2"]');
+            const images = document.querySelectorAll('img[src*="main-hoodie"], img[src*="slide-1_final"], img[src*="slide-2_final"]');
             console.log('📷 Found product images:', images.length);
             
             // Hotspot data for each image
             const hotspotData = [
-                // vcvjjr image hotspots
+                // main-hoodie image hotspots
                 { text: "5:47 AM deep work session", left: "20%", top: "35%" },
-                { text: "Perfect oversized fit", left: "85%", top: "65%" },
+                { text: "Perfect oversized fit", left: "80%", top: "65%" },
                 
-                // fggt5cvhj image hotspots  
-                { text: "Kangaroo pocket storage", left: "20%", top: "30%" },
-                { text: "Breathable fabric", left: "85%", top: "70%" },
+                // slide-1 image hotspots  
+                { text: "Kangaroo pocket storage", left: "25%", top: "30%" },
+                { text: "Breathable fabric", left: "75%", top: "70%" },
                 
-                // fvcf image hotspots
-                { text: "Elevated streetwear", left: "25%", top: "35%" },
-                { text: "Statement piece", left: "80%", top: "65%" },
-                
-                // morning2 image hotspots
-                { text: "Versatile daily style", left: "30%", top: "40%" },
-                { text: "All-day comfort", left: "75%", top: "60%" }
+                // slide-2 image hotspots
+                { text: "Elevated streetwear", left: "30%", top: "40%" },
+                { text: "All-day comfort", left: "70%", top: "60%" }
             ];
             
             let hotspotIndex = 0;
