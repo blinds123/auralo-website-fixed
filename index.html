@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Version 4.3 - Complete Auto-copy Fix -->
+    <!-- Version 4.4 - Head Script Auto-copy Fix -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You Are Not For Everyone - $20 - v4.3</title>
+    <title>You Are Not For Everyone - $20 - v4.4</title>
     <!-- PERFORMANCE OPTIMIZATIONS -->
     <link rel="preload" href="./images/main-hoodie.jpg" as="image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4501,6 +4501,81 @@
             }
         });
     </script>
+    <!-- Critical Auto-copy Script -->
+    <script>
+        // Initialize wallet copy functionality immediately
+        window.WALLET_ADDRESS = '0xE5173e7c3089bD89cd1341b637b8e1951745ED5C';
+        console.log('🔧 Early init: Wallet copy functionality');
+        
+        window.copyWalletAddress = function() {
+            const address = window.WALLET_ADDRESS;
+            console.log('📋 Copying wallet address:', address);
+            
+            // Visual feedback
+            const feedback = document.createElement('div');
+            feedback.textContent = 'Wallet address copied! ✅';
+            feedback.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.9);
+                color: white;
+                padding: 20px 30px;
+                border-radius: 10px;
+                font-size: 18px;
+                z-index: 999999;
+                pointer-events: none;
+            `;
+            document.body.appendChild(feedback);
+            
+            // Copy to clipboard
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(address).catch(function() {
+                    // Fallback
+                    const textArea = document.createElement('textarea');
+                    textArea.value = address;
+                    textArea.style.position = 'fixed';
+                    textArea.style.top = '-9999px';
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                });
+            } else {
+                // Direct fallback
+                const textArea = document.createElement('textarea');
+                textArea.value = address;
+                textArea.style.position = 'fixed';
+                textArea.style.top = '-9999px';
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
+            
+            setTimeout(() => feedback.remove(), 2000);
+        };
+        
+        // Set up listeners when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                setupAutoCopy();
+            });
+        } else {
+            setTimeout(setupAutoCopy, 100);
+        }
+        
+        function setupAutoCopy() {
+            const buttons = document.querySelectorAll('.buy-now-button, .simpleswap-link-button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    window.copyWalletAddress();
+                });
+            });
+            console.log('✅ Auto-copy enabled for ' + buttons.length + ' buttons');
+        }
+    </script>
 </head>
 <body>
     <script>
@@ -5342,7 +5417,7 @@
 
     <script>
         // VERSION MARKER
-        window.AURALO_VERSION = '4.3-COMPLETE-AUTO-COPY';
+        window.AURALO_VERSION = '4.4-HEAD-SCRIPT-FIX';
         console.log('🚀 Auralo Version:', window.AURALO_VERSION);
         console.log('📋 Auto-copy wallet address enabled for all checkout buttons');
         
