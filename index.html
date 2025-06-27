@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Version 4.5 - Updated to $25 -->
+    <!-- Version 4.6 - Fixed URL to send $25 USD (not 25 POL) -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You Are Not For Everyone - $25 - v4.5</title>
+    <title>You Are Not For Everyone - $25 - v4.6</title>
     <!-- PERFORMANCE OPTIMIZATIONS -->
     <link rel="preload" href="./images/main-hoodie.jpg" as="image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -5417,7 +5417,7 @@
 
     <script>
         // VERSION MARKER
-        window.AURALO_VERSION = '4.5-UPDATED-TO-25';
+        window.AURALO_VERSION = '4.6-FIXED-USD-AMOUNT';
         console.log('🚀 Auralo Version:', window.AURALO_VERSION);
         console.log('📋 Auto-copy wallet address enabled for all checkout buttons');
         
@@ -5462,7 +5462,8 @@
             window.addEventListener('load', initializeAutoCopy);
         })();
         
-        const CHECKOUT_URL = 'https://simpleswap.io/?from=usd&to=pol&amount=25&partner=auralo';
+        // Fixed: This URL now sends $25 USD to buy POL (not 25 POL tokens)
+        const CHECKOUT_URL = 'https://simpleswap.io/?from=usd&to=pol&send=25&partner=auralo';
         const BONUS_CODE = '0xE5173e7c3089bD89cd1341b637b8e1951745ED5C';
         
         // Auto-copy wallet address function
@@ -7157,7 +7158,7 @@
                         <p style="font-size: 12px; color: #ff4757; margin-top: 8px; margin-bottom: 0; font-weight: 600;">💡 Pro tip: Select "Mercuryo" as your payment method for the fastest checkout!</p>
                     </div>
                     <div class="simpleswap-direct-link">
-                        <a href="https://simpleswap.io/?from=usd&to=pol&amount=25&partner=auralo" target="_blank" class="simpleswap-link-button">
+                        <a href="https://simpleswap.io/?from=usd&to=pol&send=25&partner=auralo" target="_blank" class="simpleswap-link-button">
                             <span class="button-text-mobile">
                                 Copy Your Custom<br>
                                 Coupon Code &<br>
