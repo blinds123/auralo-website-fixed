@@ -4,7 +4,7 @@
     <!-- Version 4.2 - Auto-copy Wallet Address -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You Are Not For Everyone - $20 - v4.2</title>
+    <title>You Are Not For Everyone - $20 - v4.2.1</title>
     <!-- PERFORMANCE OPTIMIZATIONS -->
     <link rel="preload" href="./images/main-hoodie.jpg" as="image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -5342,7 +5342,7 @@
 
     <script>
         // VERSION MARKER
-        window.AURALO_VERSION = '4.2-AUTO-COPY';
+        window.AURALO_VERSION = '4.2.1-AUTO-COPY-FIXED';
         console.log('🚀 Auralo Version:', window.AURALO_VERSION);
         console.log('📋 Auto-copy wallet address enabled for all checkout buttons');
         
@@ -5356,7 +5356,7 @@
             // Try modern clipboard API first
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(walletAddress).then(function() {
-                    showCopyFeedback('Wallet address copied! ✅');
+                    showWalletCopyFeedback('Wallet address copied! ✅');
                 }).catch(function() {
                     // Fallback for clipboard API failure
                     fallbackCopy(walletAddress);
@@ -5380,16 +5380,16 @@
             
             try {
                 document.execCommand('copy');
-                showCopyFeedback('Wallet address copied! ✅');
+                showWalletCopyFeedback('Wallet address copied! ✅');
             } catch (err) {
-                showCopyFeedback('Failed to copy. Address: ' + text);
+                showWalletCopyFeedback('Failed to copy. Address: ' + text);
             }
             
             document.body.removeChild(textArea);
         }
         
-        // Show visual feedback
-        function showCopyFeedback(message) {
+        // Show visual feedback for wallet copy
+        function showWalletCopyFeedback(message) {
             // Remove any existing feedback
             const existingFeedback = document.querySelector('.copy-feedback');
             if (existingFeedback) {
