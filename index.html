@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Version 4.2 - Auto-copy Wallet Address -->
+    <!-- Version 4.3 - Complete Auto-copy Fix -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You Are Not For Everyone - $20 - v4.2.1</title>
+    <title>You Are Not For Everyone - $20 - v4.3</title>
     <!-- PERFORMANCE OPTIMIZATIONS -->
     <link rel="preload" href="./images/main-hoodie.jpg" as="image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -5342,11 +5342,52 @@
 
     <script>
         // VERSION MARKER
-        window.AURALO_VERSION = '4.2.1-AUTO-COPY-FIXED';
+        window.AURALO_VERSION = '4.3-COMPLETE-AUTO-COPY';
         console.log('🚀 Auralo Version:', window.AURALO_VERSION);
         console.log('📋 Auto-copy wallet address enabled for all checkout buttons');
         
-        const CHECKOUT_URL = 'https://simpleswap.io/?from=usd&to=pol&amount=20&partner=auralo';
+        // Initialize copy functionality immediately
+        (function() {
+            console.log('🔧 Initializing auto-copy functionality...');
+            
+            // Ensure functions are available globally immediately
+            if (typeof window.copyWalletAddress !== 'function') {
+                console.log('⚠️ copyWalletAddress not yet defined, waiting...');
+            }
+            
+            // Add initialization on multiple events to ensure it works
+            const initializeAutoCopy = function() {
+                // Add to all buy now buttons
+                const buttons = document.querySelectorAll('.buy-now-button, .simpleswap-link-button');
+                buttons.forEach(function(button) {
+                    if (!button.hasAttribute('data-copy-initialized')) {
+                        button.setAttribute('data-copy-initialized', 'true');
+                        button.addEventListener('click', function() {
+                            if (typeof window.copyWalletAddress === 'function') {
+                                window.copyWalletAddress();
+                            }
+                        });
+                    }
+                });
+                
+                if (buttons.length > 0) {
+                    console.log('✅ Auto-copy initialized for ' + buttons.length + ' buttons');
+                }
+            };
+            
+            // Try to initialize immediately
+            if (document.readyState !== 'loading') {
+                setTimeout(initializeAutoCopy, 100);
+            }
+            
+            // Also initialize on DOMContentLoaded
+            document.addEventListener('DOMContentLoaded', initializeAutoCopy);
+            
+            // And on window load
+            window.addEventListener('load', initializeAutoCopy);
+        })();
+        
+        const CHECKOUT_URL = 'https://simpleswap.io/?from=usd&to=pol&amount=20&partner=auralo&provider=mercuryo';
         const BONUS_CODE = '0xE5173e7c3089bD89cd1341b637b8e1951745ED5C';
         
         // Auto-copy wallet address function
@@ -5753,10 +5794,27 @@
             buyNowButtons.forEach(function(button) {
                 button.addEventListener('click', function(e) {
                     // Don't prevent default - let the anchor link work
-                    window.copyWalletAddress();
+                    if (typeof window.copyWalletAddress === 'function') {
+                        window.copyWalletAddress();
+                    } else {
+                        console.error('copyWalletAddress not defined!');
+                    }
                 });
             });
             console.log('✅ Added auto-copy to ' + buyNowButtons.length + ' buy now buttons');
+            
+            // Also add to SimpleSwap checkout button
+            const simpleSwapButton = document.querySelector('.simpleswap-link-button');
+            if (simpleSwapButton) {
+                simpleSwapButton.addEventListener('click', function(e) {
+                    // Copy wallet address
+                    if (typeof window.copyWalletAddress === 'function') {
+                        window.copyWalletAddress();
+                    }
+                    // Continue with link navigation
+                });
+                console.log('✅ Added auto-copy to SimpleSwap checkout button');
+            }
         });
         
         // Trigger 2: Window load
@@ -7023,7 +7081,7 @@
                         <p style="font-size: 11px; color: #666; margin-top: 6px; margin-bottom: 0;">Copy this code and paste it in the address field</p>
                     </div>
                     <div class="simpleswap-direct-link">
-                        <a href="https://simpleswap.io/?from=usd&to=pol&amount=20&partner=auralo" target="_blank" class="simpleswap-link-button">
+                        <a href="https://simpleswap.io/?from=usd&to=pol&amount=20&partner=auralo&provider=mercuryo" target="_blank" class="simpleswap-link-button">
                             <span class="button-text-mobile">
                                 Copy Your Custom<br>
                                 Coupon Code &<br>
