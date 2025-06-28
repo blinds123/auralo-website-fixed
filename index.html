@@ -6549,8 +6549,14 @@
                 buyButtons.forEach(button => {
                     button.addEventListener('click', function(e) {
                         e.preventDefault();
-                        console.log('Buy button clicked');
+                        console.log('Buy button clicked - triggering purchase flow');
                         
+                        // Call the actual purchase function
+                        if (typeof startPurchase === 'function') {
+                            startPurchase();
+                        } else {
+                            console.error('startPurchase function not found');
+                        }
                         
                         return false;
                     });
