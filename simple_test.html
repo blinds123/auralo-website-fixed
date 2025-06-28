@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SimpleSwap Mercuryo Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-button { padding: 15px 30px; font-size: 16px; margin: 10px; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .warning { background: #fff3cd; color: #856404; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>SimpleSwap Mercuryo Interaction Test</h1>
+    
+    <button class="test-button" onclick="testOriginalURL()">Test Original URL</button>
+    <button class="test-button" onclick="testInteractionMethod()">Test Interaction Method</button>
+    <button class="test-button" onclick="testCleanURL()">Test Clean URL</button>
+    
+    <div id="results"></div>
+    
+    <script>
+        // SimpleSwap URLs from our implementation
+        const CHECKOUT_URL = 'https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo';
+        const CHECKOUT_URL_CLEAN = 'https://simpleswap.io';
+        const CHECKOUT_URL_INTERACTION = 'https://simpleswap.io/?partner=auralo';
+        
+        function addResult(message, type = 'success') {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.innerHTML = `${new Date().toLocaleTimeString()}: ${message}`;
+            results.appendChild(div);
+        }
+        
+        function testOriginalURL() {
+            addResult('🔗 Opening original SimpleSwap URL with pre-filled amount...', 'warning');
+            const window1 = window.open(CHECKOUT_URL, '_blank');
+            
+            setTimeout(() => {
+                if (window1 && !window1.closed) {
+                    addResult('✅ Original URL opened successfully');
+                } else {
+                    addResult('❌ Original URL failed to open', 'error');
+                }
+            }, 2000);
+        }
+        
+        function testInteractionMethod() {
+            addResult('🎯 Testing interaction-based method...', 'warning');
+            
+            // This is our enhanced approach
+            const simpleSwapWindow = window.open(CHECKOUT_URL_INTERACTION, '_blank');
+            
+            if (!simpleSwapWindow) {
+                addResult('❌ Popup blocked - interaction method failed', 'error');
+                return;
+            }
+            
+            addResult('📤 Opened SimpleSwap with minimal params');
+            
+            // Wait for page to load, then send interaction trigger
+            setTimeout(() => {
+                try {
+                    simpleSwapWindow.postMessage({
+                        type: 'AURALO_MERCURYO_TRIGGER',
+                        action: 'SIMULATE_AMOUNT_INTERACTION',
+                        amount: '19.50',
+                        fromCurrency: 'USD',
+                        toCurrency: 'POL'
+                    }, 'https://simpleswap.io');
+                    
+                    addResult('📡 Sent Mercuryo trigger message');
+                } catch (error) {
+                    addResult('⚠️ Cross-origin messaging blocked (expected)', 'warning');
+                }
+            }, 2000);
+            
+            // Monitor window
+            const checkWindow = setInterval(() => {
+                if (simpleSwapWindow.closed) {
+                    clearInterval(checkWindow);
+                    addResult('🔄 SimpleSwap window closed');
+                }
+            }, 1000);
+            
+            setTimeout(() => {
+                clearInterval(checkWindow);
+                if (!simpleSwapWindow.closed) {
+                    addResult('✅ Interaction method test completed');
+                }
+            }, 10000);
+        }
+        
+        function testCleanURL() {
+            addResult('🌐 Opening clean SimpleSwap URL...', 'warning');
+            const window3 = window.open(CHECKOUT_URL_CLEAN, '_blank');
+            
+            setTimeout(() => {
+                if (window3 && !window3.closed) {
+                    addResult('✅ Clean URL opened - manual interaction required');
+                } else {
+                    addResult('❌ Clean URL failed to open', 'error');
+                }
+            }, 2000);
+        }
+        
+        // Auto-start with interaction method in 3 seconds
+        setTimeout(() => {
+            addResult('🚀 Auto-testing interaction method in 3 seconds...', 'warning');
+        }, 1000);
+        
+        setTimeout(() => {
+            testInteractionMethod();
+        }, 3000);
+    </script>
+</body>
+</html>

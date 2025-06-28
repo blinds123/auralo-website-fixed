@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EUR vs USD SimpleSwap Provider Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            max-width: 1000px; 
+            margin: 0 auto;
+        }
+        .test-section { 
+            margin: 30px 0; 
+            border: 2px solid #ddd; 
+            border-radius: 10px; 
+            padding: 20px; 
+        }
+        .test-button { 
+            display: inline-block; 
+            padding: 15px 25px; 
+            margin: 10px; 
+            text-decoration: none; 
+            background: #4CAF50; 
+            color: white; 
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            min-width: 200px;
+        }
+        .test-button:hover { background: #45a049; }
+        .test-button.usd { background: #2196F3; }
+        .test-button.eur { background: #FF9800; }
+        .description { font-size: 14px; color: #666; margin: 10px 0; }
+        .results { 
+            background: #f9f9f9; 
+            padding: 15px; 
+            border-radius: 5px; 
+            margin: 15px 0;
+            min-height: 100px;
+        }
+        .device-info {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        h1 { color: #333; text-align: center; }
+        h2 { color: #555; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 EUR vs USD SimpleSwap Provider Test</h1>
+    
+    <div class="device-info" id="deviceInfo">
+        <strong>Testing Environment:</strong><br>
+        <span id="userAgent"></span><br>
+        <span id="deviceType"></span><br>
+        <span id="screenSize"></span>
+    </div>
+
+    <div class="test-section">
+        <h2>🇺🇸 USD Tests (Current Implementation)</h2>
+        <p class="description">Current approach - testing if USD consistently selects MoonPay on mobile</p>
+        
+        <a href="https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo" target="_blank" class="test-button usd">
+            USD → POL ($19.50) - Current
+        </a>
+        <a href="https://simpleswap.io/?from=usd&to=pol&amount=20&partner=auralo" target="_blank" class="test-button usd">
+            USD → POL ($20.00)
+        </a>
+        <a href="https://simpleswap.io/?from=usd&to=matic&amount=19.50&partner=auralo" target="_blank" class="test-button usd">
+            USD → MATIC ($19.50)
+        </a>
+        
+        <div class="results" id="usdResults">
+            <strong>USD Test Results:</strong><br>
+            Click each button above, proceed to exchange, and note which provider is selected.<br>
+            Expected: MoonPay on mobile, Mercuryo on desktop
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🇪🇺 EUR Tests (Potential Solution)</h2>
+        <p class="description">Testing if EUR currency consistently selects Mercuryo on all platforms</p>
+        
+        <a href="https://simpleswap.io/?from=eur&to=pol&amount=18&partner=auralo" target="_blank" class="test-button eur">
+            EUR → POL (€18.00)
+        </a>
+        <a href="https://simpleswap.io/?from=eur&to=pol&amount=19&partner=auralo" target="_blank" class="test-button eur">
+            EUR → POL (€19.00)
+        </a>
+        <a href="https://simpleswap.io/?from=eur&to=pol&amount=20&partner=auralo" target="_blank" class="test-button eur">
+            EUR → POL (€20.00)
+        </a>
+        <a href="https://simpleswap.io/?from=eur&to=matic&amount=18&partner=auralo" target="_blank" class="test-button eur">
+            EUR → MATIC (€18.00)
+        </a>
+        
+        <div class="results" id="eurResults">
+            <strong>EUR Test Results:</strong><br>
+            Click each button above, proceed to exchange, and note which provider is selected.<br>
+            Expected: Testing if Mercuryo is consistently selected across all devices
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔄 Mixed Currency Tests</h2>
+        <p class="description">Additional currency combinations for comprehensive testing</p>
+        
+        <a href="https://simpleswap.io/?from=gbp&to=pol&amount=15&partner=auralo" target="_blank" class="test-button">
+            GBP → POL (£15.00)
+        </a>
+        <a href="https://simpleswap.io/?from=cad&to=pol&amount=25&partner=auralo" target="_blank" class="test-button">
+            CAD → POL (C$25.00)
+        </a>
+        <a href="https://simpleswap.io/?from=aud&to=pol&amount=30&partner=auralo" target="_blank" class="test-button">
+            AUD → POL (A$30.00)
+        </a>
+        
+        <div class="results" id="mixedResults">
+            <strong>Mixed Currency Results:</strong><br>
+            Testing other fiat currencies to identify patterns in provider selection
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📋 Test Instructions</h2>
+        <ol>
+            <li><strong>Test on Multiple Devices:</strong> Run this on desktop, mobile phones, and tablets</li>
+            <li><strong>For Each Link:</strong> Click → Wait for page load → Click "Exchange" button</li>
+            <li><strong>Record Provider:</strong> Note whether Mercuryo or MoonPay is selected</li>
+            <li><strong>Complete Flow:</strong> Test the entire purchase process to ensure functionality</li>
+            <li><strong>Document Results:</strong> Record findings in the results sections above</li>
+        </ol>
+        
+        <div class="results">
+            <strong>Key Success Criteria:</strong><br>
+            ✅ EUR approach must select Mercuryo on mobile devices<br>
+            ✅ EUR approach must maintain desktop functionality<br>
+            ✅ EUR pricing must be reasonable (~€18-20 equivalent to $19.50)<br>
+            ✅ Complete checkout flow must work without errors
+        </div>
+    </div>
+
+    <script>
+        // Display device information
+        document.getElementById('userAgent').textContent = 'User Agent: ' + navigator.userAgent;
+        document.getElementById('deviceType').textContent = 'Device Type: ' + (/Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'Mobile/Tablet' : 'Desktop');
+        document.getElementById('screenSize').textContent = 'Screen: ' + screen.width + 'x' + screen.height + ' (window: ' + window.innerWidth + 'x' + window.innerHeight + ')';
+
+        // Track test clicks with detailed logging
+        document.querySelectorAll('.test-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const url = this.href;
+                const currency = url.includes('from=usd') ? 'USD' : 
+                               url.includes('from=eur') ? 'EUR' : 
+                               url.includes('from=gbp') ? 'GBP' : 
+                               url.includes('from=cad') ? 'CAD' : 
+                               url.includes('from=aud') ? 'AUD' : 'Unknown';
+                
+                console.log('🧪 TESTING:', {
+                    currency: currency,
+                    url: url,
+                    deviceType: /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'Mobile/Tablet' : 'Desktop',
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                
+                // Add visual feedback
+                this.style.opacity = '0.7';
+                setTimeout(() => {
+                    this.style.opacity = '1';
+                }, 1000);
+            });
+        });
+
+        // Results tracking functions
+        window.recordResult = function(currency, device, provider, notes) {
+            const resultsId = currency.toLowerCase() + 'Results';
+            const resultsDiv = document.getElementById(resultsId);
+            if (resultsDiv) {
+                const result = document.createElement('div');
+                result.style.cssText = 'margin: 5px 0; padding: 5px; background: white; border-left: 3px solid ' + 
+                    (provider === 'Mercuryo' ? '#4CAF50' : '#f44336') + ';';
+                result.innerHTML = `<strong>${device}:</strong> ${provider} selected ${notes ? '(' + notes + ')' : ''}`;
+                resultsDiv.appendChild(result);
+            }
+        };
+
+        // Auto-refresh instructions
+        setInterval(() => {
+            const now = new Date();
+            document.title = `EUR vs USD Test - ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+        }, 60000);
+    </script>
+</body>
+</html>
