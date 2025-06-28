@@ -10,33 +10,6 @@
     <script>
         console.log('🚀 CRITICAL: Loading isolated mobile Mercuryo functions...');
         
-        window.forceDesktopModeForMercuryo = function() {
-            console.log('📱 Forcing desktop mode for Mercuryo selection...');
-            const form = document.createElement('form');
-            form.method = 'POST';
-            const checkoutUrl = 'https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo';
-            const htmlContent = '<html><head><title>Smart Checkout</title></head>' +
-                '<body style="font-family:Arial;text-align:center;padding:50px;background:#2196F3;color:white;">' +
-                '<h2>🚀 Opening Smart Checkout</h2>' +
-                '<div style="border:4px solid rgba(255,255,255,0.3);border-radius:50%;border-top:4px solid white;width:40px;height:40px;animation:spin 1s linear infinite;margin:20px auto;"></div>' +
-                '<p>Optimizing for best provider selection...</p>' +
-                '<style>@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>' +
-                '<script>' +
-                'Object.defineProperty(navigator,"userAgent",{value:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",writable:false});' +
-                'Object.defineProperty(navigator,"platform",{value:"Win32",writable:false});' +
-                'setTimeout(function(){window.location.href="' + checkoutUrl + '";},1000);' +
-                '<\/script></body></html>';
-            form.action = 'data:text/html;charset=utf-8,' + encodeURIComponent(htmlContent);
-            form.target = '_blank';
-            form.style.display = 'none';
-            document.body.appendChild(form);
-            form.submit();
-            document.body.removeChild(form);
-            console.log('✅ Desktop mode redirect submitted');
-            return true;
-        };
-
-        
         // CRITICAL: Desktop user agent spoofing for mobile Mercuryo selection
         window.forceDesktopModeForMercuryo = function() {
             console.log('📱 CRITICAL: Forcing desktop mode for mobile Mercuryo selection');
