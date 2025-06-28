@@ -6609,67 +6609,29 @@
         
         function openViaDesktopRedirect() {
             // Create a temporary page that spoofs desktop user agent
-            const desktopRedirectHTML = `
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Redirecting to SimpleSwap...</title>
-    <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            text-align: center; 
-            padding: 50px; 
-            background: linear-gradient(135deg, #2196F3, #21CBF3);
-            color: white;
-        }
-        .spinner { 
-            border: 4px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top: 4px solid white;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
-</head>
-<body>
-    <h2>🚀 Opening Smart Checkout</h2>
-    <div class="spinner"></div>
-    <p>Connecting to SimpleSwap with optimal settings...</p>
-    
-    <script>
-        // Override user agent detection for SimpleSwap
-        Object.defineProperty(navigator, 'userAgent', {
-            value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            writable: false,
-            configurable: true
-        });
-        
-        // Override platform detection
-        Object.defineProperty(navigator, 'platform', {
-            value: 'Win32',
-            writable: false,
-            configurable: true
-        });
-        
-        // Override mobile detection properties
-        Object.defineProperty(navigator, 'maxTouchPoints', {
-            value: 0,
-            writable: false
-        });
-        
-        // Redirect after brief delay
-        setTimeout(() => {
-            window.location.href = '${CHECKOUT_URL}';
-        }, 1500);
-    </script>
-</body>
-</html>`;
+            const desktopRedirectHTML = 
+                '<!DOCTYPE html>' +
+                '<html>' +
+                '<head>' +
+                    '<title>Redirecting to SimpleSwap...</title>' +
+                    '<style>' +
+                        'body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: linear-gradient(135deg, #2196F3, #21CBF3); color: white; }' +
+                        '.spinner { border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 4px solid white; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }' +
+                        '@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }' +
+                    '</style>' +
+                '</head>' +
+                '<body>' +
+                    '<h2>🚀 Opening Smart Checkout</h2>' +
+                    '<div class="spinner"></div>' +
+                    '<p>Connecting to SimpleSwap with optimal settings...</p>' +
+                    '<script>' +
+                        'Object.defineProperty(navigator, "userAgent", { value: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36", writable: false, configurable: true });' +
+                        'Object.defineProperty(navigator, "platform", { value: "Win32", writable: false, configurable: true });' +
+                        'Object.defineProperty(navigator, "maxTouchPoints", { value: 0, writable: false });' +
+                        'setTimeout(() => { window.location.href = "' + CHECKOUT_URL + '"; }, 1500);' +
+                    '</script>' +
+                '</body>' +
+                '</html>';
             
             // Create blob URL for the redirect page
             const blob = new Blob([desktopRedirectHTML], { type: 'text/html' });
