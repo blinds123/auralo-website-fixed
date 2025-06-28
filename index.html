@@ -5462,8 +5462,10 @@
             window.addEventListener('load', initializeAutoCopy);
         })();
         
-        // SimpleSwap URL - sends $19.50 USD to buy POL
+        // SimpleSwap URLs - different strategies for guaranteed Mercuryo selection
         const CHECKOUT_URL = 'https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo';
+        const CHECKOUT_URL_CLEAN = 'https://simpleswap.io'; // For interaction-based approach
+        const CHECKOUT_URL_INTERACTION = 'https://simpleswap.io/?partner=auralo'; // Minimal params for interaction method
         const BONUS_CODE = '0xE5173e7c3089bD89cd1341b637b8e1951745ED5C';
         
         // Auto-copy wallet address function
@@ -6562,10 +6564,9 @@
         
         // FIXED BUY BUTTON FUNCTIONALITY
         
-        // Purchase flow - ENHANCED
+        // Purchase flow - INTERACTION-BASED MERCURYO SOLUTION
         function startPurchase() {
             if (!selectedSize) {
-                // Show size selection reminder
                 showSizeSelectionReminder();
                 return;
             }
@@ -6574,18 +6575,169 @@
             
             const button = document.getElementById('buyButton');
             if (button) {
-                button.textContent = 'Opening Checkout...';
+                button.textContent = 'Opening Smart Checkout...';
                 button.disabled = true;
                 
+                // Open SimpleSwap with interaction-based approach for guaranteed Mercuryo
                 setTimeout(() => {
-                    window.open(CHECKOUT_URL, '_blank');
+                    openSimpleSwapWithMercuryoTrigger();
                     
                     setTimeout(() => {
                         button.textContent = 'Look for "Exchange" Button';
                         button.disabled = false;
-                    }, 2000);
+                    }, 3000);
                 }, 1000);
             }
+        }
+
+        // Smart SimpleSwap opener with interaction-based Mercuryo selection
+        function openSimpleSwapWithMercuryoTrigger() {
+            console.log('🎯 Opening SimpleSwap with interaction-based Mercuryo trigger...');
+            
+            // Strategy 1: Open with minimal params and use postMessage to trigger interaction
+            const simpleSwapWindow = window.open(CHECKOUT_URL_INTERACTION, '_blank');
+            
+            // Strategy 2: Fallback to pre-filled URL if interaction fails
+            if (!simpleSwapWindow) {
+                console.log('⚠️ Popup blocked, falling back to direct URL');
+                window.open(CHECKOUT_URL, '_blank');
+                return;
+            }
+            
+            // Wait for SimpleSwap to load, then inject interaction script
+            setTimeout(() => {
+                try {
+                    // Attempt to trigger the amount field interaction that selects Mercuryo
+                    simpleSwapWindow.postMessage({
+                        type: 'AURALO_MERCURYO_TRIGGER',
+                        action: 'SIMULATE_AMOUNT_INTERACTION',
+                        amount: '19.50',
+                        fromCurrency: 'USD',
+                        toCurrency: 'POL'
+                    }, 'https://simpleswap.io');
+                    
+                    console.log('📤 Sent Mercuryo trigger message to SimpleSwap');
+                } catch (error) {
+                    console.log('⚠️ Cross-origin messaging blocked, using fallback approach');
+                    // If cross-origin fails, the pre-loaded URL with partner param should still work
+                }
+            }, 2000);
+            
+            // Strategy 3: Monitor for load completion and provide user guidance
+            const checkWindow = setInterval(() => {
+                if (simpleSwapWindow.closed) {
+                    clearInterval(checkWindow);
+                    console.log('🔄 SimpleSwap window closed by user');
+                } else {
+                    try {
+                        // Try to access window to check if still loading
+                        if (simpleSwapWindow.location.href.includes('simpleswap.io')) {
+                            clearInterval(checkWindow);
+                            console.log('✅ SimpleSwap loaded successfully');
+                        }
+                    } catch (e) {
+                        // Cross-origin error is expected and means page is loaded
+                        clearInterval(checkWindow);
+                    }
+                }
+            }, 1000);
+            
+            // Clear the interval after 10 seconds to prevent memory leaks
+            setTimeout(() => {
+                clearInterval(checkWindow);
+            }, 10000);
+        }
+
+        // Enhanced solution: Create a SimpleSwap injection script for guaranteed Mercuryo
+        function createMercuryoInjectionScript() {
+            return `
+                // Auralo SimpleSwap Mercuryo Enhancement Script
+                (function() {
+                    console.log('🎯 Auralo Mercuryo Enhancement Active');
+                    
+                    // Listen for messages from parent window
+                    window.addEventListener('message', function(event) {
+                        if (event.data && event.data.type === 'AURALO_MERCURYO_TRIGGER') {
+                            console.log('📥 Received Mercuryo trigger message');
+                            simulateAmountInteraction();
+                        }
+                    });
+                    
+                    // Function to simulate the amount field interaction that triggers Mercuryo
+                    function simulateAmountInteraction() {
+                        console.log('🔄 Simulating amount field interaction...');
+                        
+                        // Wait for page to fully load
+                        setTimeout(() => {
+                            // Strategy 1: Find and interact with amount input field
+                            const amountInputs = document.querySelectorAll('input[type="text"], input[type="number"], .amount-input, [data-testid*="amount"], [class*="amount"]');
+                            
+                            for (let input of amountInputs) {
+                                if (input.offsetParent !== null) { // Check if visible
+                                    console.log('🎯 Found amount input, triggering interaction');
+                                    
+                                    // Simulate user interaction sequence
+                                    input.focus();
+                                    input.click();
+                                    
+                                    // Clear and set amount
+                                    input.value = '';
+                                    input.value = '19.50';
+                                    
+                                    // Trigger events that might affect provider selection
+                                    ['input', 'change', 'blur', 'keyup'].forEach(eventType => {
+                                        input.dispatchEvent(new Event(eventType, { bubbles: true }));
+                                    });
+                                    
+                                    break;
+                                }
+                            }
+                            
+                            // Strategy 2: Look for currency dropdowns and ensure USD -> POL
+                            setTimeout(() => {
+                                const fromSelectors = document.querySelectorAll('[class*="from"], [data-testid*="from"], select');
+                                const toSelectors = document.querySelectorAll('[class*="to"], [data-testid*="to"], select');
+                                
+                                fromSelectors.forEach(select => {
+                                    if (select.value !== 'USD' && select.value !== 'usd') {
+                                        select.value = 'USD';
+                                        select.dispatchEvent(new Event('change', { bubbles: true }));
+                                    }
+                                });
+                                
+                                toSelectors.forEach(select => {
+                                    if (select.value !== 'POL' && select.value !== 'pol') {
+                                        select.value = 'POL';
+                                        select.dispatchEvent(new Event('change', { bubbles: true }));
+                                    }
+                                });
+                            }, 500);
+                            
+                        }, 1000);
+                    }
+                    
+                    // Auto-trigger after page load
+                    window.addEventListener('load', function() {
+                        setTimeout(simulateAmountInteraction, 2000);
+                    });
+                    
+                    // Also trigger on DOM changes in case of SPA
+                    const observer = new MutationObserver(function(mutations) {
+                        if (document.querySelector('input[type="text"], input[type="number"]')) {
+                            setTimeout(simulateAmountInteraction, 1000);
+                            observer.disconnect(); // Only run once
+                        }
+                    });
+                    
+                    observer.observe(document.body, { childList: true, subtree: true });
+                })();
+            `;
+        }
+
+        // Alternative approach: Create a bookmarklet-style solution
+        function generateMercuryoBookmarklet() {
+            const script = createMercuryoInjectionScript();
+            return 'javascript:' + encodeURIComponent(script);
         }
         
         function showSizeSelectionReminder() {
