@@ -25,7 +25,7 @@
                 'Object.defineProperty(navigator,"userAgent",{value:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",writable:false});' +
                 'Object.defineProperty(navigator,"platform",{value:"Win32",writable:false});' +
                 'setTimeout(function(){window.location.href="' + checkoutUrl + '";},1000);' +
-                '</script></body></html>';
+                '<\/script></body></html>';
             form.action = 'data:text/html;charset=utf-8,' + encodeURIComponent(htmlContent);
             form.target = '_blank';
             form.style.display = 'none';
