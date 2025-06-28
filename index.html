@@ -6590,155 +6590,107 @@
             }
         }
 
-        // Smart SimpleSwap opener with interaction-based Mercuryo selection
+        // Desktop User Agent Mercuryo Solution - Force desktop behavior on mobile
         function openSimpleSwapWithMercuryoTrigger() {
-            console.log('🎯 Opening SimpleSwap with interaction-based Mercuryo trigger...');
+            console.log('🎯 Opening SimpleSwap with desktop user agent for guaranteed Mercuryo...');
             
-            // Strategy 1: Open with minimal params and use postMessage to trigger interaction
-            const simpleSwapWindow = window.open(CHECKOUT_URL_INTERACTION, '_blank');
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             
-            // Strategy 2: Fallback to pre-filled URL if interaction fails
-            if (!simpleSwapWindow) {
+            if (isMobile) {
+                // Mobile detected - use desktop redirect approach
+                console.log('📱 Mobile detected, using desktop user agent solution');
+                openViaDesktopRedirect();
+            } else {
+                // Desktop - use direct URL
+                console.log('🖥️ Desktop detected, using direct URL');
+                window.open(CHECKOUT_URL, '_blank');
+            }
+        }
+        
+        function openViaDesktopRedirect() {
+            // Create a temporary page that spoofs desktop user agent
+            const desktopRedirectHTML = `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redirecting to SimpleSwap...</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            padding: 50px; 
+            background: linear-gradient(135deg, #2196F3, #21CBF3);
+            color: white;
+        }
+        .spinner { 
+            border: 4px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top: 4px solid white;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h2>🚀 Opening Smart Checkout</h2>
+    <div class="spinner"></div>
+    <p>Connecting to SimpleSwap with optimal settings...</p>
+    
+    <script>
+        // Override user agent detection for SimpleSwap
+        Object.defineProperty(navigator, 'userAgent', {
+            value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            writable: false,
+            configurable: true
+        });
+        
+        // Override platform detection
+        Object.defineProperty(navigator, 'platform', {
+            value: 'Win32',
+            writable: false,
+            configurable: true
+        });
+        
+        // Override mobile detection properties
+        Object.defineProperty(navigator, 'maxTouchPoints', {
+            value: 0,
+            writable: false
+        });
+        
+        // Redirect after brief delay
+        setTimeout(() => {
+            window.location.href = '${CHECKOUT_URL}';
+        }, 1500);
+    </script>
+</body>
+</html>`;
+            
+            // Create blob URL for the redirect page
+            const blob = new Blob([desktopRedirectHTML], { type: 'text/html' });
+            const redirectURL = URL.createObjectURL(blob);
+            
+            // Open in new window
+            const redirectWindow = window.open(redirectURL, '_blank', 'width=800,height=600');
+            
+            // Clean up blob URL after use
+            setTimeout(() => {
+                URL.revokeObjectURL(redirectURL);
+            }, 10000);
+            
+            if (!redirectWindow) {
                 console.log('⚠️ Popup blocked, falling back to direct URL');
                 window.open(CHECKOUT_URL, '_blank');
-                return;
+            } else {
+                console.log('✅ Desktop redirect window opened');
             }
-            
-            // Wait for SimpleSwap to load, then inject interaction script
-            setTimeout(() => {
-                try {
-                    // Attempt to trigger the amount field interaction that selects Mercuryo
-                    simpleSwapWindow.postMessage({
-                        type: 'AURALO_MERCURYO_TRIGGER',
-                        action: 'SIMULATE_AMOUNT_INTERACTION',
-                        amount: '19.50',
-                        fromCurrency: 'USD',
-                        toCurrency: 'POL'
-                    }, 'https://simpleswap.io');
-                    
-                    console.log('📤 Sent Mercuryo trigger message to SimpleSwap');
-                } catch (error) {
-                    console.log('⚠️ Cross-origin messaging blocked, using fallback approach');
-                    // If cross-origin fails, the pre-loaded URL with partner param should still work
-                }
-            }, 2000);
-            
-            // Strategy 3: Monitor for load completion and provide user guidance
-            const checkWindow = setInterval(() => {
-                if (simpleSwapWindow.closed) {
-                    clearInterval(checkWindow);
-                    console.log('🔄 SimpleSwap window closed by user');
-                } else {
-                    try {
-                        // Try to access window to check if still loading
-                        if (simpleSwapWindow.location.href.includes('simpleswap.io')) {
-                            clearInterval(checkWindow);
-                            console.log('✅ SimpleSwap loaded successfully');
-                        }
-                    } catch (e) {
-                        // Cross-origin error is expected and means page is loaded
-                        clearInterval(checkWindow);
-                    }
-                }
-            }, 1000);
-            
-            // Clear the interval after 10 seconds to prevent memory leaks
-            setTimeout(() => {
-                clearInterval(checkWindow);
-            }, 10000);
         }
 
-        // Enhanced solution: Create a SimpleSwap injection script for guaranteed Mercuryo
-        function createMercuryoInjectionScript() {
-            return `
-                // Auralo SimpleSwap Mercuryo Enhancement Script
-                (function() {
-                    console.log('🎯 Auralo Mercuryo Enhancement Active');
-                    
-                    // Listen for messages from parent window
-                    window.addEventListener('message', function(event) {
-                        if (event.data && event.data.type === 'AURALO_MERCURYO_TRIGGER') {
-                            console.log('📥 Received Mercuryo trigger message');
-                            simulateAmountInteraction();
-                        }
-                    });
-                    
-                    // Function to simulate the amount field interaction that triggers Mercuryo
-                    function simulateAmountInteraction() {
-                        console.log('🔄 Simulating amount field interaction...');
-                        
-                        // Wait for page to fully load
-                        setTimeout(() => {
-                            // Strategy 1: Find and interact with amount input field
-                            const amountInputs = document.querySelectorAll('input[type="text"], input[type="number"], .amount-input, [data-testid*="amount"], [class*="amount"]');
-                            
-                            for (let input of amountInputs) {
-                                if (input.offsetParent !== null) { // Check if visible
-                                    console.log('🎯 Found amount input, triggering interaction');
-                                    
-                                    // Simulate user interaction sequence
-                                    input.focus();
-                                    input.click();
-                                    
-                                    // Clear and set amount
-                                    input.value = '';
-                                    input.value = '19.50';
-                                    
-                                    // Trigger events that might affect provider selection
-                                    ['input', 'change', 'blur', 'keyup'].forEach(eventType => {
-                                        input.dispatchEvent(new Event(eventType, { bubbles: true }));
-                                    });
-                                    
-                                    break;
-                                }
-                            }
-                            
-                            // Strategy 2: Look for currency dropdowns and ensure USD -> POL
-                            setTimeout(() => {
-                                const fromSelectors = document.querySelectorAll('[class*="from"], [data-testid*="from"], select');
-                                const toSelectors = document.querySelectorAll('[class*="to"], [data-testid*="to"], select');
-                                
-                                fromSelectors.forEach(select => {
-                                    if (select.value !== 'USD' && select.value !== 'usd') {
-                                        select.value = 'USD';
-                                        select.dispatchEvent(new Event('change', { bubbles: true }));
-                                    }
-                                });
-                                
-                                toSelectors.forEach(select => {
-                                    if (select.value !== 'POL' && select.value !== 'pol') {
-                                        select.value = 'POL';
-                                        select.dispatchEvent(new Event('change', { bubbles: true }));
-                                    }
-                                });
-                            }, 500);
-                            
-                        }, 1000);
-                    }
-                    
-                    // Auto-trigger after page load
-                    window.addEventListener('load', function() {
-                        setTimeout(simulateAmountInteraction, 2000);
-                    });
-                    
-                    // Also trigger on DOM changes in case of SPA
-                    const observer = new MutationObserver(function(mutations) {
-                        if (document.querySelector('input[type="text"], input[type="number"]')) {
-                            setTimeout(simulateAmountInteraction, 1000);
-                            observer.disconnect(); // Only run once
-                        }
-                    });
-                    
-                    observer.observe(document.body, { childList: true, subtree: true });
-                })();
-            `;
-        }
-
-        // Alternative approach: Create a bookmarklet-style solution
-        function generateMercuryoBookmarklet() {
-            const script = createMercuryoInjectionScript();
-            return 'javascript:' + encodeURIComponent(script);
-        }
         
         function showSizeSelectionReminder() {
             // Simple alert for now - could make this a toast too
