@@ -5561,24 +5561,57 @@
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             
             if (isMobile) {
-                console.log('📱 Mobile detected - testing EUR currency approach first');
+                console.log('📱 Mobile detected - implementing comprehensive solution');
                 
-                // Strategy selection based on testing
-                const useEURStrategy = true; // Change to false if EUR doesn't work
+                // COMPREHENSIVE MOBILE STRATEGY:
+                // 1. Try EUR currency first (potential natural solution)
+                // 2. Fallback to desktop user agent spoofing (proven working solution)
+                // 3. Final fallback to standard USD
                 
-                if (useEURStrategy) {
-                    console.log('💶 Primary: Trying EUR currency approach');
+                try {
+                    console.log('🧪 Step 1: Testing EUR currency approach...');
                     const eurUrl = 'https://simpleswap.io/?from=eur&to=pol&amount=18&partner=auralo';
-                    window.open(eurUrl, '_blank');
-                    console.log('✅ EUR approach executed:', eurUrl);
-                    return true;
-                } else {
-                    console.log('🔄 Fallback: Using desktop user agent spoofing');
-                    return window.forceDesktopModeForMercuryo();
+                    
+                    // Open EUR approach and track success
+                    const eurWindow = window.open(eurUrl, '_blank');
+                    
+                    if (eurWindow) {
+                        console.log('✅ EUR approach window opened successfully');
+                        console.log('📋 URL:', eurUrl);
+                        
+                        // If EUR window opened successfully, set up fallback timer
+                        setTimeout(() => {
+                            console.log('⏰ EUR fallback timer: Opening desktop spoofing as backup');
+                            window.forceDesktopModeForMercuryo();
+                        }, 10000); // 10 second fallback
+                        
+                        return true;
+                    } else {
+                        throw new Error('EUR window blocked by popup blocker');
+                    }
+                    
+                } catch (eurError) {
+                    console.log('⚠️ EUR approach failed:', eurError.message);
+                    console.log('🔄 Falling back to desktop user agent spoofing...');
+                    
+                    try {
+                        return window.forceDesktopModeForMercuryo();
+                    } catch (desktopError) {
+                        console.log('⚠️ Desktop spoofing failed:', desktopError.message);
+                        console.log('🔄 Final fallback to standard USD...');
+                        
+                        const usdUrl = 'https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo';
+                        window.open(usdUrl, '_blank');
+                        console.log('📋 Opened USD fallback:', usdUrl);
+                        return true;
+                    }
                 }
+                
             } else {
-                console.log('🖥️ Desktop detected - using standard USD approach');
-                window.open('https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo', '_blank');
+                console.log('🖥️ Desktop detected - using optimized USD approach');
+                const desktopUrl = 'https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo';
+                window.open(desktopUrl, '_blank');
+                console.log('✅ Desktop USD opened:', desktopUrl);
                 return true;
             }
         };
@@ -5593,11 +5626,72 @@
             console.log('🖥️ Desktop spoofing only for testing');
             return window.forceDesktopModeForMercuryo();
         };
+        
+        // QA Testing and Debugging Functions
+        window.runComprehensiveQATest = function() {
+            console.log('🧪 RUNNING COMPREHENSIVE QA TEST FOR MOBILE MERCURYO');
+            console.log('=====================================');
+            
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            console.log('🔍 Device Detection:', isMobile ? 'MOBILE' : 'DESKTOP');
+            console.log('🔍 User Agent:', navigator.userAgent);
+            console.log('🔍 Viewport:', window.innerWidth + 'x' + window.innerHeight);
+            
+            // Test 1: EUR Approach
+            console.log('\n📝 TEST 1: EUR Currency Approach');
+            setTimeout(() => {
+                console.log('🧪 Opening EUR → POL (€18)...');
+                window.open('https://simpleswap.io/?from=eur&to=pol&amount=18&partner=auralo', '_blank');
+            }, 1000);
+            
+            // Test 2: USD Approach (for comparison)
+            console.log('\n📝 TEST 2: USD Currency Approach (Current)');
+            setTimeout(() => {
+                console.log('🧪 Opening USD → POL ($19.50)...');
+                window.open('https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo', '_blank');
+            }, 3000);
+            
+            // Test 3: Desktop Spoofing
+            console.log('\n📝 TEST 3: Desktop User Agent Spoofing');
+            setTimeout(() => {
+                console.log('🧪 Opening with desktop spoofing...');
+                window.forceDesktopModeForMercuryo();
+            }, 5000);
+            
+            // Test 4: GBP Alternative
+            console.log('\n📝 TEST 4: GBP Alternative Currency');
+            setTimeout(() => {
+                console.log('🧪 Opening GBP → POL (£15)...');
+                window.open('https://simpleswap.io/?from=gbp&to=pol&amount=15&partner=auralo', '_blank');
+            }, 7000);
+            
+            console.log('\n📋 MANUAL VERIFICATION REQUIRED:');
+            console.log('   1. Check each opened tab');
+            console.log('   2. Click "Exchange" on each');
+            console.log('   3. Note provider selected (Mercuryo vs MoonPay)');
+            console.log('   4. Record which approach works best on your device');
+            
+            return true;
+        };
+        
+        window.logCurrentConfiguration = function() {
+            console.log('⚙️ CURRENT AURALO CONFIGURATION');
+            console.log('===============================');
+            console.log('Version:', window.AURALO_VERSION);
+            console.log('Available Functions:');
+            console.log('  - openSimpleSwapWithMercuryoTrigger:', typeof window.openSimpleSwapWithMercuryoTrigger);
+            console.log('  - tryEURCurrencyApproach:', typeof window.tryEURCurrencyApproach);
+            console.log('  - forceDesktopModeForMercuryo:', typeof window.forceDesktopModeForMercuryo);
+            console.log('  - startPurchase:', typeof window.startPurchase);
+            console.log('  - runComprehensiveQATest:', typeof window.runComprehensiveQATest);
+            console.log('Device Type:', /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'MOBILE' : 'DESKTOP');
+            console.log('Selected Size:', window.selectedSize || 'None');
+        };
 
         console.log('✅ Critical mobile Mercuryo functions loaded successfully');
         
         // VERSION MARKER (moved after critical functions)
-        window.AURALO_VERSION = '4.8-MOBILE-MERCURYO-FIXED';
+        window.AURALO_VERSION = '4.9-COMPREHENSIVE-EUR-USD-SOLUTION';
         console.log('🚀 Auralo Version:', window.AURALO_VERSION);
         console.log('📋 Auto-copy wallet address enabled for all checkout buttons');
         
@@ -5734,9 +5828,10 @@
         }
         
         try {
-            // UNIVERSAL XL POPUP TIMER - BYPASSES ALL RESTRICTIONS
+            // UNIVERSAL XL POPUP TIMER - DISABLED FOR QA TESTING
             window.forceXLPopupOnAllPlatforms = function() {
-                console.log('Timer function called');
+                console.log('Timer function called - DISABLED FOR QA TESTING');
+                return; // Exit early to prevent popup interference
             
             // 14 second timer - no debug output
             
