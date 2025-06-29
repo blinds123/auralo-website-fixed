@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Emergency Mobile Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h1>Emergency Mobile Mercuryo Fix Test</h1>
+    <button onclick="testMobileFix()" style="padding: 20px; font-size: 18px; background: #4CAF50; color: white; border: none; border-radius: 5px;">
+        Test Mobile Fix
+    </button>
+    
+    <script>
+        // EMERGENCY MOBILE MERCURYO FIX - MINIMAL VERSION
+        console.log('🚨 Emergency mobile fix loading...');
+        
+        function forceDesktopMode() {
+            console.log('📱 EMERGENCY: Forcing desktop mode');
+            
+            // Create form for data URI redirect
+            const form = document.createElement('form');
+            form.method = 'POST';
+            
+            // Desktop spoofing HTML
+            const html = '<html><head><title>Desktop Mode</title></head><body style="font-family:Arial;text-align:center;padding:50px;background:#2196F3;color:white;"><h2>🚀 Opening Desktop Mode</h2><p>Redirecting to SimpleSwap with desktop identity...</p><script>Object.defineProperty(navigator,"userAgent",{value:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",writable:false});setTimeout(function(){window.location.href="https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo";},1000);</script></body></html>';
+            
+            form.action = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
+            form.target = '_blank';
+            form.style.display = 'none';
+            
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+            
+            console.log('✅ Emergency desktop mode activated');
+            return true;
+        }
+        
+        function testMobileFix() {
+            console.log('🧪 Testing emergency mobile fix...');
+            const isMobile = /iPhone|Android|Mobile/i.test(navigator.userAgent);
+            console.log('📱 Mobile detected:', isMobile);
+            
+            if (isMobile) {
+                forceDesktopMode();
+            } else {
+                window.open('https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo', '_blank');
+            }
+        }
+        
+        console.log('✅ Emergency functions loaded');
+        console.log('📱 User Agent:', navigator.userAgent);
+        console.log('📱 Is Mobile:', /iPhone|Android|Mobile/i.test(navigator.userAgent));
+    </script>
+    
+    <div style="margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 5px;">
+        <h3>Instructions:</h3>
+        <ol>
+            <li>Test this on your iPhone 12 Pro</li>
+            <li>Click the "Test Mobile Fix" button</li>
+            <li>Should open desktop spoofing → SimpleSwap</li>
+            <li>Check if Mercuryo is selected (not MoonPay)</li>
+        </ol>
+    </div>
+</body>
+</html>
