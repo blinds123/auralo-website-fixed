@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mobile Mercuryo Test - iPhone 12 Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            max-width: 400px; 
+            margin: 0 auto; 
+            background: #f5f5f5;
+        }
+        .test-button { 
+            display: block; 
+            width: 100%;
+            padding: 20px; 
+            font-size: 18px; 
+            background: #4CAF50; 
+            color: white; 
+            border: none; 
+            border-radius: 10px;
+            margin: 15px 0;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .test-button:hover { background: #45a049; }
+        .enhanced { background: #FF6B35; }
+        .enhanced:hover { background: #E5552F; }
+        .info { 
+            background: white; 
+            padding: 15px; 
+            border-radius: 10px; 
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+        }
+        .critical { 
+            background: #fff3cd; 
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>📱 Mobile Mercuryo Test</h1>
+    <h2>🎯 iPhone 12 Pro Specific</h2>
+    
+    <div class="info">
+        <strong>Device:</strong> <span id="device"></span><br>
+        <strong>Mobile Detected:</strong> <span id="isMobile"></span><br>
+        <strong>User Agent:</strong> <span id="userAgent"></span>
+    </div>
+    
+    <div class="critical">
+        <h3>🚨 CRITICAL ISSUE IDENTIFIED</h3>
+        <p><strong>Problem:</strong> SimpleSwap shows Mercuryo as "selected" (green checkmark) but internally defaults to MoonPay on mobile devices.</p>
+        <p><strong>Solution:</strong> Enhanced desktop spoofing with multiple Mercuryo parameters.</p>
+    </div>
+    
+    <button class="test-button enhanced" onclick="testEnhancedSolution()">
+        🚀 Test Enhanced Mercuryo Solution
+    </button>
+    
+    <button class="test-button" onclick="testBasicEUR()">
+        📋 Test Basic EUR (Comparison)
+    </button>
+    
+    <div class="info">
+        <h3>📋 Enhanced Solution Features:</h3>
+        <ul>
+            <li><strong>Desktop User Agent:</strong> Windows Chrome</li>
+            <li><strong>Screen Resolution:</strong> 1920x1080</li>
+            <li><strong>Multiple URL Strategies:</strong> preferred=mercuryo, provider=mercuryo, device=desktop</li>
+            <li><strong>Enhanced Navigator:</strong> Vendor, platform override</li>
+        </ul>
+    </div>
+    
+    <div class="info">
+        <h3>✅ Expected Results:</h3>
+        <p><strong>Enhanced Solution:</strong> Blue page → Multiple strategies → Mercuryo default ✅</p>
+        <p><strong>Basic EUR:</strong> Direct → Still shows MoonPay override ❌</p>
+        <br>
+        <p><strong>Success = Enhanced solution shows Mercuryo WITHOUT green checkmark deception</strong></p>
+    </div>
+
+    <script>
+        // Display device info
+        document.getElementById('device').textContent = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'iOS Device' : 
+                                                      /Android/i.test(navigator.userAgent) ? 'Android Device' : 'Desktop';
+        document.getElementById('isMobile').textContent = /iPhone|Android|Mobile/i.test(navigator.userAgent) ? 'YES' : 'NO';
+        document.getElementById('userAgent').textContent = navigator.userAgent.substring(0, 60) + '...';
+        
+        // ENHANCED MERCURYO SOLUTION
+        function enhancedMercuryoSpoofing() {
+            console.log('🚀 ENHANCED: Comprehensive mobile Mercuryo solution');
+            
+            const form = document.createElement('form');
+            form.method = 'POST';
+            
+            const enhancedHTML = `<html>
+                <head>
+                    <title>Enhanced Mercuryo Mode</title>
+                    <meta name="viewport" content="width=1920,initial-scale=1.0">
+                </head>
+                <body style="font-family:Arial;text-align:center;padding:50px;background:#FF6B35;color:white;">
+                    <h2>🚀 Enhanced Mercuryo Mode Active</h2>
+                    <div style="border:4px solid rgba(255,255,255,0.3);border-radius:50%;border-top:4px solid white;width:40px;height:40px;animation:spin 1s linear infinite;margin:20px auto;"></div>
+                    <p>iPhone 12 Pro → Windows Desktop</p>
+                    <p>Applying enhanced Mercuryo parameters...</p>
+                    <div style="background:rgba(255,255,255,0.1);padding:10px;border-radius:5px;margin:20px 0;">
+                        <strong>Enhanced Features:</strong><br>
+                        ✓ Desktop User Agent<br>
+                        ✓ 1920x1080 Resolution<br>
+                        ✓ Multiple URL Strategies<br>
+                        ✓ Vendor Override
+                    </div>
+                    <style>@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>
+                    <script>
+                        // Enhanced desktop spoofing
+                        Object.defineProperty(navigator, "userAgent", {
+                            value: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                            writable: false
+                        });
+                        Object.defineProperty(navigator, "platform", {
+                            value: "Win32",
+                            writable: false
+                        });
+                        Object.defineProperty(navigator, "vendor", {
+                            value: "Google Inc.",
+                            writable: false
+                        });
+                        Object.defineProperty(screen, "width", {
+                            value: 1920,
+                            writable: false
+                        });
+                        Object.defineProperty(screen, "height", {
+                            value: 1080,
+                            writable: false
+                        });
+                        
+                        // Multiple Mercuryo selection strategies
+                        const strategies = [
+                            'https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo&preferred=mercuryo',
+                            'https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo&provider=mercuryo', 
+                            'https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo&device=desktop'
+                        ];
+                        
+                        let currentStrategy = 0;
+                        
+                        function tryNextStrategy() {
+                            if (currentStrategy < strategies.length) {
+                                console.log('🔄 Trying strategy', currentStrategy + 1);
+                                window.location.href = strategies[currentStrategy];
+                                currentStrategy++;
+                            } else {
+                                console.log('📱 Fallback to basic EUR');
+                                window.location.href = 'https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo';
+                            }
+                        }
+                        
+                        setTimeout(tryNextStrategy, 1500);
+                    </script>
+                </body>
+            </html>`;
+            
+            form.action = 'data:text/html;charset=utf-8,' + encodeURIComponent(enhancedHTML);
+            form.target = '_blank';
+            form.style.display = 'none';
+            
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+            
+            console.log('✅ Enhanced Mercuryo solution activated');
+            return true;
+        }
+        
+        function testEnhancedSolution() {
+            console.log('🧪 Testing enhanced Mercuryo solution...');
+            
+            const isMobile = /iPhone|Android|Mobile/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                console.log('📱 Mobile detected - applying enhanced solution');
+                enhancedMercuryoSpoofing();
+            } else {
+                console.log('🖥️ Desktop detected - opening with enhanced parameters');
+                window.open('https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo&preferred=mercuryo', '_blank');
+            }
+        }
+        
+        function testBasicEUR() {
+            console.log('📋 Testing basic EUR for comparison');
+            window.open('https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo', '_blank');
+        }
+        
+        console.log('✅ Enhanced mobile Mercuryo test functions loaded');
+        console.log('📱 Ready for iPhone 12 Pro testing');
+    </script>
+</body>
+</html>
