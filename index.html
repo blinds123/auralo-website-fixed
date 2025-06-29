@@ -10,41 +10,49 @@
     <script>
         console.log('🚀 CRITICAL: Loading isolated mobile Mercuryo functions...');
         
-        // ENHANCED: Comprehensive desktop user agent spoofing for mobile Mercuryo selection
+        // ULTIMATE: Ultra-enhanced desktop spoofing with maximum parameters for mobile Mercuryo
         window.forceDesktopModeForMercuryo = function() {
-            console.log('📱 ENHANCED: Comprehensive desktop spoofing for mobile Mercuryo');
+            console.log('🔥 ULTIMATE: Ultra-enhanced desktop spoofing for guaranteed Mercuryo');
             
             const form = document.createElement('form');
             form.method = 'POST';
             
-            const enhancedDesktopHTML = '<html><head><title>Enhanced Mercuryo Mode</title>' +
-                '<meta name="viewport" content="width=1920,initial-scale=1.0"></head>' +
-                '<body style="font-family:Arial;text-align:center;padding:50px;background:#2196F3;color:white;">' +
-                '<h2>🚀 Enhanced Mercuryo Mode Active</h2>' +
-                '<div style="border:4px solid rgba(255,255,255,0.3);border-radius:50%;border-top:4px solid white;width:40px;height:40px;animation:spin 1s linear infinite;margin:20px auto;"></div>' +
-                '<p>iPhone → Windows Desktop → Mercuryo Selection</p>' +
-                '<p>Applying enhanced parameters...</p>' +
+            const ultraDesktopHTML = '<html><head><title>Ultra Mercuryo Mode</title>' +
+                '<meta name="viewport" content="width=1920,initial-scale=1.0">' +
+                '<meta http-equiv="X-UA-Compatible" content="IE=edge"></head>' +
+                '<body style="font-family:Arial;text-align:center;padding:50px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;">' +
+                '<h1>🚀 ULTRA MERCURYO MODE</h1>' +
+                '<div style="border:4px solid rgba(255,255,255,0.3);border-radius:50%;border-top:4px solid white;width:60px;height:60px;animation:spin 1s linear infinite;margin:30px auto;"></div>' +
+                '<h2>iPhone → Windows Desktop → Mercuryo Force</h2>' +
+                '<p id="status">Initializing ultra parameters...</p>' +
                 '<style>@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>' +
                 '<script>' +
-                'Object.defineProperty(navigator,"userAgent",{value:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",writable:false});' +
-                'Object.defineProperty(navigator,"platform",{value:"Win32",writable:false});' +
-                'Object.defineProperty(navigator,"vendor",{value:"Google Inc.",writable:false});' +
-                'Object.defineProperty(screen,"width",{value:1920,writable:false});' +
-                'Object.defineProperty(screen,"height",{value:1080,writable:false});' +
-                'const strategies=["https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo&preferred=mercuryo","https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo&provider=mercuryo","https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo&device=desktop"];' +
-                'let currentStrategy=0;' +
-                'function tryStrategy(){if(currentStrategy<strategies.length){console.log("🔄 Strategy",currentStrategy+1);window.location.href=strategies[currentStrategy];currentStrategy++;}else{console.log("📱 Fallback");window.location.href="https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo";}}' +
-                'setTimeout(tryStrategy,1000);' +
+                'Object.defineProperty(navigator,"userAgent",{value:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",writable:false,configurable:false});' +
+                'Object.defineProperty(navigator,"platform",{value:"Win32",writable:false,configurable:false});' +
+                'Object.defineProperty(navigator,"vendor",{value:"Google Inc.",writable:false,configurable:false});' +
+                'Object.defineProperty(navigator,"maxTouchPoints",{value:0,writable:false,configurable:false});' +
+                'Object.defineProperty(screen,"width",{value:1920,writable:false,configurable:false});' +
+                'Object.defineProperty(screen,"height",{value:1080,writable:false,configurable:false});' +
+                'window.ontouchstart=undefined;' +
+                'const strategies=[' +
+                '{"name":"Preferred+Provider","url":"https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo&preferred=mercuryo&provider=mercuryo"},' +
+                '{"name":"Device+Preferred","url":"https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo&device=desktop&preferred=mercuryo"},' +
+                '{"name":"Payment Method","url":"https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo&payment=mercuryo&method=card"},' +
+                '{"name":"Direct Provider","url":"https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo&fiat_provider=mercuryo"}' +
+                '];' +
+                'let i=0;' +
+                'function tryNext(){if(i<strategies.length){document.getElementById("status").textContent="Trying: "+strategies[i].name;setTimeout(()=>{window.location.href=strategies[i].url;},1500);i++;}else{window.location.href="https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo";}}' +
+                'setTimeout(tryNext,1000);' +
                 '</script></body></html>';
             
-            form.action = 'data:text/html;charset=utf-8,' + encodeURIComponent(enhancedDesktopHTML);
+            form.action = 'data:text/html;charset=utf-8,' + encodeURIComponent(ultraDesktopHTML);
             form.target = '_blank';
             form.style.display = 'none';
             document.body.appendChild(form);
             form.submit();
             document.body.removeChild(form);
             
-            console.log('✅ ENHANCED: Comprehensive desktop spoofing activated');
+            console.log('✅ ULTIMATE: Ultra-enhanced spoofing activated with 4 strategies');
             return true;
         };
         
