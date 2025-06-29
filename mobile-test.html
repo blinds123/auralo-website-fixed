@@ -109,7 +109,7 @@
                             writable: false
                         });
                         setTimeout(function() {
-                            window.location.href = "https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo";
+                            window.location.href = "https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo";
                         }, 1000);
                     </script>
                 </body>
@@ -138,13 +138,13 @@
                 emergencyDesktopSpoofing();
             } else {
                 console.log('🖥️ Desktop detected - opening standard URL');
-                window.open('https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo', '_blank');
+                window.open('https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo', '_blank');
             }
         }
         
         function testDirectURL() {
             console.log('📋 Testing direct URL for comparison');
-            window.open('https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo', '_blank');
+            window.open('https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo', '_blank');
         }
         
         console.log('✅ Emergency test functions loaded');

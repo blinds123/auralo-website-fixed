@@ -22,7 +22,7 @@
             form.method = 'POST';
             
             // Desktop spoofing HTML
-            const html = '<html><head><title>Desktop Mode</title></head><body style="font-family:Arial;text-align:center;padding:50px;background:#2196F3;color:white;"><h2>🚀 Opening Desktop Mode</h2><p>Redirecting to SimpleSwap with desktop identity...</p><script>Object.defineProperty(navigator,"userAgent",{value:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",writable:false});setTimeout(function(){window.location.href="https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo";},1000);</script></body></html>';
+            const html = '<html><head><title>Desktop Mode</title></head><body style="font-family:Arial;text-align:center;padding:50px;background:#2196F3;color:white;"><h2>🚀 Opening Desktop Mode</h2><p>Redirecting to SimpleSwap with desktop identity...</p><script>Object.defineProperty(navigator,"userAgent",{value:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",writable:false});setTimeout(function(){window.location.href="https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo";},1000);</script></body></html>';
             
             form.action = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
             form.target = '_blank';
@@ -44,7 +44,7 @@
             if (isMobile) {
                 forceDesktopMode();
             } else {
-                window.open('https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo', '_blank');
+                window.open('https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo', '_blank');
             }
         }
         
