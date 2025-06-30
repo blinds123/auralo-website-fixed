@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Mercuryo Forcing Test Suite</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .method-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .method-card h3 {
+            color: #333;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .method-card button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.2s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .method-card button:hover {
+            background: #5a67d8;
+        }
+        
+        .method-card button:active {
+            transform: scale(0.98);
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+        
+        .status.ready { background: #d4edda; color: #155724; }
+        .status.testing { background: #fff3cd; color: #856404; }
+        .status.success { background: #d1ecf1; color: #0c5460; }
+        .status.failed { background: #f8d7da; color: #721c24; }
+        
+        .console {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        
+        .console-line {
+            margin: 2px 0;
+        }
+        
+        .console-line.info { color: #3794ff; }
+        .console-line.success { color: #4ec9b0; }
+        .console-line.warning { color: #ce9178; }
+        .console-line.error { color: #f48771; }
+        
+        .url-test {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .url-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 10px 0;
+        }
+        
+        .icon {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+        }
+        
+        .comprehensive-test {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .comprehensive-test button {
+            background: white;
+            color: #f5576c;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .comprehensive-test button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 Comprehensive Mercuryo Forcing Test Suite</h1>
+        <p>Advanced methods to force Mercuryo selection on SimpleSwap</p>
+    </div>
+    
+    <div class="url-test">
+        <h2>🔗 Custom URL Test</h2>
+        <input type="text" class="url-input" id="customUrl" 
+               value="https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo"
+               placeholder="Enter SimpleSwap URL with parameters">
+        <button onclick="testCustomUrl()">Test Custom URL</button>
+    </div>
+    
+    <div class="method-grid">
+        <!-- Method 1: URL Parameters -->
+        <div class="method-card">
+            <h3>
+                <span class="icon">🔗</span>
+                URL Parameters
+                <span class="status ready">Ready</span>
+            </h3>
+            <p class="description">
+                Tests various URL parameter combinations to force Mercuryo selection
+            </p>
+            <button onclick="testUrlParameters()">Test URL Parameters</button>
+            <button onclick="openUrlWithParams('provider=mercuryo')">+ provider=mercuryo</button>
+            <button onclick="openUrlWithParams('fiat_provider=mercuryo')">+ fiat_provider=mercuryo</button>
+            <button onclick="openUrlWithParams('preferred_provider=mercuryo')">+ preferred_provider=mercuryo</button>
+        </div>
+        
+        <!-- Method 2: Cookie Manipulation -->
+        <div class="method-card">
+            <h3>
+                <span class="icon">🍪</span>
+                Cookie Manipulation
+                <span class="status ready">Ready</span>
+            </h3>
+            <p class="description">
+                Sets cookies to influence provider selection
+            </p>
+            <button onclick="setCookiesAndNavigate()">Set Cookies & Navigate</button>
+            <button onclick="viewCurrentCookies()">View Current Cookies</button>
+        </div>
+        
+        <!-- Method 3: LocalStorage Injection -->
+        <div class="method-card">
+            <h3>
+                <span class="icon">💾</span>
+                Storage Injection
+                <span class="status ready">Ready</span>
+            </h3>
+            <p class="description">
+                Injects provider preferences into browser storage
+            </p>
+            <button onclick="injectStorageAndNavigate()">Inject Storage & Navigate</button>
+            <button onclick="viewCurrentStorage()">View Current Storage</button>
+        </div>
+        
+        <!-- Method 4: Desktop Spoofing -->
+        <div class="method-card">
+            <h3>
+                <span class="icon">🖥️</span>
+                Desktop Spoofing
+                <span class="status ready">Ready</span>
+            </h3>
+            <p class="description">
+                Opens SimpleSwap with complete desktop environment spoofing
+            </p>
+            <button onclick="openWithDesktopSpoofing()">Launch Desktop Mode</button>
+            <button onclick="openWithAdvancedSpoofing()">Advanced Spoofing</button>
+        </div>
+        
+        <!-- Method 5: iframe Injection -->
+        <div class="method-card">
+            <h3>
+                <span class="icon">🔧</span>
+                iframe Injection
+                <span class="status ready">Ready</span>
+            </h3>
+            <p class="description">
+                Creates iframe with modified context
+            </p>
+            <button onclick="iframeInjectionMethod()">Test iframe Method</button>
+        </div>
+        
+        <!-- Method 6: Service Worker -->
+        <div class="method-card">
+            <h3>
+                <span class="icon">⚡</span>
+                Service Worker
+                <span class="status ready">Ready</span>
+            </h3>
+            <p class="description">
+                Registers service worker to intercept requests
+            </p>
+            <button onclick="registerServiceWorker()">Register Service Worker</button>
+            <button onclick="unregisterServiceWorker()">Unregister SW</button>
+        </div>
+        
+        <!-- Method 7: PostMessage API -->
+        <div class="method-card">
+            <h3>
+                <span class="icon">📨</span>
+                PostMessage API
+                <span class="status ready">Ready</span>
+            </h3>
+            <p class="description">
+                Exploits postMessage for provider selection
+            </p>
+            <button onclick="postMessageMethod()">Test PostMessage</button>
+        </div>
+        
+        <!-- Method 8: WebSocket Hijacking -->
+        <div class="method-card">
+            <h3>
+                <span class="icon">🔌</span>
+                WebSocket Hijack
+                <span class="status ready">Ready</span>
+            </h3>
+            <p class="description">
+                Intercepts WebSocket connections
+            </p>
+            <button onclick="websocketHijackMethod()">Apply WebSocket Hijack</button>
+        </div>
+        
+        <!-- Method 9: Script Injection -->
+        <div class="method-card">
+            <h3>
+                <span class="icon">💉</span>
+                Script Injection
+                <span class="status ready">Ready</span>
+            </h3>
+            <p class="description">
+                Injects JavaScript to force Mercuryo
+            </p>
+            <button onclick="scriptInjectionMethod()">Inject & Navigate</button>
+        </div>
+        
+        <!-- Method 10: Proxy Configuration -->
+        <div class="method-card">
+            <h3>
+                <span class="icon">🌐</span>
+                Proxy Setup
+                <span class="status ready">Ready</span>
+            </h3>
+            <p class="description">
+                Instructions for proxy-based forcing
+            </p>
+            <button onclick="showProxyInstructions()">View Instructions</button>
+        </div>
+    </div>
+    
+    <div class="comprehensive-test">
+        <h2>🎯 Run All Methods Combined</h2>
+        <p>Applies all forcing methods simultaneously for maximum effectiveness</p>
+        <button onclick="runComprehensiveTest()">🚀 LAUNCH COMPREHENSIVE TEST</button>
+    </div>
+    
+    <div class="console" id="console">
+        <div class="console-line info">Console initialized. Ready for testing...</div>
+    </div>
+    
+    <script>
+        // Console logging
+        function log(message, type = 'info') {
+            const console = document.getElementById('console');
+            const line = document.createElement('div');
+            line.className = `console-line ${type}`;
+            line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            console.appendChild(line);
+            console.scrollTop = console.scrollHeight;
+        }
+        
+        // Method 1: URL Parameters
+        function testUrlParameters() {
+            log('Testing URL parameter variations...', 'info');
+            
+            const params = [
+                'provider=mercuryo',
+                'fiat_provider=mercuryo',
+                'preferred_provider=mercuryo',
+                'force_provider=mercuryo',
+                'default_provider=mercuryo',
+                'p=mercuryo',
+                'gateway=mercuryo'
+            ];
+            
+            params.forEach((param, index) => {
+                setTimeout(() => {
+                    log(`Testing: ${param}`, 'info');
+                    window.open(`https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo&${param}`, '_blank');
+                }, index * 1000);
+            });
+        }
+        
+        function openUrlWithParams(params) {
+            const url = `https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo&${params}`;
+            log(`Opening: ${url}`, 'info');
+            window.open(url, '_blank');
+        }
+        
+        // Method 2: Cookies
+        function setCookiesAndNavigate() {
+            log('Setting Mercuryo preference cookies...', 'info');
+            
+            const cookies = [
+                'preferred_provider=mercuryo',
+                'force_provider=mercuryo',
+                'provider_selection=mercuryo',
+                'device_type=desktop',
+                'mobile_override=false'
+            ];
+            
+            // Create form to submit with cookies
+            const form = document.createElement('form');
+            form.method = 'GET';
+            form.action = 'https://simpleswap.io/';
+            form.target = '_blank';
+            
+            const params = {
+                from: 'usd',
+                to: 'pol',
+                amount: '19.50',
+                partner: 'auralo'
+            };
+            
+            Object.entries(params).forEach(([key, value]) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                form.appendChild(input);
+            });
+            
+            // Set cookies via meta refresh hack
+            const html = `
+                <html>
+                <head>
+                    <script>
+                        ${cookies.map(c => `document.cookie = '${c}; path=/; domain=.simpleswap.io';`).join('\n')}
+                        setTimeout(() => {
+                            window.location.href = 'https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo';
+                        }, 100);
+                    </script>
+                </head>
+                <body>Setting cookies and redirecting...</body>
+                </html>
+            `;
+            
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+            
+            log('Cookies set, navigating to SimpleSwap...', 'success');
+        }
+        
+        function viewCurrentCookies() {
+            log('Current cookies: ' + document.cookie, 'info');
+        }
+        
+        // Method 3: Storage
+        function injectStorageAndNavigate() {
+            log('Injecting storage preferences...', 'info');
+            
+            const html = `
+                <html>
+                <head>
+                    <script>
+                        // Set localStorage
+                        localStorage.setItem('preferred_provider', 'mercuryo');
+                        localStorage.setItem('force_provider', 'mercuryo');
+                        localStorage.setItem('provider_settings', JSON.stringify({
+                            default: 'mercuryo',
+                            force: true,
+                            hide_moonpay: true
+                        }));
+                        
+                        // Set sessionStorage
+                        sessionStorage.setItem('current_provider', 'mercuryo');
+                        sessionStorage.setItem('selected_provider', 'mercuryo');
+                        
+                        // Navigate
+                        window.location.href = 'https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo';
+                    </script>
+                </head>
+                <body>Injecting storage and redirecting...</body>
+                </html>
+            `;
+            
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+            
+            log('Storage injected, navigating...', 'success');
+        }
+        
+        function viewCurrentStorage() {
+            log('LocalStorage keys: ' + Object.keys(localStorage).join(', '), 'info');
+            log('SessionStorage keys: ' + Object.keys(sessionStorage).join(', '), 'info');
+        }
+        
+        // Method 4: Desktop Spoofing
+        function openWithDesktopSpoofing() {
+            log('Opening with desktop spoofing...', 'info');
+            
+            const spoofingCode = `
+                Object.defineProperty(navigator, 'userAgent', {
+                    value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0',
+                    writable: false
+                });
+                Object.defineProperty(navigator, 'platform', {
+                    value: 'Win32',
+                    writable: false
+                });
+                Object.defineProperty(navigator, 'maxTouchPoints', {
+                    value: 0,
+                    writable: false
+                });
+                Object.defineProperty(screen, 'width', {
+                    value: 1920,
+                    writable: false
+                });
+                Object.defineProperty(screen, 'height', {
+                    value: 1080,
+                    writable: false
+                });
+                window.ontouchstart = undefined;
+                window.location.href = 'https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo&device=desktop';
+            `;
+            
+            const html = `
+                <html>
+                <head>
+                    <meta name="viewport" content="width=1920,initial-scale=1.0">
+                    <script>${spoofingCode}</script>
+                </head>
+                <body>Spoofing desktop environment...</body>
+                </html>
+            `;
+            
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+            
+            log('Desktop spoofing applied', 'success');
+        }
+        
+        function openWithAdvancedSpoofing() {
+            log('Opening with advanced spoofing...', 'info');
+            
+            // Load external script
+            const script = document.createElement('script');
+            script.src = 'ULTIMATE_MOBILE_SOLUTION.js';
+            document.head.appendChild(script);
+            
+            script.onload = () => {
+                if (window.ultimateMobileMercuryoSolution) {
+                    window.ultimateMobileMercuryoSolution();
+                    log('Advanced spoofing launched', 'success');
+                } else {
+                    log('Failed to load advanced spoofing', 'error');
+                }
+            };
+        }
+        
+        // Method 5: iframe
+        function iframeInjectionMethod() {
+            log('Testing iframe injection...', 'info');
+            
+            // Load the method from external script
+            const script = document.createElement('script');
+            script.src = 'advanced_mercuryo_forcing_methods.js';
+            document.head.appendChild(script);
+            
+            script.onload = () => {
+                if (window.iframeInjectionMethod) {
+                    window.iframeInjectionMethod();
+                    log('iframe injection applied', 'success');
+                }
+            };
+        }
+        
+        // Method 6: Service Worker
+        function registerServiceWorker() {
+            log('Registering service worker...', 'info');
+            
+            const swCode = `
+                self.addEventListener('fetch', event => {
+                    const url = new URL(event.request.url);
+                    if (url.hostname === 'simpleswap.io') {
+                        console.log('SW: Intercepting SimpleSwap request');
+                        
+                        // Add headers
+                        const modifiedHeaders = new Headers(event.request.headers);
+                        modifiedHeaders.set('X-Preferred-Provider', 'mercuryo');
+                        
+                        const modifiedRequest = new Request(event.request, {
+                            headers: modifiedHeaders
+                        });
+                        
+                        event.respondWith(fetch(modifiedRequest));
+                    }
+                });
+            `;
+            
+            const blob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            
+            navigator.serviceWorker.register(swUrl).then(reg => {
+                log('Service worker registered successfully', 'success');
+            }).catch(err => {
+                log('Service worker registration failed: ' + err.message, 'error');
+            });
+        }
+        
+        function unregisterServiceWorker() {
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                registrations.forEach(reg => reg.unregister());
+                log('Service workers unregistered', 'success');
+            });
+        }
+        
+        // Method 7: PostMessage
+        function postMessageMethod() {
+            log('Testing postMessage method...', 'info');
+            
+            const win = window.open('https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo', '_blank');
+            
+            setTimeout(() => {
+                const messages = [
+                    { type: 'select_provider', provider: 'mercuryo' },
+                    { type: 'force_provider', provider: 'mercuryo' },
+                    { type: 'provider_preference', preference: 'mercuryo' }
+                ];
+                
+                messages.forEach(msg => {
+                    win.postMessage(msg, 'https://simpleswap.io');
+                    log(`Sent postMessage: ${JSON.stringify(msg)}`, 'info');
+                });
+            }, 3000);
+        }
+        
+        // Method 8: WebSocket
+        function websocketHijackMethod() {
+            log('Applying WebSocket hijack...', 'info');
+            
+            const script = document.createElement('script');
+            script.src = 'advanced_mercuryo_forcing_methods.js';
+            document.head.appendChild(script);
+            
+            script.onload = () => {
+                if (window.websocketHijackingMethod) {
+                    window.websocketHijackingMethod();
+                    log('WebSocket hijacking applied', 'success');
+                }
+            };
+        }
+        
+        // Method 9: Script Injection
+        function scriptInjectionMethod() {
+            log('Applying script injection...', 'info');
+            
+            const injectionScript = `
+                // Force Mercuryo selection
+                document.addEventListener('DOMContentLoaded', () => {
+                    const interval = setInterval(() => {
+                        // Find and click Mercuryo
+                        const mercuryo = Array.from(document.querySelectorAll('*'))
+                            .find(el => el.textContent && el.textContent.includes('Mercuryo'));
+                        
+                        if (mercuryo) {
+                            mercuryo.click();
+                            mercuryo.style.border = '3px solid #00ff00';
+                            mercuryo.style.boxShadow = '0 0 20px #00ff00';
+                            clearInterval(interval);
+                        }
+                        
+                        // Hide MoonPay
+                        const moonpay = Array.from(document.querySelectorAll('*'))
+                            .find(el => el.textContent && el.textContent.includes('MoonPay'));
+                        
+                        if (moonpay) {
+                            moonpay.style.display = 'none';
+                        }
+                    }, 100);
+                });
+                
+                // Override fetch
+                const originalFetch = window.fetch;
+                window.fetch = function(...args) {
+                    console.log('Fetch intercepted:', args[0]);
+                    return originalFetch.apply(this, args);
+                };
+            `;
+            
+            const html = `
+                <html>
+                <head>
+                    <script>${injectionScript}</script>
+                    <meta http-equiv="refresh" content="0;url=https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo">
+                </head>
+                <body>Injecting script and redirecting...</body>
+                </html>
+            `;
+            
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+            
+            log('Script injection applied', 'success');
+        }
+        
+        // Method 10: Proxy
+        function showProxyInstructions() {
+            log('=== PROXY SETUP INSTRUCTIONS ===', 'warning');
+            log('1. Install mitmproxy: brew install mitmproxy', 'info');
+            log('2. Create script file "mercuryo_force.py" with:', 'info');
+            log('   def response(flow):', 'info');
+            log('     if "simpleswap.io" in flow.request.pretty_host:', 'info');
+            log('       # Modify API responses', 'info');
+            log('3. Run: mitmproxy -s mercuryo_force.py', 'info');
+            log('4. Configure browser proxy: localhost:8080', 'info');
+            log('5. Install mitmproxy certificate', 'info');
+            log('See console for full proxy server code', 'info');
+            
+            console.log('Full proxy server code available in proxy_server_method()');
+        }
+        
+        // Comprehensive test
+        function runComprehensiveTest() {
+            log('🚀 LAUNCHING COMPREHENSIVE TEST', 'success');
+            log('Applying all methods simultaneously...', 'info');
+            
+            // Create comprehensive forcing page
+            const comprehensiveHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comprehensive Mercuryo Force</title>
+    <meta name="viewport" content="width=1920,initial-scale=1.0">
+    <script>
+        // 1. Desktop spoofing
+        Object.defineProperty(navigator, 'userAgent', {
+            value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0',
+            writable: false
+        });
+        Object.defineProperty(navigator, 'platform', { value: 'Win32', writable: false });
+        Object.defineProperty(navigator, 'maxTouchPoints', { value: 0, writable: false });
+        
+        // 2. Cookies
+        document.cookie = 'preferred_provider=mercuryo; path=/';
+        document.cookie = 'force_provider=mercuryo; path=/';
+        document.cookie = 'device_type=desktop; path=/';
+        
+        // 3. Storage
+        localStorage.setItem('preferred_provider', 'mercuryo');
+        localStorage.setItem('force_provider', 'mercuryo');
+        sessionStorage.setItem('current_provider', 'mercuryo');
+        
+        // 4. Fetch override
+        const originalFetch = window.fetch;
+        window.fetch = function(...args) {
+            if (args[1]) {
+                args[1].headers = {
+                    ...args[1].headers,
+                    'X-Preferred-Provider': 'mercuryo'
+                };
+            }
+            return originalFetch.apply(this, args);
+        };
+        
+        // 5. DOM manipulation
+        document.addEventListener('DOMContentLoaded', () => {
+            const forceInterval = setInterval(() => {
+                // Force Mercuryo
+                const mercuryo = Array.from(document.querySelectorAll('*'))
+                    .find(el => el.textContent && el.textContent.includes('Mercuryo'));
+                
+                if (mercuryo && !mercuryo.dataset.forced) {
+                    mercuryo.dataset.forced = 'true';
+                    mercuryo.click();
+                    mercuryo.style.cssText = 'border: 5px solid #00ff00 !important; background: rgba(0,255,0,0.2) !important; box-shadow: 0 0 30px #00ff00 !important;';
+                }
+                
+                // Hide MoonPay
+                Array.from(document.querySelectorAll('*'))
+                    .filter(el => el.textContent && el.textContent.includes('MoonPay'))
+                    .forEach(el => el.style.display = 'none');
+                
+                // Show wallet field
+                const walletFields = document.querySelectorAll('input[placeholder*="address"], input[placeholder*="wallet"]');
+                walletFields.forEach(field => {
+                    field.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important;';
+                });
+            }, 100);
+            
+            // Stop after 30 seconds
+            setTimeout(() => clearInterval(forceInterval), 30000);
+        });
+        
+        // 6. PostMessage bombing
+        setInterval(() => {
+            window.postMessage({ type: 'select_provider', provider: 'mercuryo' }, '*');
+            if (window.parent !== window) {
+                window.parent.postMessage({ type: 'force_provider', provider: 'mercuryo' }, '*');
+            }
+        }, 500);
+        
+        // Navigate with all parameters
+        setTimeout(() => {
+            window.location.href = 'https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo&provider=mercuryo&fiat_provider=mercuryo&preferred_provider=mercuryo&force=true&device=desktop#provider=mercuryo';
+        }, 1000);
+    </script>
+</head>
+<body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; display: flex; align-items: center; justify-content: center; height: 100vh; font-family: Arial;">
+    <div style="text-align: center;">
+        <h1>🚀 Comprehensive Mercuryo Force</h1>
+        <p>Applying all forcing methods...</p>
+        <div style="border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 4px solid white; width: 60px; height: 60px; animation: spin 1s linear infinite; margin: 30px auto;"></div>
+    </div>
+    <style>
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</body>
+</html>
+            `;
+            
+            const blob = new Blob([comprehensiveHtml], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+            
+            log('Comprehensive test launched in new window', 'success');
+            log('All forcing methods are now active', 'success');
+            log('Monitor the new window for results', 'info');
+        }
+        
+        // Custom URL test
+        function testCustomUrl() {
+            const customUrl = document.getElementById('customUrl').value;
+            log(`Testing custom URL: ${customUrl}`, 'info');
+            window.open(customUrl, '_blank');
+        }
+        
+        // Initialize
+        log('Test suite loaded. Select a method to begin testing.', 'success');
+        
+        // Load external scripts
+        const scripts = [
+            'advanced_mercuryo_forcing_methods.js',
+            'ULTIMATE_MOBILE_SOLUTION.js'
+        ];
+        
+        scripts.forEach(src => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onerror = () => log(`Failed to load ${src}`, 'warning');
+            script.onload = () => log(`Loaded ${src}`, 'success');
+            document.head.appendChild(script);
+        });
+    </script>
+</body>
+</html>

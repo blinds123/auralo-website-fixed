@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "Auralo Mercuryo Forcer",
+  "version": "1.0.0",
+  "description": "Automatically selects Mercuryo on SimpleSwap exchanges",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://simpleswap.io/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://simpleswap.io/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}

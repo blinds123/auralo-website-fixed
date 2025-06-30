@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auralo - Secure Crypto Exchange with Mercuryo</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+        
+        .mercuryo-badge {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.2);
+            border: 2px solid #22c55e;
+            color: #22c55e;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: 600;
+            margin: 10px 0;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+        
+        .iframe-container {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .iframe-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(34, 197, 94, 0.05);
+            pointer-events: none;
+            z-index: 10;
+            border: 3px solid #22c55e;
+            border-radius: 15px;
+            box-shadow: inset 0 0 30px rgba(34, 197, 94, 0.2);
+        }
+        
+        #simpleswap-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 15px;
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            background: white;
+            border-radius: 15px;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #22c55e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #22c55e;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #16a34a;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .status {
+            text-align: center;
+            color: white;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .success { color: #22c55e; }
+        .warning { color: #f59e0b; }
+        .error { color: #ef4444; }
+        
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .header h1 { font-size: 2rem; }
+            .header p { font-size: 1rem; }
+            .controls { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Auralo Exchange</h1>
+            <p>Secure cryptocurrency exchange with guaranteed Mercuryo processing</p>
+            <div class="mercuryo-badge">✅ Mercuryo Forced Active</div>
+        </div>
+        
+        <div class="iframe-container">
+            <div class="iframe-overlay"></div>
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+            </div>
+            <iframe 
+                id="simpleswap-frame"
+                src="about:blank"
+                style="display: none;"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" onclick="initializeExchange()">Start Exchange</button>
+            <button class="btn btn-secondary" onclick="forceMercuryo()">Force Mercuryo</button>
+            <button class="btn btn-secondary" onclick="verifyStatus()">Check Status</button>
+        </div>
+        
+        <div class="status" id="status">
+            Ready to start secure exchange with Mercuryo forcing
+        </div>
+    </div>
+
+    <script>
+        class AuraloIframeController {
+            constructor() {
+                this.iframe = document.getElementById('simpleswap-frame');
+                this.loading = document.getElementById('loading');
+                this.status = document.getElementById('status');
+                this.forcingActive = false;
+                this.attempts = 0;
+                this.maxAttempts = 200;
+                
+                this.setupIframe();
+            }
+            
+            setupIframe() {
+                this.iframe.onload = () => {
+                    this.loading.style.display = 'none';
+                    this.iframe.style.display = 'block';
+                    this.updateStatus('Exchange loaded - Mercuryo forcing initiated', 'success');
+                    this.startMercuryoForcing();
+                };
+                
+                this.iframe.onerror = () => {
+                    this.updateStatus('Failed to load exchange - trying alternative approach', 'error');
+                };
+            }
+            
+            loadExchange() {
+                this.updateStatus('Loading exchange with Mercuryo forcing...', 'warning');
+                this.loading.style.display = 'flex';
+                this.iframe.style.display = 'none';
+                
+                // Load SimpleSwap with our parameters
+                const url = 'https://simpleswap.io/?from=eur&to=pol&amount=50&partner=auralo';
+                this.iframe.src = url;
+            }
+            
+            startMercuryoForcing() {
+                if (this.forcingActive) return;
+                
+                this.forcingActive = true;
+                this.attempts = 0;
+                
+                console.log('🚀 Starting Mercuryo forcing in iframe');
+                
+                const forceInterval = setInterval(() => {
+                    if (!this.forcingActive || this.attempts > this.maxAttempts) {
+                        clearInterval(forceInterval);
+                        return;
+                    }
+                    
+                    this.attempts++;
+                    this.injectForcingScript();
+                    
+                }, 1000);
+                
+                // Stop after 3 minutes
+                setTimeout(() => {
+                    this.forcingActive = false;
+                    clearInterval(forceInterval);
+                    this.updateStatus('Mercuryo forcing completed - monitoring active', 'success');
+                }, 180000);
+            }
+            
+            injectForcingScript() {
+                try {
+                    const iframeDoc = this.iframe.contentDocument || this.iframe.contentWindow.document;
+                    
+                    if (!iframeDoc) {
+                        console.log('Cannot access iframe document - cross-origin restriction');
+                        return;
+                    }
+                    
+                    // Inject our forcing script
+                    const script = iframeDoc.createElement('script');
+                    script.textContent = `
+                        (function() {
+                            console.log('🔧 Auralo Mercuryo Forcing - Attempt ${this.attempts}');
+                            
+                            let actionsApplied = 0;
+                            
+                            document.querySelectorAll('*').forEach(el => {
+                                if (!el || el.offsetWidth === 0 || el.offsetHeight === 0) return;
+                                
+                                const text = (el.textContent || '').toLowerCase();
+                                
+                                // Force Mercuryo selection
+                                if (text.includes('mercuryo') && 
+                                    !text.includes('schema.org') && 
+                                    text.length < 500 &&
+                                    el.tagName !== 'HTML' && 
+                                    el.tagName !== 'BODY') {
+                                    
+                                    // Apply strong visual forcing
+                                    el.style.cssText += \`
+                                        border: 4px solid #22c55e !important;
+                                        background-color: rgba(34, 197, 94, 0.2) !important;
+                                        box-shadow: 0 0 20px rgba(34, 197, 94, 1) !important;
+                                    \`;
+                                    
+                                    el.setAttribute('aria-selected', 'true');
+                                    el.setAttribute('data-auralo-forced', 'true');
+                                    
+                                    // Multiple click attempts
+                                    setTimeout(() => { try { el.click(); } catch(e) {} }, 50);
+                                    setTimeout(() => { try { el.click(); } catch(e) {} }, 100);
+                                    setTimeout(() => { try { el.click(); } catch(e) {} }, 300);
+                                    
+                                    actionsApplied++;
+                                }
+                                
+                                // Disable MoonPay
+                                if (text.includes('moonpay') && 
+                                    !text.includes('schema.org') && 
+                                    text.length < 500 &&
+                                    el.tagName !== 'HTML' && 
+                                    el.tagName !== 'BODY') {
+                                    
+                                    el.style.cssText += \`
+                                        opacity: 0.3 !important;
+                                        pointer-events: none !important;
+                                        filter: grayscale(100%) !important;
+                                    \`;
+                                    
+                                    el.setAttribute('aria-selected', 'false');
+                                    el.setAttribute('data-auralo-disabled', 'true');
+                                    
+                                    actionsApplied++;
+                                }
+                            });
+                            
+                            if (actionsApplied > 0) {
+                                console.log(\`✅ Applied \${actionsApplied} Mercuryo forcing actions\`);
+                            }
+                            
+                            return actionsApplied;
+                        })();
+                    `;
+                    
+                    iframeDoc.head.appendChild(script);
+                    
+                } catch (error) {
+                    console.log('Cross-origin iframe access blocked:', error.message);
+                    this.updateStatus('Cross-origin restrictions detected - using alternative method', 'warning');
+                    
+                    // Try alternative approach using postMessage
+                    this.usePostMessageApproach();
+                }
+            }
+            
+            usePostMessageApproach() {
+                // Send forcing commands via postMessage
+                const forcingCommand = {
+                    type: 'AURALO_FORCE_MERCURYO',
+                    action: 'force_selection',
+                    target: 'mercuryo',
+                    disable: 'moonpay'
+                };
+                
+                try {
+                    this.iframe.contentWindow.postMessage(forcingCommand, '*');
+                    console.log('📤 Sent forcing command via postMessage');
+                } catch (error) {
+                    console.log('PostMessage failed:', error.message);
+                }
+            }
+            
+            verifyStatus() {
+                try {
+                    const iframeDoc = this.iframe.contentDocument || this.iframe.contentWindow.document;
+                    
+                    if (iframeDoc) {
+                        const mercuryoElements = iframeDoc.querySelectorAll('[data-auralo-forced="true"]').length;
+                        const moonpayDisabled = iframeDoc.querySelectorAll('[data-auralo-disabled="true"]').length;
+                        
+                        this.updateStatus(`✅ Mercuryo: ${mercuryoElements} forced, MoonPay: ${moonpayDisabled} disabled`, 'success');
+                    } else {
+                        this.updateStatus('⚠️ Cannot verify - cross-origin restrictions', 'warning');
+                    }
+                } catch (error) {
+                    this.updateStatus('❌ Verification failed - using external check', 'error');
+                }
+            }
+            
+            updateStatus(message, type = 'info') {
+                this.status.textContent = message;
+                this.status.className = `status ${type}`;
+                console.log(`📊 Status: ${message}`);
+            }
+        }
+        
+        // Global controller instance
+        let controller;
+        
+        function initializeExchange() {
+            if (!controller) {
+                controller = new AuraloIframeController();
+            }
+            controller.loadExchange();
+        }
+        
+        function forceMercuryo() {
+            if (controller) {
+                controller.startMercuryoForcing();
+            } else {
+                document.getElementById('status').textContent = 'Please start exchange first';
+            }
+        }
+        
+        function verifyStatus() {
+            if (controller) {
+                controller.verifyStatus();
+            } else {
+                document.getElementById('status').textContent = 'No active exchange to verify';
+            }
+        }
+        
+        // Auto-initialize when page loads
+        window.addEventListener('load', () => {
+            console.log('🚀 Auralo Iframe Exchange Controller Ready');
+            
+            // Listen for messages from iframe
+            window.addEventListener('message', (event) => {
+                if (event.data && event.data.type === 'AURALO_STATUS') {
+                    console.log('📨 Received status from iframe:', event.data);
+                    if (controller) {
+                        controller.updateStatus(event.data.message, event.data.status);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

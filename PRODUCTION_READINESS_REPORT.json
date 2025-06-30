@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-06-30T10:26:38.029Z",
+  "testSummary": {
+    "totalTests": 4,
+    "passedTests": 0,
+    "failedTests": 4,
+    "successRate": "0.0%"
+  },
+  "deviceCoverage": {
+    "testedDevices": [
+      "iPhone 14 Pro"
+    ],
+    "allDevicesPassed": false
+  },
+  "regionalCoverage": {
+    "testedRegions": [
+      "Australia",
+      "United States",
+      "Europe",
+      "Canada"
+    ],
+    "allRegionsPassed": false
+  },
+  "performanceMetrics": {
+    "averageLoadTime": null,
+    "memoryStable": false
+  },
+  "productionReadiness": {
+    "ready": false,
+    "issues": [
+      "Test execution error: page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo\", waiting until \"networkidle\"\u001b[22m\n",
+      "Test execution error: page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://simpleswap.io/?from=eur&to=pol&amount=25&partner=auralo\", waiting until \"networkidle\"\u001b[22m\n",
+      "Test execution error: page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://simpleswap.io/?from=eur&to=pol&amount=50&partner=auralo\", waiting until \"networkidle\"\u001b[22m\n",
+      "Test execution error: page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://simpleswap.io/?from=eur&to=pol&amount=100&partner=auralo\", waiting until \"networkidle\"\u001b[22m\n"
+    ],
+    "recommendations": [
+      "Ensure all target devices pass testing",
+      "Resolve regional testing issues"
+    ]
+  }
+}
