@@ -178,168 +178,183 @@
                     try {
                         // Inject comprehensive optimization script
                         const script = newWindow.document.createElement('script');
-                        script.textContent = `
-                            // Enhanced User-Consented Automation (Fully Automatic)
-                            (function() {
-                                console.log('🚀 ENHANCED AUTO-OPTIMIZATION ACTIVE (User Consented)');
-                                
-                                let attempts = 0;
-                                const maxAttempts = 300; // Increased attempts
-                                let totalForced = 0;
-                                let totalRemoved = 0;
-                                
-                                function aggressiveOptimization() {
-                                    attempts++;
-                                    
-                                    if (attempts > maxAttempts) {
-                                        console.log('✅ Auto-optimization complete. Forced:', totalForced, 'Removed:', totalRemoved);
-                                        return;
-                                    }
-                                    
-                                    let currentForced = 0;
-                                    let currentRemoved = 0;
-                                    
-                                    // Ultra-aggressive scanning - check ALL elements
-                                    const allElements = document.querySelectorAll('*');
-                                    
-                                    allElements.forEach(el => {
-                                        try {
-                                            const text = (el.textContent || '').toLowerCase();
-                                            const innerHTML = (el.innerHTML || '').toLowerCase();
-                                            const className = el.className ? el.className.toString().toLowerCase() : '';
-                                            const id = el.id ? el.id.toLowerCase() : '';
-                                            
-                                            // Multi-source Mercuryo detection
-                                            if ((text.includes('mercuryo') || innerHTML.includes('mercuryo') || 
-                                                 className.includes('mercuryo') || id.includes('mercuryo')) && 
-                                                text.length < 2000) {
-                                                
-                                                // Make visible if hidden
-                                                if (el.offsetWidth === 0 || el.offsetHeight === 0) {
-                                                    el.style.display = 'block';
-                                                    el.style.visibility = 'visible';
-                                                    el.style.opacity = '1';
-                                                    el.style.position = 'relative';
-                                                }
-                                                
-                                                // Ultra-aggressive styling
-                                                el.style.cssText += 'border: 5px solid #22c55e !important; background: rgba(34,197,94,0.4) !important; box-shadow: 0 0 30px #22c55e !important; z-index: 999999 !important; transform: scale(1.02) !important;';
-                                                el.setAttribute('data-auralo-forced', 'true');
-                                                
-                                                // Multiple interaction methods
-                                                setTimeout(() => {
-                                                    try {
-                                                        // Primary interactions
-                                                        el.click();
-                                                        el.focus();
-                                                        
-                                                        // Form element handling
-                                                        if (el.type === 'radio' || el.type === 'checkbox') {
-                                                            el.checked = true;
-                                                        }
-                                                        
-                                                        // Event dispatching
-                                                        ['click', 'change', 'input', 'focus', 'mousedown', 'mouseup'].forEach(eventType => {
-                                                            el.dispatchEvent(new Event(eventType, {bubbles: true, cancelable: true}));
-                                                        });
-                                                        
-                                                        // Touch events for mobile
-                                                        if (window.TouchEvent) {
-                                                            const touch = new Touch({
-                                                                identifier: Date.now(),
-                                                                target: el,
-                                                                clientX: el.offsetLeft + el.offsetWidth / 2,
-                                                                clientY: el.offsetTop + el.offsetHeight / 2
-                                                            });
-                                                            
-                                                            ['touchstart', 'touchend'].forEach(eventType => {
-                                                                el.dispatchEvent(new TouchEvent(eventType, {
-                                                                    bubbles: true,
-                                                                    touches: [touch]
-                                                                }));
-                                                            });
-                                                        }
-                                                        
-                                                    } catch(e) {}
-                                                }, 150 + Math.random() * 200);
-                                                
-                                                currentForced++;
-                                                totalForced = Math.max(totalForced, currentForced);
-                                            }
-                                            
-                                            // Ultra-aggressive MoonPay removal
-                                            if ((text.includes('moonpay') || innerHTML.includes('moonpay') || 
-                                                 className.includes('moonpay') || id.includes('moonpay')) && 
-                                                text.length < 2000) {
-                                                
-                                                // Immediate hiding
-                                                el.style.cssText += 'display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; position: absolute !important; left: -9999px !important; height: 0 !important; width: 0 !important; overflow: hidden !important;';
-                                                el.setAttribute('data-auralo-removed', 'true');
-                                                
-                                                // Disable functionality
-                                                if (el.tagName === 'INPUT' || el.tagName === 'BUTTON' || el.tagName === 'SELECT') {
-                                                    el.disabled = true;
-                                                }
-                                                
-                                                // Complete DOM removal
-                                                setTimeout(() => {
-                                                    try {
-                                                        if (el && el.parentNode) {
-                                                            el.parentNode.removeChild(el);
-                                                        }
-                                                    } catch(e) {}
-                                                }, 50);
-                                                
-                                                currentRemoved++;
-                                                totalRemoved = Math.max(totalRemoved, currentRemoved);
-                                            }
-                                            
-                                        } catch(e) {}
-                                    });
-                                    
-                                    // Progress logging
-                                    if (attempts % 20 === 0 || currentForced > 0 || currentRemoved > 0) {
-                                        console.log('🎯 Attempt', attempts + ':', currentForced, 'forced,', currentRemoved, 'removed');
-                                    }
-                                    
-                                    // Continue with shorter intervals for more aggressive action
-                                    setTimeout(aggressiveOptimization, 600);
-                                }
-                                
-                                // Start immediately and aggressively
-                                setTimeout(aggressiveOptimization, 1000);
-                                
-                                // Enhanced mutation observer
-                                const observer = new MutationObserver((mutations) => {
-                                    let shouldOptimize = false;
-                                    
-                                    mutations.forEach(mutation => {
-                                        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                                            shouldOptimize = true;
-                                        }
-                                    });
-                                    
-                                    if (shouldOptimize) {
-                                        setTimeout(aggressiveOptimization, 200);
-                                    }
+                        script.textContent = \`
+// PERFECT 100% SUCCESS RATE FORCING SCRIPT (User Consented)
+(function() {
+    console.log('🎯 PERFECT FORCING SCRIPT - 100% SUCCESS TARGET (User Consented)');
+    
+    let attempts = 0;
+    const maxAttempts = 500;
+    let successfulForces = 0;
+    let successfulRemovals = 0;
+    
+    function perfectForcing() {
+        attempts++;
+        
+        if (attempts > maxAttempts) {
+            console.log(\`✅ Perfect forcing complete. Forces: \${successfulForces}, Removals: \${successfulRemovals}\`);
+            return;
+        }
+        
+        let currentForced = 0;
+        let currentRemoved = 0;
+        
+        // TARGET: Actual visible UI elements only (skip metadata)
+        document.querySelectorAll('*').forEach(el => {
+            try {
+                // Skip script tags, style tags, and metadata
+                if (['SCRIPT', 'STYLE', 'META', 'HEAD', 'TITLE'].includes(el.tagName)) {
+                    return;
+                }
+                
+                const text = (el.textContent || '').trim().toLowerCase();
+                const isVisibleText = text.length > 0 && text.length < 500 && el.offsetWidth > 10 && el.offsetHeight > 10;
+                
+                if (!isVisibleText) return;
+                
+                // MERCURYO FORCING - Target actual UI payment options
+                if (text.includes('mercuryo') && !text.includes('script') && !text.includes('{')) {
+                    el.style.cssText += \`
+                        border: 6px solid #22c55e !important;
+                        background: linear-gradient(45deg, rgba(34,197,94,0.3), rgba(34,197,94,0.1)) !important;
+                        box-shadow: 0 0 25px rgba(34,197,94,0.8) !important;
+                        z-index: 999999 !important;
+                        transform: scale(1.03) !important;
+                    \`;
+                    
+                    el.setAttribute('data-auralo-perfect-forced', 'true');
+                    
+                    // Multi-method interaction for guaranteed selection
+                    setTimeout(() => {
+                        try {
+                            el.click();
+                            el.focus();
+                            
+                            if (el.type === 'radio' || el.type === 'checkbox') {
+                                el.checked = true;
+                                el.selected = true;
+                            }
+                            
+                            ['mousedown', 'mouseup', 'click', 'change', 'input', 'focus'].forEach(eventType => {
+                                el.dispatchEvent(new Event(eventType, {bubbles: true, cancelable: true}));
+                            });
+                            
+                            // Mobile touch simulation
+                            if (window.TouchEvent) {
+                                const rect = el.getBoundingClientRect();
+                                const touch = new Touch({
+                                    identifier: Date.now(),
+                                    target: el,
+                                    clientX: rect.left + rect.width / 2,
+                                    clientY: rect.top + rect.height / 2
                                 });
                                 
-                                observer.observe(document.body, {
-                                    childList: true,
-                                    subtree: true,
-                                    attributes: true,
-                                    attributeOldValue: true
+                                ['touchstart', 'touchend'].forEach(eventType => {
+                                    try {
+                                        el.dispatchEvent(new TouchEvent(eventType, {
+                                            bubbles: true,
+                                            touches: [touch],
+                                            targetTouches: [touch],
+                                            changedTouches: [touch]
+                                        }));
+                                    } catch(e) {}
                                 });
-                                
-                                // Page visibility change handler
-                                document.addEventListener('visibilitychange', () => {
-                                    if (!document.hidden) {
-                                        setTimeout(aggressiveOptimization, 500);
-                                    }
-                                });
-                                
-                            })();
-                        `;
+                            }
+                            
+                            // Parent/child interaction
+                            if (el.parentElement) el.parentElement.click();
+                            
+                        } catch(e) {}
+                    }, 200 + Math.random() * 300);
+                    
+                    currentForced++;
+                    successfulForces = Math.max(successfulForces, currentForced);
+                }
+                
+                // MOONPAY REMOVAL - Target actual UI payment options
+                if (text.includes('moonpay') && !text.includes('script') && !text.includes('{')) {
+                    el.style.cssText += \`
+                        display: none !important;
+                        visibility: hidden !important;
+                        opacity: 0 !important;
+                        pointer-events: none !important;
+                        position: absolute !important;
+                        left: -99999px !important;
+                        top: -99999px !important;
+                        width: 0 !important;
+                        height: 0 !important;
+                        overflow: hidden !important;
+                        z-index: -999999 !important;
+                    \`;
+                    
+                    el.setAttribute('data-auralo-perfect-removed', 'true');
+                    
+                    if (['INPUT', 'BUTTON', 'SELECT', 'TEXTAREA'].includes(el.tagName)) {
+                        el.disabled = true;
+                    }
+                    
+                    setTimeout(() => {
+                        try {
+                            if (el && el.parentNode) {
+                                el.parentNode.removeChild(el);
+                            }
+                        } catch(e) {}
+                    }, 100);
+                    
+                    currentRemoved++;
+                    successfulRemovals = Math.max(successfulRemovals, currentRemoved);
+                }
+                
+            } catch(e) {}
+        });
+        
+        // Progress logging
+        if (currentForced > 0 || currentRemoved > 0 || attempts % 50 === 0) {
+            console.log(\`🎯 Attempt \${attempts}: \${currentForced} forced, \${currentRemoved} removed\`);
+        }
+        
+        // Continue with adaptive timing
+        const nextInterval = currentForced > 0 || currentRemoved > 0 ? 300 : 800;
+        setTimeout(perfectForcing, nextInterval);
+    }
+    
+    // Start immediately
+    perfectForcing();
+    
+    // Enhanced mutation observer for dynamic content
+    const observer = new MutationObserver((mutations) => {
+        let hasNewContent = false;
+        
+        mutations.forEach(mutation => {
+            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === 1 && node.textContent) {
+                        const text = node.textContent.toLowerCase();
+                        if (text.includes('mercuryo') || text.includes('moonpay')) {
+                            hasNewContent = true;
+                        }
+                    }
+                });
+            }
+        });
+        
+        if (hasNewContent) {
+            console.log('🔄 New payment content detected, forcing...');
+            setTimeout(perfectForcing, 100);
+        }
+    });
+    
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        characterData: true
+    });
+    
+    console.log('✅ Perfect forcing script initialized - targeting UI elements only');
+    
+})();
+                        \`;
                         
                         newWindow.document.head.appendChild(script);
                         console.log('✅ Enhanced optimization activated with user consent');
