@@ -3928,11 +3928,11 @@
                         return;
                     }
                     
-                    console.log('✅ XL button found, starting 14-second timer for ALL PLATFORMS!');
+                    console.log('XL button found, starting 14-second timer for ALL PLATFORMS!');
                     
                     // Start 14-second timer - ENABLED FOR ALL DEVICES!
                     this.timer = setTimeout(() => {
-                        console.log('🔥 14 SECONDS ELAPSED - MAKING XL SOLD OUT ON ALL PLATFORMS!');
+                        console.log('14 SECONDS ELAPSED - MAKING XL SOLD OUT ON ALL PLATFORMS!');
                         this.makeXLSoldOut();
                         this.showSelloutPopup();
                     }, 14000);
@@ -3979,7 +3979,7 @@
                     }
                     
                     localStorage.setItem(this.timerKey, 'true');
-                    console.log('🔥 XL marked as SOLD OUT after exactly 13 seconds');
+                    console.log('XL marked as SOLD OUT after exactly 13 seconds');
                 }
             }
             
@@ -4159,26 +4159,26 @@
                     this.slides = document.getElementById(this.slidesId);
                     this.controls = document.querySelectorAll(this.controlsSelector);
                     
-                    console.log(\`  - Slides (\${this.slidesId}): \${this.slides ? '✅ Found' : '❌ Missing'}\`);
+                    console.log(\`  - Slides (\${this.slidesId}): \${this.slides ? 'Found' : 'Missing'}\`);
                     console.log(\`  - Controls (\${this.controlsSelector}): \${this.controls.length} found\`);
                     
                     if (!this.slides) {
-                        console.warn(\`  ❌ Slides container "\${this.slidesId}" not found\`);
+                        console.warn(\`  Slides container "\${this.slidesId}" not found\`);
                         if (attempts < maxAttempts) {
                             setTimeout(tryInit, 500); // RE-ENABLED TO FIX CAROUSEL INIT
                             return;
                         }
-                        console.error(\`❌ FAILED: Carousel \${this.containerId} slides not found after \${maxAttempts} attempts\`);
+                        console.error(\`FAILED: Carousel \${this.containerId} slides not found after \${maxAttempts} attempts\`);
                         return false;
                     }
                     
                     if (this.controls.length === 0) {
-                        console.warn(\`  ❌ Controls "\${this.controlsSelector}" not found\`);
+                        console.warn(\`  Controls "\${this.controlsSelector}" not found\`);
                         if (attempts < maxAttempts) {
                             setTimeout(tryInit, 500); // RE-ENABLED TO FIX CAROUSEL INIT
                             return;
                         }
-                        console.error(\`❌ FAILED: Carousel \${this.containerId} controls not found after \${maxAttempts} attempts\`);
+                        console.error(\`FAILED: Carousel \${this.containerId} controls not found after \${maxAttempts} attempts\`);
                         return false;
                     }
                     
@@ -4187,10 +4187,10 @@
                         this.setupCarousel();
                         this.attachEvents();
                         // this.startAutoAdvance(); // DISABLED TO PREVENT AUTO-SCROLL
-                        console.log(\`  ✅ \${this.containerId} carousel SUCCESSFULLY initialized!\`);
+                        console.log(\`  \${this.containerId} carousel SUCCESSFULLY initialized!\`);
                         return true;
                     } catch (error) {
-                        console.error(\`❌ Error initializing \${this.containerId}:\`, error);
+                        console.error(\`Error initializing \${this.containerId}:\`, error);
                         if (attempts < maxAttempts) {
                             setTimeout(tryInit, 500); // RE-ENABLED TO FIX CAROUSEL INIT
                             return;
@@ -4265,7 +4265,7 @@
         // IMMEDIATE INITIALIZATION
         document.addEventListener('DOMContentLoaded', () => {
             // Initialize XL Timer
-            console.log('🚀 INITIALIZING XL TIMER NOW');
+            console.log('INITIALIZING XL TIMER NOW');
             // XL Timer initialized globally below
             
             // Initialize Carousels
@@ -4273,7 +4273,7 @@
             setTimeout(() => {
                 // Enable carousels on mobile with manual navigation only
                 if (isMobile) {
-                    console.log('📱 Mobile detected - enabling manual carousel navigation');
+                    console.log('Mobile detected - enabling manual carousel navigation');
                 }
                 
                 // ULTIMATE CAROUSEL SYSTEM - GUARANTEED TO WORK
@@ -4291,7 +4291,7 @@
                         const slidesContainer = document.getElementById(config.slides);
                         
                         if (!container || !slidesContainer) {
-                            console.log(`❌ Missing elements for ${config.container}`);
+                            console.log(`Missing elements for ${config.container}`);
                             return;
                         }
                         
@@ -4321,7 +4321,7 @@
                                 updateSlide();
                                 console.log(`⬅️ ${config.container} previous: slide ${currentIndex + 1}`);
                             });
-                            console.log(`✅ Left button for ${config.container} set up`);
+                            console.log(`Left button for ${config.container} set up`);
                         }
                         
                         if (rightBtn) {
@@ -4333,7 +4333,7 @@
                                 updateSlide();
                                 console.log(`➡️ ${config.container} next: slide ${currentIndex + 1}`);
                             });
-                            console.log(`✅ Right button for ${config.container} set up`);
+                            console.log(`Right button for ${config.container} set up`);
                         }
                         
                         // Add touch support for mobile
@@ -4365,7 +4365,7 @@
                             isDragging = false;
                         });
                         
-                        console.log(`✅ ${config.container} fully initialized with touch support`);
+                        console.log(`${config.container} fully initialized with touch support`);
                     });
                     
                     console.log('🎠 All carousels initialized successfully!');
@@ -4389,7 +4389,7 @@
                 
                 // Attempt 4: NUCLEAR OPTION - Force carousel buttons to work
                 setTimeout(() => {
-                    console.log('🚀 NUCLEAR CAROUSEL OPTION - FORCING BUTTONS TO WORK');
+                    console.log('NUCLEAR CAROUSEL OPTION - FORCING BUTTONS TO WORK');
                     
                     const allCarousels = [
                         { id: 'storyCarousel', slidesId: 'storySlides' },
@@ -4402,20 +4402,20 @@
                         const slidesContainer = document.getElementById(carousel.slidesId);
                         
                         if (!container || !slidesContainer) {
-                            console.log(`❌ ${carousel.id} missing elements`);
+                            console.log(`${carousel.id} missing elements`);
                             return;
                         }
                         
                         const slides = slidesContainer.querySelectorAll('.story-slide, .review-slide');
                         let currentSlide = 0;
                         
-                        console.log(`🔥 FORCE-FIXING ${carousel.id} with ${slides.length} slides`);
+                        console.log(`FORCE-FIXING ${carousel.id} with ${slides.length} slides`);
                         
                         function forceSlideUpdate() {
                             const translateX = -currentSlide * 100;
                             slidesContainer.style.transform = `translateX(${translateX}%)`;
                             slidesContainer.style.transition = 'transform 0.3s ease';
-                            console.log(`🔥 ${carousel.id} FORCED to slide ${currentSlide + 1}/${slides.length}`);
+                            console.log(`${carousel.id} FORCED to slide ${currentSlide + 1}/${slides.length}`);
                         }
                         
                         // FORCE RIGHT BUTTON
@@ -4430,7 +4430,7 @@
                                 e.stopPropagation();
                                 currentSlide = (currentSlide + 1) % slides.length;
                                 forceSlideUpdate();
-                                console.log(`🔥 RIGHT CLICK: ${carousel.id} → slide ${currentSlide + 1}`);
+                                console.log(`RIGHT CLICK: ${carousel.id} to slide ${currentSlide + 1}`);
                             };
                             
                             // Also add event listener as backup
@@ -4441,7 +4441,7 @@
                                 forceSlideUpdate();
                             });
                             
-                            console.log(`✅ ${carousel.id} RIGHT button NUCLEAR-FIXED`);
+                            console.log(`${carousel.id} RIGHT button NUCLEAR-FIXED`);
                         }
                         
                         // FORCE LEFT BUTTON
@@ -4456,7 +4456,7 @@
                                 e.stopPropagation();
                                 currentSlide = currentSlide > 0 ? currentSlide - 1 : slides.length - 1;
                                 forceSlideUpdate();
-                                console.log(`🔥 LEFT CLICK: ${carousel.id} → slide ${currentSlide + 1}`);
+                                console.log(`LEFT CLICK: ${carousel.id} to slide ${currentSlide + 1}`);
                             };
                             
                             // Also add event listener as backup
@@ -4467,11 +4467,11 @@
                                 forceSlideUpdate();
                             });
                             
-                            console.log(`✅ ${carousel.id} LEFT button NUCLEAR-FIXED`);
+                            console.log(`${carousel.id} LEFT button NUCLEAR-FIXED`);
                         }
                     });
                     
-                    console.log('🚀 NUCLEAR CAROUSEL OPTION COMPLETE!');
+                    console.log('NUCLEAR CAROUSEL OPTION COMPLETE!');
                 }, 2000);
         
         // Lazy loading implementation
@@ -4514,7 +4514,7 @@
             
             // Visual feedback
             const feedback = document.createElement('div');
-            feedback.textContent = 'Wallet address copied! ✅';
+            feedback.textContent = 'Wallet address copied!';
             feedback.style.cssText = `
                 position: fixed;
                 top: 50%;
@@ -4574,7 +4574,7 @@
                     window.copyWalletAddress();
                 });
             });
-            console.log('✅ Auto-copy enabled for ' + buttons.length + ' buttons');
+            console.log('Auto-copy enabled for ' + buttons.length + ' buttons');
         }
     </script>
 </head>
@@ -5425,7 +5425,7 @@
             console.log('💶 Testing EUR currency approach for mobile Mercuryo...');
             const eurUrl = 'https://simpleswap.io/?from=eur&to=pol&amount=18&partner=auralo';
             window.open(eurUrl, '_blank');
-            console.log('✅ EUR approach: Opened', eurUrl);
+            console.log('EUR approach: Opened', eurUrl);
             return true;
         };
         
@@ -5458,7 +5458,7 @@
             form.submit();
             document.body.removeChild(form);
             
-            console.log('✅ Desktop mode redirect submitted');
+            console.log('Desktop mode redirect submitted');
             return true;
         };
         
@@ -6104,7 +6104,7 @@
                     this.slides = document.getElementById(this.slidesId);
                     this.controls = document.querySelectorAll(this.controlsSelector);
                     
-                    console.log(`  - Slides (${this.slidesId}): ${this.slides ? '✅ Found' : '❌ Missing'}`);
+                    console.log(`  - Slides (${this.slidesId}): ${this.slides ? 'Found' : 'Missing'}`);
                     console.log(`  - Controls (${this.controlsSelector}): ${this.controls.length} found`);
                     
                     if (!this.slides) {
@@ -6136,7 +6136,7 @@
                         this.setupMobileSwipe();
                         this.goToSlide(0);
                         
-                        console.log(`  ✅ ${this.containerId} carousel SUCCESSFULLY initialized!`);
+                        console.log(`  ${this.containerId} carousel SUCCESSFULLY initialized!`);
                         return true;
                     } catch (error) {
                         console.error(`  ❌ ${this.containerId} initialization error:`, error);
@@ -7507,26 +7507,26 @@
                     this.slides = document.getElementById(this.slidesId);
                     this.controls = document.querySelectorAll(this.controlsSelector);
                     
-                    console.log(\`  - Slides (\${this.slidesId}): \${this.slides ? '✅ Found' : '❌ Missing'}\`);
+                    console.log(\`  - Slides (\${this.slidesId}): \${this.slides ? 'Found' : 'Missing'}\`);
                     console.log(\`  - Controls (\${this.controlsSelector}): \${this.controls.length} found\`);
                     
                     if (!this.slides) {
-                        console.warn(\`  ❌ Slides container "\${this.slidesId}" not found\`);
+                        console.warn(\`  Slides container "\${this.slidesId}" not found\`);
                         if (attempts < maxAttempts) {
                             setTimeout(tryInit, 500); // RE-ENABLED TO FIX CAROUSEL INIT
                             return;
                         }
-                        console.error(\`❌ FAILED: Carousel \${this.containerId} slides not found after \${maxAttempts} attempts\`);
+                        console.error(\`FAILED: Carousel \${this.containerId} slides not found after \${maxAttempts} attempts\`);
                         return false;
                     }
                     
                     if (this.controls.length === 0) {
-                        console.warn(\`  ❌ Controls "\${this.controlsSelector}" not found\`);
+                        console.warn(\`  Controls "\${this.controlsSelector}" not found\`);
                         if (attempts < maxAttempts) {
                             setTimeout(tryInit, 500); // RE-ENABLED TO FIX CAROUSEL INIT
                             return;
                         }
-                        console.error(\`❌ FAILED: Carousel \${this.containerId} controls not found after \${maxAttempts} attempts\`);
+                        console.error(\`FAILED: Carousel \${this.containerId} controls not found after \${maxAttempts} attempts\`);
                         return false;
                     }
                     
@@ -7535,10 +7535,10 @@
                         this.setupCarousel();
                         this.attachEvents();
                         // this.startAutoAdvance(); // DISABLED TO PREVENT AUTO-SCROLL
-                        console.log(\`  ✅ \${this.containerId} carousel SUCCESSFULLY initialized!\`);
+                        console.log(\`  \${this.containerId} carousel SUCCESSFULLY initialized!\`);
                         return true;
                     } catch (error) {
-                        console.error(\`❌ Error initializing \${this.containerId}:\`, error);
+                        console.error(\`Error initializing \${this.containerId}:\`, error);
                         if (attempts < maxAttempts) {
                             setTimeout(tryInit, 500); // RE-ENABLED TO FIX CAROUSEL INIT
                             return;
@@ -8317,7 +8317,7 @@
     
     // FINAL NUCLEAR CAROUSEL FIX - GUARANTEED TO WORK ALWAYS
     setTimeout(function() {
-        console.log('🚀 FINAL NUCLEAR CAROUSEL FIX - ALWAYS EXECUTES');
+        console.log('FINAL NUCLEAR CAROUSEL FIX - ALWAYS EXECUTES');
         
         const allCarousels = [
             { id: 'storyCarousel', slidesId: 'storySlides', prevBtnId: 'storyPrevBtn', nextBtnId: 'storyNextBtn' },
@@ -8482,7 +8482,7 @@
             console.log('✅ ' + carousel.id + ' SWIPE support added');
         });
         
-        console.log('🚀 FINAL NUCLEAR CAROUSEL FIX COMPLETE - MOBILE OPTIMIZED!');
+        console.log('FINAL NUCLEAR CAROUSEL FIX COMPLETE - MOBILE OPTIMIZED!');
     }, 3000);
     </script>
 
