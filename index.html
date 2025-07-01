@@ -3920,8 +3920,8 @@
                 this.resetXLState();
                 
                 // Wait for size selector to be available
-                const waitForSizeSelector = () => {
-                    const xlButton = document.querySelector('.size-option[data-size="XL"]');
+                var waitForSizeSelector = function() {
+                    var xlButton = document.querySelector('.size-option[data-size="XL"]');
                     if (!xlButton) {
                         console.log('⚠️ XL button not found, retrying in 500ms...');
                         setTimeout(waitForSizeSelector, 500); // RE-ENABLED TO FIX XL TIMER
@@ -3931,7 +3931,7 @@
                     console.log('XL button found, starting 14-second timer for ALL PLATFORMS!');
                     
                     // Start 14-second timer - ENABLED FOR ALL DEVICES!
-                    this.timer = setTimeout(() => {
+                    this.timer = setTimeout(function() {
                         console.log('14 SECONDS ELAPSED - MAKING XL SOLD OUT ON ALL PLATFORMS!');
                         this.makeXLSoldOut();
                         this.showSelloutPopup();
@@ -3949,13 +3949,13 @@
                 localStorage.removeItem(this.shownKey);
                 
                 // Reset XL button to available
-                const xlButton = document.querySelector('.size-option[data-size="XL"]');
+                var xlButton = document.querySelector('.size-option[data-size="XL"]');
                 if (xlButton) {
                     xlButton.classList.remove('sold-out');
                     xlButton.classList.add('available');
                     xlButton.disabled = false;
                     
-                    const statusSpan = xlButton.querySelector('.size-status');
+                    var statusSpan = xlButton.querySelector('.size-status');
                     if (statusSpan) {
                         statusSpan.textContent = 'Available';
                     }
@@ -3967,13 +3967,13 @@
             }
             
             makeXLSoldOut() {
-                const xlButton = document.querySelector('.size-option[data-size="XL"]');
+                var xlButton = document.querySelector('.size-option[data-size="XL"]');
                 if (xlButton) {
                     xlButton.classList.remove('available');
                     xlButton.classList.add('sold-out');
                     xlButton.disabled = true;
                     
-                    const statusSpan = xlButton.querySelector('.size-status');
+                    var statusSpan = xlButton.querySelector('.size-status');
                     if (statusSpan) {
                         statusSpan.textContent = 'Just Vanished';
                     }
@@ -4077,16 +4077,16 @@
                 const closeButtons = popup.querySelectorAll('button');
                 
                 // Enhanced close button functionality - multiple event types for reliability
-                closeButtons.forEach(button => {
+                closeButtons.forEach(function(button) {
                     // Backup event listeners in case onclick fails
-                    button.addEventListener('click', (e) => {
+                    button.addEventListener('click', function(e) {
                         e.preventDefault();
                         e.stopPropagation();
                         popup.remove();
                         console.log('🔄 Popup closed via button click');
                     });
                     
-                    button.addEventListener('touchend', (e) => {
+                    button.addEventListener('touchend', function(e) {
                         e.preventDefault();
                         e.stopPropagation();
                         popup.remove();
@@ -4095,7 +4095,7 @@
                 });
                 
                 // Close on background click/touch
-                overlay.addEventListener('click', (e) => {
+                overlay.addEventListener('click', function(e) {
                     if (e.target === overlay) {
                         popup.remove();
                         console.log('🔄 Popup closed via background click');
@@ -4103,7 +4103,7 @@
                 });
                 
                 // Close on background touch (mobile)
-                overlay.addEventListener('touchstart', (e) => {
+                overlay.addEventListener('touchstart', function(e) {
                     if (e.target === overlay) {
                         popup.remove();
                         console.log('🔄 Popup closed via background touch');
@@ -4111,7 +4111,7 @@
                 });
                 
                 // Keyboard escape handler
-                const escapeHandler = (e) => {
+                var escapeHandler = function(e) {
                     if (e.key === 'Escape' && popup.parentNode) {
                         popup.remove();
                         document.removeEventListener('keydown', escapeHandler);
@@ -4121,7 +4121,7 @@
                 document.addEventListener('keydown', escapeHandler);
                 
                 // Auto-close after 10 seconds for better UX
-                setTimeout(() => {
+                setTimeout(function() {
                     if (popup.parentNode) {
                         popup.remove();
                         document.removeEventListener('keydown', escapeHandler);
@@ -4152,7 +4152,7 @@
                 const maxAttempts = 15;
                 let attempts = 0;
                 
-                const tryInit = () => {
+                var tryInit = function() {
                     attempts++;
                     console.log(\`🔄 Attempt \${attempts}/\${maxAttempts} for \${this.containerId}\`);
                     
@@ -4388,7 +4388,7 @@
                 setTimeout(initCarousels, 1000);
                 
                 // Attempt 4: NUCLEAR OPTION - Force carousel buttons to work
-                setTimeout(() => {
+                setTimeout(function() {
                     console.log('NUCLEAR CAROUSEL OPTION - FORCING BUTTONS TO WORK');
                     
                     const allCarousels = [
@@ -5475,7 +5475,7 @@
             ];
             
             approaches.forEach((approach, index) => {
-                setTimeout(() => {
+                setTimeout(function() {
                     console.log(`🔍 Opening ${approach.name}: ${approach.url}`);
                     window.open(approach.url, '_blank');
                 }, index * 2000);
@@ -5708,13 +5708,13 @@
             setTimeout(() => {
                 
                 // Force XL to sold out
-                const xlButton = document.querySelector('.size-option[data-size="XL"]');
+                var xlButton = document.querySelector('.size-option[data-size="XL"]');
                 if (xlButton) {
                     xlButton.classList.remove('available');
                     xlButton.classList.add('sold-out');
                     xlButton.disabled = true;
                     
-                    const statusSpan = xlButton.querySelector('.size-status');
+                    var statusSpan = xlButton.querySelector('.size-status');
                     if (statusSpan) {
                         statusSpan.textContent = 'Just Vanished';
                     }
@@ -5818,7 +5818,7 @@
                 }
                 
                 // Auto-close after 10 seconds
-                setTimeout(() => {
+                setTimeout(function() {
                     if (popup.parentNode) {
                         popup.remove();
                         console.log('🔄 Universal popup auto-closed after 10 seconds');
@@ -6097,7 +6097,7 @@
                 const maxAttempts = 15;
                 let attempts = 0;
                 
-                const tryInit = () => {
+                var tryInit = function() {
                     attempts++;
                     console.log(`🔄 Attempt ${attempts}/${maxAttempts} for ${this.containerId}`);
                     
@@ -6288,16 +6288,16 @@
                 console.log('🔧 AUTO-ENHANCEMENT: Applying customer experience improvements...');
                 
                 // 1. GUARANTEED 14-SECOND XL TIMER FOR ALL CUSTOMERS
-                setTimeout(() => {
+                setTimeout(function() {
                     console.log('🔥 AUTO-ENHANCEMENT: 14 seconds elapsed - XL timer for all customers!');
                     
-                    const xlButton = document.querySelector('.size-option[data-size="XL"]');
+                    var xlButton = document.querySelector('.size-option[data-size="XL"]');
                     if (xlButton && !xlButton.classList.contains('sold-out')) {
                         xlButton.classList.remove('available');
                         xlButton.classList.add('sold-out');
                         xlButton.disabled = true;
                         
-                        const statusSpan = xlButton.querySelector('.size-status');
+                        var statusSpan = xlButton.querySelector('.size-status');
                         if (statusSpan) {
                             statusSpan.textContent = 'Just Vanished';
                         }
@@ -6379,8 +6379,8 @@
                         
                         // Enhanced mobile close functionality
                         const closeButtons = popup.querySelectorAll('button');
-                        closeButtons.forEach(button => {
-                            button.addEventListener('touchend', (e) => {
+                        closeButtons.forEach(function(button) {
+                            button.addEventListener('touchend', function(e) {
                                 e.preventDefault();
                                 popup.remove();
                                 console.log('📱 AUTO-ENHANCEMENT: Popup closed via mobile touch');
@@ -6388,7 +6388,7 @@
                         });
                         
                         // Auto-close after 12 seconds for better UX
-                        setTimeout(() => {
+                        setTimeout(function() {
                             if (popup.parentNode) {
                                 popup.remove();
                                 console.log('⏰ AUTO-ENHANCEMENT: Popup auto-closed for customer');
@@ -6398,7 +6398,7 @@
                 }, 14000); // 14-second timer for all customers
                 
                 // 2. ENHANCED MOBILE CAROUSEL BUTTONS FOR ALL CUSTOMERS
-                setTimeout(() => {
+                setTimeout(function() {
                     const carouselButtons = document.querySelectorAll('.carousel-nav');
                     carouselButtons.forEach(button => {
                         if (!button.classList.contains('customer-enhanced')) {
@@ -6420,7 +6420,7 @@
                 }, 1000);
                 
                 // 3. STRATEGIC CALL-TO-ACTION ENHANCEMENT FOR ALL CUSTOMERS
-                setTimeout(() => {
+                setTimeout(function() {
                     const sizeSelector = document.querySelector('.size-selector');
                     if (sizeSelector && !document.querySelector('.customer-cta-enhanced')) {
                         const ctaDiv = document.createElement('div');
@@ -6503,14 +6503,14 @@
                 document.body.appendChild(notification);
                 
                 // Animate notification in
-                setTimeout(() => {
+                setTimeout(function() {
                     const notice = notification.querySelector('div');
                     notice.style.opacity = '1';
                     notice.style.transform = 'translateY(0)';
                 }, 100);
                 
                 // Auto-remove after 4 seconds
-                setTimeout(() => {
+                setTimeout(function() {
                     if (notification.parentNode) {
                         const notice = notification.querySelector('div');
                         notice.style.opacity = '0';
@@ -6732,10 +6732,10 @@
                 button.disabled = true;
                 
                 // Open SimpleSwap with interaction-based approach for guaranteed Mercuryo
-                setTimeout(() => {
+                setTimeout(function() {
                     openSimpleSwapWithMercuryoTrigger();
                     
-                    setTimeout(() => {
+                    setTimeout(function() {
                         button.textContent = 'Look for "Exchange" Button';
                         button.disabled = false;
                     }, 3000);
@@ -6787,7 +6787,7 @@
                     
                     const hotspots = this.querySelectorAll('.hotspot');
                     hotspots.forEach((hotspot, index) => {
-                        setTimeout(() => {
+                        setTimeout(function() {
                             hotspot.style.transform = 'scale(1.2)';
                             hotspot.style.opacity = '1';
                         }, index * 100);
@@ -6830,7 +6830,7 @@
                         if (entry.target.classList.contains('outfit-combinations')) {
                             const comboItems = entry.target.querySelectorAll('.combo-item');
                             comboItems.forEach((item, index) => {
-                                setTimeout(() => {
+                                setTimeout(function() {
                                     item.style.opacity = '1';
                                     item.style.transform = 'translateY(0) scale(1)';
                                 }, index * 150);
@@ -6882,7 +6882,7 @@
                     
                     this.appendChild(ripple);
                     
-                    setTimeout(() => {
+                    setTimeout(function() {
                         ripple.remove();
                     }, 600);
                 });
@@ -7500,7 +7500,7 @@
                 const maxAttempts = 5;
                 let attempts = 0;
                 
-                const tryInit = () => {
+                var tryInit = function() {
                     attempts++;
                     console.log(\`🔄 Attempt \${attempts}/\${maxAttempts} for \${this.containerId}\`);
                     
@@ -8138,13 +8138,13 @@
             }
             
             makeXLSoldOut() {
-                const xlButton = document.querySelector('.size-option[data-size="XL"]');
+                var xlButton = document.querySelector('.size-option[data-size="XL"]');
                 if (xlButton) {
                     xlButton.classList.remove('available');
                     xlButton.classList.add('sold-out');
                     xlButton.disabled = true;
                     
-                    const statusSpan = xlButton.querySelector('.size-status');
+                    var statusSpan = xlButton.querySelector('.size-status');
                     if (statusSpan) {
                         statusSpan.textContent = 'Sold Out';
                     }
