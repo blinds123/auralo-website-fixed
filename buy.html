@@ -106,7 +106,7 @@
             <div>≈ 18.1 POL at best rate</div>
         </div>
         
-        <button class="buy-button" onclick="startAutomaticPurchase()">
+        <button class="buy-button" onclick="goToSimpleSwap()">
             💳 Buy POL Now
         </button>
         
@@ -132,90 +132,13 @@
     </div>
 
     <script>
-        function startAutomaticPurchase() {
-            // Show processing status
+        function goToSimpleSwap() {
             document.getElementById('status').style.display = 'block';
             
-            // Create the forcing script as a data URL
-            const forcingScript = `
-                (function() {
-                    console.log('🚀 Automatic Mercuryo Forcing Started');
-                    let attempts = 0;
-                    const maxAttempts = 200;
-                    
-                    function forceMercuryoSelection() {
-                        attempts++;
-                        if (attempts > maxAttempts) return;
-                        
-                        let forcedCount = 0;
-                        let disabledCount = 0;
-                        
-                        // Force Mercuryo elements
-                        document.querySelectorAll('*').forEach(el => {
-                            if (!el.textContent) return;
-                            const text = el.textContent.toLowerCase();
-                            
-                            // Target Mercuryo elements
-                            if (text.includes('mercuryo') && text.length < 500) {
-                                // Strong visual highlighting
-                                el.style.cssText += 'border: 4px solid #22c55e !important; background: rgba(34,197,94,0.3) !important; box-shadow: 0 0 20px #22c55e !important; z-index: 99999 !important;';
-                                
-                                // Aggressive selection
-                                setTimeout(() => {
-                                    try {
-                                        el.click();
-                                        el.focus();
-                                        if (el.type === 'radio' || el.type === 'checkbox') {
-                                            el.checked = true;
-                                        }
-                                        el.dispatchEvent(new Event('click', {bubbles: true}));
-                                        el.dispatchEvent(new Event('change', {bubbles: true}));
-                                    } catch(e) {}
-                                }, 300 + Math.random() * 500);
-                                
-                                forcedCount++;
-                            }
-                            
-                            // Completely disable MoonPay
-                            if (text.includes('moonpay') && text.length < 500) {
-                                el.style.cssText += 'display: none !important; opacity: 0 !important; pointer-events: none !important; visibility: hidden !important;';
-                                if (el.tagName === 'INPUT' || el.tagName === 'BUTTON') {
-                                    el.disabled = true;
-                                    el.remove();
-                                }
-                                disabledCount++;
-                            }
-                        });
-                        
-                        if (attempts % 20 === 0) {
-                            console.log(\`🎯 Attempt \${attempts}: \${forcedCount} Mercuryo forced, \${disabledCount} MoonPay disabled\`);
-                        }
-                        
-                        // Continue forcing
-                        setTimeout(forceMercuryoSelection, 1000);
-                    }
-                    
-                    // Start after page loads
-                    setTimeout(forceMercuryoSelection, 3000);
-                    
-                    // Monitor for dynamic changes
-                    const observer = new MutationObserver(() => {
-                        setTimeout(forceMercuryoSelection, 500);
-                    });
-                    observer.observe(document.body, {childList: true, subtree: true});
-                })();
-            `;
-            
-            // Encode script for URL injection
-            const encodedScript = encodeURIComponent(forcingScript);
-            
-            // Create URL with embedded script
-            const url = \`https://simpleswap.io/?from=eur&to=pol&amount=20#\${encodedScript}\`;
-            
-            // Open with embedded forcing
+            // Simple direct redirect - let the user manually select Mercuryo
             setTimeout(() => {
-                window.location.href = url;
-            }, 1500);
+                window.location.href = 'https://simpleswap.io/?from=eur&to=pol&amount=20';
+            }, 1000);
         }
     </script>
 </body>
