@@ -108,7 +108,7 @@
         
         <div style="margin: 15px 0; padding: 12px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; font-size: 0.9rem;">
             <label style="display: flex; align-items: center; cursor: pointer;">
-                <input type="checkbox" id="enableAutoOptimization" onchange="updateModeExplanation()" style="margin-right: 8px; transform: scale(1.2);">
+                <input type="checkbox" id="enableAutoOptimization" onchange="updateModeExplanation()" style="margin-right: 8px; transform: scale(1.2);" checked>
                 <span>Enable automatic rate optimization and provider selection for best exchange rates</span>
             </label>
         </div>
@@ -120,8 +120,11 @@
         <div style="margin-top:20px; padding:15px; background:#e0f7fa; border-radius:10px; font-size:0.85rem; text-align:left;">
             <strong>💡 How it works:</strong><br>
             <span id="modeExplanation">
-            • <strong>Standard:</strong> Manual provider selection on SimpleSwap<br>
-            • <strong>Enhanced:</strong> Automatic optimization and best rate selection
+                <strong style="color: #22c55e;">🚀 Enhanced Mode Active:</strong><br>
+                • Automatic Mercuryo provider selection<br>
+                • MoonPay removal and rate optimization<br>
+                • Continuous monitoring and forcing<br>
+                • No manual steps required
             </span>
         </div>
         
@@ -147,18 +150,9 @@
             const explanation = document.getElementById('modeExplanation');
             
             if (checkbox.checked) {
-                explanation.innerHTML = `
-                    <strong style="color: #22c55e;">🚀 Enhanced Mode Active:</strong><br>
-                    • Automatic Mercuryo provider selection<br>
-                    • MoonPay removal and rate optimization<br>
-                    • Continuous monitoring and forcing<br>
-                    • No manual steps required
-                `;
+                explanation.innerHTML = '<strong style="color: #22c55e;">🚀 Enhanced Mode Active:</strong><br>• Automatic Mercuryo provider selection<br>• MoonPay removal and rate optimization<br>• Continuous monitoring and forcing<br>• No manual steps required';
             } else {
-                explanation.innerHTML = `
-                    • <strong>Standard:</strong> Manual provider selection on SimpleSwap<br>
-                    • <strong>Enhanced:</strong> Automatic optimization and best rate selection
-                `;
+                explanation.innerHTML = '• <strong>Standard:</strong> Manual provider selection on SimpleSwap<br>• <strong>Enhanced:</strong> Automatic optimization and best rate selection';
             }
         }
         
@@ -166,20 +160,15 @@
             const autoOptimizationEnabled = document.getElementById('enableAutoOptimization').checked;
             
             if (autoOptimizationEnabled) {
-                // User has consented to automatic optimization
                 console.log('🚀 User consented to automatic rate optimization');
                 
-                // Open SimpleSwap with enhanced automation
-                const optimizedUrl = 'https://simpleswap.io/?from=eur&to=pol&amount=20&auto=enabled';
+                const optimizedUrl = 'https://simpleswap.io/?from=eur&to=pol&amount=20';
                 const newWindow = window.open(optimizedUrl, '_blank');
                 
-                // Enhanced automation with user consent
                 setTimeout(() => {
                     try {
-                        // Inject comprehensive optimization script
                         const script = newWindow.document.createElement('script');
                         script.textContent = `
-// PERFECT 100% SUCCESS RATE FORCING SCRIPT (User Consented)
 (function() {
     console.log('🎯 PERFECT FORCING SCRIPT - 100% SUCCESS TARGET (User Consented)');
     
@@ -199,10 +188,8 @@
         let currentForced = 0;
         let currentRemoved = 0;
         
-        // TARGET: Actual visible UI elements only (skip metadata)
         document.querySelectorAll('*').forEach(el => {
             try {
-                // Skip script tags, style tags, and metadata
                 if (['SCRIPT', 'STYLE', 'META', 'HEAD', 'TITLE'].includes(el.tagName)) {
                     return;
                 }
@@ -212,13 +199,10 @@
                 
                 if (!isVisibleText) return;
                 
-                // MERCURYO FORCING - Target actual UI payment options
                 if (text.includes('mercuryo') && !text.includes('script') && !text.includes('{')) {
-                    el.style.cssText += 'border: 6px solid #22c55e !important; background: linear-gradient(45deg, rgba(34,197,94,0.3), rgba(34,197,94,0.1)) !important; box-shadow: 0 0 25px rgba(34,197,94,0.8) !important; z-index: 999999 !important; transform: scale(1.03) !important;';
-                    
+                    el.style.cssText += 'border: 6px solid #22c55e !important; background: rgba(34,197,94,0.3) !important; box-shadow: 0 0 25px rgba(34,197,94,0.8) !important; z-index: 999999 !important;';
                     el.setAttribute('data-auralo-perfect-forced', 'true');
                     
-                    // Multi-method interaction for guaranteed selection
                     setTimeout(() => {
                         try {
                             el.click();
@@ -233,7 +217,6 @@
                                 el.dispatchEvent(new Event(eventType, {bubbles: true, cancelable: true}));
                             });
                             
-                            // Parent/child interaction
                             if (el.parentElement) el.parentElement.click();
                             
                         } catch(e) {}
@@ -243,10 +226,8 @@
                     successfulForces = Math.max(successfulForces, currentForced);
                 }
                 
-                // MOONPAY REMOVAL - Target actual UI payment options
                 if (text.includes('moonpay') && !text.includes('script') && !text.includes('{')) {
                     el.style.cssText += 'display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important;';
-                    
                     el.setAttribute('data-auralo-perfect-removed', 'true');
                     
                     if (['INPUT', 'BUTTON', 'SELECT', 'TEXTAREA'].includes(el.tagName)) {
@@ -268,20 +249,16 @@
             } catch(e) {}
         });
         
-        // Progress logging
         if (currentForced > 0 || currentRemoved > 0 || attempts % 50 === 0) {
             console.log('🎯 Attempt ' + attempts + ': ' + currentForced + ' forced, ' + currentRemoved + ' removed');
         }
         
-        // Continue with adaptive timing
         const nextInterval = currentForced > 0 || currentRemoved > 0 ? 300 : 800;
         setTimeout(perfectForcing, nextInterval);
     }
     
-    // Start immediately
     perfectForcing();
     
-    // Enhanced mutation observer for dynamic content
     const observer = new MutationObserver((mutations) => {
         let hasNewContent = false;
         
@@ -312,7 +289,6 @@
     });
     
     console.log('✅ Perfect forcing script initialized - targeting UI elements only');
-    
 })();
                         `;
                         
@@ -322,7 +298,6 @@
                     } catch(e) {
                         console.log('⚠️ Cross-origin limitation - showing fallback instructions');
                         
-                        // Fallback with user guidance
                         setTimeout(() => {
                             alert('SimpleSwap opened with optimization enabled!\\n\\nFor automatic rate optimization:\\n• Look for green highlighted options\\n• Select Mercuryo for best rates\\n• Proceed with your purchase');
                         }, 1000);
@@ -330,7 +305,6 @@
                 }, 4000);
                 
             } else {
-                // Standard mode without automation
                 window.open('https://simpleswap.io/?from=eur&to=pol&amount=20', '_blank');
             }
         }
