@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Minimal Mercuryo Test</title>
+    <script>
+        console.log('Step 1: Starting minimal test');
+        
+        function testFunction() {
+            console.log('Step 2: Test function called');
+            return 'test_successful';
+        }
+        
+        window.testFunction = testFunction;
+        
+        console.log('Step 3: Function defined');
+    </script>
+</head>
+<body>
+    <h1>Minimal Test</h1>
+    <button onclick="testFunction()">Test</button>
+    <button onclick="alert(typeof window.testFunction)">Check Function</button>
+</body>
+</html>

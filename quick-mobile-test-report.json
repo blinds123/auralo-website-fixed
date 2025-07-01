@@ -1,0 +1,84 @@
+[
+  {
+    "device": "iPhone 13 Safari",
+    "timestamp": "2025-07-01T05:24:10.157Z",
+    "tests": {
+      "buyPageLoad": {
+        "success": true,
+        "message": "Buy page loaded successfully"
+      },
+      "simpleSwapLoad": {
+        "success": true,
+        "message": "SimpleSwap loaded successfully",
+        "url": "https://simpleswap.io/?from=eur&to=pol&amount=50"
+      },
+      "forcingExecution": {
+        "success": false,
+        "message": "Forced 0 Mercuryo elements, disabled 0 MoonPay elements",
+        "forced": 0,
+        "disabled": 0,
+        "totalElements": 2036
+      },
+      "visualVerification": {
+        "success": false,
+        "message": "Visual check: 0 forced, 0 disabled",
+        "forcedCount": 0,
+        "disabledCount": 0,
+        "forcedTexts": [],
+        "disabledTexts": []
+      },
+      "screenshot": {
+        "success": true,
+        "message": "Screenshot saved: ./screenshots/iPhone_13_Safari_quick_test.png",
+        "path": "./screenshots/iPhone_13_Safari_quick_test.png"
+      },
+      "stabilityCheck": {
+        "success": false,
+        "message": "After 5s: 0 forced elements still visible",
+        "forcedStillVisible": 0,
+        "disabledStillVisible": 0
+      }
+    }
+  },
+  {
+    "device": "Android Chrome",
+    "timestamp": "2025-07-01T05:24:56.473Z",
+    "tests": {
+      "buyPageLoad": {
+        "success": true,
+        "message": "Buy page loaded successfully"
+      },
+      "simpleSwapLoad": {
+        "success": true,
+        "message": "SimpleSwap loaded successfully",
+        "url": "https://simpleswap.io/?from=eur&to=pol&amount=50"
+      },
+      "forcingExecution": {
+        "success": false,
+        "message": "Forced 0 Mercuryo elements, disabled 0 MoonPay elements",
+        "forced": 0,
+        "disabled": 0,
+        "totalElements": 1806
+      },
+      "visualVerification": {
+        "success": false,
+        "message": "Visual check: 0 forced, 0 disabled",
+        "forcedCount": 0,
+        "disabledCount": 0,
+        "forcedTexts": [],
+        "disabledTexts": []
+      },
+      "screenshot": {
+        "success": true,
+        "message": "Screenshot saved: ./screenshots/Android_Chrome_quick_test.png",
+        "path": "./screenshots/Android_Chrome_quick_test.png"
+      },
+      "stabilityCheck": {
+        "success": false,
+        "message": "After 5s: 0 forced elements still visible",
+        "forcedStillVisible": 0,
+        "disabledStillVisible": 0
+      }
+    }
+  }
+]

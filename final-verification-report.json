@@ -1,0 +1,48 @@
+[
+  {
+    "device": "Android Chrome",
+    "timestamp": "2025-07-01T05:32:28.571Z",
+    "tests": {
+      "enhancedBuyPage": {
+        "success": true,
+        "message": "Enhanced buy page loaded with forcing script",
+        "hasButton": true,
+        "hasEnhancedScript": true
+      },
+      "buttonFunctionality": {
+        "success": false,
+        "message": "Button click: processing=true, popup=false",
+        "processingVisible": true,
+        "popupCreated": false
+      },
+      "error": {
+        "success": false,
+        "message": "Test failed: page.evaluate: TypeError: (el.className || \"\").toLowerCase is not a function\n    at eval (eval at evaluate (:291:30), <anonymous>:16:68)\n    at NodeList.forEach (<anonymous>)\n    at enhancedForcing (eval at evaluate (:291:30), <anonymous>:13:56)\n    at eval (eval at evaluate (:291:30), <anonymous>:98:21)\n    at new Promise (<anonymous>)\n    at eval (eval at evaluate (:291:30), <anonymous>:2:24)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+        "stack": "page.evaluate: TypeError: (el.className || \"\").toLowerCase is not a function\n    at eval (eval at evaluate (:291:30), <anonymous>:16:68)\n    at NodeList.forEach (<anonymous>)\n    at enhancedForcing (eval at evaluate (:291:30), <anonymous>:13:56)\n    at eval (eval at evaluate (:291:30), <anonymous>:98:21)\n    at new Promise (<anonymous>)\n    at eval (eval at evaluate (:291:30), <anonymous>:2:24)\n    at UtilityScript.evaluate (<anonymous>:293:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at FinalVerificationTest.testDevice (/Users/nelsonchan/auralo-fix/final-verification-test.js:107:48)\n    at async FinalVerificationTest.runTest (/Users/nelsonchan/auralo-fix/final-verification-test.js:15:9)"
+      }
+    }
+  },
+  {
+    "device": "iOS Safari",
+    "timestamp": "2025-07-01T05:32:43.367Z",
+    "tests": {
+      "enhancedBuyPage": {
+        "success": true,
+        "message": "Enhanced buy page loaded with forcing script",
+        "hasButton": true,
+        "hasEnhancedScript": true
+      },
+      "buttonFunctionality": {
+        "success": false,
+        "message": "Button click: processing=true, popup=false",
+        "processingVisible": true,
+        "popupCreated": false
+      },
+      "error": {
+        "success": false,
+        "message": "Test failed: page.evaluate: TypeError: (el.className || '').toLowerCase is not a function. (In '(el.className || '').toLowerCase()', '(el.className || '').toLowerCase' is undefined)",
+        "stack": "page.evaluate: TypeError: (el.className || '').toLowerCase is not a function. (In '(el.className || '').toLowerCase()', '(el.className || '').toLowerCase' is undefined)\n    at FinalVerificationTest.testDevice (/Users/nelsonchan/auralo-fix/final-verification-test.js:107:48)\n    at async FinalVerificationTest.runTest (/Users/nelsonchan/auralo-fix/final-verification-test.js:24:9)"
+      }
+    }
+  }
+]

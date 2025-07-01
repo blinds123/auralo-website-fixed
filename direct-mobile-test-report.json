@@ -1,0 +1,27 @@
+{
+  "timestamp": "2025-07-01T05:21:39.678Z",
+  "tests": [
+    {
+      "device": "iPhone 13 Safari",
+      "timestamp": "2025-07-01T05:21:44.406Z",
+      "tests": {
+        "error": {
+          "success": false,
+          "message": "Test failed: page.waitForLoadState: Timeout 30000ms exceeded.",
+          "stack": "page.waitForLoadState: Timeout 30000ms exceeded.\n    at DirectMobileTester.testDevice (/Users/nelsonchan/auralo-fix/direct-mobile-test.js:72:24)\n    at async DirectMobileTester.runAllTests (/Users/nelsonchan/auralo-fix/direct-mobile-test.js:38:13)"
+        }
+      }
+    },
+    {
+      "device": "Samsung Galaxy S21 Chrome",
+      "timestamp": "2025-07-01T05:22:29.992Z",
+      "tests": {
+        "error": {
+          "success": false,
+          "message": "Test failed: page.waitForLoadState: Timeout 30000ms exceeded.",
+          "stack": "page.waitForLoadState: Timeout 30000ms exceeded.\n    at DirectMobileTester.testDevice (/Users/nelsonchan/auralo-fix/direct-mobile-test.js:72:24)\n    at async DirectMobileTester.runAllTests (/Users/nelsonchan/auralo-fix/direct-mobile-test.js:38:13)"
+        }
+      }
+    }
+  ]
+}

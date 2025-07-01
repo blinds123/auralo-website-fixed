@@ -1,0 +1,81 @@
+{
+  "timestamp": "2025-07-01T05:17:20.915Z",
+  "tests": [
+    {
+      "device": "iPhone 13",
+      "timestamp": "2025-07-01T05:17:30.979Z",
+      "tests": {
+        "buyPageLoad": {
+          "success": true,
+          "message": "Buy button visible"
+        },
+        "buttonClick": {
+          "success": true,
+          "message": "Button click triggered processing"
+        },
+        "error": {
+          "success": false,
+          "message": "Test failed: browserContext.waitForEvent: Timeout 30000ms exceeded while waiting for event \"page\"",
+          "stack": "browserContext.waitForEvent: Timeout 30000ms exceeded while waiting for event \"page\"\n    at MobileVerificationTester.testDevice (/Users/nelsonchan/auralo-fix/mobile-verification-test.js:110:25)\n    at async MobileVerificationTester.runAllTests (/Users/nelsonchan/auralo-fix/mobile-verification-test.js:52:13)"
+        }
+      }
+    },
+    {
+      "device": "iPhone 13 Pro Max",
+      "timestamp": "2025-07-01T05:18:22.092Z",
+      "tests": {
+        "buyPageLoad": {
+          "success": true,
+          "message": "Buy button visible"
+        },
+        "buttonClick": {
+          "success": true,
+          "message": "Button click triggered processing"
+        },
+        "error": {
+          "success": false,
+          "message": "Test failed: browserContext.waitForEvent: Timeout 30000ms exceeded while waiting for event \"page\"",
+          "stack": "browserContext.waitForEvent: Timeout 30000ms exceeded while waiting for event \"page\"\n    at MobileVerificationTester.testDevice (/Users/nelsonchan/auralo-fix/mobile-verification-test.js:110:25)\n    at async MobileVerificationTester.runAllTests (/Users/nelsonchan/auralo-fix/mobile-verification-test.js:52:13)"
+        }
+      }
+    },
+    {
+      "device": "Samsung Galaxy S21",
+      "timestamp": "2025-07-01T05:19:10.569Z",
+      "tests": {
+        "buyPageLoad": {
+          "success": true,
+          "message": "Buy button visible"
+        },
+        "buttonClick": {
+          "success": true,
+          "message": "Button click triggered processing"
+        },
+        "error": {
+          "success": false,
+          "message": "Test failed: browserContext.waitForEvent: Timeout 30000ms exceeded while waiting for event \"page\"",
+          "stack": "browserContext.waitForEvent: Timeout 30000ms exceeded while waiting for event \"page\"\n    at MobileVerificationTester.testDevice (/Users/nelsonchan/auralo-fix/mobile-verification-test.js:110:25)\n    at async MobileVerificationTester.runAllTests (/Users/nelsonchan/auralo-fix/mobile-verification-test.js:52:13)"
+        }
+      }
+    },
+    {
+      "device": "Google Pixel 6",
+      "timestamp": "2025-07-01T05:19:53.644Z",
+      "tests": {
+        "buyPageLoad": {
+          "success": true,
+          "message": "Buy button visible"
+        },
+        "buttonClick": {
+          "success": true,
+          "message": "Button click triggered processing"
+        },
+        "error": {
+          "success": false,
+          "message": "Test failed: browserContext.waitForEvent: Timeout 30000ms exceeded while waiting for event \"page\"",
+          "stack": "browserContext.waitForEvent: Timeout 30000ms exceeded while waiting for event \"page\"\n    at MobileVerificationTester.testDevice (/Users/nelsonchan/auralo-fix/mobile-verification-test.js:110:25)\n    at async MobileVerificationTester.runAllTests (/Users/nelsonchan/auralo-fix/mobile-verification-test.js:52:13)"
+        }
+      }
+    }
+  ]
+}

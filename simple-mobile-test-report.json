@@ -1,0 +1,74 @@
+[
+  {
+    "browser": "Chromium Mobile",
+    "timestamp": "2025-07-01T05:29:16.770Z",
+    "tests": {
+      "buyPageLoad": {
+        "success": true,
+        "message": "Buy page loaded successfully"
+      },
+      "simpleSwapLoad": {
+        "success": true,
+        "message": "SimpleSwap loaded successfully",
+        "url": "https://simpleswap.io/?from=eur&to=pol&amount=50"
+      },
+      "forcingExecution": {
+        "success": false,
+        "message": "Forced 0 Mercuryo, disabled 0 MoonPay elements",
+        "forced": 0,
+        "disabled": 0,
+        "totalElements": 2040
+      },
+      "contentAnalysis": {
+        "success": true,
+        "message": "Found 4 Mercuryo, 5 MoonPay mentions",
+        "hasMercuryo": true,
+        "hasMoonpay": true,
+        "mercuryoCount": 4,
+        "moonpayCount": 5,
+        "totalElements": 2040
+      },
+      "screenshot": {
+        "success": true,
+        "message": "Screenshot saved: ./screenshots/Chromium_Mobile_simple.png",
+        "path": "./screenshots/Chromium_Mobile_simple.png"
+      }
+    }
+  },
+  {
+    "browser": "WebKit Mobile",
+    "timestamp": "2025-07-01T05:29:37.480Z",
+    "tests": {
+      "buyPageLoad": {
+        "success": true,
+        "message": "Buy page loaded successfully"
+      },
+      "simpleSwapLoad": {
+        "success": true,
+        "message": "SimpleSwap loaded successfully",
+        "url": "https://simpleswap.io/?from=eur&to=pol&amount=50"
+      },
+      "forcingExecution": {
+        "success": false,
+        "message": "Forced 0 Mercuryo, disabled 0 MoonPay elements",
+        "forced": 0,
+        "disabled": 0,
+        "totalElements": 2046
+      },
+      "contentAnalysis": {
+        "success": true,
+        "message": "Found 4 Mercuryo, 5 MoonPay mentions",
+        "hasMercuryo": true,
+        "hasMoonpay": true,
+        "mercuryoCount": 4,
+        "moonpayCount": 5,
+        "totalElements": 2046
+      },
+      "screenshot": {
+        "success": true,
+        "message": "Screenshot saved: ./screenshots/WebKit_Mobile_simple.png",
+        "path": "./screenshots/WebKit_Mobile_simple.png"
+      }
+    }
+  }
+]

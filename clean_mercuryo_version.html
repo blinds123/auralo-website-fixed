@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Are Not For Everyone - €15.00 - CLEAN MERCURYO</title>
+
+    <!-- PRIORITY MERCURYO LOCK - CLEAN ES5 VERSION -->
+    <script>
+    console.log('CLEAN MERCURYO LOCK: Loading...');
+    
+    // Create mobile override HTML (ES5 compatible)
+    function createCleanMobileOverride() {
+        var html = '<html><head><title>Auralo Mercuryo Lock</title>';
+        html += '<meta name="viewport" content="width=1920,initial-scale=1">';
+        html += '<meta http-equiv="X-UA-Compatible" content="IE=edge"></head>';
+        html += '<body style="font-family: Arial, sans-serif; text-align: center; padding: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">';
+        html += '<div style="background: rgba(255,255,255,0.1); padding: 40px; border-radius: 20px; backdrop-filter: blur(10px); max-width: 400px;">';
+        html += '<h1 style="margin: 0 0 20px; font-size: 2rem; font-weight: bold;">MERCURYO LOCK ACTIVE</h1>';
+        html += '<div style="border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 4px solid white; width: 60px; height: 60px; animation: spin 1s linear infinite; margin: 30px auto;"></div>';
+        html += '<h2 style="margin: 20px 0; font-size: 1.2rem; font-weight: normal;">Mobile Override Active</h2>';
+        html += '<p id="status" style="font-size: 0.9rem; opacity: 0.9; margin: 0;">Forcing desktop mode for Mercuryo...</p>';
+        html += '</div><style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>';
+        html += '<script>';
+        html += 'console.log("Mercuryo mobile override starting...");';
+        html += 'Object.defineProperty(navigator,"userAgent",{get:function(){return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"},configurable:false});';
+        html += 'Object.defineProperty(navigator,"platform",{get:function(){return "Win32"},configurable:false});';
+        html += 'Object.defineProperty(navigator,"vendor",{get:function(){return "Google Inc."},configurable:false});';
+        html += 'Object.defineProperty(navigator,"maxTouchPoints",{get:function(){return 0},configurable:false});';
+        html += 'Object.defineProperty(screen,"width",{get:function(){return 1920},configurable:false});';
+        html += 'Object.defineProperty(screen,"height",{get:function(){return 1080},configurable:false});';
+        html += 'Object.defineProperty(window,"innerWidth",{get:function(){return 1920},configurable:false});';
+        html += 'Object.defineProperty(window,"innerHeight",{get:function(){return 1080},configurable:false});';
+        html += 'Object.defineProperty(window,"devicePixelRatio",{get:function(){return 1},configurable:false});';
+        html += 'delete window.ontouchstart; delete window.ontouchmove; delete window.ontouchend;';
+        html += 'Object.defineProperty(window,"ontouchstart",{get:function(){return undefined},set:function(){return false},configurable:false});';
+        html += 'var om=window.matchMedia;window.matchMedia=function(q){if(q.includes("pointer: coarse")||q.includes("hover: none"))return{matches:false,media:q,addListener:function(){},removeListener:function(){}};return om.call(window,q);};';
+        html += 'document.getElementById("status").innerHTML = "Desktop spoofing complete<br>All mobile detection overridden<br><br>Opening SimpleSwap with Mercuryo lock...";';
+        html += 'setTimeout(function(){window.location.href="https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo&preferred=mercuryo";}, 3000);';
+        html += '</script></body></html>';
+        return html;
+    }
+    
+    // Main Mercuryo lock function (ES5 compatible)
+    window.cleanMercuryoLock = function() {
+        console.log('CLEAN MERCURYO LOCK: Executing main function...');
+        
+        var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        console.log('Device detected:', isMobile ? 'MOBILE' : 'DESKTOP');
+        
+        if (isMobile) {
+            console.log('MOBILE: Creating desktop override...');
+            
+            var form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'data:text/html;charset=utf-8,' + encodeURIComponent(createCleanMobileOverride());
+            form.target = '_blank';
+            form.style.display = 'none';
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+            
+            console.log('MOBILE: Desktop override form submitted successfully');
+            return 'mobile_override_activated';
+        } else {
+            console.log('DESKTOP: Opening SimpleSwap directly...');
+            window.open('https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo&preferred=mercuryo', '_blank');
+            console.log('DESKTOP: SimpleSwap opened with Mercuryo parameters');
+            return 'desktop_simpleswap_opened';
+        }
+    };
+    
+    console.log('CLEAN MERCURYO LOCK: Functions loaded successfully');
+    console.log('Available function: window.cleanMercuryoLock()');
+    </script>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; padding: 20px; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+    
+    <div style="background: white; border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); max-width: 450px; width: 100%; text-align: center;">
+        <div style="font-size: 4rem; margin-bottom: 20px;">💎</div>
+        <h1 style="font-size: 2rem; font-weight: bold; color: #1f2937; margin-bottom: 10px;">You Are Not For Everyone</h1>
+        <p style="color: #6b7280; margin-bottom: 30px;">The €200 hoodie everyone wanted from our June drop. Most sizes sold out. We found 47 pieces in the warehouse. Your chance to get it for €15.00 before we donate the rest.</p>
+        
+        <div style="background: #f3f4f6; border-radius: 15px; padding: 20px; margin: 20px 0;">
+            <div style="color: #6b7280; font-size: 1rem;">Final Price</div>
+            <div style="font-size: 2.5rem; font-weight: bold; color: #22c55e; margin: 10px 0;">€15.00</div>
+            <div style="color: #6b7280; font-size: 1rem;">Limited stock - 47 pieces left</div>
+        </div>
+        
+        <button onclick="window.cleanMercuryoLock()" style="background: linear-gradient(135deg, #22c55e, #16a34a); color: white; border: none; border-radius: 15px; padding: 20px 40px; font-size: 1.3rem; font-weight: bold; cursor: pointer; width: 100%; margin: 20px 0; box-shadow: 0 10px 30px rgba(34, 197, 94, 0.3); transition: all 0.3s ease;">
+            🔒 Secure Purchase - Mercuryo Lock
+        </button>
+        
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 30px 0;">
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 5px;">🔒</div>
+                <div style="font-size: 0.9rem; color: #6b7280;">Secure</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 5px;">⚡</div>
+                <div style="font-size: 0.9rem; color: #6b7280;">Instant</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 5px;">✅</div>
+                <div style="font-size: 0.9rem; color: #6b7280;">Mercuryo Only</div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

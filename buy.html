@@ -106,9 +106,17 @@
             <div>≈ 18.1 POL at best rate</div>
         </div>
         
-        <a href="https://simpleswap.io/?from=eur&to=pol&amount=20" class="buy-button">
+        <a href="https://simpleswap.io/?from=eur&to=pol&amount=20&auralo=force" class="buy-button" onclick="copyForceScript()">
             💳 Buy POL Now
         </a>
+        
+        <div id="instructions" style="display:none; margin-top:20px; padding:15px; background:#fef3c7; border-radius:10px; font-size:0.9rem;">
+            <strong>📋 Instructions:</strong><br>
+            1. Click the button above to go to SimpleSwap<br>
+            2. Once there, press F12 to open Developer Tools<br>
+            3. Go to Console tab and paste the copied script<br>
+            4. Press Enter - Mercuryo will be automatically selected!
+        </div>
         
         <div class="features">
             <div class="feature">
@@ -125,5 +133,20 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function copyForceScript() {
+            const script = `(function(){const u=new URLSearchParams(window.location.search);if(!u.get('auralo'))return;console.log('🚀 Auralo Auto-Force');let a=0;const m=150;function f(){a++;if(a>m)return;let c=0,d=0;try{document.querySelectorAll('*').forEach(el=>{if(!el||!el.textContent)return;const t=el.textContent.toLowerCase();if(t.includes('mercuryo')&&t.length<800){el.style.cssText+='border:3px solid #22c55e!important;background:rgba(34,197,94,0.15)!important;box-shadow:0 0 15px rgba(34,197,94,0.5)!important;';setTimeout(()=>{try{el.click();el.focus();if(el.type==='radio'||el.type==='checkbox'){el.checked=true;el.dispatchEvent(new Event('change',{bubbles:true}));}}catch(e){}},200+Math.random()*300);c++;}if(t.includes('moonpay')&&t.length<800){el.style.cssText+='opacity:0.2!important;pointer-events:none!important;filter:grayscale(100%)!important;';if(el.tagName==='INPUT'||el.tagName==='BUTTON'){el.disabled=true;}d++;}});if(a%10===0)console.log('🎯 Progress:',c,'forced,',d,'disabled');}catch(e){console.log('⚠️ Error:',e.message);}setTimeout(f,800);}setTimeout(()=>{console.log('🎯 Starting...');f();},2000);const o=new MutationObserver(()=>{setTimeout(f,400);});o.observe(document.body,{childList:true,subtree:true});})();`;
+            
+            navigator.clipboard.writeText(script).then(() => {
+                document.getElementById('instructions').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('instructions').style.display = 'none';
+                }, 10000);
+            });
+            
+            return true;
+        }
+    </script>
 </body>
 </html>
