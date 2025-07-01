@@ -162,7 +162,7 @@
             <div class="rate">≈ 45.2 POL at guaranteed best rate</div>
         </div>
         
-        <button class="buy-button" onclick="buyPOL()" id="buyBtn">
+        <button class="buy-button" onclick="window.location.href='https://simpleswap.io/?from=eur&to=pol&amount=50'" id="buyBtn">
             💳 Buy POL Now
         </button>
         
@@ -186,16 +186,5 @@
         </div>
     </div>
 
-    <script>
-        function buyPOL() {
-            document.getElementById('buyBtn').disabled = true;
-            document.getElementById('buyBtn').innerHTML = '🔄 Processing...';
-            document.getElementById('processing').style.display = 'block';
-            
-            setTimeout(() => {
-                window.location.href = 'https://simpleswap.io/?from=eur&to=pol&amount=50';
-            }, 1000);
-        }
-    </script>
 </body>
 </html>
