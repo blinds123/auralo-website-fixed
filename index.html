@@ -4204,7 +4204,7 @@
             
             setupCarousel() {
                 // Set up initial slide positions
-                this.controls.forEach((slide, index) => {
+                this.controls.forEach(function(slide, index) {
                     slide.style.opacity = index === 0 ? '1' : '0';
                     slide.style.transform = \`translateX(\${index * 100}%)\`;
                     slide.style.transition = 'all 0.5s ease';
@@ -4216,12 +4216,12 @@
                 const prevButton = document.querySelector(\`#\${this.containerId} .carousel-nav-left\`);
                 const nextButton = document.querySelector(\`#\${this.containerId} .carousel-nav-right\`);
                 
-                if (prevButton) prevButton.onclick = () => this.prev();
-                if (nextButton) nextButton.onclick = () => this.next();
+                if (prevButton) prevButton.onclick = function() { this.prev(); }.bind(this);
+                if (nextButton) nextButton.onclick = function() { this.next(); }.bind(this);
             }
             
             updateSlides() {
-                this.controls.forEach((slide, index) => {
+                this.controls.forEach(function(slide, index) {
                     slide.style.opacity = index === this.currentIndex ? '1' : '0';
                     slide.style.transform = \`translateX(\${(index - this.currentIndex) * 100}%)\`;
                 });
@@ -4243,7 +4243,7 @@
                 // AUTO-ADVANCE DISABLED TO STOP WEBSITE MOVEMENT
                 /*
                 if (this.autoAdvanceTime > 0) {
-                    this.autoAdvanceInterval = setInterval(() => {
+                    this.autoAdvanceInterval = setInterval(function() {
                         this.next();
                     }, this.autoAdvanceTime);
                 }
@@ -4263,14 +4263,14 @@
         window.UniversalCarousel = UniversalCarousel;
         
         // IMMEDIATE INITIALIZATION
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function() {
             // Initialize XL Timer
             console.log('INITIALIZING XL TIMER NOW');
             // XL Timer initialized globally below
             
             // Initialize Carousels
             console.log('🎠 INITIALIZING CAROUSELS NOW');
-            setTimeout(() => {
+            setTimeout(function() {
                 // Enable carousels on mobile with manual navigation only
                 if (isMobile) {
                     console.log('Mobile detected - enabling manual carousel navigation');
@@ -4286,7 +4286,7 @@
                         { container: 'trustpilotCarousel', slides: 'trustpilotSlides' }
                     ];
                     
-                    carouselConfigs.forEach(config => {
+                    carouselConfigs.forEach(function(config) {
                         const container = document.getElementById(config.container);
                         const slidesContainer = document.getElementById(config.slides);
                         
@@ -4397,7 +4397,7 @@
                         { id: 'trustpilotCarousel', slidesId: 'trustpilotSlides' }
                     ];
                     
-                    allCarousels.forEach((carousel, carouselIndex) => {
+                    allCarousels.forEach(function(carousel, carouselIndex) {
                         const container = document.getElementById(carousel.id);
                         const slidesContainer = document.getElementById(carousel.slidesId);
                         
@@ -4479,8 +4479,8 @@
             const lazyImages = document.querySelectorAll('img[data-src]');
             
             if ('IntersectionObserver' in window) {
-                const imageObserver = new IntersectionObserver((entries, observer) => {
-                    entries.forEach(entry => {
+                var imageObserver = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(function(entry) {
                         if (entry.isIntersecting) {
                             const img = entry.target;
                             img.src = img.dataset.src;
@@ -4492,10 +4492,10 @@
                     rootMargin: '50px 0px'
                 });
                 
-                lazyImages.forEach(img => imageObserver.observe(img));
+                lazyImages.forEach(function(img) { imageObserver.observe(img); });
             } else {
                 // Fallback for older browsers
-                lazyImages.forEach(img => {
+                lazyImages.forEach(function(img) {
                     img.src = img.dataset.src;
                     img.removeAttribute('data-src');
                 });
@@ -4555,7 +4555,7 @@
                 document.body.removeChild(textArea);
             }
             
-            setTimeout(() => feedback.remove(), 2000);
+            setTimeout(function() { feedback.remove(); }, 2000);
         };
         
         // Set up listeners when DOM is ready
@@ -4569,7 +4569,7 @@
         
         function setupAutoCopy() {
             const buttons = document.querySelectorAll('.buy-now-button, .simpleswap-link-button');
-            buttons.forEach(button => {
+            buttons.forEach(function(button) {
                 button.addEventListener('click', function() {
                     window.copyWalletAddress();
                 });
@@ -5474,7 +5474,7 @@
                 { name: 'USD-Original', url: 'https://simpleswap.io/?from=usd&to=pol&amount=19.50&partner=auralo' }
             ];
             
-            approaches.forEach((approach, index) => {
+            approaches.forEach(function(approach, index) {
                 setTimeout(function() {
                     console.log(`🔍 Opening ${approach.name}: ${approach.url}`);
                     window.open(approach.url, '_blank');
@@ -5509,28 +5509,28 @@
             
             // Test 1: EUR Approach
             console.log('\n📝 TEST 1: EUR Currency Approach');
-            setTimeout(() => {
+            setTimeout(function() {
                 console.log('🧪 Opening EUR → POL (€18)...');
                 window.open('https://simpleswap.io/?from=eur&to=pol&amount=18&partner=auralo', '_blank');
             }, 1000);
             
             // Test 2: USD Approach (for comparison)
             console.log('\n📝 TEST 2: USD Currency Approach (Current)');
-            setTimeout(() => {
+            setTimeout(function() {
                 console.log('🧪 Opening USD → POL (€15.00)...');
                 window.open('https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo', '_blank');
             }, 3000);
             
             // Test 3: Desktop Spoofing
             console.log('\n📝 TEST 3: Desktop User Agent Spoofing');
-            setTimeout(() => {
+            setTimeout(function() {
                 console.log('🧪 Opening with desktop spoofing...');
                 window.forceDesktopModeForMercuryo();
             }, 5000);
             
             // Test 4: GBP Alternative
             console.log('\n📝 TEST 4: GBP Alternative Currency');
-            setTimeout(() => {
+            setTimeout(function() {
                 console.log('🧪 Opening GBP → POL (£15)...');
                 window.open('https://simpleswap.io/?from=gbp&to=pol&amount=15&partner=auralo', '_blank');
             }, 7000);
@@ -5705,7 +5705,7 @@
             
             // 14 second timer - no debug output
             
-            setTimeout(() => {
+            setTimeout(function() {
                 
                 // Force XL to sold out
                 var xlButton = document.querySelector('.size-option[data-size="XL"]');
@@ -6053,7 +6053,7 @@
         }
         
         // Trigger 4: Fallback after 2 seconds
-        setTimeout(() => {
+        setTimeout(function() {
             if (!window.xlTimer) {
                 console.log('🚑 Emergency XL Timer initialization...');
                 initializeXLTimer();
@@ -6174,7 +6174,7 @@
             }
             
             setupControls() {
-                this.controls.forEach((control, index) => {
+                this.controls.forEach(function(control, index) {
                     // Remove existing listeners
                     control.replaceWith(control.cloneNode(true));
                 });
@@ -6182,8 +6182,8 @@
                 // Re-query after cloning
                 this.controls = document.querySelectorAll(this.controlsSelector);
                 
-                this.controls.forEach((control, index) => {
-                    control.addEventListener('click', () => {
+                this.controls.forEach(function(control, index) {
+                    control.addEventListener('click', function() {
                         this.goToSlide(index);
                         console.log(`🎯 ${this.containerId} control clicked: ${index}`);
                     });
@@ -6197,7 +6197,7 @@
                     clearInterval(this.autoAdvanceInterval);
                 }
                 
-                this.autoAdvanceInterval = setInterval(() => {
+                this.autoAdvanceInterval = setInterval(function() {
                     this.next();
                 }, this.autoAdvanceTime);
                 
@@ -6643,7 +6643,7 @@
             `;
             document.body.appendChild(feedback);
             
-            setTimeout(() => {
+            setTimeout(function() {
                 if (feedback.parentNode) {
                     feedback.remove();
                 }
@@ -6654,7 +6654,7 @@
         window.addEventListener('load', function() {
             console.log('🚨 Emergency button fix loading...');
             
-            setTimeout(() => {
+            setTimeout(function() {
                 // Fix size selectors
                 const sizeButtons = document.querySelectorAll('.size-option');
                 console.log('Found size buttons:', sizeButtons.length);
@@ -6919,7 +6919,7 @@
             startViewerCount();
             
             // Auto-close after 12 seconds (Iman would want more time for impact)
-            setTimeout(() => {
+            setTimeout(function() {
                 if (popup.classList.contains('show')) {
                     closeImanPopup();
                 }
@@ -7447,7 +7447,7 @@
         function runFullDiagnostic() {
             console.log('\n🚀 RUNNING FULL DIAGNOSTIC...\n');
             
-            setTimeout(() => {
+            setTimeout(function() {
                 checkCarouselElements();
                 testCarouselFunctionality();
                 testNavigationButtons();
@@ -7552,7 +7552,7 @@
             
             setupCarousel() {
                 // Set up initial slide positions
-                this.controls.forEach((slide, index) => {
+                this.controls.forEach(function(slide, index) {
                     slide.style.opacity = index === 0 ? '1' : '0';
                     slide.style.transform = \`translateX(\${index * 100}%)\`;
                     slide.style.transition = 'all 0.5s ease';
@@ -7564,12 +7564,12 @@
                 const prevButton = document.querySelector(\`#\${this.containerId} .carousel-nav-left\`);
                 const nextButton = document.querySelector(\`#\${this.containerId} .carousel-nav-right\`);
                 
-                if (prevButton) prevButton.onclick = () => this.prev();
-                if (nextButton) nextButton.onclick = () => this.next();
+                if (prevButton) prevButton.onclick = function() { this.prev(); }.bind(this);
+                if (nextButton) nextButton.onclick = function() { this.next(); }.bind(this);
             }
             
             updateSlides() {
-                this.controls.forEach((slide, index) => {
+                this.controls.forEach(function(slide, index) {
                     slide.style.opacity = index === this.currentIndex ? '1' : '0';
                     slide.style.transform = \`translateX(\${(index - this.currentIndex) * 100}%)\`;
                 });
@@ -7591,7 +7591,7 @@
                 // AUTO-ADVANCE DISABLED TO STOP WEBSITE MOVEMENT
                 /*
                 if (this.autoAdvanceTime > 0) {
-                    this.autoAdvanceInterval = setInterval(() => {
+                    this.autoAdvanceInterval = setInterval(function() {
                         this.next();
                     }, this.autoAdvanceTime);
                 }
@@ -7617,7 +7617,7 @@
         
         // Initialize Carousels
         console.log('🎠 FERRARI INITIALIZATION: Starting Carousels...');
-        setTimeout(() => {
+        setTimeout(function() {
             // DUPLICATE CAROUSEL INITIALIZATION DISABLED TO PREVENT AUTO-SCROLL
             /*
             window.storyCarousel = new UniversalCarousel(
@@ -7744,7 +7744,7 @@
         // Initialize working carousels
         // THIRD CAROUSEL INITIALIZATION DISABLED TO PREVENT AUTO-SCROLL
         /*
-        setTimeout(() => {
+        setTimeout(function() {
             console.log('🎠 Creating working carousels...');
             
             window.storyCarousel = createWorkingCarousel('storyCarousel', '#storySlides .story-slide');
@@ -7757,7 +7757,7 @@
             startCountdownTimer();
             
             // Test carousel functionality
-            setTimeout(() => {
+            setTimeout(function() {
                 if (window.storyCarousel && window.storyCarousel.next) {
                     console.log('✅ Story carousel test: next()');
                     window.storyCarousel.next();
@@ -7776,7 +7776,7 @@
         // 13-SECOND XL TIMER WITH OVERLAY POPUP
         console.log('⏰ Starting 13-second XL timer...');
         
-        setTimeout(() => {
+        setTimeout(function() {
             console.log('🚨 13 SECONDS ELAPSED - TRIGGERING XL SOLD OUT!');
             
             // Change XL button to sold out
@@ -7876,7 +7876,7 @@
             console.log('🚨 OVERLAY POPUP DISPLAYED - VISIBLE ANYWHERE ON PAGE!');
             
             // Auto-remove popup after 10 seconds if user doesn't close it
-            setTimeout(() => {
+            setTimeout(function() {
                 const existingPopup = document.getElementById('xl-soldout-overlay');
                 if (existingPopup) {
                     existingPopup.remove();
@@ -8295,7 +8295,7 @@
             console.log('✅ XL sold out timer initialized');
             
             // Remove any blue icons
-            setTimeout(() => {
+            setTimeout(function() {
                 removeLifestyleIcons();
                 console.log('✅ Blue icons removed');
             }, 500);
