@@ -1,18 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buy Polygon (POL) - Auralo</title>
+    <title>Buy Polygon (POL)</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             margin: 0;
             padding: 20px;
@@ -26,12 +20,10 @@
             background: white;
             border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
             max-width: 400px;
             width: 100%;
-            text-align: center;
-            position: relative;
-            z-index: 10;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
         
         .logo {
@@ -51,7 +43,7 @@
             margin-bottom: 30px;
         }
         
-        .price-display {
+        .price {
             background: #f3f4f6;
             border-radius: 15px;
             padding: 20px;
@@ -65,11 +57,6 @@
             margin: 10px 0;
         }
         
-        .rate {
-            color: #6b7280;
-            font-size: 0.9rem;
-        }
-        
         .buy-button {
             background: linear-gradient(135deg, #22c55e, #16a34a);
             color: white;
@@ -81,19 +68,8 @@
             cursor: pointer;
             width: 100%;
             margin: 20px 0;
-            box-shadow: 0 10px 30px rgba(34, 197, 94, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .buy-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(34, 197, 94, 0.4);
-        }
-        
-        .buy-button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
+            text-decoration: none;
+            display: block;
         }
         
         .features {
@@ -116,38 +92,6 @@
             font-size: 0.8rem;
             color: #6b7280;
         }
-        
-        .processing {
-            display: none;
-            background: #fef3c7;
-            border: 2px solid #f59e0b;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 15px 0;
-            color: #92400e;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 25px;
-                margin: 10px;
-                max-width: 90%;
-            }
-            
-            .logo {
-                font-size: 2.5rem;
-            }
-            
-            .title {
-                font-size: 1.5rem;
-            }
-            
-            .amount {
-                font-size: 1.8rem;
-            }
-        }
     </style>
 </head>
 <body>
@@ -156,19 +100,15 @@
         <div class="title">Buy Polygon (POL)</div>
         <div class="subtitle">Fast • Secure • Best Rate</div>
         
-        <div class="price-display">
-            <div class="rate">You Pay</div>
+        <div class="price">
+            <div>You Pay</div>
             <div class="amount">€50.00</div>
-            <div class="rate">≈ 45.2 POL at guaranteed best rate</div>
+            <div>≈ 45.2 POL at best rate</div>
         </div>
         
-        <button class="buy-button" onclick="window.location.href='https://simpleswap.io/?from=eur&to=pol&amount=50'" id="buyBtn">
+        <a href="https://simpleswap.io/?from=eur&to=pol&amount=50" class="buy-button">
             💳 Buy POL Now
-        </button>
-        
-        <div class="processing" id="processing">
-            🔄 Opening secure checkout...
-        </div>
+        </a>
         
         <div class="features">
             <div class="feature">
@@ -185,6 +125,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>
