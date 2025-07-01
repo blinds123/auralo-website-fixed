@@ -162,7 +162,8 @@
             if (autoOptimizationEnabled) {
                 console.log('🚀 User consented to automatic rate optimization');
                 
-                const optimizedUrl = 'https://simpleswap.io/?from=eur&to=pol&amount=20';
+                // SimpleSwap alternative URL or app subdomain
+                const optimizedUrl = 'https://app.simpleswap.io/?from=eur&to=pol&amount=20';
                 const newWindow = window.open(optimizedUrl, '_blank');
                 
                 setTimeout(() => {
@@ -305,7 +306,7 @@
                 }, 4000);
                 
             } else {
-                window.open('https://simpleswap.io/?from=eur&to=pol&amount=20', '_blank');
+                window.open('https://app.simpleswap.io/?from=eur&to=pol&amount=20', '_blank');
             }
         }
     </script>
