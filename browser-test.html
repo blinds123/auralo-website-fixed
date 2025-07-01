@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Compatibility Test - Auralo</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .test-section {
+            background: #f3f4f6;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .test-button {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+        }
+        
+        .result {
+            background: #ecfdf5;
+            border: 2px solid #22c55e;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            color: #15803d;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .browser-info {
+            background: #e0f2fe;
+            border: 2px solid #0284c7;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            color: #075985;
+        }
+        
+        .feature-test {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .feature-test:last-child {
+            border-bottom: none;
+        }
+        
+        .status {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .status.pass {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .status.fail {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        
+        .main-buy-link {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 18px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .main-buy-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">🧪 Browser Compatibility Test</div>
+        
+        <div class="browser-info" id="browserInfo">
+            <strong>Browser Detection:</strong> <span id="browserDetails"></span>
+        </div>
+        
+        <div class="test-section">
+            <h3>Core Features Test</h3>
+            <div id="featureTests"></div>
+            <button class="test-button" onclick="runFeatureTests()">Run Feature Tests</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>JavaScript Execution Test</h3>
+            <button class="test-button" onclick="testJavaScript()">Test JavaScript</button>
+            <div class="result" id="jsResult"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>DOM Manipulation Test</h3>
+            <button class="test-button" onclick="testDOMManipulation()">Test DOM</button>
+            <div class="result" id="domResult"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Event Handling Test</h3>
+            <button class="test-button" onclick="testEventHandling()">Test Events</button>
+            <div class="result" id="eventResult"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Window.open Test</h3>
+            <button class="test-button" onclick="testWindowOpen()">Test Popup</button>
+            <div class="result" id="popupResult"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Forcing Script Test</h3>
+            <button class="test-button" onclick="testForcingScript()">Test Forcing</button>
+            <div class="result" id="forcingResult"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🚀 Main Buy Button Test</h3>
+            <a href="https://auralo-website-fixed.netlify.app/buy.html" target="_blank" class="main-buy-link">
+                Test Main Buy Button
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Browser detection
+        function detectBrowser() {
+            const userAgent = navigator.userAgent;
+            let browser = 'Unknown';
+            
+            if (userAgent.includes('Chrome') && !userAgent.includes('Edg')) {
+                browser = 'Chrome';
+            } else if (userAgent.includes('Safari') && !userAgent.includes('Chrome')) {
+                browser = 'Safari';
+            } else if (userAgent.includes('Firefox')) {
+                browser = 'Firefox';
+            } else if (userAgent.includes('Edg')) {
+                browser = 'Edge';
+            }
+            
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(userAgent);
+            const device = isMobile ? 'Mobile' : 'Desktop';
+            
+            return `${browser} on ${device}`;
+        }
+        
+        // Feature tests
+        function runFeatureTests() {
+            const features = [
+                {
+                    name: 'JavaScript Enabled',
+                    test: () => true
+                },
+                {
+                    name: 'Local Storage',
+                    test: () => {
+                        try {
+                            localStorage.setItem('test', 'test');
+                            localStorage.removeItem('test');
+                            return true;
+                        } catch(e) {
+                            return false;
+                        }
+                    }
+                },
+                {
+                    name: 'Session Storage',
+                    test: () => {
+                        try {
+                            sessionStorage.setItem('test', 'test');
+                            sessionStorage.removeItem('test');
+                            return true;
+                        } catch(e) {
+                            return false;
+                        }
+                    }
+                },
+                {
+                    name: 'Popup Windows',
+                    test: () => typeof window.open === 'function'
+                },
+                {
+                    name: 'DOM Query Selector',
+                    test: () => typeof document.querySelectorAll === 'function'
+                },
+                {
+                    name: 'Event Listeners',
+                    test: () => typeof document.addEventListener === 'function'
+                },
+                {
+                    name: 'Touch Events',
+                    test: () => 'ontouchstart' in window
+                },
+                {
+                    name: 'Fetch API',
+                    test: () => typeof fetch === 'function'
+                }
+            ];
+            
+            const container = document.getElementById('featureTests');
+            container.innerHTML = '';
+            
+            features.forEach(feature => {
+                const result = feature.test();
+                const div = document.createElement('div');
+                div.className = 'feature-test';
+                div.innerHTML = `
+                    <span>${feature.name}</span>
+                    <span class="status ${result ? 'pass' : 'fail'}">${result ? 'PASS' : 'FAIL'}</span>
+                `;
+                container.appendChild(div);
+            });
+        }
+        
+        function testJavaScript() {
+            const result = document.getElementById('jsResult');
+            try {
+                const testVar = 'JavaScript works!';
+                result.innerHTML = `✅ ${testVar}`;
+                result.style.display = 'block';
+            } catch(e) {
+                result.innerHTML = `❌ JavaScript Error: ${e.message}`;
+                result.style.display = 'block';
+            }
+        }
+        
+        function testDOMManipulation() {
+            const result = document.getElementById('domResult');
+            try {
+                const testDiv = document.createElement('div');
+                testDiv.innerHTML = 'DOM manipulation works!';
+                testDiv.style.color = '#22c55e';
+                result.innerHTML = '✅ DOM manipulation successful';
+                result.appendChild(testDiv);
+                result.style.display = 'block';
+            } catch(e) {
+                result.innerHTML = `❌ DOM Error: ${e.message}`;
+                result.style.display = 'block';
+            }
+        }
+        
+        function testEventHandling() {
+            const result = document.getElementById('eventResult');
+            try {
+                const testButton = document.createElement('button');
+                testButton.innerHTML = 'Click me';
+                testButton.onclick = function() {
+                    result.innerHTML = '✅ Event handling works perfectly!';
+                };
+                
+                result.innerHTML = '✅ Event handler created - ';
+                result.appendChild(testButton);
+                result.style.display = 'block';
+            } catch(e) {
+                result.innerHTML = `❌ Event Error: ${e.message}`;
+                result.style.display = 'block';
+            }
+        }
+        
+        function testWindowOpen() {
+            const result = document.getElementById('popupResult');
+            try {
+                const popup = window.open('', 'test', 'width=100,height=100');
+                if (popup) {
+                    popup.close();
+                    result.innerHTML = '✅ Popup windows work (not blocked)';
+                } else {
+                    result.innerHTML = '⚠️ Popup blocked (normal for some browsers)';
+                }
+                result.style.display = 'block';
+            } catch(e) {
+                result.innerHTML = `❌ Popup Error: ${e.message}`;
+                result.style.display = 'block';
+            }
+        }
+        
+        function testForcingScript() {
+            const result = document.getElementById('forcingResult');
+            try {
+                // Test the forcing script logic
+                const testDiv = document.createElement('div');
+                testDiv.textContent = 'mercuryo test element';
+                testDiv.style.width = '100px';
+                testDiv.style.height = '50px';
+                document.body.appendChild(testDiv);
+                
+                // Simple forcing logic test
+                const elements = document.querySelectorAll('*');
+                let found = false;
+                elements.forEach(el => {
+                    if (el.textContent && el.textContent.toLowerCase().includes('mercuryo')) {
+                        el.style.border = '2px solid #22c55e';
+                        found = true;
+                    }
+                });
+                
+                document.body.removeChild(testDiv);
+                
+                if (found) {
+                    result.innerHTML = '✅ Forcing script logic works correctly';
+                } else {
+                    result.innerHTML = '❌ Forcing script failed to find test element';
+                }
+                result.style.display = 'block';
+            } catch(e) {
+                result.innerHTML = `❌ Forcing Error: ${e.message}`;
+                result.style.display = 'block';
+            }
+        }
+        
+        // Initialize
+        document.getElementById('browserDetails').textContent = detectBrowser();
+        
+        // Auto-run feature tests
+        setTimeout(() => {
+            runFeatureTests();
+        }, 1000);
+    </script>
+</body>
+</html>
