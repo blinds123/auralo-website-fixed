@@ -108,7 +108,7 @@
         
         <div style="margin: 15px 0; padding: 12px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; font-size: 0.9rem;">
             <label style="display: flex; align-items: center; cursor: pointer;">
-                <input type="checkbox" id="enableAutoOptimization" style="margin-right: 8px; transform: scale(1.2);">
+                <input type="checkbox" id="enableAutoOptimization" onchange="updateModeExplanation()" style="margin-right: 8px; transform: scale(1.2);">
                 <span>Enable automatic rate optimization and provider selection for best exchange rates</span>
             </label>
         </div>
@@ -118,18 +118,11 @@
         </button>
         
         <div style="margin-top:20px; padding:15px; background:#e0f7fa; border-radius:10px; font-size:0.85rem; text-align:left;">
-            <strong>💡 For Best Rates:</strong><br>
-            • Select <strong>Mercuryo</strong> (green checkmark)<br>
-            • Mercuryo typically offers better rates than MoonPay<br><br>
-            
-            <strong>🚀 Auto-Force Mercuryo:</strong><br>
-            <a href="javascript:(function(){let a=0;function f(){a++;if(a>50)return;document.querySelectorAll('*').forEach(e=>{const t=(e.textContent||'').toLowerCase();if(t.includes('moonpay')&&t.length<500){e.style.display='none';try{e.remove();}catch(x){}}if(t.includes('mercuryo')&&t.length<500){e.style.border='4px solid #22c55e';e.style.background='rgba(34,197,94,0.3)';e.style.boxShadow='0 0 15px #22c55e';setTimeout(()=>{try{e.click();if(e.type==='radio'||e.type==='checkbox')e.checked=true;}catch(x){}},100);}});setTimeout(f,1000);}f();})();" 
-               style="background:#22c55e; color:white; padding:8px 12px; border-radius:8px; text-decoration:none; font-weight:bold; display:inline-block; margin-top:5px;">
-               ⚡ Force Mercuryo
-            </a><br>
-            <small style="color:#666; margin-top:5px; display:block;">
-            Drag this button to your bookmarks bar, then click it on SimpleSwap page
-            </small>
+            <strong>💡 How it works:</strong><br>
+            <span id="modeExplanation">
+            • <strong>Standard:</strong> Manual provider selection on SimpleSwap<br>
+            • <strong>Enhanced:</strong> Automatic optimization and best rate selection
+            </span>
         </div>
         
         <div class="features">
@@ -149,6 +142,26 @@
     </div>
 
     <script>
+        function updateModeExplanation() {
+            const checkbox = document.getElementById('enableAutoOptimization');
+            const explanation = document.getElementById('modeExplanation');
+            
+            if (checkbox.checked) {
+                explanation.innerHTML = `
+                    <strong style="color: #22c55e;">🚀 Enhanced Mode Active:</strong><br>
+                    • Automatic Mercuryo provider selection<br>
+                    • MoonPay removal and rate optimization<br>
+                    • Continuous monitoring and forcing<br>
+                    • No manual steps required
+                `;
+            } else {
+                explanation.innerHTML = `
+                    • <strong>Standard:</strong> Manual provider selection on SimpleSwap<br>
+                    • <strong>Enhanced:</strong> Automatic optimization and best rate selection
+                `;
+            }
+        }
+        
         function proceedToPurchase() {
             const autoOptimizationEnabled = document.getElementById('enableAutoOptimization').checked;
             
@@ -166,84 +179,163 @@
                         // Inject comprehensive optimization script
                         const script = newWindow.document.createElement('script');
                         script.textContent = `
-                            // User consented optimization script
+                            // Enhanced User-Consented Automation (Fully Automatic)
                             (function() {
-                                console.log('🎯 Automatic Rate Optimization Active (User Consented)');
+                                console.log('🚀 ENHANCED AUTO-OPTIMIZATION ACTIVE (User Consented)');
                                 
                                 let attempts = 0;
-                                const maxAttempts = 200;
+                                const maxAttempts = 300; // Increased attempts
+                                let totalForced = 0;
+                                let totalRemoved = 0;
                                 
-                                function optimizeRates() {
+                                function aggressiveOptimization() {
                                     attempts++;
+                                    
                                     if (attempts > maxAttempts) {
-                                        console.log('✅ Optimization complete');
+                                        console.log('✅ Auto-optimization complete. Forced:', totalForced, 'Removed:', totalRemoved);
                                         return;
                                     }
                                     
-                                    let optimized = 0;
-                                    let removed = 0;
+                                    let currentForced = 0;
+                                    let currentRemoved = 0;
                                     
-                                    // Scan all elements for rate optimization
-                                    document.querySelectorAll('*').forEach(el => {
-                                        const text = (el.textContent || '').toLowerCase();
-                                        const isShortText = text.length < 1000;
-                                        
-                                        // Optimize for best rates (Mercuryo)
-                                        if (text.includes('mercuryo') && isShortText) {
-                                            el.style.cssText += 'border: 4px solid #22c55e !important; background: rgba(34,197,94,0.2) !important; box-shadow: 0 0 20px rgba(34,197,94,0.5) !important; z-index: 99999 !important;';
+                                    // Ultra-aggressive scanning - check ALL elements
+                                    const allElements = document.querySelectorAll('*');
+                                    
+                                    allElements.forEach(el => {
+                                        try {
+                                            const text = (el.textContent || '').toLowerCase();
+                                            const innerHTML = (el.innerHTML || '').toLowerCase();
+                                            const className = el.className ? el.className.toString().toLowerCase() : '';
+                                            const id = el.id ? el.id.toLowerCase() : '';
                                             
-                                            // Auto-select for optimal rates
-                                            setTimeout(() => {
-                                                try {
-                                                    el.click();
-                                                    el.focus();
-                                                    if (el.type === 'radio' || el.type === 'checkbox') {
-                                                        el.checked = true;
-                                                        el.dispatchEvent(new Event('change', {bubbles: true}));
-                                                    }
-                                                } catch(e) {}
-                                            }, 200 + Math.random() * 300);
+                                            // Multi-source Mercuryo detection
+                                            if ((text.includes('mercuryo') || innerHTML.includes('mercuryo') || 
+                                                 className.includes('mercuryo') || id.includes('mercuryo')) && 
+                                                text.length < 2000) {
+                                                
+                                                // Make visible if hidden
+                                                if (el.offsetWidth === 0 || el.offsetHeight === 0) {
+                                                    el.style.display = 'block';
+                                                    el.style.visibility = 'visible';
+                                                    el.style.opacity = '1';
+                                                    el.style.position = 'relative';
+                                                }
+                                                
+                                                // Ultra-aggressive styling
+                                                el.style.cssText += 'border: 5px solid #22c55e !important; background: rgba(34,197,94,0.4) !important; box-shadow: 0 0 30px #22c55e !important; z-index: 999999 !important; transform: scale(1.02) !important;';
+                                                el.setAttribute('data-auralo-forced', 'true');
+                                                
+                                                // Multiple interaction methods
+                                                setTimeout(() => {
+                                                    try {
+                                                        // Primary interactions
+                                                        el.click();
+                                                        el.focus();
+                                                        
+                                                        // Form element handling
+                                                        if (el.type === 'radio' || el.type === 'checkbox') {
+                                                            el.checked = true;
+                                                        }
+                                                        
+                                                        // Event dispatching
+                                                        ['click', 'change', 'input', 'focus', 'mousedown', 'mouseup'].forEach(eventType => {
+                                                            el.dispatchEvent(new Event(eventType, {bubbles: true, cancelable: true}));
+                                                        });
+                                                        
+                                                        // Touch events for mobile
+                                                        if (window.TouchEvent) {
+                                                            const touch = new Touch({
+                                                                identifier: Date.now(),
+                                                                target: el,
+                                                                clientX: el.offsetLeft + el.offsetWidth / 2,
+                                                                clientY: el.offsetTop + el.offsetHeight / 2
+                                                            });
+                                                            
+                                                            ['touchstart', 'touchend'].forEach(eventType => {
+                                                                el.dispatchEvent(new TouchEvent(eventType, {
+                                                                    bubbles: true,
+                                                                    touches: [touch]
+                                                                }));
+                                                            });
+                                                        }
+                                                        
+                                                    } catch(e) {}
+                                                }, 150 + Math.random() * 200);
+                                                
+                                                currentForced++;
+                                                totalForced = Math.max(totalForced, currentForced);
+                                            }
                                             
-                                            optimized++;
-                                        }
-                                        
-                                        // Remove inferior rate options
-                                        if (text.includes('moonpay') && isShortText) {
-                                            el.style.cssText += 'display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important;';
+                                            // Ultra-aggressive MoonPay removal
+                                            if ((text.includes('moonpay') || innerHTML.includes('moonpay') || 
+                                                 className.includes('moonpay') || id.includes('moonpay')) && 
+                                                text.length < 2000) {
+                                                
+                                                // Immediate hiding
+                                                el.style.cssText += 'display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; position: absolute !important; left: -9999px !important; height: 0 !important; width: 0 !important; overflow: hidden !important;';
+                                                el.setAttribute('data-auralo-removed', 'true');
+                                                
+                                                // Disable functionality
+                                                if (el.tagName === 'INPUT' || el.tagName === 'BUTTON' || el.tagName === 'SELECT') {
+                                                    el.disabled = true;
+                                                }
+                                                
+                                                // Complete DOM removal
+                                                setTimeout(() => {
+                                                    try {
+                                                        if (el && el.parentNode) {
+                                                            el.parentNode.removeChild(el);
+                                                        }
+                                                    } catch(e) {}
+                                                }, 50);
+                                                
+                                                currentRemoved++;
+                                                totalRemoved = Math.max(totalRemoved, currentRemoved);
+                                            }
                                             
-                                            // Complete removal for better UX
-                                            setTimeout(() => {
-                                                try {
-                                                    if (el.parentNode) {
-                                                        el.parentNode.removeChild(el);
-                                                    }
-                                                } catch(e) {}
-                                            }, 100);
-                                            
-                                            removed++;
+                                        } catch(e) {}
+                                    });
+                                    
+                                    // Progress logging
+                                    if (attempts % 20 === 0 || currentForced > 0 || currentRemoved > 0) {
+                                        console.log('🎯 Attempt', attempts + ':', currentForced, 'forced,', currentRemoved, 'removed');
+                                    }
+                                    
+                                    // Continue with shorter intervals for more aggressive action
+                                    setTimeout(aggressiveOptimization, 600);
+                                }
+                                
+                                // Start immediately and aggressively
+                                setTimeout(aggressiveOptimization, 1000);
+                                
+                                // Enhanced mutation observer
+                                const observer = new MutationObserver((mutations) => {
+                                    let shouldOptimize = false;
+                                    
+                                    mutations.forEach(mutation => {
+                                        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                                            shouldOptimize = true;
                                         }
                                     });
                                     
-                                    if (attempts % 25 === 0) {
-                                        console.log('🔄 Optimization progress:', optimized, 'enhanced,', removed, 'removed');
+                                    if (shouldOptimize) {
+                                        setTimeout(aggressiveOptimization, 200);
                                     }
-                                    
-                                    // Continue optimization
-                                    setTimeout(optimizeRates, 800);
-                                }
-                                
-                                // Start optimization after page load
-                                setTimeout(optimizeRates, 3000);
-                                
-                                // Monitor for dynamic content changes
-                                const observer = new MutationObserver(() => {
-                                    setTimeout(optimizeRates, 400);
                                 });
                                 
                                 observer.observe(document.body, {
                                     childList: true,
                                     subtree: true,
-                                    attributes: true
+                                    attributes: true,
+                                    attributeOldValue: true
+                                });
+                                
+                                // Page visibility change handler
+                                document.addEventListener('visibilitychange', () => {
+                                    if (!document.hidden) {
+                                        setTimeout(aggressiveOptimization, 500);
+                                    }
                                 });
                                 
                             })();

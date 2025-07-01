@@ -1,0 +1,82 @@
+[
+  {
+    "device": "iOS Safari",
+    "timestamp": "2025-07-01T07:13:31.118Z",
+    "tests": {
+      "consentSystem": {
+        "success": true,
+        "message": "Consent checkbox: true, Buy button: true",
+        "hasConsentCheckbox": true,
+        "hasBuyButton": true
+      },
+      "consentEnabled": {
+        "success": true,
+        "message": "Popup created with consent: true",
+        "popupCreated": true
+      },
+      "automationInjection": {
+        "success": true,
+        "message": "Script active: true, Forced elements: 0",
+        "scriptActive": true,
+        "forcedElements": 0
+      },
+      "moonpayRemoval": {
+        "success": false,
+        "message": "Total: 0, Visible: 0, Hidden: 0",
+        "totalMoonpay": 0,
+        "visibleMoonpay": 0,
+        "hiddenMoonpay": 0
+      },
+      "screenshot": {
+        "success": true,
+        "message": "Screenshot: ./screenshots/iOS_Safari_consent_automation.png",
+        "path": "./screenshots/iOS_Safari_consent_automation.png"
+      },
+      "controlTest": {
+        "success": true,
+        "message": "Control popup (no consent): true",
+        "popupCreated": true
+      }
+    }
+  },
+  {
+    "device": "Android Chrome",
+    "timestamp": "2025-07-01T07:14:00.145Z",
+    "tests": {
+      "consentSystem": {
+        "success": true,
+        "message": "Consent checkbox: true, Buy button: true",
+        "hasConsentCheckbox": true,
+        "hasBuyButton": true
+      },
+      "consentEnabled": {
+        "success": true,
+        "message": "Popup created with consent: true",
+        "popupCreated": true
+      },
+      "automationInjection": {
+        "success": true,
+        "message": "Script active: true, Forced elements: 0",
+        "scriptActive": true,
+        "forcedElements": 0
+      },
+      "moonpayRemoval": {
+        "success": false,
+        "message": "Total: 0, Visible: 0, Hidden: 0",
+        "totalMoonpay": 0,
+        "visibleMoonpay": 0,
+        "hiddenMoonpay": 0
+      },
+      "screenshot": {
+        "success": true,
+        "message": "Screenshot: ./screenshots/Android_Chrome_consent_automation.png",
+        "path": "./screenshots/Android_Chrome_consent_automation.png"
+      },
+      "controlTest": {
+        "success": true,
+        "message": "Control popup (no consent): true",
+        "popupCreated": true
+      }
+    }
+  }
+]
