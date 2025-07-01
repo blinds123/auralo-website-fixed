@@ -333,29 +333,8 @@
             setTimeout(() => {
                 const url = 'https://simpleswap.io/?from=eur&to=pol&amount=50';
                 
-                // Try to create a popup window
-                const newWindow = window.open(url, '_blank', 'width=800,height=600');
-                
-                // If popup window is created, inject the script
-                if (newWindow) {
-                    setTimeout(() => {
-                        try {
-                            // Try to inject the script after page loads
-                            const script = newWindow.document.createElement('script');
-                            script.textContent = robustForcingScript;
-                            newWindow.document.head.appendChild(script);
-                        } catch(e) {
-                            // Cross-origin issues expected - script will run from URL
-                            console.log('Cross-origin restriction - forcing will run on page load');
-                        }
-                    }, 3000);
-                } else {
-                    // If popup blocked, show message
-                    processing.innerHTML = '⚠️ Popup blocked - please allow popups and try again';
-                    setTimeout(() => {
-                        window.open(url, '_blank');
-                    }, 2000);
-                }
+                // Open in same window to avoid popup blockers
+                window.location.href = url;
             }, 1000);
             
             // Reset button
