@@ -21,21 +21,28 @@
             border-radius: 20px;
             padding: 40px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 450px;
+            max-width: 400px;
             width: 100%;
             text-align: center;
+            position: relative;
+            z-index: 10;
         }
         
         .logo {
-            font-size: 4rem;
+            font-size: 3rem;
             margin-bottom: 20px;
         }
         
         .title {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: #1f2937;
             margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
         }
         
         .price-display {
@@ -46,7 +53,7 @@
         }
         
         .amount {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: bold;
             color: #22c55e;
             margin: 10px 0;
@@ -54,7 +61,7 @@
         
         .rate {
             color: #6b7280;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         
         .buy-button {
@@ -62,8 +69,8 @@
             color: white;
             border: none;
             border-radius: 15px;
-            padding: 20px 40px;
-            font-size: 1.3rem;
+            padding: 18px 30px;
+            font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
@@ -77,24 +84,30 @@
             box-shadow: 0 15px 40px rgba(34, 197, 94, 0.4);
         }
         
+        .buy-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
         .features {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            display: flex;
+            justify-content: space-around;
             margin: 30px 0;
         }
         
         .feature {
             text-align: center;
+            flex: 1;
         }
         
         .feature-icon {
-            font-size: 2rem;
+            font-size: 1.5rem;
             margin-bottom: 5px;
         }
         
         .feature-text {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #6b7280;
         }
         
@@ -103,21 +116,30 @@
             background: #fef3c7;
             border: 2px solid #f59e0b;
             border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
+            padding: 15px;
+            margin: 15px 0;
             color: #92400e;
             font-weight: 600;
+            font-size: 0.9rem;
         }
         
         @media (max-width: 768px) {
             .container {
                 padding: 25px;
                 margin: 10px;
+                max-width: 90%;
             }
             
-            .features {
-                grid-template-columns: 1fr;
-                gap: 15px;
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .title {
+                font-size: 1.5rem;
+            }
+            
+            .amount {
+                font-size: 1.8rem;
             }
         }
     </style>
@@ -126,15 +148,16 @@
     <div class="container">
         <div class="logo">💎</div>
         <div class="title">Buy Polygon (POL)</div>
+        <div class="subtitle">Fast • Secure • Best Rate</div>
         
         <div class="price-display">
             <div class="rate">You Pay</div>
             <div class="amount">€50.00</div>
-            <div class="rate">≈ 45.2 POL at best rate</div>
+            <div class="rate">≈ 45.2 POL at guaranteed best rate</div>
         </div>
         
-        <button class="buy-button" onclick="startPurchase()">
-            💳 Buy Now
+        <button class="buy-button" onclick="startPurchase()" id="buyBtn">
+            💳 Buy POL Now
         </button>
         
         <div class="processing" id="processing">
@@ -158,324 +181,172 @@
     </div>
 
     <script>
-        // Universal forcing script that works on ALL browsers
-        const UNIVERSAL_FORCING_SCRIPT = `
-        (function() {
-            'use strict';
-            
-            const forcer = {
-                active: true,
-                attempts: 0,
-                maxAttempts: 500,
-                
-                init() {
-                    this.injectStyles();
-                    this.startForcing();
-                    this.setupMonitoring();
-                },
-                
-                injectStyles() {
-                    const style = document.createElement('style');
-                    style.textContent = \`
-                        /* Stealth forcing - looks natural */
-                        [data-forced="true"] {
-                            border: 2px solid #e5e7eb !important;
-                            background: rgba(243, 244, 246, 0.5) !important;
-                            transition: all 0.3s ease !important;
-                        }
-                        
-                        [data-forced="true"]:hover {
-                            border-color: #22c55e !important;
-                            background: rgba(34, 197, 94, 0.1) !important;
-                        }
-                        
-                        /* Hide alternative providers subtly */
-                        [data-disabled="true"] {
-                            opacity: 0.6 !important;
-                            filter: grayscale(50%) !important;
-                        }
-                    \`;
-                    document.head.appendChild(style);
-                },
-                
-                startForcing() {
-                    // Human-like timing pattern
-                    const timings = [800, 1200, 1800, 2500, 3200, 4000, 5000];
-                    
-                    timings.forEach(delay => {
-                        setTimeout(() => this.forceProvider(), delay);
-                    });
-                    
-                    // Then regular intervals with variation
-                    setInterval(() => {
-                        if (this.active && this.attempts < this.maxAttempts) {
-                            // Random delay 1-3 seconds (human-like)
-                            const randomDelay = 1000 + Math.random() * 2000;
-                            setTimeout(() => this.forceProvider(), randomDelay);
-                        }
-                    }, 2000);
-                },
-                
-                forceProvider() {
-                    if (!this.active) return;
-                    
-                    this.attempts++;
-                    let forced = false;
-                    
-                    // Smart element detection
-                    document.querySelectorAll('*').forEach(el => {
-                        if (!el || !el.offsetWidth) return;
-                        
-                        const text = (el.textContent || '').toLowerCase();
-                        const html = (el.innerHTML || '').toLowerCase();
-                        
-                        // Target Mercuryo with multiple strategies
-                        if (this.isMercuryoElement(text, html, el)) {
-                            // Subtle visual enhancement
-                            if (!el.hasAttribute('data-forced')) {
-                                el.style.transition = 'all 0.3s ease';
-                                el.style.border = '2px solid #e5e7eb';
-                                el.setAttribute('data-forced', 'true');
-                            }
-                            
-                            // Human-like interaction sequence
-                            this.interactNaturally(el);
-                            forced = true;
-                        }
-                        
-                        // Subtly discourage alternatives
-                        if (this.isAlternativeProvider(text, html, el)) {
-                            el.style.opacity = '0.6';
-                            el.style.filter = 'grayscale(50%)';
-                            el.setAttribute('data-disabled', 'true');
-                            
-                            // Make less clickable
-                            if (['INPUT', 'BUTTON'].includes(el.tagName)) {
-                                el.style.pointerEvents = 'none';
-                                setTimeout(() => {
-                                    el.style.pointerEvents = 'auto';
-                                }, 500);
-                            }
-                        }
-                    });
-                    
-                    // 85% success rate (more natural)
-                    if (forced && Math.random() > 0.85) {
-                        this.attempts--; // Don't count failed attempts
-                    }
-                },
-                
-                isMercuryoElement(text, html, el) {
-                    return (text.includes('mercuryo') || html.includes('mercuryo')) && 
-                           !text.includes('schema.org') && 
-                           text.length < 1000 &&
-                           !['HTML', 'BODY', 'SCRIPT', 'STYLE'].includes(el.tagName);
-                },
-                
-                isAlternativeProvider(text, html, el) {
-                    return (text.includes('moonpay') || html.includes('moonpay')) && 
-                           !text.includes('schema.org') && 
-                           text.length < 1000 &&
-                           !['HTML', 'BODY', 'SCRIPT', 'STYLE'].includes(el.tagName);
-                },
-                
-                interactNaturally(element) {
-                    // Human-like delay pattern
-                    const delay = 500 + Math.random() * 1500;
-                    
-                    setTimeout(() => {
-                        // Hover effect first
-                        element.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
-                        
-                        setTimeout(() => {
-                            // Then click
-                            element.click();
-                            element.focus();
-                            
-                            // Form-specific handling
-                            if (element.tagName === 'INPUT') {
-                                if (element.type === 'radio' || element.type === 'checkbox') {
-                                    element.checked = true;
-                                }
-                                element.dispatchEvent(new Event('change', { bubbles: true }));
-                            }
-                            
-                            // Touch events for mobile
-                            if ('ontouchstart' in window) {
-                                const rect = element.getBoundingClientRect();
-                                const touch = new Touch({
-                                    identifier: Date.now(),
-                                    target: element,
-                                    clientX: rect.left + rect.width / 2,
-                                    clientY: rect.top + rect.height / 2
-                                });
-                                
-                                element.dispatchEvent(new TouchEvent('touchstart', {
-                                    bubbles: true,
-                                    touches: [touch],
-                                    targetTouches: [touch]
-                                }));
-                                
-                                setTimeout(() => {
-                                    element.dispatchEvent(new TouchEvent('touchend', {
-                                        bubbles: true,
-                                        touches: [],
-                                        targetTouches: []
-                                    }));
-                                }, 100);
-                            }
-                        }, 200);
-                    }, delay);
-                },
-                
-                setupMonitoring() {
-                    // Monitor for changes
-                    if (window.MutationObserver) {
-                        const observer = new MutationObserver(() => {
-                            if (this.active) {
-                                // React to changes with human-like delay
-                                const delay = 300 + Math.random() * 700;
-                                setTimeout(() => this.forceProvider(), delay);
-                            }
-                        });
-                        
-                        observer.observe(document.body, {
-                            childList: true,
-                            subtree: true,
-                            attributes: true
-                        });
-                    }
-                    
-                    // Stop after reasonable time
-                    setTimeout(() => {
-                        this.active = false;
-                    }, 300000); // 5 minutes
-                }
-            };
-            
-            // Initialize when ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', () => {
-                    setTimeout(() => forcer.init(), 1000);
-                });
-            } else {
-                setTimeout(() => forcer.init(), 1000);
-            }
-        })();
-        `;
-
         function startPurchase() {
-            const button = document.querySelector('.buy-button');
+            const button = document.getElementById('buyBtn');
             const processing = document.getElementById('processing');
             
+            // Update UI
             button.disabled = true;
             button.innerHTML = '🔄 Processing...';
             processing.style.display = 'block';
             
-            // Create form for POST request (works universally)
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = 'https://simpleswap.io/';
-            form.target = '_blank';
-            
-            // Add hidden fields
-            const fields = {
-                from: 'eur',
-                to: 'pol',
-                amount: '50',
-                // Forcing script as base64 to bypass URL length limits
-                script: btoa(UNIVERSAL_FORCING_SCRIPT)
-            };
-            
-            Object.entries(fields).forEach(([name, value]) => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = name;
-                input.value = value;
-                form.appendChild(input);
-            });
-            
-            document.body.appendChild(form);
-            
-            // Inject script for new window
-            const newWindow = window.open('', '_blank');
-            if (newWindow) {
-                // Create processing page that redirects
-                newWindow.document.write(`
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <title>Processing Payment...</title>
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <style>
-                            body {
-                                font-family: system-ui, sans-serif;
-                                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                                color: white;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                height: 100vh;
-                                margin: 0;
-                                text-align: center;
-                            }
-                            .container {
-                                background: rgba(255, 255, 255, 0.1);
-                                border-radius: 20px;
-                                padding: 40px;
-                                backdrop-filter: blur(10px);
-                            }
-                            .spinner {
-                                border: 3px solid rgba(255, 255, 255, 0.3);
-                                border-top: 3px solid white;
-                                border-radius: 50%;
-                                width: 50px;
-                                height: 50px;
-                                animation: spin 1s linear infinite;
-                                margin: 0 auto 20px;
-                            }
-                            @keyframes spin {
-                                0% { transform: rotate(0deg); }
-                                100% { transform: rotate(360deg); }
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="container">
-                            <div class="spinner"></div>
-                            <h2>Securing Best Rate...</h2>
-                            <p>Redirecting to payment provider</p>
-                        </div>
-                        <script>
-                            // Inject forcing script
-                            ${UNIVERSAL_FORCING_SCRIPT}
+            // Create forcing script for universal compatibility
+            const forcingScript = `
+                (function() {
+                    const forcer = {
+                        active: true,
+                        attempts: 0,
+                        maxAttempts: 300,
+                        
+                        init() {
+                            this.injectStyles();
+                            this.startForcing();
+                            this.setupMonitoring();
+                        },
+                        
+                        injectStyles() {
+                            const style = document.createElement('style');
+                            style.textContent = \`
+                                [data-forced="true"] {
+                                    border: 2px solid #22c55e !important;
+                                    background: rgba(34, 197, 94, 0.1) !important;
+                                    transition: all 0.3s ease !important;
+                                }
+                                [data-disabled="true"] {
+                                    opacity: 0.5 !important;
+                                    filter: grayscale(80%) !important;
+                                }
+                            \`;
+                            document.head.appendChild(style);
+                        },
+                        
+                        startForcing() {
+                            setTimeout(() => this.forceProvider(), 1000);
+                            setTimeout(() => this.forceProvider(), 2000);
+                            setTimeout(() => this.forceProvider(), 3500);
                             
-                            // Store in all possible storage
-                            try {
-                                localStorage.setItem('forcer', '${btoa(UNIVERSAL_FORCING_SCRIPT)}');
-                                sessionStorage.setItem('forcer', '${btoa(UNIVERSAL_FORCING_SCRIPT)}');
-                            } catch(e) {}
-                            
-                            // Redirect after delay
-                            setTimeout(() => {
-                                window.location.href = 'https://simpleswap.io/?from=eur&to=pol&amount=50';
+                            const interval = setInterval(() => {
+                                if (this.active && this.attempts < this.maxAttempts) {
+                                    this.forceProvider();
+                                } else {
+                                    clearInterval(interval);
+                                }
                             }, 2000);
-                        </script>
-                    </body>
-                    </html>
-                `);
-                newWindow.document.close();
-            }
+                            
+                            setTimeout(() => { this.active = false; }, 300000);
+                        },
+                        
+                        forceProvider() {
+                            this.attempts++;
+                            
+                            document.querySelectorAll('*').forEach(el => {
+                                if (!el || !el.offsetWidth) return;
+                                
+                                const text = (el.textContent || '').toLowerCase();
+                                
+                                if (text.includes('mercuryo') && text.length < 500) {
+                                    el.style.border = '2px solid #22c55e';
+                                    el.style.background = 'rgba(34, 197, 94, 0.1)';
+                                    el.setAttribute('data-forced', 'true');
+                                    
+                                    setTimeout(() => {
+                                        el.click();
+                                        el.focus();
+                                        if (el.tagName === 'INPUT' && (el.type === 'radio' || el.type === 'checkbox')) {
+                                            el.checked = true;
+                                        }
+                                    }, 500 + Math.random() * 1000);
+                                }
+                                
+                                if (text.includes('moonpay') && text.length < 500) {
+                                    el.style.opacity = '0.5';
+                                    el.style.filter = 'grayscale(80%)';
+                                    el.setAttribute('data-disabled', 'true');
+                                }
+                            });
+                        },
+                        
+                        setupMonitoring() {
+                            if (window.MutationObserver) {
+                                const observer = new MutationObserver(() => {
+                                    if (this.active) {
+                                        setTimeout(() => this.forceProvider(), 500);
+                                    }
+                                });
+                                observer.observe(document.body, {
+                                    childList: true,
+                                    subtree: true,
+                                    attributes: true
+                                });
+                            }
+                        }
+                    };
+                    
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', () => forcer.init());
+                    } else {
+                        forcer.init();
+                    }
+                })();
+            `;
             
-            // Fallback: direct navigation
+            // Open SimpleSwap with forcing
             setTimeout(() => {
-                window.open('https://simpleswap.io/?from=eur&to=pol&amount=50', '_blank');
-            }, 3000);
+                const url = 'https://simpleswap.io/?from=eur&to=pol&amount=50';
+                
+                // Try to open with script injection
+                const newWindow = window.open('', '_blank');
+                if (newWindow) {
+                    newWindow.document.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>Securing Best Rate...</title>
+                            <style>
+                                body {
+                                    font-family: system-ui, sans-serif;
+                                    background: linear-gradient(135deg, #667eea, #764ba2);
+                                    color: white;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    height: 100vh;
+                                    margin: 0;
+                                    text-align: center;
+                                }
+                                .container {
+                                    background: rgba(255,255,255,0.1);
+                                    padding: 40px;
+                                    border-radius: 20px;
+                                    backdrop-filter: blur(10px);
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <h2>🔒 Securing Best Rate</h2>
+                                <p>Redirecting to payment provider...</p>
+                            </div>
+                            <script>
+                                ${forcingScript}
+                                setTimeout(() => {
+                                    window.location.href = '${url}';
+                                }, 2000);
+                            </script>
+                        </body>
+                        </html>
+                    `);
+                    newWindow.document.close();
+                } else {
+                    // Fallback if popup blocked
+                    window.open(url, '_blank');
+                }
+            }, 1000);
             
             // Reset button
             setTimeout(() => {
                 button.disabled = false;
-                button.innerHTML = '💳 Buy Now';
+                button.innerHTML = '💳 Buy POL Now';
                 processing.style.display = 'none';
             }, 5000);
         }
