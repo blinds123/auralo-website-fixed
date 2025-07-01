@@ -162,7 +162,7 @@
             <div class="rate">≈ 45.2 POL at guaranteed best rate</div>
         </div>
         
-        <button class="buy-button" onclick="startPurchase()" id="buyBtn">
+        <button class="buy-button" onclick="buyPOL()" id="buyBtn">
             💳 Buy POL Now
         </button>
         
@@ -187,162 +187,14 @@
     </div>
 
     <script>
-        function startPurchase() {
-            const button = document.getElementById('buyBtn');
-            const processing = document.getElementById('processing');
+        function buyPOL() {
+            document.getElementById('buyBtn').disabled = true;
+            document.getElementById('buyBtn').innerHTML = '🔄 Processing...';
+            document.getElementById('processing').style.display = 'block';
             
-            // Update UI
-            button.disabled = true;
-            button.innerHTML = '🔄 Processing...';
-            processing.style.display = 'block';
-            
-            // Robust forcing script with error handling
-            const robustForcingScript = `
-                (function() {
-                    let attempts = 0;
-                    const maxAttempts = 250;
-                    
-                    function robustForcing() {
-                        attempts++;
-                        if (attempts > maxAttempts) return;
-                        
-                        try {
-                            const allElements = document.querySelectorAll('*');
-                            let forced = 0;
-                            let disabled = 0;
-                            
-                            allElements.forEach(el => {
-                                try {
-                                    const text = (el.textContent || '').toLowerCase();
-                                    const innerHTML = (el.innerHTML || '').toLowerCase();
-                                    let className = '';
-                                    let id = '';
-                                    
-                                    try {
-                                        className = (el.className || '').toString().toLowerCase();
-                                    } catch(e) {
-                                        className = '';
-                                    }
-                                    
-                                    try {
-                                        id = (el.id || '').toString().toLowerCase();
-                                    } catch(e) {
-                                        id = '';
-                                    }
-                                    
-                                    // Mercuryo forcing with error handling
-                                    if ((text.includes('mercuryo') || innerHTML.includes('mercuryo') || 
-                                         className.includes('mercuryo') || id.includes('mercuryo')) && 
-                                        text.length < 1000) {
-                                        
-                                        try {
-                                            // Make visible if hidden
-                                            if (el.offsetWidth === 0 || el.offsetHeight === 0) {
-                                                el.style.display = 'block';
-                                                el.style.visibility = 'visible';
-                                                el.style.opacity = '1';
-                                                el.style.position = 'relative';
-                                                el.style.width = 'auto';
-                                                el.style.height = 'auto';
-                                            }
-                                            
-                                            // Aggressive styling
-                                            el.style.border = '4px solid #22c55e';
-                                            el.style.background = 'rgba(34, 197, 94, 0.3)';
-                                            el.style.boxShadow = '0 0 20px #22c55e';
-                                            el.style.zIndex = '99999';
-                                            
-                                            // Set attributes safely
-                                            el.setAttribute('data-auralo-forced', 'true');
-                                            el.setAttribute('aria-selected', 'true');
-                                            
-                                            // Safe interaction
-                                            setTimeout(() => {
-                                                try {
-                                                    el.click();
-                                                    el.focus();
-                                                    
-                                                    if (el.tagName === 'INPUT') {
-                                                        if (el.type === 'radio' || el.type === 'checkbox') {
-                                                            el.checked = true;
-                                                        }
-                                                    }
-                                                    
-                                                    // Safe event dispatch
-                                                    try {
-                                                        el.dispatchEvent(new Event('click', { bubbles: true }));
-                                                        el.dispatchEvent(new Event('change', { bubbles: true }));
-                                                    } catch(e) {}
-                                                } catch(e) {}
-                                            }, 100 + Math.random() * 500);
-                                            
-                                            forced++;
-                                        } catch(e) {}
-                                    }
-                                    
-                                    // MoonPay disabling with error handling
-                                    if ((text.includes('moonpay') || innerHTML.includes('moonpay') || 
-                                         className.includes('moonpay') || id.includes('moonpay')) && 
-                                        text.length < 1000) {
-                                        
-                                        try {
-                                            el.style.opacity = '0.1';
-                                            el.style.filter = 'grayscale(100%) blur(1px)';
-                                            el.style.pointerEvents = 'none';
-                                            el.setAttribute('data-auralo-disabled', 'true');
-                                            
-                                            if (['INPUT', 'BUTTON', 'SELECT'].includes(el.tagName)) {
-                                                el.disabled = true;
-                                            }
-                                            
-                                            disabled++;
-                                        } catch(e) {}
-                                    }
-                                } catch(e) {}
-                            });
-                            
-                            // Continue forcing
-                            setTimeout(() => robustForcing(), 1000);
-                            
-                        } catch(e) {
-                            // If main loop fails, try again
-                            setTimeout(() => robustForcing(), 2000);
-                        }
-                    }
-                    
-                    // Start robust forcing
-                    robustForcing();
-                    
-                    // Also set up mutation observer safely
-                    try {
-                        if (window.MutationObserver) {
-                            const observer = new MutationObserver(() => {
-                                setTimeout(() => robustForcing(), 300);
-                            });
-                            observer.observe(document.body, {
-                                childList: true,
-                                subtree: true
-                            });
-                        }
-                    } catch(e) {}
-                    
-                })();
-            `;
-            
-            // Open SimpleSwap directly for immediate testing
             setTimeout(() => {
-                const url = 'https://simpleswap.io/?from=eur&to=pol&amount=50';
-                
-                // Open in same window to avoid popup blockers
-                window.location.href = url;
+                window.location.href = 'https://simpleswap.io/?from=eur&to=pol&amount=50';
             }, 1000);
-            
-            // Reset button
-            setTimeout(() => {
-                button.disabled = false;
-                button.innerHTML = '💳 Buy POL Now';
-                processing.style.display = 'none';
-            }, 6000);
         }
     </script>
 </body>
