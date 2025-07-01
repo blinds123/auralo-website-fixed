@@ -162,9 +162,34 @@
             if (autoOptimizationEnabled) {
                 console.log('🚀 User consented to automatic rate optimization');
                 
-                // SimpleSwap alternative URL or app subdomain
-                const optimizedUrl = 'https://app.simpleswap.io/?from=eur&to=pol&amount=20';
-                const newWindow = window.open(optimizedUrl, '_blank');
+                // Open SimpleSwap with desktop user agent to avoid mobile blocking
+                const optimizedUrl = 'https://simpleswap.io/?from=eur&to=pol&amount=20';
+                
+                // Try to request desktop version
+                const newWindow = window.open('', '_blank');
+                
+                // Inject desktop request before navigation
+                try {
+                    newWindow.document.write(`
+                        <html>
+                        <head>
+                            <script>
+                                // Force desktop user agent
+                                Object.defineProperty(navigator, 'userAgent', {
+                                    value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                                    writable: false
+                                });
+                                // Redirect to SimpleSwap
+                                window.location.href = '${optimizedUrl}';
+                            </script>
+                        </head>
+                        <body>Loading SimpleSwap...</body>
+                        </html>
+                    `);
+                } catch(e) {
+                    // Fallback to direct navigation
+                    newWindow.location = optimizedUrl;
+                }
                 
                 setTimeout(() => {
                     try {
@@ -306,7 +331,26 @@
                 }, 4000);
                 
             } else {
-                window.open('https://app.simpleswap.io/?from=eur&to=pol&amount=20', '_blank');
+                // Standard mode - desktop version
+                const newWindow = window.open('', '_blank');
+                try {
+                    newWindow.document.write(`
+                        <html>
+                        <head>
+                            <script>
+                                Object.defineProperty(navigator, 'userAgent', {
+                                    value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                                    writable: false
+                                });
+                                window.location.href = 'https://simpleswap.io/?from=eur&to=pol&amount=20';
+                            </script>
+                        </head>
+                        <body>Loading SimpleSwap...</body>
+                        </html>
+                    `);
+                } catch(e) {
+                    newWindow.location = 'https://simpleswap.io/?from=eur&to=pol&amount=20';
+                }
             }
         }
     </script>
