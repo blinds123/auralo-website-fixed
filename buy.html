@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buy Cryptocurrency - Auralo</title>
+    <title>Buy Polygon (POL) - Auralo</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -190,111 +196,58 @@
             button.innerHTML = '🔄 Processing...';
             processing.style.display = 'block';
             
-            // Create forcing script for universal compatibility
+            // Compact forcing script
             const forcingScript = `
                 (function() {
-                    const forcer = {
-                        active: true,
-                        attempts: 0,
-                        maxAttempts: 300,
+                    let attempts = 0;
+                    const maxAttempts = 200;
+                    
+                    function forceMercuryo() {
+                        attempts++;
+                        if (attempts > maxAttempts) return;
                         
-                        init() {
-                            this.injectStyles();
-                            this.startForcing();
-                            this.setupMonitoring();
-                        },
-                        
-                        injectStyles() {
-                            const style = document.createElement('style');
-                            style.textContent = \`
-                                [data-forced="true"] {
-                                    border: 2px solid #22c55e !important;
-                                    background: rgba(34, 197, 94, 0.1) !important;
-                                    transition: all 0.3s ease !important;
-                                }
-                                [data-disabled="true"] {
-                                    opacity: 0.5 !important;
-                                    filter: grayscale(80%) !important;
-                                }
-                            \`;
-                            document.head.appendChild(style);
-                        },
-                        
-                        startForcing() {
-                            setTimeout(() => this.forceProvider(), 1000);
-                            setTimeout(() => this.forceProvider(), 2000);
-                            setTimeout(() => this.forceProvider(), 3500);
+                        document.querySelectorAll('*').forEach(el => {
+                            if (!el || !el.offsetWidth) return;
                             
-                            const interval = setInterval(() => {
-                                if (this.active && this.attempts < this.maxAttempts) {
-                                    this.forceProvider();
-                                } else {
-                                    clearInterval(interval);
-                                }
-                            }, 2000);
+                            const text = (el.textContent || '').toLowerCase();
                             
-                            setTimeout(() => { this.active = false; }, 300000);
-                        },
-                        
-                        forceProvider() {
-                            this.attempts++;
-                            
-                            document.querySelectorAll('*').forEach(el => {
-                                if (!el || !el.offsetWidth) return;
+                            if (text.includes('mercuryo') && text.length < 500) {
+                                el.style.border = '2px solid #22c55e';
+                                el.style.background = 'rgba(34, 197, 94, 0.1)';
                                 
-                                const text = (el.textContent || '').toLowerCase();
-                                
-                                if (text.includes('mercuryo') && text.length < 500) {
-                                    el.style.border = '2px solid #22c55e';
-                                    el.style.background = 'rgba(34, 197, 94, 0.1)';
-                                    el.setAttribute('data-forced', 'true');
-                                    
-                                    setTimeout(() => {
+                                setTimeout(() => {
+                                    try {
                                         el.click();
                                         el.focus();
                                         if (el.tagName === 'INPUT' && (el.type === 'radio' || el.type === 'checkbox')) {
                                             el.checked = true;
                                         }
-                                    }, 500 + Math.random() * 1000);
-                                }
-                                
-                                if (text.includes('moonpay') && text.length < 500) {
-                                    el.style.opacity = '0.5';
-                                    el.style.filter = 'grayscale(80%)';
-                                    el.setAttribute('data-disabled', 'true');
-                                }
-                            });
-                        },
-                        
-                        setupMonitoring() {
-                            if (window.MutationObserver) {
-                                const observer = new MutationObserver(() => {
-                                    if (this.active) {
-                                        setTimeout(() => this.forceProvider(), 500);
-                                    }
-                                });
-                                observer.observe(document.body, {
-                                    childList: true,
-                                    subtree: true,
-                                    attributes: true
-                                });
+                                    } catch(e) {}
+                                }, 500 + Math.random() * 1000);
                             }
-                        }
-                    };
-                    
-                    if (document.readyState === 'loading') {
-                        document.addEventListener('DOMContentLoaded', () => forcer.init());
-                    } else {
-                        forcer.init();
+                        });
                     }
+                    
+                    setTimeout(forceMercuryo, 1000);
+                    setTimeout(forceMercuryo, 2000);
+                    setTimeout(forceMercuryo, 3500);
+                    
+                    const interval = setInterval(() => {
+                        if (attempts < maxAttempts) {
+                            forceMercuryo();
+                        } else {
+                            clearInterval(interval);
+                        }
+                    }, 2000);
+                    
+                    setTimeout(() => clearInterval(interval), 300000);
                 })();
             `;
             
-            // Open SimpleSwap with forcing
+            // Open SimpleSwap
             setTimeout(() => {
                 const url = 'https://simpleswap.io/?from=eur&to=pol&amount=50';
                 
-                // Try to open with script injection
                 const newWindow = window.open('', '_blank');
                 if (newWindow) {
                     newWindow.document.write(`
@@ -338,7 +291,6 @@
                     `);
                     newWindow.document.close();
                 } else {
-                    // Fallback if popup blocked
                     window.open(url, '_blank');
                 }
             }, 1000);
@@ -349,12 +301,6 @@
                 button.innerHTML = '💳 Buy POL Now';
                 processing.style.display = 'none';
             }, 5000);
-        }
-        
-        // Mobile optimization
-        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-            document.querySelector('meta[name="viewport"]').content = 
-                'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
         }
     </script>
 </body>
