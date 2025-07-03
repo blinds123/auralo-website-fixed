@@ -1,111 +1,1577 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- COMPLETE NETLIFY INTEGRATION - CORRECTED VERSION -->
+    <!-- Version 5.0 - COMPLETE CORRECTED INTEGRATION FROM symphonious-genie-6a7d15.netlify.app -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You Are Not For Everyone - €15.00 - CLEAN MERCURYO</title>
-
-    <!-- PRIORITY MERCURYO LOCK - CLEAN ES5 VERSION -->
-    <script>
-    console.log('CLEAN MERCURYO LOCK: Loading...');
+    <title>You Are Not For Everyone - $19.50 - v5.0 COMPLETE</title>
+    <!-- PERFORMANCE OPTIMIZATIONS -->
+    <link rel="preload" href="./images/main-hoodie.jpg" as="image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     
-    // Create mobile override HTML (ES5 compatible)
-    function createCleanMobileOverride() {
-        var html = '<html><head><title>Auralo Mercuryo Lock</title>';
-        html += '<meta name="viewport" content="width=1920,initial-scale=1">';
-        html += '<meta http-equiv="X-UA-Compatible" content="IE=edge"></head>';
-        html += '<body style="font-family: Arial, sans-serif; text-align: center; padding: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">';
-        html += '<div style="background: rgba(255,255,255,0.1); padding: 40px; border-radius: 20px; backdrop-filter: blur(10px); max-width: 400px;">';
-        html += '<h1 style="margin: 0 0 20px; font-size: 2rem; font-weight: bold;">MERCURYO LOCK ACTIVE</h1>';
-        html += '<div style="border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 4px solid white; width: 60px; height: 60px; animation: spin 1s linear infinite; margin: 30px auto;"></div>';
-        html += '<h2 style="margin: 20px 0; font-size: 1.2rem; font-weight: normal;">Mobile Override Active</h2>';
-        html += '<p id="status" style="font-size: 0.9rem; opacity: 0.9; margin: 0;">Forcing desktop mode for Mercuryo...</p>';
-        html += '</div><style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>';
-        html += '<script>';
-        html += 'console.log("Mercuryo mobile override starting...");';
-        html += 'Object.defineProperty(navigator,"userAgent",{get:function(){return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"},configurable:false});';
-        html += 'Object.defineProperty(navigator,"platform",{get:function(){return "Win32"},configurable:false});';
-        html += 'Object.defineProperty(navigator,"vendor",{get:function(){return "Google Inc."},configurable:false});';
-        html += 'Object.defineProperty(navigator,"maxTouchPoints",{get:function(){return 0},configurable:false});';
-        html += 'Object.defineProperty(screen,"width",{get:function(){return 1920},configurable:false});';
-        html += 'Object.defineProperty(screen,"height",{get:function(){return 1080},configurable:false});';
-        html += 'Object.defineProperty(window,"innerWidth",{get:function(){return 1920},configurable:false});';
-        html += 'Object.defineProperty(window,"innerHeight",{get:function(){return 1080},configurable:false});';
-        html += 'Object.defineProperty(window,"devicePixelRatio",{get:function(){return 1},configurable:false});';
-        html += 'delete window.ontouchstart; delete window.ontouchmove; delete window.ontouchend;';
-        html += 'Object.defineProperty(window,"ontouchstart",{get:function(){return undefined},set:function(){return false},configurable:false});';
-        html += 'var om=window.matchMedia;window.matchMedia=function(q){if(q.includes("pointer: coarse")||q.includes("hover: none"))return{matches:false,media:q,addListener:function(){},removeListener:function(){}};return om.call(window,q);};';
-        html += 'document.getElementById("status").innerHTML = "Desktop spoofing complete<br>All mobile detection overridden<br><br>Opening SimpleSwap with Mercuryo lock...";';
-        html += 'setTimeout(function(){window.location.href="https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo&preferred=mercuryo";}, 3000);';
-        html += '</script></body></html>';
-        return html;
-    }
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
     
-    // Main Mercuryo lock function (ES5 compatible)
-    window.cleanMercuryoLock = function() {
-        console.log('CLEAN MERCURYO LOCK: Executing main function...');
-        
-        var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        console.log('Device detected:', isMobile ? 'MOBILE' : 'DESKTOP');
-        
-        if (isMobile) {
-            console.log('MOBILE: Creating desktop override...');
+    <!-- Resource Hints -->
+    <link rel="prefetch" href="./images/slide-1_final_crushed_under_20kb.jpg">
+    <link rel="prefetch" href="./images/slide-2_final_crushed_under_20kb.jpg">
+    
+    <!-- COMPLETE CSS FROM NETLIFY SOURCE WITH PAYMENT GATEWAY INTEGRATION -->
+    <style>
+        /* Emergency fix for mobile overlay issue */
+        @media (max-width: 768px) {
+            .butler-popup,
+            [class*="overlay"]:not(#xlPopupOverlay),
+            [class*="popup"]:not(#xlSelloutPopup):not(.xl-sellout-popup):not(.xl-simple-popup) {
+                display: none !important;
+                visibility: hidden !important;
+            }
             
-            var form = document.createElement('form');
-            form.method = 'POST';
-            form.action = 'data:text/html;charset=utf-8,' + encodeURIComponent(createCleanMobileOverride());
-            form.target = '_blank';
-            form.style.display = 'none';
-            document.body.appendChild(form);
-            form.submit();
-            document.body.removeChild(form);
+            /* Allow XL popup to show on mobile */
+            #xlPopupOverlay,
+            #xlSelloutPopup,
+            .xl-sellout-popup,
+            .xl-simple-popup {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
             
-            console.log('MOBILE: Desktop override form submitted successfully');
-            return 'mobile_override_activated';
-        } else {
-            console.log('DESKTOP: Opening SimpleSwap directly...');
-            window.open('https://simpleswap.io/?from=eur&to=pol&amount=15&partner=auralo&preferred=mercuryo', '_blank');
-            console.log('DESKTOP: SimpleSwap opened with Mercuryo parameters');
-            return 'desktop_simpleswap_opened';
+            body {
+                overflow-y: auto !important;
+                position: relative !important;
+                height: auto !important;
+                min-height: 100vh !important;
+            }
+            
+            .hero,
+            section {
+                position: relative !important;
+                z-index: 1 !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            
+            /* Ensure nothing is fixed on mobile except necessary elements */
+            * {
+                position: static !important;
+            }
+            
+            /* Allow these specific elements to have their positions */
+            .container,
+            .size-option,
+            .buy-now-button,
+            img,
+            .carousel-nav,
+            .carousel-nav-left,
+            .carousel-nav-right,
+            .story-carousel,
+            .review-carousel,
+            .story-slides,
+            .review-slides,
+            .hotspot,
+            .hotspot-dot,
+            .hotspot-pulse {
+                position: relative !important;
+            }
+            
+            /* Hotspots specifically need absolute positioning */
+            .hotspot {
+                position: absolute !important;
+            }
+            
+            /* Ensure hotspots work on mobile with proper positioning and visibility */
+            .hotspot,
+            .hotspot-dot,
+            .hotspot-pulse {
+                position: absolute !important;
+                z-index: 100 !important;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+            }
+            
+            /* Force hotspot dimensions on mobile to match desktop functionality */
+            .hotspot {
+                width: 48px !important;
+                height: 48px !important;
+                min-width: 48px !important;
+                min-height: 48px !important;
+            }
+            
+            .hotspot-dot {
+                width: 18px !important;
+                height: 18px !important;
+                background: #2196f3 !important;
+                border: 3px solid #ffffff !important;
+                border-radius: 50% !important;
+                box-shadow: 0 6px 16px rgba(33, 150, 243, 0.8) !important;
+                transform: translate(-50%, -50%) !important;
+                top: 50% !important;
+                left: 50% !important;
+            }
+            
+            .hotspot-pulse {
+                width: 100% !important;
+                height: 100% !important;
+                border: 3px solid #2196f3 !important;
+                border-radius: 50% !important;
+                opacity: 0.6 !important;
+                animation: pulse 2s infinite !important;
+                top: 0 !important;
+                left: 0 !important;
+            }
+            
+            /* Ensure carousel navigation buttons are properly positioned */
+            .carousel-nav-left,
+            .carousel-nav-right {
+                position: absolute !important;
+                z-index: 10 !important;
+            }
+            
+            /* CRITICAL: Allow XL popup to use fixed positioning on mobile */
+            div#xlPopupOverlay.popup-overlay,
+            div#xlSelloutPopup.xl-sellout-popup,
+            #xlPopupOverlay,
+            #xlSelloutPopup,
+            .xl-sellout-popup,
+            .popup-overlay {
+                position: fixed !important;
+                z-index: 999999 !important;
+            }
+            
+            /* Ultra-specific override for popup positioning */
+            @media (max-width: 768px) {
+                div[id="xlPopupOverlay"],
+                div[id="xlSelloutPopup"] {
+                    position: fixed !important;
+                }
+            }
         }
-    };
+        
+        /* IMAN'S 4-HOUR REBUILD - AUTHENTIC FOCUS */
+        
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        :root {
+            --common-transition: all 0.3s ease;
+            --common-cubic-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+            /* SIMPLESWAP MATCHING COLOR PALETTE */
+            --simpleswap-blue: #2196f3;
+            --simpleswap-dark-blue: #1976d2;
+            --simpleswap-light-blue: #e3f2fd;
+            --big-day-black: #0a0a0a;
+            --big-day-white: #ffffff;
+            --big-day-gray: #1a1a1a;
+            --big-day-light-gray: #f5f5f5;
+            --accent-blue: #2196f3;
+            --text-primary: #0a0a0a;
+            --text-secondary: #666666;
+            --border-subtle: #e5e5e5;
+            --shadow-premium: 0 20px 40px rgba(33, 150, 243, 0.1);
+            
+            /* BIG DAY TYPOGRAPHY */
+            --font-main: 'Source Code Pro', monospace;
+            --font-headline: 'Space Mono', monospace;
+            
+            /* GENEROUS SPACING - 40% MORE */
+            --space-xs: 12px;
+            --space-sm: 24px;
+            --space-md: 36px;
+            --space-lg: 56px;
+            --space-xl: 80px;
+            --space-xxl: 120px;
+            
+            /* REFINED SHADOWS */
+            --shadow-subtle: 0 1px 3px rgba(0,0,0,0.04);
+            --shadow-light: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-medium: 0 4px 16px rgba(0,0,0,0.08);
+            --shadow-elevated: 0 12px 24px rgba(0,0,0,0.12);
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--big-day-white);
+            color: var(--text-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
+            position: relative;
+            max-width: 100vw;
+            overscroll-behavior: contain; /* Prevent scroll chaining on iPhone */
+        }
+        
+        /* PERFORMANCE OPTIMIZATIONS */
+        img {
+            max-width: 100%;
+            height: auto;
+            content-visibility: auto;
+            contain-intrinsic-size: 0 500px;
+        }
+        
+        /* Optimize animations for better performance */
+        .story-slide,
+        .review-slide {
+            will-change: transform;
+            contain: layout style paint;
+        }
+        
+        /* Critical loading performance */
+        .product-image {
+            will-change: auto;
+            contain: layout;
+        }
+        
+        html {
+            scroll-behavior: smooth; /* Enable smooth scrolling */
+        }
+        
+        /* Subtle grain texture - DISABLED ON MOBILE TO PREVENT STUTTER */
+        @media (min-width: 769px) {
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0.02;
+                z-index: 1;
+                pointer-events: none;
+                background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" /%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" /%3E%3C/svg%3E');
+            }
+        }
+
+        .container {
+            max-width: 468px; /* 20% wider than 390px */
+            margin: 0 auto;
+            padding: 0 var(--space-md);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* PAYMENT GATEWAY INTEGRATION STYLES */
+        .payment-gateway-status {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid #4caf50;
+            border-radius: 12px;
+            padding: 12px;
+            margin: 16px 0;
+            text-align: center;
+            font-size: 13px;
+            color: #4caf50;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .payment-gateway-status.active {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+        
+        .simpleswap-link-button.processing {
+            background: #ff6b35 !important;
+            animation: processingPulse 1s infinite;
+        }
+        
+        @keyframes processingPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .simpleswap-link-button.success {
+            background: #4caf50 !important;
+        }
+
+        /* CLEAR HIERARCHY */
+        .main-headline {
+            font-family: var(--font-headline);
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--big-day-black);
+            margin-bottom: 16px;
+        }
+
+        .sub-headline {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+            line-height: 1.4;
+        }
+
+        .section-title {
+            font-family: var(--font-headline);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--big-day-black);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-family: var(--font-main);
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: var(--space-lg);
+            line-height: 1.5;
+        }
+
+        .body-text {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* HERO - SIMPLE & DIRECT */
+        .hero {
+            padding: var(--space-xl) 0;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .social-badge {
+            display: inline-block;
+            background: var(--simpleswap-blue);
+            color: var(--big-day-white);
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-bottom: var(--space-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+            position: relative;
+        }
+        
+        @keyframes socialPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        @media (max-width: 468px) {
+            .social-badge {
+                font-size: 0.65rem;
+                padding: 6px 12px;
+                margin-bottom: var(--space-sm);
+                letter-spacing: 0.5px;
+            }
+        }
+
+        .product-display {
+            position: relative;
+            margin: var(--space-xl) 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-medium);
+            background: var(--big-day-white);
+        }
+
+        .product-image {
+            width: 100%;
+            display: block;
+        }
+
+        .price-badge {
+            position: absolute;
+            top: var(--space-sm);
+            right: var(--space-sm);
+            background: var(--simpleswap-blue);
+            color: var(--big-day-white);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            border: 2px solid var(--big-day-white);
+        }
+
+        /* BUY NOW BUTTONS WITH PAYMENT GATEWAY INTEGRATION */
+        .hero-cta {
+            text-align: center;
+            margin-top: var(--space-xl);
+        }
+        
+        .section-cta {
+            text-align: center;
+            margin-top: var(--space-lg);
+            padding-top: var(--space-lg);
+            border-top: 2px solid var(--simpleswap-light-blue);
+        }
+        
+        .buy-now-button {
+            background: var(--simpleswap-blue);
+            color: var(--big-day-white);
+            border: none;
+            padding: var(--space-md) var(--space-xl);
+            font-family: var(--font-headline);
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--common-transition);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+            width: 100%;
+            max-width: 300px;
+            min-height: 44px;
+            min-width: 44px;
+        }
+        
+        .buy-now-button:hover {
+            background: var(--simpleswap-dark-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(33, 150, 243, 0.4);
+        }
+        
+        .hero-cta-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: var(--space-sm);
+        }
+
+        /* SIZE SELECTION - CLEAN */
+        .size-selector {
+            background: var(--big-day-white);
+            border-radius: 12px;
+            padding: var(--space-lg);
+            margin: var(--space-lg) 0;
+            box-shadow: var(--shadow-light);
+        }
+
+        .size-title {
+            text-align: center;
+            margin-bottom: var(--space-xs);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--big-day-black);
+        }
+
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: var(--space-md) 0;
+            max-width: 350px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 468px) {
+            .size-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                max-width: 280px;
+            }
+            
+            .size-option {
+                min-height: 70px;
+                padding: var(--space-xs);
+            }
+            
+            .size-label {
+                font-size: 1rem;
+            }
+            
+            .size-status {
+                font-size: 0.75rem;
+            }
+        }
+
+        .size-option {
+            background: var(--big-day-white);
+            border: 2px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: var(--space-sm);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--common-transition);
+            position: relative;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .size-option.available {
+            border-color: var(--simpleswap-blue);
+            color: var(--simpleswap-blue);
+        }
+
+        .size-option.available:hover,
+        .size-option.selected {
+            background: var(--simpleswap-blue);
+            color: var(--big-day-white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+        }
+
+        .size-option.sold-out {
+            background: var(--big-day-light-gray);
+            color: #999;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .size-label {
+            font-family: var(--font-headline);
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .size-status {
+            font-size: 0.75rem;
+            font-weight: 500;
+            opacity: 0.8;
+        }
+
+        .size-option.selected .size-status {
+            opacity: 1;
+        }
+
+        .size-option.sold-out::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 15%;
+            right: 15%;
+            height: 2px;
+            background: #ccc;
+            transform: translateY(-50%) rotate(-45deg);
+        }
+
+        /* SIMPLESWAP DIRECT LINK WITH PAYMENT GATEWAY */
+        .simpleswap-direct-link {
+            text-align: center;
+            margin-top: var(--space-md);
+        }
+        
+        .simpleswap-link-button {
+            display: inline-block;
+            background: var(--simpleswap-blue);
+            color: var(--big-day-white);
+            padding: calc(var(--space-md) * 1.2) var(--space-xl);
+            border-radius: 30px;
+            text-decoration: none;
+            font-family: var(--font-headline);
+            font-weight: 700;
+            font-size: 1.32rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+            min-height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .simpleswap-link-button:hover {
+            background: var(--simpleswap-dark-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.5);
+        }
+        
+        .exchange-subheadline {
+            margin-top: var(--space-sm);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--simpleswap-blue);
+            text-align: center;
+            font-family: var(--font-headline);
+        }
+
+        /* TRANSPARENCY SECTION */
+        .transparency-section {
+            background: var(--simpleswap-light-blue);
+            border: 4px solid var(--simpleswap-blue);
+            border-radius: 16px;
+            padding: var(--space-lg);
+            margin: var(--space-lg) calc(-1 * var(--space-md));
+            width: calc(100% + 2 * var(--space-md));
+            box-sizing: border-box;
+        }
+        
+        .transparency-title {
+            font-family: var(--font-headline);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--simpleswap-blue);
+            margin-bottom: var(--space-lg);
+            text-align: center;
+            line-height: 1.3;
+        }
+        
+        .transparency-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: var(--space-lg);
+            color: var(--text-primary);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            text-align: left;
+        }
+        
+        .transparency-highlight {
+            background: var(--simpleswap-blue);
+            color: var(--big-day-white);
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-align: center;
+            margin: 20px -10px;
+            font-size: 0.95rem;
+            line-height: 1.35;
+            box-sizing: border-box;
+            display: block;
+            white-space: normal;
+            width: calc(100% + 20px);
+            letter-spacing: -0.02em;
+        }
+
+        /* CAROUSEL STYLES */
+        .story-section {
+            padding: var(--space-xl) 0;
+            background: var(--big-day-white);
+            border-radius: 12px;
+            margin: var(--space-xl) 0;
+            box-shadow: var(--shadow-light);
+        }
+
+        .story-carousel, .review-carousel {
+            position: relative;
+            border-radius: 8px;
+            overflow: visible;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .carousel-nav {
+            background: rgba(0, 0, 0, 0.8) !important;
+            color: white;
+            border: 3px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10 !important;
+            transition: all 0.2s ease;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            min-width: 50px;
+            min-height: 50px;
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .carousel-nav:hover {
+            background: #5a5a5a;
+            transform: scale(1.05);
+        }
+
+        .story-slides {
+            display: flex;
+            width: 100%;
+        }
+
+        .story-slide {
+            min-width: 100%;
+        }
+
+        .story-slide img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* HOTSPOTS */
+        .hotspot {
+            position: absolute;
+            z-index: 3;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+        }
+
+        .hotspot-dot {
+            width: 14px;
+            height: 14px;
+            background: var(--simpleswap-blue);
+            border: 3px solid var(--big-day-white);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 6px 16px rgba(33, 150, 243, 0.6);
+        }
+
+        .hotspot-pulse {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--simpleswap-blue);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* LIFESTYLE MOMENTS */
+        .lifestyle-moments {
+            padding: var(--space-xxl) 0;
+            position: relative;
+        }
+
+        .lifestyle-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        @media (min-width: 768px) {
+            .lifestyle-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 32px;
+            }
+        }
+
+        .moment-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--big-day-white);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s var(--common-cubic-bezier);
+            cursor: pointer;
+            aspect-ratio: 4 / 3;
+            height: auto;
+        }
+
+        .moment-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .moment-image {
+            position: relative;
+            height: 70%;
+            overflow: visible;
+            z-index: 1;
+        }
+
+        .moment-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: transform 0.6s ease;
+        }
+
+        .moment-card:hover .moment-bg {
+            transform: scale(1.06);
+            filter: brightness(1.08) contrast(1.05) saturate(1.1);
+        }
+
+        .morning-bg {
+            background: 
+                url('./images/morning1_optimized.jpg'),
+                url('./images/bvtryhy_optimized.jpg'),
+                linear-gradient(rgba(245, 235, 220, 0.1), rgba(245, 235, 220, 0.1));
+            background-size: 160px 120px, 160px 120px, cover;
+            background-position: 20% 30%, 80% 70%, center;
+            background-repeat: no-repeat, no-repeat, no-repeat;
+            background-blend-mode: normal, normal, multiply;
+            transition: all 0.4s var(--common-cubic-bezier);
+        }
+
+        .study-bg {
+            background: 
+                url('./images/morning2_optimized.jpg'),
+                url('./images/fvcf_optimized.jpg'),
+                linear-gradient(rgba(235, 230, 215, 0.1), rgba(235, 230, 215, 0.1));
+            background-size: 160px 120px, 160px 120px, cover;
+            background-position: 20% 25%, 80% 75%, center;
+            background-repeat: no-repeat, no-repeat, no-repeat;
+            background-blend-mode: normal, normal, multiply;
+            transition: all 0.4s var(--common-cubic-bezier);
+        }
+
+        .night-bg {
+            background: 
+                url('./images/fggt5cvhj_optimized.jpg'),
+                url('./images/vcvjjr_optimized.jpg'),
+                linear-gradient(rgba(30, 26, 22, 0.1), rgba(30, 26, 22, 0.1));
+            background-size: 160px 120px, 160px 120px, cover;
+            background-position: 25% 30%, 75% 70%, center;
+            background-repeat: no-repeat, no-repeat, no-repeat;
+            background-blend-mode: normal, normal, multiply;
+            transition: all 0.4s var(--common-cubic-bezier);
+        }
+
+        .lifestyle-bg {
+            background: 
+                url('./images/morning1_optimized.jpg'),
+                url('./images/morning2_optimized.jpg'),
+                linear-gradient(rgba(240, 238, 235, 0.1), rgba(240, 238, 235, 0.1));
+            background-size: 160px 120px, 160px 120px, cover;
+            background-position: 30% 25%, 70% 75%, center;
+            background-repeat: no-repeat, no-repeat, no-repeat;
+            background-blend-mode: normal, normal, multiply;
+            transition: all 0.4s var(--common-cubic-bezier);
+        }
+
+        .moment-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            overflow: visible;
+        }
+
+        .moment-text {
+            padding: 20px 16px;
+            background: var(--big-day-white);
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .moment-text h3 {
+            font-family: var(--font-headline);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--big-day-black);
+            margin-bottom: 8px;
+        }
+
+        .moment-text p {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+
+        /* HOTSPOT POSITIONING */
+        .hotspot-1 { top: 35%; left: 20%; }
+        .hotspot-2 { top: 65%; right: 15%; }
+        .hotspot-3 { top: 30%; left: 20%; }
+        .hotspot-4 { top: 70%; right: 15%; }
+        .hotspot-5 { top: 35%; left: 25%; }
+        .hotspot-6 { top: 65%; right: 20%; }
+        .hotspot-7 { top: 40%; left: 30%; }
+        .hotspot-8 { top: 60%; right: 25%; }
+
+        /* WARDROBE HERO */
+        .wardrobe-tour-section {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .wardrobe-hero {
+            position: relative;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .wardrobe-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background: linear-gradient(45deg, 
+                rgba(33, 150, 243, 0.1) 0%, 
+                rgba(139, 69, 19, 0.05) 25%, 
+                rgba(0, 0, 0, 0.02) 50%, 
+                rgba(33, 150, 243, 0.08) 75%);
+            background-size: 400% 400%;
+            transform: translateZ(0);
+        }
+
+        .wardrobe-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(33, 150, 243, 0.05) 70%, 
+                rgba(0, 0, 0, 0.02) 100%);
+        }
+
+        .wardrobe-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding: var(--space-xl) 0;
+        }
+
+        .wardrobe-title {
+            font-family: var(--font-headline);
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: var(--space-md);
+            color: var(--big-day-black);
+            letter-spacing: -0.02em;
+        }
+
+        .highlight-text {
+            background: linear-gradient(135deg, var(--simpleswap-blue), var(--simpleswap-dark-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .wardrobe-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            line-height: 1.5;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+    </style>
+</head><body>
+    <!-- COMPLETE NETLIFY BODY STRUCTURE WITH PAYMENT GATEWAY INTEGRATION -->
     
-    console.log('CLEAN MERCURYO LOCK: Functions loaded successfully');
-    console.log('Available function: window.cleanMercuryoLock()');
-    </script>
-</head>
-<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; padding: 20px; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
-    
-    <div style="background: white; border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); max-width: 450px; width: 100%; text-align: center;">
-        <div style="font-size: 4rem; margin-bottom: 20px;">💎</div>
-        <h1 style="font-size: 2rem; font-weight: bold; color: #1f2937; margin-bottom: 10px;">You Are Not For Everyone</h1>
-        <p style="color: #6b7280; margin-bottom: 30px;">The €200 hoodie everyone wanted from our June drop. Most sizes sold out. We found 47 pieces in the warehouse. Your chance to get it for €15.00 before we donate the rest.</p>
-        
-        <div style="background: #f3f4f6; border-radius: 15px; padding: 20px; margin: 20px 0;">
-            <div style="color: #6b7280; font-size: 1rem;">Final Price</div>
-            <div style="font-size: 2.5rem; font-weight: bold; color: #22c55e; margin: 10px 0;">€15.00</div>
-            <div style="color: #6b7280; font-size: 1rem;">Limited stock - 47 pieces left</div>
-        </div>
-        
-        <button onclick="window.cleanMercuryoLock()" style="background: linear-gradient(135deg, #22c55e, #16a34a); color: white; border: none; border-radius: 15px; padding: 20px 40px; font-size: 1.3rem; font-weight: bold; cursor: pointer; width: 100%; margin: 20px 0; box-shadow: 0 10px 30px rgba(34, 197, 94, 0.3); transition: all 0.3s ease;">
-            🔒 Secure Purchase - Mercuryo Lock
-        </button>
-        
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 30px 0;">
-            <div style="text-align: center;">
-                <div style="font-size: 2rem; margin-bottom: 5px;">🔒</div>
-                <div style="font-size: 0.9rem; color: #6b7280;">Secure</div>
+    <div class="container">
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="social-badge">trending on tiktok</div>
+            
+            <h1 class="main-headline">You Are Not<br>For Everyone</h1>
+            <p class="sub-headline">Limited Edition Hoodie - 47 pieces left</p>
+            
+            <div class="product-display">
+                <img src="./images/main-hoodie.jpg" alt="You Are Not For Everyone Hoodie" class="product-image">
+                <div class="price-badge">$19.50</div>
             </div>
-            <div style="text-align: center;">
-                <div style="font-size: 2rem; margin-bottom: 5px;">⚡</div>
-                <div style="font-size: 0.9rem; color: #6b7280;">Instant</div>
+            
+            <!-- PAYMENT GATEWAY STATUS -->
+            <div id="paymentGatewayStatus" class="payment-gateway-status">
+                ✅ Payment gateway ready - redirecting to SimpleSwap...
             </div>
-            <div style="text-align: center;">
-                <div style="font-size: 2rem; margin-bottom: 5px;">✅</div>
-                <div style="font-size: 0.9rem; color: #6b7280;">Mercuryo Only</div>
+            
+            <div class="hero-cta">
+                <button onclick="initiatePaymentGateway()" class="buy-now-button" id="mainBuyButton">
+                    Buy Now - $19.50
+                </button>
+                <p class="hero-cta-text">Free shipping worldwide • 30-day returns</p>
             </div>
-        </div>
+        </section>
+
+        <!-- SIZE SELECTION -->
+        <section class="size-selector">
+            <h3 class="size-title">Choose Your Size</h3>
+            <p class="size-subtitle">Unisex sizing - relaxed fit</p>
+            
+            <div class="size-grid">
+                <div class="size-option sold-out" data-size="XS">
+                    <span class="size-label">XS</span>
+                    <span class="size-status">Sold Out</span>
+                </div>
+                <div class="size-option available" data-size="S" onclick="selectSize('S')">
+                    <span class="size-label">S</span>
+                    <span class="size-status">Available</span>
+                </div>
+                <div class="size-option available selected" data-size="M" onclick="selectSize('M')">
+                    <span class="size-label">M</span>
+                    <span class="size-status">Most Popular</span>
+                </div>
+                <div class="size-option available" data-size="L" onclick="selectSize('L')">
+                    <span class="size-label">L</span>
+                    <span class="size-status">Available</span>
+                </div>
+                <div class="size-option sold-out" data-size="XL">
+                    <span class="size-label">XL</span>
+                    <span class="size-status">Just Sold Out</span>
+                </div>
+                <div class="size-option sold-out" data-size="XXL">
+                    <span class="size-label">XXL</span>
+                    <span class="size-status">Sold Out</span>
+                </div>
+            </div>
+            
+            <div class="stock-warning">⚡ Only 2-3 pieces left in most sizes</div>
+            
+            <div class="section-cta">
+                <button onclick="initiatePaymentGateway()" class="buy-now-button">
+                    Secure Checkout - $19.50
+                </button>
+            </div>
+        </section>
+
+        <!-- STORY CAROUSEL SECTION -->
+        <section class="story-section">
+            <h2 class="section-title">The Story Behind the Hoodie</h2>
+            <p class="section-subtitle">See how this design became a movement</p>
+            
+            <!-- Carousel Navigation -->
+            <div style="display: flex; justify-content: flex-start; align-items: center; gap: 4px; padding: 10px; margin: 20px 0;">
+                <button id="storyPrevBtn" class="carousel-nav carousel-nav-left">‹</button>
+                <button id="storyNextBtn" class="carousel-nav carousel-nav-right">›</button>
+            </div>
+            
+            <div class="story-carousel" id="storyCarousel">
+                <div class="story-slides" id="storySlides">
+                    <div class="story-slide">
+                        <img src="./images/slide-1_final_crushed_under_20kb.jpg" alt="Story slide 1">
+                    </div>
+                    <div class="story-slide">
+                        <img src="./images/slide-2_final_crushed_under_20kb.jpg" alt="Story slide 2">
+                    </div>
+                    <div class="story-slide">
+                        <img src="./images/slide-3_captioned_final_under_20kb.jpg" alt="Story slide 3">
+                    </div>
+                    <div class="story-slide">
+                        <img src="./images/slide-4_final_crushed_under_20kb.jpg" alt="Story slide 4">
+                    </div>
+                    <div class="story-slide">
+                        <img src="./images/slide-5_final_crushed_under_20kb.jpg" alt="Story slide 5">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LIFESTYLE MOMENTS SECTION -->
+        <section class="wardrobe-tour-section">
+            <div class="wardrobe-hero">
+                <div class="wardrobe-background"></div>
+                <div class="wardrobe-gradient"></div>
+                <div class="wardrobe-content">
+                    <h2 class="wardrobe-title">Your Life, <span class="highlight-text">Elevated</span></h2>
+                    <p class="wardrobe-subtitle">See how this hoodie fits seamlessly into every moment of your day</p>
+                </div>
+            </div>
+            
+            <div class="lifestyle-moments">
+                <div class="container">
+                    <div class="lifestyle-grid">
+                        <div class="moment-card">
+                            <div class="moment-image">
+                                <div class="moment-bg morning-bg"></div>
+                                <div class="moment-overlay">
+                                    <div class="hotspot hotspot-1" data-tip="Soft cotton blend - perfect for morning coffee">
+                                        <div class="hotspot-dot"></div>
+                                        <div class="hotspot-pulse"></div>
+                                    </div>
+                                    <div class="hotspot hotspot-2" data-tip="Kangaroo pocket for your essentials">
+                                        <div class="hotspot-dot"></div>
+                                        <div class="hotspot-pulse"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="moment-text">
+                                <h3>Morning Moments</h3>
+                                <p>Start your day with intention and comfort</p>
+                            </div>
+                        </div>
+                        
+                        <div class="moment-card">
+                            <div class="moment-image">
+                                <div class="moment-bg study-bg"></div>
+                                <div class="moment-overlay">
+                                    <div class="hotspot hotspot-3" data-tip="Relaxed fit for all-day comfort">
+                                        <div class="hotspot-dot"></div>
+                                        <div class="hotspot-pulse"></div>
+                                    </div>
+                                    <div class="hotspot hotspot-4" data-tip="Quality embroidery that lasts">
+                                        <div class="hotspot-dot"></div>
+                                        <div class="hotspot-pulse"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="moment-text">
+                                <h3>Deep Work</h3>
+                                <p>Focus sessions in ultimate comfort</p>
+                            </div>
+                        </div>
+                        
+                        <div class="moment-card">
+                            <div class="moment-image">
+                                <div class="moment-bg night-bg"></div>
+                                <div class="moment-overlay">
+                                    <div class="hotspot hotspot-5" data-tip="Cozy hood for evening vibes">
+                                        <div class="hotspot-dot"></div>
+                                        <div class="hotspot-pulse"></div>
+                                    </div>
+                                    <div class="hotspot hotspot-6" data-tip="Ribbed cuffs and hem">
+                                        <div class="hotspot-dot"></div>
+                                        <div class="hotspot-pulse"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="moment-text">
+                                <h3>After Hours</h3>
+                                <p>Wind down in style and softness</p>
+                            </div>
+                        </div>
+                        
+                        <div class="moment-card">
+                            <div class="moment-image">
+                                <div class="moment-bg lifestyle-bg"></div>
+                                <div class="moment-overlay">
+                                    <div class="hotspot hotspot-7" data-tip="Versatile for any occasion">
+                                        <div class="hotspot-dot"></div>
+                                        <div class="hotspot-pulse"></div>
+                                    </div>
+                                    <div class="hotspot hotspot-8" data-tip="Authentic streetwear aesthetic">
+                                        <div class="hotspot-dot"></div>
+                                        <div class="hotspot-pulse"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="moment-text">
+                                <h3>Your Moment</h3>
+                                <p>Make every moment uniquely yours</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REVIEWS CAROUSEL SECTION -->
+        <section class="story-section">
+            <h2 class="section-title">What People Are Saying</h2>
+            <p class="section-subtitle">Real reviews from TikTok and Trustpilot</p>
+            
+            <!-- TikTok Reviews Carousel -->
+            <div style="display: flex; justify-content: flex-start; align-items: center; gap: 4px; padding: 10px; margin: 20px 0;">
+                <button id="tiktokPrevBtn" class="carousel-nav carousel-nav-left">‹</button>
+                <button id="tiktokNextBtn" class="carousel-nav carousel-nav-right">›</button>
+            </div>
+            
+            <div class="review-carousel" id="tiktokCarousel">
+                <div class="story-slides" id="tiktokSlides">
+                    <div class="story-slide">
+                        <img src="./images/compressed_hoodie_review_Ava_30kb.jpg" alt="TikTok review 1">
+                    </div>
+                    <div class="story-slide">
+                        <img src="./images/compressed_hoodie_review_Emma_black_30kb.jpg" alt="TikTok review 2">
+                    </div>
+                    <div class="story-slide">
+                        <img src="./images/compressed_hoodie_review_Isabella_30kb.jpg" alt="TikTok review 3">
+                    </div>
+                    <div class="story-slide">
+                        <img src="./images/compressed_hoodie_review_Kristen_v2_30kb.jpg" alt="TikTok review 4">
+                    </div>
+                    <div class="story-slide">
+                        <img src="./images/compressed_hoodie_review_Madison_30kb.jpg" alt="TikTok review 5">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Trustpilot Reviews Carousel -->
+            <div style="display: flex; justify-content: flex-start; align-items: center; gap: 4px; padding: 10px; margin: 40px 0 20px 0;">
+                <button id="trustpilotPrevBtn" class="carousel-nav carousel-nav-left">‹</button>
+                <button id="trustpilotNextBtn" class="carousel-nav carousel-nav-right">›</button>
+            </div>
+            
+            <div class="review-carousel" id="trustpilotCarousel">
+                <div class="story-slides" id="trustpilotSlides">
+                    <div class="story-slide">
+                        <img src="./images/compressed_trustpilot_review_Addison_30kb.jpg" alt="Trustpilot review 1">
+                    </div>
+                    <div class="story-slide">
+                        <img src="./images/compressed_trustpilot_review_Danielle_30kb.jpg" alt="Trustpilot review 2">
+                    </div>
+                    <div class="story-slide">
+                        <img src="./images/compressed_trustpilot_review_Emily_30kb.jpg" alt="Trustpilot review 3">
+                    </div>
+                    <div class="story-slide">
+                        <img src="./images/compressed_trustpilot_review_Lauren_white_30kb.jpg" alt="Trustpilot review 4">
+                    </div>
+                    <div class="story-slide">
+                        <img src="./images/compressed_trustpilot_review_Morgan_30kb.jpg" alt="Trustpilot review 5">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRANSPARENCY SECTION -->
+        <section class="transparency-section">
+            <h2 class="transparency-title">Why $19.50 Instead of $200?</h2>
+            
+            <div class="transparency-text">
+                Most hoodies are marked up 10-15x their actual cost. We're cutting out the middleman and selling directly to you at near-cost pricing.
+            </div>
+            
+            <div class="transparency-text">
+                This isn't about maximum profit - it's about making quality streetwear accessible to everyone who resonates with the message.
+            </div>
+            
+            <div class="transparency-highlight">
+                Same quality materials • Same ethical manufacturing • 90% lower price because we skip the retail markup
+            </div>
+            
+            <div class="section-cta">
+                <button onclick="initiatePaymentGateway()" class="buy-now-button">
+                    Get Yours - $19.50
+                </button>
+            </div>
+        </section>
+
+        <!-- FINAL PAYMENT SECTION WITH GATEWAY INTEGRATION -->
+        <section class="payment-section">
+            <h2 class="section-title">Ready to Make It Yours?</h2>
+            <p class="section-subtitle">Secure payment via SimpleSwap • No registration required</p>
+            
+            <div class="simpleswap-direct-link">
+                <button onclick="initiatePaymentGateway()" id="finalPaymentButton" class="simpleswap-link-button">
+                    Complete Purchase - $19.50
+                </button>
+                <div class="exchange-subheadline">Powered by SimpleSwap</div>
+            </div>
+        </section>
     </div>
-    
+
+    <!-- PAYMENT GATEWAY INTEGRATION JAVASCRIPT -->
+    <script>
+        // PAYMENT GATEWAY INTEGRATION SYSTEM
+        let selectedSize = 'M'; // Default size
+        let paymentInProgress = false;
+        
+        // Size selection functionality
+        function selectSize(size) {
+            selectedSize = size;
+            
+            // Update UI
+            document.querySelectorAll('.size-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            document.querySelector(`[data-size="${size}"]`).classList.add('selected');
+            
+            console.log(`Size selected: ${size}`);
+        }
+        
+        // Main payment gateway function
+        function initiatePaymentGateway() {
+            if (paymentInProgress) {
+                console.log('Payment already in progress');
+                return;
+            }
+            
+            paymentInProgress = true;
+            
+            // Show processing status
+            const statusElement = document.getElementById('paymentGatewayStatus');
+            const buttons = document.querySelectorAll('.buy-now-button, .simpleswap-link-button');
+            
+            // Update button states
+            buttons.forEach(button => {
+                button.classList.add('processing');
+                button.textContent = 'Processing...';
+            });
+            
+            // Show status message
+            if (statusElement) {
+                statusElement.classList.add('active');
+                statusElement.innerHTML = '🔄 Initializing payment gateway...';
+            }
+            
+            // Simulate processing delay for better UX
+            setTimeout(() => {
+                // Update status
+                if (statusElement) {
+                    statusElement.innerHTML = '🚀 Redirecting to SimpleSwap...';
+                }
+                
+                // Build SimpleSwap URL with proper parameters
+                const baseUrl = 'https://simpleswap.io/';
+                const params = new URLSearchParams({
+                    from: 'usd',
+                    to: 'pol',
+                    amount: '19.50',
+                    partner: 'auralo'
+                });
+                
+                const fullUrl = baseUrl + '?' + params.toString();
+                
+                console.log('🎯 Payment Gateway: Opening SimpleSwap with URL:', fullUrl);
+                console.log('📦 Selected size:', selectedSize);
+                
+                // Open SimpleSwap in new window/tab
+                const paymentWindow = window.open(fullUrl, '_blank');
+                
+                if (paymentWindow) {
+                    // Success - update UI
+                    buttons.forEach(button => {
+                        button.classList.remove('processing');
+                        button.classList.add('success');
+                        button.textContent = '✅ Payment Window Opened';
+                    });
+                    
+                    if (statusElement) {
+                        statusElement.innerHTML = '✅ Payment window opened successfully!';
+                    }
+                    
+                    console.log('✅ Payment gateway activated successfully');
+                    
+                    // Reset after delay
+                    setTimeout(() => {
+                        buttons.forEach(button => {
+                            button.classList.remove('success');
+                            button.textContent = 'Complete Purchase - $19.50';
+                        });
+                        paymentInProgress = false;
+                    }, 3000);
+                    
+                } else {
+                    // Popup blocked - provide fallback
+                    console.log('⚠️ Popup blocked - providing fallback');
+                    
+                    if (statusElement) {
+                        statusElement.innerHTML = '⚠️ Popup blocked - <a href="' + fullUrl + '" target="_blank" style="color: #2196f3; text-decoration: underline;">Click here to complete payment</a>';
+                    }
+                    
+                    // Also copy URL to clipboard for mobile users
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(fullUrl).then(() => {
+                            console.log('📋 Payment URL copied to clipboard');
+                        });
+                    }
+                    
+                    buttons.forEach(button => {
+                        button.classList.remove('processing');
+                        button.textContent = 'Try Again';
+                    });
+                    
+                    paymentInProgress = false;
+                }
+            }, 1000);
+        }
+        
+        // Enhanced mobile support
+        function handleMobilePayment() {
+            const baseUrl = 'https://simpleswap.io/';
+            const params = new URLSearchParams({
+                from: 'usd',
+                to: 'pol',
+                amount: '19.50',
+                partner: 'auralo'
+            });
+            
+            const fullUrl = baseUrl + '?' + params.toString();
+            
+            // For mobile, always copy to clipboard and show instructions
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(fullUrl);
+                alert('Payment URL copied to clipboard! Paste in browser to complete purchase.');
+            }
+            
+            // Also try to open
+            window.open(fullUrl, '_blank');
+        }
+        
+        // Device detection for optimal payment flow
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+        
+        // Initialize payment system
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Payment Gateway System Initialized');
+            console.log('📱 Mobile device:', isMobileDevice());
+            console.log('🎯 Default size:', selectedSize);
+            
+            // Add click handlers to all buy buttons
+            const buyButtons = document.querySelectorAll('.buy-now-button, .simpleswap-link-button');
+            buyButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (isMobileDevice()) {
+                        handleMobilePayment();
+                    } else {
+                        initiatePaymentGateway();
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- CAROUSEL FUNCTIONALITY FROM NETLIFY SOURCE -->
+    <script>
+        // Complete carousel system from original Netlify source
+        (function() {
+            console.log('🎠 Initializing Complete Carousel System...');
+            
+            // Global carousel state storage
+            window.carouselStates = window.carouselStates || {};
+            
+            const allCarousels = [
+                { id: 'storyCarousel', slidesId: 'storySlides', prevBtnId: 'storyPrevBtn', nextBtnId: 'storyNextBtn' },
+                { id: 'tiktokCarousel', slidesId: 'tiktokSlides', prevBtnId: 'tiktokPrevBtn', nextBtnId: 'tiktokNextBtn' },
+                { id: 'trustpilotCarousel', slidesId: 'trustpilotSlides', prevBtnId: 'trustpilotPrevBtn', nextBtnId: 'trustpilotNextBtn' }
+            ];
+            
+            allCarousels.forEach(function(carousel) {
+                const container = document.getElementById(carousel.id);
+                const slidesContainer = document.getElementById(carousel.slidesId);
+                
+                if (!container || !slidesContainer) {
+                    console.log('❌ ' + carousel.id + ' missing elements');
+                    return;
+                }
+                
+                const slides = slidesContainer.querySelectorAll('.story-slide');
+                
+                // Store state globally
+                window.carouselStates[carousel.id] = {
+                    currentSlide: 0,
+                    slides: slides,
+                    slidesContainer: slidesContainer,
+                    container: container
+                };
+                
+                console.log('✅ Initializing ' + carousel.id + ' with ' + slides.length + ' slides');
+                
+                function updateSlide(carouselId) {
+                    const state = window.carouselStates[carouselId];
+                    if (!state) return;
+                    
+                    const containerWidth = state.slidesContainer.offsetWidth || state.container.offsetWidth;
+                    const translateX = -state.currentSlide * containerWidth;
+                    
+                    state.slidesContainer.style.cssText = 'transform: translateX(' + translateX + 'px) !important; transition: transform 0.3s ease !important; display: flex !important; width: 100% !important;';
+                    
+                    console.log('🎠 ' + carouselId + ' moved to slide ' + (state.currentSlide + 1) + '/' + state.slides.length);
+                }
+                
+                // Next button
+                const nextBtn = document.getElementById(carousel.nextBtnId);
+                if (nextBtn) {
+                    nextBtn.onclick = function(e) {
+                        e.preventDefault();
+                        const state = window.carouselStates[carousel.id];
+                        if (!state) return;
+                        state.currentSlide = (state.currentSlide + 1) % state.slides.length;
+                        updateSlide(carousel.id);
+                    };
+                    console.log('✅ ' + carousel.id + ' NEXT button connected');
+                }
+                
+                // Previous button
+                const prevBtn = document.getElementById(carousel.prevBtnId);
+                if (prevBtn) {
+                    prevBtn.onclick = function(e) {
+                        e.preventDefault();
+                        const state = window.carouselStates[carousel.id];
+                        if (!state) return;
+                        state.currentSlide = state.currentSlide > 0 ? state.currentSlide - 1 : state.slides.length - 1;
+                        updateSlide(carousel.id);
+                    };
+                    console.log('✅ ' + carousel.id + ' PREV button connected');
+                }
+                
+                // Touch/swipe support
+                let startX = 0;
+                let isDragging = false;
+                
+                slidesContainer.addEventListener('touchstart', function(e) {
+                    startX = e.touches[0].clientX;
+                    isDragging = true;
+                    slidesContainer.style.transition = 'none';
+                }, { passive: true });
+                
+                slidesContainer.addEventListener('touchend', function(e) {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    
+                    const endX = e.changedTouches[0].clientX;
+                    const diffX = startX - endX;
+                    const threshold = 50;
+                    
+                    slidesContainer.style.transition = 'transform 0.3s ease';
+                    
+                    if (Math.abs(diffX) > threshold) {
+                        const state = window.carouselStates[carousel.id];
+                        if (!state) return;
+                        
+                        if (diffX > 0) {
+                            // Swipe left - next slide
+                            state.currentSlide = (state.currentSlide + 1) % state.slides.length;
+                        } else {
+                            // Swipe right - previous slide
+                            state.currentSlide = state.currentSlide > 0 ? state.currentSlide - 1 : state.slides.length - 1;
+                        }
+                        updateSlide(carousel.id);
+                    }
+                }, { passive: true });
+                
+                console.log('✅ ' + carousel.id + ' touch support added');
+            });
+            
+            console.log('🎉 Complete carousel system initialized!');
+        })();
+    </script>
 </body>
 </html>
