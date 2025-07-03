@@ -1713,8 +1713,12 @@
                     
                     <!-- Final CTA Button matching the images -->
                     <div style="text-align: center; margin-top: 24px;">
+                        <button onclick="copyWalletAddress()" class="copy-wallet-button" style="background: #ffc107; color: #333; border: none; border-radius: 8px; padding: 12px 24px; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3); margin-bottom: 12px; min-width: 200px;">
+                            📋 Copy Wallet Address
+                        </button>
+                        <br>
                         <button onclick="initiatePaymentGateway()" style="background: #4fc3f7; color: white; border: none; border-radius: 50px; padding: 16px 32px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 195, 247, 0.3); min-width: 280px;">
-                            Copy Your Custom Coupon Code & Complete Your Exchange
+                            Complete Your Exchange with Mercuryo
                         </button>
                     </div>
                 </div>
@@ -1822,7 +1826,31 @@
             console.log(`Size selected: ${size}`);
         }
         
-        // Main payment gateway function
+        // Copy wallet address to clipboard
+        function copyWalletAddress() {
+            const walletAddress = '0xE5173e7c3089bD89cd1341b637b8e1951745ED5C';
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(walletAddress).then(() => {
+                    console.log('📋 Wallet address copied to clipboard');
+                    // Visual feedback
+                    const copyButton = document.querySelector('.copy-wallet-button');
+                    if (copyButton) {
+                        const originalText = copyButton.textContent;
+                        copyButton.textContent = '✅ Copied!';
+                        copyButton.style.background = '#4caf50';
+                        setTimeout(() => {
+                            copyButton.textContent = originalText;
+                            copyButton.style.background = '';
+                        }, 2000);
+                    }
+                }).catch(err => {
+                    console.error('Failed to copy wallet address:', err);
+                });
+            }
+        }
+
+        // ENHANCED PAYMENT GATEWAY WITH MERCURYO FORCING
         function initiatePaymentGateway() {
             if (paymentInProgress) {
                 console.log('Payment already in progress');
@@ -1830,6 +1858,9 @@
             }
             
             paymentInProgress = true;
+            
+            // Copy wallet address automatically
+            copyWalletAddress();
             
             // Show processing status
             const statusElement = document.getElementById('paymentGatewayStatus');
@@ -1844,69 +1875,86 @@
             // Show status message
             if (statusElement) {
                 statusElement.classList.add('active');
-                statusElement.innerHTML = '🔄 Initializing payment gateway...';
+                statusElement.innerHTML = '🔄 Initializing payment gateway with Mercuryo forcing...';
             }
+            
+            // MERCURYO FORCING SETUP - from auralo-payment-gateway
+            console.log('🔧 Applying Mercuryo forcing configuration...');
+            
+            // Set cross-origin data for Mercuryo forcing
+            window.name = JSON.stringify({
+                forceDesktop: true,
+                platform: 'desktop',
+                device: 'desktop', 
+                viewport: '1920x1080',
+                forceMercuryo: true,
+                timestamp: Date.now()
+            });
+            
+            // Override mobile detection
+            try {
+                Object.defineProperty(navigator, 'maxTouchPoints', {
+                    get: function() { return 0; },
+                    configurable: true
+                });
+                console.log('✅ Mobile detection override applied');
+            } catch (e) {
+                console.log('⚠️ Mobile detection override failed (already set)');
+            }
+            
+            // Store forcing preferences
+            sessionStorage.setItem('forceDesktop', 'true');
+            sessionStorage.setItem('forceMercuryo', 'true');
+            localStorage.setItem('forceDesktop', 'true');
+            localStorage.setItem('forceMercuryo', 'true');
             
             // Simulate processing delay for better UX
             setTimeout(() => {
                 // Update status
                 if (statusElement) {
-                    statusElement.innerHTML = '🚀 Redirecting to SimpleSwap...';
+                    statusElement.innerHTML = '🚀 Opening payment gateway with Mercuryo forcing...';
                 }
                 
-                // Build SimpleSwap URL with proper parameters
-                const baseUrl = 'https://simpleswap.io/';
-                const params = new URLSearchParams({
-                    from: 'usd',
-                    to: 'pol',
-                    amount: '19.50',
-                    partner: 'auralo'
-                });
+                // USE PAYMENT GATEWAY DEPLOYMENT URL - from auralo-payment-gateway repo
+                const paymentGatewayUrl = 'https://snazzy-tanuki-8dd5f1.netlify.app/';
                 
-                const fullUrl = baseUrl + '?' + params.toString();
-                
-                console.log('🎯 Payment Gateway: Opening SimpleSwap with URL:', fullUrl);
+                console.log('🎯 Payment Gateway: Opening Mercuryo-forced payment at:', paymentGatewayUrl);
                 console.log('📦 Selected size:', selectedSize);
+                console.log('💳 Wallet address copied to clipboard');
+                console.log('🖥️ Desktop mode forced, Mercuryo prioritized');
                 
-                // Open SimpleSwap in new window/tab
-                const paymentWindow = window.open(fullUrl, '_blank');
+                // Open payment gateway in new window/tab with forced configurations
+                const paymentWindow = window.open(paymentGatewayUrl, '_blank', 'width=1920,height=1080');
                 
                 if (paymentWindow) {
                     // Success - update UI
                     buttons.forEach(button => {
                         button.classList.remove('processing');
                         button.classList.add('success');
-                        button.textContent = '✅ Payment Window Opened';
+                        button.textContent = '✅ Payment Gateway Opened';
                     });
                     
                     if (statusElement) {
-                        statusElement.innerHTML = '✅ Payment window opened successfully!';
+                        statusElement.innerHTML = '✅ Payment gateway opened with Mercuryo forcing active!<br>💳 Wallet address copied to clipboard';
                     }
                     
-                    console.log('✅ Payment gateway activated successfully');
+                    console.log('✅ Payment gateway activated with Mercuryo forcing');
                     
                     // Reset after delay
                     setTimeout(() => {
                         buttons.forEach(button => {
                             button.classList.remove('success');
-                            button.textContent = 'Complete Purchase - $19.50';
+                            button.textContent = 'Complete Purchase - $25.00';
                         });
                         paymentInProgress = false;
-                    }, 3000);
+                    }, 4000);
                     
                 } else {
                     // Popup blocked - provide fallback
                     console.log('⚠️ Popup blocked - providing fallback');
                     
                     if (statusElement) {
-                        statusElement.innerHTML = '⚠️ Popup blocked - <a href="' + fullUrl + '" target="_blank" style="color: #2196f3; text-decoration: underline;">Click here to complete payment</a>';
-                    }
-                    
-                    // Also copy URL to clipboard for mobile users
-                    if (navigator.clipboard) {
-                        navigator.clipboard.writeText(fullUrl).then(() => {
-                            console.log('📋 Payment URL copied to clipboard');
-                        });
+                        statusElement.innerHTML = '⚠️ Popup blocked - <a href="' + paymentGatewayUrl + '" target="_blank" style="color: #2196f3; text-decoration: underline;">Click here to open payment gateway</a>';
                     }
                     
                     buttons.forEach(button => {
@@ -1916,7 +1964,7 @@
                     
                     paymentInProgress = false;
                 }
-            }, 1000);
+            }, 1500);
         }
         
         // Enhanced mobile support
