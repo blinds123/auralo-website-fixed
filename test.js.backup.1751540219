@@ -1,0 +1,11 @@
+// Test file for auto-fix validation
+// TODO: Remove this test file after validation
+// FIXME: This is a temporary test marker
+
+console.log("Testing auto-fix functionality");
+
+// TEMP: Testing TODO removal
+function testFunction() {
+    // XXX: This should be cleaned up
+    return "test";
+}
