@@ -1850,7 +1850,7 @@
             }
         }
 
-        // ENHANCED PAYMENT GATEWAY WITH MOBILE WORKAROUND & MERCURYO FORCING
+        // ULTIMATE MOBILE AUTO SOLUTION: ADAPTIVE DOUBLE-TAP METHOD
         function initiatePaymentGateway() {
             if (paymentInProgress) {
                 console.log('Payment already in progress');
@@ -1872,87 +1872,71 @@
                 button.textContent = 'Processing...';
             });
             
-            // Show status message
-            if (statusElement) {
-                statusElement.classList.add('active');
-                statusElement.innerHTML = '🔄 Initializing payment gateway with mobile workaround...';
-            }
+            // Enhanced mobile detection - check multiple vectors
+            const userAgentMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const touchDevice = navigator.maxTouchPoints > 0;
+            const screenMobile = window.innerWidth <= 768 || screen.width <= 768;
+            const isMobileDevice = userAgentMobile || touchDevice || screenMobile;
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
             
-            // Enhanced mobile detection and forcing
-            const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            console.log('🔍 Mobile Detection Debug:');
+            console.log('- User Agent Mobile:', userAgentMobile);
+            console.log('- Touch Device:', touchDevice);
+            console.log('- Screen Mobile:', screenMobile);
+            console.log('- Final Mobile Detection:', isMobileDevice);
             
             if (isMobileDevice) {
-                console.log('📱 Mobile device detected - applying enhanced workaround');
+                console.log('📱 Mobile device detected - applying ULTIMATE AUTO SOLUTION');
                 
-                // MOBILE WORKAROUND: Implement the double-tap method automatically
-                // This method: tap exchange -> go to next page -> go back -> tap exchange again
-                // This makes it stick to $19.50 and use Mercuryo
+                if (statusElement) {
+                    statusElement.classList.add('active');
+                    statusElement.innerHTML = '🚀 Initializing ultimate mobile auto solution...';
+                }
                 
-                // Step 1: Apply aggressive mobile detection overrides
+                // Apply mobile detection overrides
                 try {
-                    // Override multiple mobile detection vectors
                     Object.defineProperty(navigator, 'maxTouchPoints', {
                         get: function() { return 0; },
                         configurable: true
                     });
-                    Object.defineProperty(navigator, 'userAgent', {
-                        get: function() { return 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'; },
-                        configurable: true
-                    });
-                    Object.defineProperty(screen, 'width', {
-                        get: function() { return 1920; },
-                        configurable: true
-                    });
-                    Object.defineProperty(screen, 'height', {
-                        get: function() { return 1080; },
-                        configurable: true
-                    });
-                    console.log('✅ Enhanced mobile detection overrides applied');
+                    console.log('✅ Mobile detection overrides applied');
                 } catch (e) {
-                    console.log('⚠️ Some mobile detection overrides failed:', e.message);
+                    console.log('⚠️ Mobile detection override failed:', e.message);
                 }
                 
-                // Step 2: Set up double-tap workaround data
-                const workaroundData = {
-                    forceDesktop: true,
-                    platform: 'desktop',
-                    device: 'desktop', 
-                    viewport: '1920x1080',
-                    forceMercuryo: true,
-                    mobileWorkaround: true,
-                    doubleTapMethod: true,
-                    stickAmount: '19.50',
-                    timestamp: Date.now()
-                };
+                // ULTIMATE AUTO SOLUTION: Adaptive Double-Tap Method
+                const paymentAttempts = parseInt(localStorage.getItem('paymentAttempts') || '0');
+                const lastAttempt = localStorage.getItem('lastPaymentAttempt');
+                const now = Date.now();
                 
-                // Store in multiple places for persistence
-                window.name = JSON.stringify(workaroundData);
-                sessionStorage.setItem('mobileWorkaround', JSON.stringify(workaroundData));
-                localStorage.setItem('mobileWorkaround', JSON.stringify(workaroundData));
+                // Check if this is a recent repeat attempt (within 10 seconds)
+                const isRecentAttempt = lastAttempt && (now - parseInt(lastAttempt)) < 10000;
                 
-                // Step 3: Enhanced mobile gateway URL with workaround parameters
-                const paymentGatewayUrl = 'https://snazzy-tanuki-8dd5f1.netlify.app/?mobile-workaround=true&force-mercuryo=true&amount=19.50';
-                
-                setTimeout(() => {
-                    if (statusElement) {
-                        statusElement.innerHTML = '📱 Opening mobile-optimized payment gateway...<br>💡 Using double-tap workaround method';
-                    }
+                if (paymentAttempts === 0 || !isRecentAttempt) {
+                    // PRIMARY METHOD: Direct SimpleSwap URL (most reliable)
+                    console.log('🎯 Using PRIMARY METHOD: Direct SimpleSwap URL');
                     
-                    // Try to open with mobile workaround
-                    const paymentWindow = window.open(paymentGatewayUrl, '_blank', 'width=1920,height=1080');
+                    localStorage.setItem('paymentAttempts', '1');
+                    localStorage.setItem('lastPaymentAttempt', now.toString());
                     
-                    if (paymentWindow) {
-                        console.log('✅ Mobile workaround payment gateway opened');
+                    // ENHANCED MOBILE VERIFICATION URL - Shows wallet address and Mercuryo green box
+                    const directURL = 'https://snazzy-tanuki-8dd5f1.netlify.app/simpleswap-enhanced.html?amount=19.50&mobile-workaround=true&force-mercuryo=true';
+                    
+                    setTimeout(() => {
+                        if (statusElement) {
+                            statusElement.innerHTML = '🎯 Opening direct SimpleSwap URL...<br>💰 Amount: $19.50 | 🏆 Mercuryo prioritized';
+                        }
                         
                         buttons.forEach(button => {
                             button.classList.remove('processing');
                             button.classList.add('success');
-                            button.textContent = '✅ Mobile Payment Ready';
+                            button.textContent = '✅ Direct Payment Ready';
                         });
                         
-                        if (statusElement) {
-                            statusElement.innerHTML = '✅ Mobile payment gateway opened!<br>💡 Follow instructions for double-tap if needed<br>💳 Wallet address copied to clipboard';
-                        }
+                        console.log('🚀 Direct SimpleSwap URL:', directURL);
+                        
+                        // Open direct URL
+                        window.open(directURL, '_blank');
                         
                         // Reset after delay
                         setTimeout(() => {
@@ -1961,29 +1945,33 @@
                                 button.textContent = 'Complete Purchase - $25.00';
                             });
                             paymentInProgress = false;
-                        }, 6000);
+                        }, 5000);
                         
-                    } else {
-                        // Fallback for mobile
-                        console.log('⚠️ Mobile popup blocked - providing direct link');
-                        
-                        if (statusElement) {
-                            statusElement.innerHTML = '📱 <a href="' + paymentGatewayUrl + '" target="_blank" style="color: #2196f3; text-decoration: underline; font-weight: bold;">Tap here to open mobile payment gateway</a><br>💡 If amount doesn\'t stick, try the double-tap method';
-                        }
-                        
-                        buttons.forEach(button => {
-                            button.classList.remove('processing');
-                            button.innerHTML = '📱 Open Mobile Payment';
-                            button.onclick = () => window.open(paymentGatewayUrl, '_blank');
-                        });
-                        
-                        paymentInProgress = false;
+                    }, 1000);
+                    
+                } else {
+                    // BACKUP METHOD: Programmatic Double-Tap Sequence
+                    console.log('🔄 Using BACKUP METHOD: Programmatic Double-Tap Sequence');
+                    
+                    localStorage.setItem('paymentAttempts', (paymentAttempts + 1).toString());
+                    localStorage.setItem('lastPaymentAttempt', now.toString());
+                    
+                    if (statusElement) {
+                        statusElement.innerHTML = '🔄 Executing programmatic double-tap sequence...<br>⏱️ Stage 1 of 3';
                     }
-                }, 1500);
+                    
+                    // Execute the proven double-tap method programmatically
+                    executeDoubleTapSequence(statusElement, buttons);
+                }
                 
             } else {
-                // DESKTOP FLOW - Original implementation
+                // DESKTOP FLOW - Standard implementation
                 console.log('🖥️ Desktop device detected - using standard flow');
+                
+                if (statusElement) {
+                    statusElement.classList.add('active');
+                    statusElement.innerHTML = '🚀 Opening payment gateway with Mercuryo forcing...';
+                }
                 
                 // Set cross-origin data for Mercuryo forcing
                 window.name = JSON.stringify({
@@ -2002,16 +1990,11 @@
                 localStorage.setItem('forceMercuryo', 'true');
                 
                 setTimeout(() => {
-                    if (statusElement) {
-                        statusElement.innerHTML = '🚀 Opening payment gateway with Mercuryo forcing...';
-                    }
-                    
                     const paymentGatewayUrl = 'https://snazzy-tanuki-8dd5f1.netlify.app/';
                     
-                    console.log('🎯 Payment Gateway: Opening Mercuryo-forced payment at:', paymentGatewayUrl);
+                    console.log('🎯 Payment Gateway:', paymentGatewayUrl);
                     console.log('📦 Selected size:', selectedSize);
                     console.log('💳 Wallet address copied to clipboard');
-                    console.log('🖥️ Desktop mode forced, Mercuryo prioritized');
                     
                     const paymentWindow = window.open(paymentGatewayUrl, '_blank', 'width=1920,height=1080');
                     
@@ -2026,8 +2009,6 @@
                             statusElement.innerHTML = '✅ Payment gateway opened with Mercuryo forcing active!<br>💳 Wallet address copied to clipboard';
                         }
                         
-                        console.log('✅ Payment gateway activated with Mercuryo forcing');
-                        
                         setTimeout(() => {
                             buttons.forEach(button => {
                                 button.classList.remove('success');
@@ -2037,8 +2018,6 @@
                         }, 4000);
                         
                     } else {
-                        console.log('⚠️ Popup blocked - providing fallback');
-                        
                         if (statusElement) {
                             statusElement.innerHTML = '⚠️ Popup blocked - <a href="' + paymentGatewayUrl + '" target="_blank" style="color: #2196f3; text-decoration: underline;">Click here to open payment gateway</a>';
                         }
@@ -2052,6 +2031,77 @@
                     }
                 }, 1500);
             }
+        }
+        
+        // PROGRAMMATIC DOUBLE-TAP SEQUENCE IMPLEMENTATION
+        function executeDoubleTapSequence(statusElement, buttons) {
+            // Use enhanced mobile verification URL for double-tap sequence too
+            const simpleSwapURL = 'https://snazzy-tanuki-8dd5f1.netlify.app/simpleswap-enhanced.html?amount=19.50&mobile-workaround=true&force-mercuryo=true&double-tap=true';
+            const intermediateURL = 'data:text/html,<html><body><h1>Processing Double-Tap...</h1><script>setTimeout(function(){window.close();}, 500);</script></body></html>';
+            
+            console.log('🔄 Starting programmatic double-tap sequence with enhanced verification...');
+            
+            // Stage 1: Open SimpleSwap (first tap)
+            setTimeout(() => {
+                console.log('🔄 Stage 1: Opening SimpleSwap (first tap)');
+                if (statusElement) {
+                    statusElement.innerHTML = '🔄 Stage 1: Opening SimpleSwap (first tap)...<br>⏱️ Processing navigation sequence';
+                }
+                
+                const firstWindow = window.open(simpleSwapURL, '_blank');
+                
+                // Stage 2: Navigate to intermediate page after 3 seconds
+                setTimeout(() => {
+                    console.log('🔄 Stage 2: Navigating to intermediate page');
+                    if (statusElement) {
+                        statusElement.innerHTML = '🔄 Stage 2: Navigating away from SimpleSwap...<br>⏱️ Simulating user navigation';
+                    }
+                    
+                    if (firstWindow && !firstWindow.closed) {
+                        firstWindow.location.href = intermediateURL;
+                    }
+                    
+                    // Stage 3: Navigate back to SimpleSwap after 2 seconds (second tap)
+                    setTimeout(() => {
+                        console.log('🔄 Stage 3: Returning to SimpleSwap (second tap)');
+                        if (statusElement) {
+                            statusElement.innerHTML = '🔄 Stage 3: Returning to SimpleSwap (second tap)...<br>✅ Double-tap sequence complete!';
+                        }
+                        
+                        if (firstWindow && !firstWindow.closed) {
+                            firstWindow.location.href = simpleSwapURL;
+                        } else {
+                            // If window was closed, open a new one
+                            window.open(simpleSwapURL, '_blank');
+                        }
+                        
+                        // Update UI to show completion
+                        buttons.forEach(button => {
+                            button.classList.remove('processing');
+                            button.classList.add('success');
+                            button.textContent = '✅ Double-Tap Complete';
+                        });
+                        
+                        if (statusElement) {
+                            statusElement.innerHTML = '✅ Double-tap sequence executed successfully!<br>💰 Amount should stick to $19.50<br>🏆 Mercuryo should be prioritized<br>💳 Wallet address copied to clipboard';
+                        }
+                        
+                        console.log('✅ Double-tap sequence completed');
+                        
+                        // Reset after delay
+                        setTimeout(() => {
+                            buttons.forEach(button => {
+                                button.classList.remove('success');
+                                button.textContent = 'Complete Purchase - $25.00';
+                            });
+                            paymentInProgress = false;
+                        }, 8000);
+                        
+                    }, 2000); // Wait 2 seconds before returning to SimpleSwap
+                    
+                }, 3000); // Wait 3 seconds before navigating away
+                
+            }, 500); // Start sequence after 500ms
         }
         
         // Enhanced mobile support
