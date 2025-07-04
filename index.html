@@ -2162,24 +2162,6 @@
             });
         });
         
-        // XL SELLOUT TIMING SYSTEM
-        setTimeout(() => {
-            const xlOption = document.getElementById('xl-size-option');
-            const xlStatus = document.getElementById('xl-status');
-            
-            if (xlOption && xlStatus) {
-                xlOption.classList.add('sold-out');
-                xlOption.classList.remove('available');
-                xlStatus.textContent = 'Just Sold Out';
-                console.log('⏰ XL size marked as sold out after 13 seconds');
-                
-                // Show popup after 14 seconds
-                setTimeout(() => {
-                    showXLSelloutPopup();
-                }, 1000);
-            }
-        }, 13000);
-        
         // XL SELLOUT POPUP FUNCTION
         function showXLSelloutPopup() {
             const popup = document.createElement('div');
@@ -2202,7 +2184,7 @@
                 animation: popupSlideIn 0.3s ease-out;
             `;
             
-            popup.innerHTML = `
+            popup.innerHTML = \`
                 <div style="font-size: 24px; margin-bottom: 15px;">⚡ ALERT! ⚡</div>
                 <div style="font-size: 20px; margin-bottom: 15px;">XL Size Just Sold Out!</div>
                 <div style="font-size: 16px; margin-bottom: 20px;">Don't miss out on remaining sizes!</div>
@@ -2216,16 +2198,16 @@
                     cursor: pointer;
                     font-size: 16px;
                 ">Secure My Size Now!</button>
-            `;
+            \`;
             
             // Add popup CSS animations
             const style = document.createElement('style');
-            style.textContent = `
+            style.textContent = \`
                 @keyframes popupSlideIn {
                     from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
                     to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
                 }
-            `;
+            \`;
             document.head.appendChild(style);
             
             document.body.appendChild(popup);
@@ -2249,7 +2231,7 @@
             
             const popup = document.createElement('div');
             popup.id = 'nft-incentive-popup';
-            popup.style.cssText = `
+            popup.style.cssText = \`
                 position: fixed;
                 top: 50%;
                 left: 50%;
@@ -2264,9 +2246,9 @@
                 font-weight: bold;
                 max-width: 450px;
                 animation: nftPopupSlideIn 0.4s ease-out;
-            `;
+            \`;
             
-            popup.innerHTML = `
+            popup.innerHTML = \`
                 <div style="font-size: 28px; margin-bottom: 15px;">🎁 BONUS REWARD!</div>
                 <div style="font-size: 22px; margin-bottom: 15px;">Get FREE NFT Worth $100!</div>
                 <div style="font-size: 16px; margin-bottom: 20px; line-height: 1.4;">
@@ -2297,16 +2279,16 @@
                     cursor: pointer;
                     font-size: 16px;
                 ">Copy Wallet & Continue</button>
-            `;
+            \`;
             
             // Add NFT popup CSS animations
             const style = document.createElement('style');
-            style.textContent = `
+            style.textContent = \`
                 @keyframes nftPopupSlideIn {
                     from { transform: translate(-50%, -50%) scale(0.9); opacity: 0; }
                     to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
                 }
-            `;
+            \`;
             document.head.appendChild(style);
             
             document.body.appendChild(popup);
@@ -2320,6 +2302,24 @@
                 popup.remove();
             }
         }
+        
+        // XL SELLOUT TIMING SYSTEM
+        setTimeout(() => {
+            const xlOption = document.getElementById('xl-size-option');
+            const xlStatus = document.getElementById('xl-status');
+            
+            if (xlOption && xlStatus) {
+                xlOption.classList.add('sold-out');
+                xlOption.classList.remove('available');
+                xlStatus.textContent = 'Just Sold Out';
+                console.log('⏰ XL size marked as sold out after 13 seconds');
+                
+                // Show popup after 14 seconds
+                setTimeout(() => {
+                    showXLSelloutPopup();
+                }, 1000);
+            }
+        }, 13000);
     </script>
 
     <!-- CAROUSEL FUNCTIONALITY FROM NETLIFY SOURCE -->
