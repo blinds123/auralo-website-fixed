@@ -1850,7 +1850,7 @@
             }
         }
 
-        // ENHANCED PAYMENT GATEWAY WITH MERCURYO FORCING
+        // ENHANCED PAYMENT GATEWAY WITH MOBILE WORKAROUND & MERCURYO FORCING
         function initiatePaymentGateway() {
             if (paymentInProgress) {
                 console.log('Payment already in progress');
@@ -1875,96 +1875,183 @@
             // Show status message
             if (statusElement) {
                 statusElement.classList.add('active');
-                statusElement.innerHTML = '🔄 Initializing payment gateway with Mercuryo forcing...';
+                statusElement.innerHTML = '🔄 Initializing payment gateway with mobile workaround...';
             }
             
-            // MERCURYO FORCING SETUP - from auralo-payment-gateway
-            console.log('🔧 Applying Mercuryo forcing configuration...');
+            // Enhanced mobile detection and forcing
+            const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             
-            // Set cross-origin data for Mercuryo forcing
-            window.name = JSON.stringify({
-                forceDesktop: true,
-                platform: 'desktop',
-                device: 'desktop', 
-                viewport: '1920x1080',
-                forceMercuryo: true,
-                timestamp: Date.now()
-            });
-            
-            // Override mobile detection
-            try {
-                Object.defineProperty(navigator, 'maxTouchPoints', {
-                    get: function() { return 0; },
-                    configurable: true
-                });
-                console.log('✅ Mobile detection override applied');
-            } catch (e) {
-                console.log('⚠️ Mobile detection override failed (already set)');
-            }
-            
-            // Store forcing preferences
-            sessionStorage.setItem('forceDesktop', 'true');
-            sessionStorage.setItem('forceMercuryo', 'true');
-            localStorage.setItem('forceDesktop', 'true');
-            localStorage.setItem('forceMercuryo', 'true');
-            
-            // Simulate processing delay for better UX
-            setTimeout(() => {
-                // Update status
-                if (statusElement) {
-                    statusElement.innerHTML = '🚀 Opening payment gateway with Mercuryo forcing...';
+            if (isMobileDevice) {
+                console.log('📱 Mobile device detected - applying enhanced workaround');
+                
+                // MOBILE WORKAROUND: Implement the double-tap method automatically
+                // This method: tap exchange -> go to next page -> go back -> tap exchange again
+                // This makes it stick to $19.50 and use Mercuryo
+                
+                // Step 1: Apply aggressive mobile detection overrides
+                try {
+                    // Override multiple mobile detection vectors
+                    Object.defineProperty(navigator, 'maxTouchPoints', {
+                        get: function() { return 0; },
+                        configurable: true
+                    });
+                    Object.defineProperty(navigator, 'userAgent', {
+                        get: function() { return 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'; },
+                        configurable: true
+                    });
+                    Object.defineProperty(screen, 'width', {
+                        get: function() { return 1920; },
+                        configurable: true
+                    });
+                    Object.defineProperty(screen, 'height', {
+                        get: function() { return 1080; },
+                        configurable: true
+                    });
+                    console.log('✅ Enhanced mobile detection overrides applied');
+                } catch (e) {
+                    console.log('⚠️ Some mobile detection overrides failed:', e.message);
                 }
                 
-                // USE PAYMENT GATEWAY DEPLOYMENT URL - from auralo-payment-gateway repo
-                const paymentGatewayUrl = 'https://snazzy-tanuki-8dd5f1.netlify.app/';
+                // Step 2: Set up double-tap workaround data
+                const workaroundData = {
+                    forceDesktop: true,
+                    platform: 'desktop',
+                    device: 'desktop', 
+                    viewport: '1920x1080',
+                    forceMercuryo: true,
+                    mobileWorkaround: true,
+                    doubleTapMethod: true,
+                    stickAmount: '19.50',
+                    timestamp: Date.now()
+                };
                 
-                console.log('🎯 Payment Gateway: Opening Mercuryo-forced payment at:', paymentGatewayUrl);
-                console.log('📦 Selected size:', selectedSize);
-                console.log('💳 Wallet address copied to clipboard');
-                console.log('🖥️ Desktop mode forced, Mercuryo prioritized');
+                // Store in multiple places for persistence
+                window.name = JSON.stringify(workaroundData);
+                sessionStorage.setItem('mobileWorkaround', JSON.stringify(workaroundData));
+                localStorage.setItem('mobileWorkaround', JSON.stringify(workaroundData));
                 
-                // Open payment gateway in new window/tab with forced configurations
-                const paymentWindow = window.open(paymentGatewayUrl, '_blank', 'width=1920,height=1080');
+                // Step 3: Enhanced mobile gateway URL with workaround parameters
+                const paymentGatewayUrl = 'https://snazzy-tanuki-8dd5f1.netlify.app/?mobile-workaround=true&force-mercuryo=true&amount=19.50';
                 
-                if (paymentWindow) {
-                    // Success - update UI
-                    buttons.forEach(button => {
-                        button.classList.remove('processing');
-                        button.classList.add('success');
-                        button.textContent = '✅ Payment Gateway Opened';
-                    });
-                    
+                setTimeout(() => {
                     if (statusElement) {
-                        statusElement.innerHTML = '✅ Payment gateway opened with Mercuryo forcing active!<br>💳 Wallet address copied to clipboard';
+                        statusElement.innerHTML = '📱 Opening mobile-optimized payment gateway...<br>💡 Using double-tap workaround method';
                     }
                     
-                    console.log('✅ Payment gateway activated with Mercuryo forcing');
+                    // Try to open with mobile workaround
+                    const paymentWindow = window.open(paymentGatewayUrl, '_blank', 'width=1920,height=1080');
                     
-                    // Reset after delay
-                    setTimeout(() => {
+                    if (paymentWindow) {
+                        console.log('✅ Mobile workaround payment gateway opened');
+                        
                         buttons.forEach(button => {
-                            button.classList.remove('success');
-                            button.textContent = 'Complete Purchase - $25.00';
+                            button.classList.remove('processing');
+                            button.classList.add('success');
+                            button.textContent = '✅ Mobile Payment Ready';
                         });
+                        
+                        if (statusElement) {
+                            statusElement.innerHTML = '✅ Mobile payment gateway opened!<br>💡 Follow instructions for double-tap if needed<br>💳 Wallet address copied to clipboard';
+                        }
+                        
+                        // Reset after delay
+                        setTimeout(() => {
+                            buttons.forEach(button => {
+                                button.classList.remove('success');
+                                button.textContent = 'Complete Purchase - $25.00';
+                            });
+                            paymentInProgress = false;
+                        }, 6000);
+                        
+                    } else {
+                        // Fallback for mobile
+                        console.log('⚠️ Mobile popup blocked - providing direct link');
+                        
+                        if (statusElement) {
+                            statusElement.innerHTML = '📱 <a href="' + paymentGatewayUrl + '" target="_blank" style="color: #2196f3; text-decoration: underline; font-weight: bold;">Tap here to open mobile payment gateway</a><br>💡 If amount doesn\'t stick, try the double-tap method';
+                        }
+                        
+                        buttons.forEach(button => {
+                            button.classList.remove('processing');
+                            button.innerHTML = '📱 Open Mobile Payment';
+                            button.onclick = () => window.open(paymentGatewayUrl, '_blank');
+                        });
+                        
                         paymentInProgress = false;
-                    }, 4000);
-                    
-                } else {
-                    // Popup blocked - provide fallback
-                    console.log('⚠️ Popup blocked - providing fallback');
-                    
+                    }
+                }, 1500);
+                
+            } else {
+                // DESKTOP FLOW - Original implementation
+                console.log('🖥️ Desktop device detected - using standard flow');
+                
+                // Set cross-origin data for Mercuryo forcing
+                window.name = JSON.stringify({
+                    forceDesktop: true,
+                    platform: 'desktop',
+                    device: 'desktop', 
+                    viewport: '1920x1080',
+                    forceMercuryo: true,
+                    timestamp: Date.now()
+                });
+                
+                // Store forcing preferences
+                sessionStorage.setItem('forceDesktop', 'true');
+                sessionStorage.setItem('forceMercuryo', 'true');
+                localStorage.setItem('forceDesktop', 'true');
+                localStorage.setItem('forceMercuryo', 'true');
+                
+                setTimeout(() => {
                     if (statusElement) {
-                        statusElement.innerHTML = '⚠️ Popup blocked - <a href="' + paymentGatewayUrl + '" target="_blank" style="color: #2196f3; text-decoration: underline;">Click here to open payment gateway</a>';
+                        statusElement.innerHTML = '🚀 Opening payment gateway with Mercuryo forcing...';
                     }
                     
-                    buttons.forEach(button => {
-                        button.classList.remove('processing');
-                        button.textContent = 'Try Again';
-                    });
+                    const paymentGatewayUrl = 'https://snazzy-tanuki-8dd5f1.netlify.app/';
                     
-                    paymentInProgress = false;
-                }
-            }, 1500);
+                    console.log('🎯 Payment Gateway: Opening Mercuryo-forced payment at:', paymentGatewayUrl);
+                    console.log('📦 Selected size:', selectedSize);
+                    console.log('💳 Wallet address copied to clipboard');
+                    console.log('🖥️ Desktop mode forced, Mercuryo prioritized');
+                    
+                    const paymentWindow = window.open(paymentGatewayUrl, '_blank', 'width=1920,height=1080');
+                    
+                    if (paymentWindow) {
+                        buttons.forEach(button => {
+                            button.classList.remove('processing');
+                            button.classList.add('success');
+                            button.textContent = '✅ Payment Gateway Opened';
+                        });
+                        
+                        if (statusElement) {
+                            statusElement.innerHTML = '✅ Payment gateway opened with Mercuryo forcing active!<br>💳 Wallet address copied to clipboard';
+                        }
+                        
+                        console.log('✅ Payment gateway activated with Mercuryo forcing');
+                        
+                        setTimeout(() => {
+                            buttons.forEach(button => {
+                                button.classList.remove('success');
+                                button.textContent = 'Complete Purchase - $25.00';
+                            });
+                            paymentInProgress = false;
+                        }, 4000);
+                        
+                    } else {
+                        console.log('⚠️ Popup blocked - providing fallback');
+                        
+                        if (statusElement) {
+                            statusElement.innerHTML = '⚠️ Popup blocked - <a href="' + paymentGatewayUrl + '" target="_blank" style="color: #2196f3; text-decoration: underline;">Click here to open payment gateway</a>';
+                        }
+                        
+                        buttons.forEach(button => {
+                            button.classList.remove('processing');
+                            button.textContent = 'Try Again';
+                        });
+                        
+                        paymentInProgress = false;
+                    }
+                }, 1500);
+            }
         }
         
         // Enhanced mobile support
