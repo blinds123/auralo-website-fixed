@@ -1920,7 +1920,7 @@
                     localStorage.setItem('lastPaymentAttempt', now.toString());
                     
                     // ENHANCED MOBILE VERIFICATION URL - Shows wallet address and Mercuryo green box
-                    const directURL = 'https://snazzy-tanuki-8dd5f1.netlify.app/simpleswap-enhanced.html?amount=19.50&mobile-workaround=true&force-mercuryo=true';
+                    const directURL = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercuryo';
                     
                     setTimeout(() => {
                         if (statusElement) {
@@ -2035,7 +2035,7 @@
         // PROGRAMMATIC DOUBLE-TAP SEQUENCE IMPLEMENTATION
         function executeDoubleTapSequence(statusElement, buttons) {
             // Use enhanced mobile verification URL for double-tap sequence too
-            const simpleSwapURL = 'https://snazzy-tanuki-8dd5f1.netlify.app/simpleswap-enhanced.html?amount=19.50&mobile-workaround=true&force-mercuryo=true&double-tap=true';
+            const simpleSwapURL = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercuryo';
             const intermediateURL = 'data:text/html,<html><body><h1>Processing Double-Tap...</h1><scr' + 'ipt>setTimeout(function(){window.close();}, 500);</scr' + 'ipt></body></html>';
             
             console.log('🔄 Starting programmatic double-tap sequence with enhanced verification...');
