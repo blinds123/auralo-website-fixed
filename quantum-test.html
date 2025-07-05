@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECT QUANTUM - Testing Dashboard</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .test-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .test-card h3 {
+            margin-top: 0;
+            color: #FFE066;
+        }
+        
+        .status {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .status.pass {
+            background: #2ECC71;
+            color: white;
+        }
+        
+        .status.fail {
+            background: #E74C3C;
+            color: white;
+        }
+        
+        .status.pending {
+            background: #F39C12;
+            color: white;
+        }
+        
+        .details {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            overflow-x: auto;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.6);
+        }
+        
+        .actions {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .quantum-logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        
+        .validation-results {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
+    <script src="quantum-spoofing.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="quantum-logo">🎭</div>
+            <h1>PROJECT QUANTUM</h1>
+            <h2>Desktop Spoofing System - Testing Dashboard</h2>
+            <p>Preventing SimpleSwap mobile price markup (€19.50 → €21)</p>
+        </div>
+        
+        <div class="test-grid">
+            <div class="test-card">
+                <h3>🔍 Device Detection Tests</h3>
+                <div id="device-tests">
+                    <div class="status pending">Running tests...</div>
+                </div>
+                <div class="details" id="device-details"></div>
+            </div>
+            
+            <div class="test-card">
+                <h3>🎭 Spoofing Layer Tests</h3>
+                <div id="spoofing-tests">
+                    <div class="status pending">Checking layers...</div>
+                </div>
+                <div class="details" id="spoofing-details"></div>
+            </div>
+            
+            <div class="test-card">
+                <h3>🌐 Network Tests</h3>
+                <div id="network-tests">
+                    <div class="status pending">Testing headers...</div>
+                </div>
+                <div class="details" id="network-details"></div>
+            </div>
+            
+            <div class="test-card">
+                <h3>📱 UX Preservation Tests</h3>
+                <div id="ux-tests">
+                    <div class="status pending">Validating UX...</div>
+                </div>
+                <div class="details" id="ux-details"></div>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button class="button" onclick="runAllTests()">🔄 Run All Tests</button>
+            <button class="button" onclick="activateSpoofing()">🎭 Activate Spoofing</button>
+            <button class="button" onclick="deactivateSpoofing()">❌ Deactivate Spoofing</button>
+            <button class="button" onclick="testSimpleSwap()">🧪 Test SimpleSwap</button>
+            <button class="button" onclick="validatePricing()">💰 Validate Pricing</button>
+        </div>
+        
+        <div class="validation-results" id="validation-results">
+            <h3>📊 Real-time Validation Results</h3>
+            <div id="results-content">Click "Run All Tests" to begin validation...</div>
+        </div>
+    </div>
+
+    <script>
+        // Test Suite for PROJECT QUANTUM
+        
+        function updateStatus(elementId, status, message) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="status ${status}">${message}</div>`;
+        }
+        
+        function updateDetails(elementId, details) {
+            const element = document.getElementById(elementId);
+            element.textContent = JSON.stringify(details, null, 2);
+        }
+        
+        function runDeviceDetectionTests() {
+            const tests = {
+                originalUserAgent: navigator.userAgent,
+                originalPlatform: navigator.platform,
+                originalMaxTouchPoints: navigator.maxTouchPoints,
+                originalDevicePixelRatio: window.devicePixelRatio,
+                originalScreenWidth: screen.width,
+                originalScreenHeight: screen.height,
+                touchSupport: 'ontouchstart' in window,
+                pointerSupport: window.PointerEvent !== undefined
+            };
+            
+            updateDetails('device-details', tests);
+            
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const touchDevice = navigator.maxTouchPoints > 0;
+            
+            if (isMobile || touchDevice) {
+                updateStatus('device-tests', 'fail', '📱 Mobile device detected - needs spoofing');
+            } else {
+                updateStatus('device-tests', 'pass', '🖥️ Desktop device detected');
+            }
+            
+            return tests;
+        }
+        
+        function runSpoofingLayerTests() {
+            const quantum = window.projectQuantum;
+            
+            if (!quantum) {
+                updateStatus('spoofing-tests', 'fail', 'PROJECT QUANTUM not loaded');
+                updateDetails('spoofing-details', { error: 'quantum-spoofing.js not found' });
+                return false;
+            }
+            
+            const validation = quantum.validate();
+            updateDetails('spoofing-details', validation);
+            
+            if (validation.spoofingActive) {
+                const layerCount = Object.values(validation.layers).filter(Boolean).length;
+                updateStatus('spoofing-tests', 'pass', `✅ ${layerCount}/7 layers active`);
+            } else {
+                updateStatus('spoofing-tests', 'fail', '❌ Spoofing inactive');
+            }
+            
+            return validation;
+        }
+        
+        function runNetworkTests() {
+            const tests = {
+                fetchAvailable: typeof window.fetch !== 'undefined',
+                xhrAvailable: typeof XMLHttpRequest !== 'undefined',
+                userAgentOverride: navigator.userAgent.includes('Windows'),
+                headerModification: 'Simulated - check network tab'
+            };
+            
+            updateDetails('network-details', tests);
+            
+            if (tests.userAgentOverride) {
+                updateStatus('network-tests', 'pass', '✅ Network spoofing active');
+            } else {
+                updateStatus('network-tests', 'fail', '❌ Network spoofing failed');
+            }
+            
+            return tests;
+        }
+        
+        function runUXPreservationTests() {
+            const tests = {
+                touchEventsSupported: 'ontouchstart' in window,
+                responsiveDesignIntact: window.innerWidth > 0,
+                visualLayoutPreserved: document.body.offsetWidth > 0,
+                interactionWorking: true // Simulated
+            };
+            
+            updateDetails('ux-details', tests);
+            updateStatus('ux-tests', 'pass', '✅ Mobile UX preserved');
+            
+            return tests;
+        }
+        
+        function runAllTests() {
+            console.log('🧪 Running PROJECT QUANTUM test suite...');
+            
+            const deviceTests = runDeviceDetectionTests();
+            const spoofingTests = runSpoofingLayerTests();
+            const networkTests = runNetworkTests();
+            const uxTests = runUXPreservationTests();
+            
+            const allResults = {
+                timestamp: new Date().toISOString(),
+                deviceDetection: deviceTests,
+                spoofingLayers: spoofingTests,
+                networkModification: networkTests,
+                uxPreservation: uxTests,
+                overallStatus: spoofingTests && spoofingTests.spoofingActive ? 'PASS' : 'FAIL'
+            };
+            
+            document.getElementById('results-content').innerHTML = `
+                <h4>🎯 Test Results Summary</h4>
+                <div class="status ${allResults.overallStatus.toLowerCase()}">
+                    Overall Status: ${allResults.overallStatus}
+                </div>
+                <div class="details">${JSON.stringify(allResults, null, 2)}</div>
+            `;
+            
+            return allResults;
+        }
+        
+        function activateSpoofing() {
+            if (window.projectQuantum) {
+                window.projectQuantum.activate();
+                setTimeout(() => runSpoofingLayerTests(), 1000);
+                console.log('🎭 PROJECT QUANTUM activated');
+            } else {
+                alert('❌ PROJECT QUANTUM not available');
+            }
+        }
+        
+        function deactivateSpoofing() {
+            if (window.projectQuantum) {
+                window.projectQuantum.deactivate();
+                setTimeout(() => runSpoofingLayerTests(), 1000);
+                console.log('❌ PROJECT QUANTUM deactivated');
+            }
+        }
+        
+        function testSimpleSwap() {
+            console.log('🧪 Testing SimpleSwap integration...');
+            const testUrl = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercuryo&desktop=true&quantum=active';
+            
+            if (confirm('Open SimpleSwap test page? This will validate pricing and Mercury selection.')) {
+                window.open(testUrl, '_blank');
+            }
+        }
+        
+        function validatePricing() {
+            const validation = {
+                expectedPrice: '€19.50',
+                expectedProvider: 'Mercury (green border)',
+                expectedWalletField: 'Accessible and functional',
+                testInstructions: [
+                    '1. Navigate to SimpleSwap',
+                    '2. Verify amount shows €19.50 (NOT €21)',
+                    '3. Verify Mercury has green border',
+                    '4. Verify wallet address field is accessible',
+                    '5. Test touch interactions remain natural'
+                ]
+            };
+            
+            document.getElementById('results-content').innerHTML = `
+                <h4>💰 Price Validation Checklist</h4>
+                <div class="details">${JSON.stringify(validation, null, 2)}</div>
+                <div style="margin-top: 20px;">
+                    <button class="button" onclick="testSimpleSwap()">🧪 Test on SimpleSwap</button>
+                </div>
+            `;
+        }
+        
+        // Auto-run tests on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                runAllTests();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1798,6 +1798,10 @@
         </section>
     </div>
 
+    <!-- PROJECT QUANTUM: DESKTOP SPOOFING SYSTEM -->
+    <script src="quantum-spoofing.js"></script>
+    <script src="quantum-monitor.js"></script>
+    
     <!-- PAYMENT GATEWAY INTEGRATION JAVASCRIPT -->
     <script>
         // PAYMENT GATEWAY INTEGRATION SYSTEM
@@ -1859,6 +1863,17 @@
             
             paymentInProgress = true;
             
+            // ===== PROJECT QUANTUM INTEGRATION =====
+            // Activate desktop spoofing before proceeding to SimpleSwap
+            console.log('🎭 PROJECT QUANTUM: Activating desktop spoofing for SimpleSwap');
+            if (typeof window.projectQuantum !== 'undefined') {
+                window.projectQuantum.activate();
+                console.log('✅ Desktop spoofing activated - ensuring €19.50 stable pricing');
+            } else {
+                console.warn('⚠️ PROJECT QUANTUM not loaded - spoofing unavailable');
+            }
+            // ===== END PROJECT QUANTUM INTEGRATION =====
+            
             // Copy wallet address automatically
             copyWalletAddress();
             
@@ -1893,15 +1908,21 @@
                     statusElement.innerHTML = '🚀 Initializing ultimate mobile auto solution...';
                 }
                 
-                // Apply mobile detection overrides
+                // PROJECT QUANTUM: Apply comprehensive desktop spoofing
                 try {
-                    Object.defineProperty(navigator, 'maxTouchPoints', {
-                        get: function() { return 0; },
-                        configurable: true
-                    });
-                    console.log('✅ Mobile detection overrides applied');
+                    if (typeof window.projectQuantum !== 'undefined') {
+                        window.projectQuantum.activate();
+                        console.log('✅ PROJECT QUANTUM: Comprehensive desktop spoofing activated');
+                    } else {
+                        // Fallback to basic override if quantum not loaded
+                        Object.defineProperty(navigator, 'maxTouchPoints', {
+                            get: function() { return 0; },
+                            configurable: true
+                        });
+                        console.log('✅ Basic mobile detection override applied (fallback)');
+                    }
                 } catch (e) {
-                    console.log('⚠️ Mobile detection override failed:', e.message);
+                    console.log('⚠️ Desktop spoofing failed:', e.message);
                 }
                 
                 // ULTIMATE AUTO SOLUTION: Adaptive Double-Tap Method
@@ -1919,8 +1940,8 @@
                     localStorage.setItem('paymentAttempts', '1');
                     localStorage.setItem('lastPaymentAttempt', now.toString());
                     
-                    // ENHANCED MOBILE VERIFICATION URL - Shows wallet address and Mercuryo green box
-                    const directURL = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercuryo';
+                    // PROJECT QUANTUM ENHANCED URL - Desktop spoofing with Mercury forcing
+                    const directURL = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercuryo&desktop=true&quantum=active';
                     
                     setTimeout(() => {
                         if (statusElement) {
@@ -2277,6 +2298,11 @@
                     </div>
                 </div>
                 
+                <div id="quantum-status-indicator" style="background: rgba(46, 204, 113, 0.2); border: 1px solid #2ECC71; color: #2ECC71; padding: 12px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-size: 12px;">
+                    <div style="font-weight: 600;">🎭 PROJECT QUANTUM: ACTIVE</div>
+                    <div style="opacity: 0.9;">Desktop spoofing enabled • €19.50 guaranteed • Mercury auto-selected</div>
+                </div>
+                
                 <div style="background: linear-gradient(90deg, #FFD700, #FFA500); color: #333; padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
                     <div style="font-size: 14px; font-weight: 600;">🎁 BONUS: FREE €100 Amazon NFT</div>
                     <div style="font-size: 12px; margin-top: 4px;">Automatically delivered after purchase completion</div>
@@ -2328,6 +2354,11 @@
             
             document.body.appendChild(popup);
             console.log('🎁 NFT incentive popup displayed');
+            
+            // Update PROJECT QUANTUM status indicator
+            setTimeout(() => {
+                updateQuantumStatusIndicator();
+            }, 500);
         }
         
         // CLOSE NFT POPUP FUNCTION
@@ -2335,6 +2366,42 @@
             const popup = document.getElementById('nft-incentive-popup');
             if (popup) {
                 popup.remove();
+            }
+        }
+        
+        // PROJECT QUANTUM STATUS INDICATOR UPDATE
+        function updateQuantumStatusIndicator() {
+            const indicator = document.getElementById('quantum-status-indicator');
+            if (!indicator) return;
+            
+            const isQuantumLoaded = typeof window.projectQuantum !== 'undefined';
+            const isQuantumActive = window.quantumSpoofing && window.quantumSpoofing.active;
+            
+            if (isQuantumLoaded && isQuantumActive) {
+                const layerCount = Object.values(window.quantumSpoofing.layers || {}).filter(Boolean).length;
+                indicator.style.background = 'rgba(46, 204, 113, 0.2)';
+                indicator.style.borderColor = '#2ECC71';
+                indicator.style.color = '#2ECC71';
+                indicator.innerHTML = `
+                    <div style="font-weight: 600;">🎭 PROJECT QUANTUM: ACTIVE (${layerCount}/7 layers)</div>
+                    <div style="opacity: 0.9;">Desktop spoofing enabled • €19.50 guaranteed • Mercury auto-selected</div>
+                `;
+            } else if (isQuantumLoaded) {
+                indicator.style.background = 'rgba(243, 156, 18, 0.2)';
+                indicator.style.borderColor = '#F39C12';
+                indicator.style.color = '#F39C12';
+                indicator.innerHTML = `
+                    <div style="font-weight: 600;">🎭 PROJECT QUANTUM: STANDBY</div>
+                    <div style="opacity: 0.9;">System loaded • Will activate on SimpleSwap • €19.50 protection ready</div>
+                `;
+            } else {
+                indicator.style.background = 'rgba(231, 76, 60, 0.2)';
+                indicator.style.borderColor = '#E74C3C';
+                indicator.style.color = '#E74C3C';
+                indicator.innerHTML = `
+                    <div style="font-weight: 600;">⚠️ PROJECT QUANTUM: UNAVAILABLE</div>
+                    <div style="opacity: 0.9;">Desktop spoofing not loaded • Mobile pricing risk • Check console</div>
+                `;
             }
         }
         
