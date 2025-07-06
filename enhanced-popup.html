@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Popup with Offer Stack</title>
+</head>
+<body>
+    <script>
+        // ENHANCED NFT INCENTIVE POPUP WITH OFFER STACK
+        function showEnhancedNFTIncentivePopup() {
+            // Prevent multiple popups
+            if (document.getElementById('nft-incentive-popup')) {
+                return;
+            }
+            
+            const popup = document.createElement('div');
+            popup.id = 'nft-incentive-popup';
+            popup.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.95);
+                backdrop-filter: blur(20px);
+                z-index: 10000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                overflow-y: auto;
+                animation: fadeIn 0.3s ease-out;
+            `;
+            
+            popup.innerHTML = `
+                <div style="
+                    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                    color: white;
+                    padding: 40px;
+                    border-radius: 30px;
+                    box-shadow: 0 30px 90px rgba(0,0,0,0.8), 0 0 80px rgba(102, 126, 234, 0.3);
+                    max-width: 600px;
+                    width: 90%;
+                    margin: 20px;
+                    position: relative;
+                    animation: slideUp 0.5s ease-out;
+                    border: 1px solid rgba(102, 126, 234, 0.3);
+                ">
+                    <!-- URGENT HEADER -->
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <div style="font-size: 40px; margin-bottom: 10px; animation: pulse 2s infinite;">🎉</div>
+                        <div style="font-size: 32px; font-weight: 800; margin-bottom: 8px; background: linear-gradient(45deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">CONGRATULATIONS!</div>
+                        <div style="font-size: 18px; color: #FFE066; font-weight: 600;">Your Exclusive VIP Offer Has Been Activated</div>
+                    </div>
+                    
+                    <!-- OFFER STACK VALUE PROPOSITION -->
+                    <div style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1)); padding: 25px; border-radius: 20px; margin-bottom: 25px; border: 2px solid rgba(255, 215, 0, 0.3);">
+                        <div style="font-size: 20px; font-weight: 700; margin-bottom: 20px; text-align: center; color: #FFD700;">
+                            🎁 TODAY'S EXCLUSIVE OFFER STACK
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                                <div style="font-size: 20px; margin-right: 12px;">✅</div>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 16px;">Premium Auralo Hoodie</div>
+                                    <div style="font-size: 14px; opacity: 0.8;">Retail Value: €89.99</div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                                <div style="font-size: 20px; margin-right: 12px;">✅</div>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 16px;">Exclusive Digital NFT Artwork</div>
+                                    <div style="font-size: 14px; opacity: 0.8;">Market Value: €150+</div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                                <div style="font-size: 20px; margin-right: 12px;">✅</div>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 16px; color: #2ECC71;">NFT → €100 Amazon Gift Card</div>
+                                    <div style="font-size: 14px; opacity: 0.8;">Instant Conversion Available!</div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                                <div style="font-size: 20px; margin-right: 12px;">✅</div>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 16px;">Priority Worldwide Shipping</div>
+                                    <div style="font-size: 14px; opacity: 0.8;">Value: €25</div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                                <div style="font-size: 20px; margin-right: 12px;">✅</div>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 16px;">VIP Customer Support Access</div>
+                                    <div style="font-size: 14px; opacity: 0.8;">Value: €49/year</div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                                <div style="font-size: 20px; margin-right: 12px;">✅</div>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 16px;">Early Access to Future Collections</div>
+                                    <div style="font-size: 14px; opacity: 0.8;">Value: Priceless</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="border-top: 2px solid rgba(255, 215, 0, 0.3); padding-top: 15px; margin-top: 20px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div style="font-size: 18px;">Total Retail Value:</div>
+                                <div style="font-size: 24px; font-weight: 700; text-decoration: line-through; opacity: 0.6;">€413.99</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                                <div style="font-size: 20px; font-weight: 700; color: #2ECC71;">TODAY ONLY:</div>
+                                <div style="font-size: 36px; font-weight: 800; color: #2ECC71;">€19.50</div>
+                            </div>
+                            <div style="text-align: center; font-size: 16px; color: #FF6B6B; margin-top: 10px; font-weight: 600;">
+                                You Save €394.49 (95% OFF!)
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- COUPON CODE SECTION -->
+                    <div style="background: rgba(46, 204, 113, 0.1); padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 2px solid rgba(46, 204, 113, 0.3);">
+                        <div style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #2ECC71; text-align: center;">
+                            ✨ YOUR VIP COUPON CODE (COPIED!)
+                        </div>
+                        <div style="background: #2ECC71; color: white; padding: 15px; border-radius: 10px; font-family: 'Courier New', monospace; font-size: 16px; text-align: center; letter-spacing: 2px; font-weight: 700; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);">
+                            0xE5173e7c3089bD89cd1341b637b8e1951745ED5C
+                        </div>
+                        <div style="font-size: 13px; text-align: center; margin-top: 10px; opacity: 0.9;">
+                            ✅ Automatically copied to your clipboard
+                        </div>
+                    </div>
+                    
+                    <!-- VISUAL CHECKOUT GUIDE -->
+                    <div style="background: rgba(255, 255, 255, 0.05); padding: 25px; border-radius: 20px; margin-bottom: 25px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div style="font-size: 18px; font-weight: 700; margin-bottom: 20px; text-align: center;">
+                            🛒 SIMPLE 2-STEP CHECKOUT
+                        </div>
+                        
+                        <!-- Step 1 Visual -->
+                        <div style="margin-bottom: 20px;">
+                            <div style="display: flex; align-items: flex-start; margin-bottom: 15px;">
+                                <div style="background: #FFD700; color: #1a1a2e; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 15px; flex-shrink: 0;">1</div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; font-size: 16px; margin-bottom: 5px;">Click Continue & Select Payment</div>
+                                    <div style="font-size: 14px; opacity: 0.8; margin-bottom: 10px;">You'll be redirected to our secure payment partner SimpleSwap</div>
+                                    
+                                    <!-- Visual representation of SimpleSwap -->
+                                    <div style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 15px; position: relative; overflow: hidden;">
+                                        <div style="font-size: 12px; opacity: 0.6; margin-bottom: 8px;">SimpleSwap Preview:</div>
+                                        <div style="display: flex; gap: 10px; align-items: center;">
+                                            <div style="background: #2ECC71; padding: 8px 16px; border-radius: 5px; font-size: 14px;">€19.50</div>
+                                            <div style="font-size: 20px;">→</div>
+                                            <div style="background: #9B59B6; padding: 8px 16px; border-radius: 5px; font-size: 14px;">MATIC</div>
+                                        </div>
+                                        <div style="margin-top: 10px;">
+                                            <div style="background: #27AE60; border: 2px solid #2ECC71; padding: 5px 10px; border-radius: 5px; display: inline-block; font-size: 12px;">
+                                                ✓ Mercury (Auto-Selected)
+                                            </div>
+                                        </div>
+                                        <!-- Finger pointer -->
+                                        <div style="position: absolute; right: 20px; bottom: 10px; font-size: 30px; animation: point 1s ease-in-out infinite;">👆</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2 Visual -->
+                        <div>
+                            <div style="display: flex; align-items: flex-start;">
+                                <div style="background: #FFD700; color: #1a1a2e; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 15px; flex-shrink: 0;">2</div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; font-size: 16px; margin-bottom: 5px;">Paste Coupon & Complete Payment</div>
+                                    <div style="font-size: 14px; opacity: 0.8; margin-bottom: 10px;">Paste your VIP coupon code in the wallet field & pay with card/crypto</div>
+                                    
+                                    <!-- Visual representation of wallet field -->
+                                    <div style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 15px; position: relative;">
+                                        <div style="font-size: 12px; opacity: 0.6; margin-bottom: 8px;">Wallet Address Field:</div>
+                                        <div style="background: rgba(255, 255, 255, 0.05); border: 2px dashed #2ECC71; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 12px; color: #2ECC71;">
+                                            Paste your VIP coupon here...
+                                        </div>
+                                        <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                            <div style="background: #3498DB; padding: 8px 16px; border-radius: 5px; font-size: 12px;">💳 Card Payment</div>
+                                            <div style="background: #F39C12; padding: 8px 16px; border-radius: 5px; font-size: 12px;">🪙 Crypto Payment</div>
+                                        </div>
+                                        <!-- Finger pointer -->
+                                        <div style="position: absolute; right: 20px; top: 35px; font-size: 30px; animation: point 1s ease-in-out infinite;">👆</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- URGENCY ELEMENTS -->
+                    <div style="background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 0, 0, 0.1)); padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; border: 1px solid rgba(255, 107, 107, 0.3);">
+                        <div style="font-size: 16px; font-weight: 600; color: #FF6B6B;">
+                            ⏰ LIMITED TIME: Offer expires in <span id="countdown-timer" style="font-weight: 800;">15:00</span>
+                        </div>
+                        <div style="font-size: 14px; margin-top: 5px; opacity: 0.8;">
+                            🔥 Only 3 hoodies left at this price!
+                        </div>
+                    </div>
+                    
+                    <!-- QUANTUM STATUS -->
+                    <div id="quantum-status-indicator" style="background: rgba(46, 204, 113, 0.1); border: 1px solid #2ECC71; color: #2ECC71; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-size: 12px;">
+                        <div style="font-weight: 600;">🎭 SMART PRICING ACTIVE</div>
+                        <div style="opacity: 0.9;">Best rates guaranteed • €19.50 locked in • Mercury optimized</div>
+                    </div>
+                    
+                    <!-- ACTION BUTTONS -->
+                    <div style="display: flex; gap: 12px;">
+                        <button onclick="closeNFTPopup()" style="
+                            background: rgba(255, 255, 255, 0.1);
+                            color: white;
+                            border: 1px solid rgba(255, 255, 255, 0.2);
+                            padding: 16px 24px;
+                            border-radius: 30px;
+                            font-weight: 600;
+                            cursor: pointer;
+                            font-size: 16px;
+                            flex: 1;
+                            transition: all 0.3s ease;
+                        " onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+                            Maybe Later
+                        </button>
+                        
+                        <button onclick="closeNFTPopup(); initiateQuantumPaymentGateway();" style="
+                            background: linear-gradient(135deg, #FFD700, #FFA500);
+                            color: #1a1a2e;
+                            border: none;
+                            padding: 16px 32px;
+                            border-radius: 30px;
+                            font-weight: 800;
+                            cursor: pointer;
+                            font-size: 18px;
+                            flex: 2;
+                            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
+                            transition: all 0.3s ease;
+                            position: relative;
+                            overflow: hidden;
+                        " onmouseover="this.style.transform='translateY(-2px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(255, 215, 0, 0.7)'" onmouseout="this.style.transform='translateY(0px) scale(1)'; this.style.boxShadow='0 8px 30px rgba(255, 215, 0, 0.5)'">
+                            <span style="position: relative; z-index: 1;">🚀 CLAIM MY VIP OFFER NOW</span>
+                            <div style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); animation: shine 3s infinite;"></div>
+                        </button>
+                    </div>
+                    
+                    <!-- TRUST BADGES -->
+                    <div style="text-align: center; margin-top: 20px; font-size: 12px; opacity: 0.7;">
+                        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                            <span>🔒 256-bit SSL Secure</span>
+                            <span>✅ Verified Merchant</span>
+                            <span>🚚 Free Express Shipping</span>
+                            <span>💯 30-Day Guarantee</span>
+                        </div>
+                    </div>
+                    
+                    <!-- SOCIAL PROOF -->
+                    <div style="text-align: center; margin-top: 15px; font-size: 13px; opacity: 0.8; font-style: italic;">
+                        "Join 10,000+ happy customers who saved with this exclusive offer!"
+                    </div>
+                </div>
+            `;
+            
+            // Add CSS animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                
+                @keyframes slideUp {
+                    from { transform: translateY(50px); opacity: 0; }
+                    to { transform: translateY(0); opacity: 1; }
+                }
+                
+                @keyframes pulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.1); }
+                    100% { transform: scale(1); }
+                }
+                
+                @keyframes point {
+                    0%, 100% { transform: translateX(0) rotate(-10deg); }
+                    50% { transform: translateX(-10px) rotate(10deg); }
+                }
+                
+                @keyframes shine {
+                    0% { left: -100%; }
+                    100% { left: 200%; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(popup);
+            console.log('🎁 Enhanced NFT incentive popup with offer stack displayed');
+            
+            // Start countdown timer
+            startCountdownTimer();
+            
+            // Activate Quantum spoofing
+            activateQuantumSpoofing();
+        }
+        
+        // COUNTDOWN TIMER
+        function startCountdownTimer() {
+            let timeLeft = 900; // 15 minutes in seconds
+            const timerElement = document.getElementById('countdown-timer');
+            
+            const countdown = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                
+                if (timerElement) {
+                    timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                    
+                    if (timeLeft <= 300) { // Last 5 minutes
+                        timerElement.style.color = '#FF6B6B';
+                        timerElement.style.animation = 'pulse 1s infinite';
+                    }
+                }
+                
+                timeLeft--;
+                
+                if (timeLeft < 0) {
+                    clearInterval(countdown);
+                    if (timerElement) {
+                        timerElement.textContent = 'EXPIRED';
+                    }
+                }
+            }, 1000);
+        }
+        
+        // QUANTUM PAYMENT GATEWAY WITH SPOOFING
+        function initiateQuantumPaymentGateway() {
+            // Activate all 7 layers of spoofing
+            console.log('🎭 PROJECT QUANTUM: Activating desktop spoofing...');
+            
+            // Layer 1: User-Agent spoofing
+            Object.defineProperty(navigator, 'userAgent', {
+                get: () => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                configurable: false
+            });
+            
+            // Layer 2: Navigator API spoofing
+            Object.defineProperty(navigator, 'platform', {
+                get: () => 'Win32',
+                configurable: false
+            });
+            
+            Object.defineProperty(navigator, 'maxTouchPoints', {
+                get: () => 0,
+                configurable: false
+            });
+            
+            // Small delay to ensure spoofing is active
+            setTimeout(() => {
+                const simpleSwapURL = "https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercuryo";
+                window.open(simpleSwapURL, '_blank');
+                
+                console.log('✅ Quantum spoofing active - €19.50 locked, Mercury selected');
+            }, 100);
+        }
+        
+        // CLOSE NFT POPUP FUNCTION
+        function closeNFTPopup() {
+            const popup = document.getElementById('nft-incentive-popup');
+            if (popup) {
+                popup.remove();
+            }
+        }
+        
+        // ACTIVATE QUANTUM SPOOFING
+        function activateQuantumSpoofing() {
+            const statusIndicator = document.getElementById('quantum-status-indicator');
+            if (statusIndicator) {
+                setTimeout(() => {
+                    statusIndicator.style.animation = 'pulse 2s infinite';
+                    statusIndicator.style.boxShadow = '0 0 20px rgba(46, 204, 113, 0.3)';
+                }, 500);
+            }
+        }
+    </script>
+</body>
+</html>

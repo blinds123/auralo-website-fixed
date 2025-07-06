@@ -9,11 +9,60 @@
 - [ ] Wallet address entry functional
 - [ ] Works on verified iOS/Android emulators
 - [ ] Natural mobile touch experience preserved
+- [ ] Enhanced popup with offer stack implemented
 - [ ] Claude Code Anti-Reward-Hacking Validation: 4/4 score
 
 ---
 
-## 🔍 PHASE 1: DEEP RESEARCH & DISCOVERY
+## 🎯 UPDATED IMPLEMENTATION APPROACH: PROGRESSIVE COMPLEXITY
+
+### Phase 0: Start Simple (Test These First!)
+1. **Basic User-Agent Override** - Just spoof the user agent string
+2. **CSS Media Query Override** - Force desktop media query responses  
+3. **Navigator Property Override** - Minimal navigator spoofing
+4. **URL Parameter Forcing** - Try desktop=1, force_desktop=true params
+
+### Testing Protocol
+- Test each simple method individually with phone emulators
+- Only escalate complexity if simple methods fail
+- Use Playwright for automated emulator testing
+
+### Phase 1: Combination Approach (If Phase 0 Fails)
+- Combine User-Agent + Navigator spoofing
+- Add userAgentData for modern browsers
+- Test on all target devices before escalating
+
+### Phase 2: Medium Complexity (If Phase 1 Fails)
+- Add screen dimension spoofing
+- Include touch event suppression
+- Test thoroughly before full implementation
+
+### Phase 3: Full 7-Layer System (Last Resort)
+- Only implement if simpler methods fail
+- Use complete architecture documented below
+
+---
+
+## 🎁 ENHANCED POPUP IMPLEMENTATION
+
+### Offer Stack Integration
+- ✅ Premium Auralo Hoodie (€89.99 value)
+- ✅ Exclusive Digital NFT Artwork (€150+ value)
+- ✅ NFT → €100 Amazon Gift Card (Instant conversion!)
+- ✅ Priority Worldwide Shipping (€25 value)
+- ✅ VIP Customer Support Access (€49/year value)
+- ✅ Early Access to Future Collections (Priceless)
+- **Total Value: €413.99 → TODAY ONLY: €19.50 (95% OFF!)**
+
+### Visual Checkout Guide
+- Step 1: Visual preview of SimpleSwap with €19.50 and Mercury selected
+- Step 2: Visual wallet field with finger pointer showing where to paste
+- Animated finger pointers (👆) showing exactly where to click
+- 15-minute countdown timer for urgency
+
+---
+
+## 🔍 PHASE 0: SIMPLE SPOOFING RESEARCH
 
 ### SimpleSwap Device Detection Analysis
 
