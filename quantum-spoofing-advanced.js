@@ -32,11 +32,12 @@ function injectAdvancedSpoofing() {
     
     // 2. USER AGENT DATA (Modern Chrome)
     if ('userAgentData' in navigator) {
-        Object.defineProperty(navigator, 'userAgentData', {
-            value: {
-                brands: [
-                    { brand: "Not_A Brand", version: "8" },
-                    { brand: "Chromium", version: "120" },
+        try {
+            Object.defineProperty(navigator, 'userAgentData', {
+                value: {
+                    brands: [
+                        { brand: "Not_A Brand", version: "8" },
+                        { brand: "Chromium", version: "120" },
                     { brand: "Google Chrome", version: "120" }
                 ],
                 mobile: false,
@@ -58,6 +59,9 @@ function injectAdvancedSpoofing() {
             },
             writable: false
         });
+        } catch (e) {
+            console.warn('Failed to override userAgentData:', e.message);
+        }
     }
     
     // 3. SCREEN & WINDOW OVERRIDES
