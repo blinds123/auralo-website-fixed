@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRITICAL VALIDATION: Real SimpleSwap Mobile vs Desktop Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+        .test-container { background: white; padding: 20px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .critical { background: #ffebee; border-left: 4px solid #f44336; }
+        .success { background: #e8f5e8; border-left: 4px solid #4caf50; }
+        .warning { background: #fff3e0; border-left: 4px solid #ff9800; }
+        button { padding: 12px 24px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .test-btn { background: #2196f3; color: white; }
+        .critical-btn { background: #f44336; color: white; }
+        .results { margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 4px; }
+        .iframe-container { margin: 20px 0; border: 2px solid #ddd; }
+        iframe { width: 100%; height: 600px; border: none; }
+    </style>
+</head>
+<body>
+    <h1>🚨 CRITICAL VALIDATION: Real SimpleSwap Mobile vs Desktop Test</h1>
+    
+    <div class="test-container critical">
+        <h2>⚠️ HONEST ASSESSMENT REQUIRED</h2>
+        <p><strong>You're absolutely right to question this.</strong> Let's do real validation with side-by-side comparison.</p>
+        <p>We need to test:</p>
+        <ul>
+            <li>Mobile device → SimpleSwap (what price does it show?)</li>
+            <li>Mobile device + our spoofing → SimpleSwap (does price change?)</li>
+            <li>Desktop browser → SimpleSwap (control group)</li>
+        </ul>
+    </div>
+
+    <div class="test-container">
+        <h3>Test 1: Raw Mobile (No Spoofing)</h3>
+        <p>This will show what SimpleSwap actually charges mobile users</p>
+        <button class="test-btn" onclick="testRawMobile()">🔴 Test Raw Mobile SimpleSwap</button>
+        <div id="raw-mobile-results" class="results" style="display:none;"></div>
+    </div>
+
+    <div class="test-container">
+        <h3>Test 2: Mobile + Our Spoofing</h3>
+        <p>This will show if our spoofing actually changes the pricing</p>
+        <button class="test-btn" onclick="testMobileWithSpoofing()">🟡 Test Mobile + Desktop Spoofing</button>
+        <div id="spoofed-mobile-results" class="results" style="display:none;"></div>
+    </div>
+
+    <div class="test-container">
+        <h3>Test 3: Desktop Control</h3>
+        <p>This shows the "target" desktop pricing we want to achieve</p>
+        <button class="test-btn" onclick="testDesktopControl()">🟢 Test Desktop Control</button>
+        <div id="desktop-results" class="results" style="display:none;"></div>
+    </div>
+
+    <div class="test-container critical">
+        <h3>🎯 CRITICAL: Side-by-Side Comparison</h3>
+        <button class="critical-btn" onclick="runCriticalComparison()">🚨 RUN CRITICAL VALIDATION TEST</button>
+        <div id="critical-results" class="results" style="display:none;"></div>
+        
+        <div class="iframe-container" id="comparison-frame" style="display:none;">
+            <h4>Live SimpleSwap Test (Mobile Emulation)</h4>
+            <iframe id="simpleswap-test"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Test 1: Raw mobile behavior
+        function testRawMobile() {
+            document.getElementById('raw-mobile-results').style.display = 'block';
+            document.getElementById('raw-mobile-results').innerHTML = `
+                <h4>🔴 Raw Mobile Test Results</h4>
+                <p><strong>User Agent:</strong> ${navigator.userAgent}</p>
+                <p><strong>Max Touch Points:</strong> ${navigator.maxTouchPoints}</p>
+                <p><strong>Platform:</strong> ${navigator.platform}</p>
+                <p><strong>Screen:</strong> ${window.innerWidth}x${window.innerHeight}</p>
+                <p><strong>Test URL:</strong> <a href="https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercuryo" target="_blank">Open SimpleSwap (Mobile)</a></p>
+                <p><strong>Expected Result:</strong> Should show €21+ pricing (mobile markup)</p>
+                <div style="background: #ffcdd2; padding: 10px; margin: 10px 0; border-radius: 4px;">
+                    <strong>Manual Test Required:</strong> Click the link above, complete the form, and document the final pricing on the payment page.
+                </div>
+            `;
+        }
+
+        // Test 2: Mobile with spoofing
+        async function testMobileWithSpoofing() {
+            document.getElementById('spoofed-mobile-results').style.display = 'block';
+            
+            // Try to register service worker
+            let swStatus = 'Failed';
+            try {
+                if ('serviceWorker' in navigator) {
+                    await navigator.serviceWorker.register('/auralo-website-fixed/sw-desktop-spoofing.js');
+                    swStatus = 'Registered Successfully';
+                }
+            } catch (e) {
+                swStatus = 'Failed: ' + e.message;
+            }
+
+            // Check current spoofing status
+            const spoofedUA = navigator.userAgent.includes('Windows NT 10.0');
+            const spoofedTouch = navigator.maxTouchPoints === 0;
+            const spoofedPlatform = navigator.platform === 'Win32';
+
+            document.getElementById('spoofed-mobile-results').innerHTML = `
+                <h4>🟡 Mobile + Spoofing Test Results</h4>
+                <p><strong>Service Worker:</strong> ${swStatus}</p>
+                <p><strong>User Agent Spoofed:</strong> ${spoofedUA ? '✅ YES' : '❌ NO'} (${navigator.userAgent})</p>
+                <p><strong>Touch Points Spoofed:</strong> ${spoofedTouch ? '✅ YES' : '❌ NO'} (${navigator.maxTouchPoints})</p>
+                <p><strong>Platform Spoofed:</strong> ${spoofedPlatform ? '✅ YES' : '❌ NO'} (${navigator.platform})</p>
+                <p><strong>Test URL:</strong> <a href="https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercuryo" target="_blank">Open SimpleSwap (Spoofed)</a></p>
+                <p><strong>Expected Result:</strong> Should show €19.50 pricing (desktop pricing)</p>
+                <div style="background: ${spoofedUA && spoofedTouch && spoofedPlatform ? '#c8e6c9' : '#ffcdd2'}; padding: 10px; margin: 10px 0; border-radius: 4px;">
+                    <strong>Spoofing Status:</strong> ${spoofedUA && spoofedTouch && spoofedPlatform ? '✅ ACTIVE' : '❌ INACTIVE'}
+                </div>
+            `;
+        }
+
+        // Test 3: Desktop control
+        function testDesktopControl() {
+            document.getElementById('desktop-results').style.display = 'block';
+            document.getElementById('desktop-results').innerHTML = `
+                <h4>🟢 Desktop Control Test Results</h4>
+                <p><strong>Purpose:</strong> This shows what pricing desktop users actually get</p>
+                <p><strong>Test URL:</strong> <a href="https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercuryo" target="_blank">Open SimpleSwap (Desktop)</a></p>
+                <p><strong>Expected Result:</strong> Should show €19.50 pricing with Mercury auto-selected</p>
+                <div style="background: #e1f5fe; padding: 10px; margin: 10px 0; border-radius: 4px;">
+                    <strong>Note:</strong> Test this on an actual desktop computer to get the baseline pricing we want to achieve on mobile.
+                </div>
+            `;
+        }
+
+        // Critical comparison test
+        async function runCriticalComparison() {
+            document.getElementById('critical-results').style.display = 'block';
+            document.getElementById('comparison-frame').style.display = 'block';
+
+            // Set up the iframe test
+            const iframe = document.getElementById('simpleswap-test');
+            iframe.src = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercuryo';
+
+            // Get device info
+            const deviceInfo = {
+                userAgent: navigator.userAgent,
+                maxTouchPoints: navigator.maxTouchPoints,
+                platform: navigator.platform,
+                screenSize: `${window.innerWidth}x${window.innerHeight}`,
+                isMobile: /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+                spoofingActive: navigator.userAgent.includes('Windows NT 10.0') && navigator.maxTouchPoints === 0
+            };
+
+            document.getElementById('critical-results').innerHTML = `
+                <h4>🚨 CRITICAL VALIDATION RESULTS</h4>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                    <div style="background: #f5f5f5; padding: 15px; border-radius: 4px;">
+                        <h5>Device Detection</h5>
+                        <p><strong>User Agent:</strong> ${deviceInfo.userAgent.substring(0, 50)}...</p>
+                        <p><strong>Touch Points:</strong> ${deviceInfo.maxTouchPoints}</p>
+                        <p><strong>Platform:</strong> ${deviceInfo.platform}</p>
+                        <p><strong>Is Mobile:</strong> ${deviceInfo.isMobile ? 'YES' : 'NO'}</p>
+                    </div>
+                    
+                    <div style="background: ${deviceInfo.spoofingActive ? '#c8e6c9' : '#ffcdd2'}; padding: 15px; border-radius: 4px;">
+                        <h5>Spoofing Status</h5>
+                        <p><strong>Desktop Signals:</strong> ${deviceInfo.spoofingActive ? '✅ ACTIVE' : '❌ INACTIVE'}</p>
+                        <p><strong>Network Spoofing:</strong> Check Network tab for desktop User-Agent</p>
+                        <p><strong>Service Worker:</strong> ${('serviceWorker' in navigator) ? 'Available' : 'Not Available'}</p>
+                    </div>
+                </div>
+
+                <div style="background: #fff3e0; padding: 15px; border-radius: 4px; margin: 20px 0;">
+                    <h5>📋 MANUAL VALIDATION REQUIRED</h5>
+                    <p><strong>Step 1:</strong> Open the SimpleSwap iframe below</p>
+                    <p><strong>Step 2:</strong> Fill in wallet address: <code>0xE5173e7c3089bD89cd1341b637b8e1951745ED5C</code></p>
+                    <p><strong>Step 3:</strong> Click "Create Exchange" and document the final pricing</p>
+                    <p><strong>Step 4:</strong> Compare with desktop pricing from a real desktop computer</p>
+                </div>
+
+                <div style="background: ${deviceInfo.spoofingActive ? '#c8e6c9' : '#ffcdd2'}; padding: 15px; border-radius: 4px;">
+                    <h5>🎯 EXPECTED RESULT</h5>
+                    ${deviceInfo.spoofingActive ? 
+                        '<p><strong>✅ SPOOFING ACTIVE:</strong> Should see €19.50 pricing with Mercury auto-selected (same as desktop)</p>' :
+                        '<p><strong>❌ SPOOFING INACTIVE:</strong> Will see €21+ pricing (mobile markup applied)</p>'
+                    }
+                </div>
+            `;
+        }
+
+        // Auto-run basic tests on page load
+        window.onload = function() {
+            console.log('🔍 Auto-running device detection...');
+            testMobileWithSpoofing();
+        };
+    </script>
+</body>
+</html>
