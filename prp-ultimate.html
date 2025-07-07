@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Loading...</title>
+    <script>
+        // ULTIMATE PRP MODE - NUCLEAR OPTION
+        // This overrides EVERYTHING possible before ANY other code runs
+        
+        (function() {
+            'use strict';
+            
+            // PHASE 1: Freeze the entire navigator object
+            const frozenNavigator = Object.freeze({
+                userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                platform: 'Win32',
+                vendor: 'Google Inc.',
+                vendorSub: '',
+                language: 'en-US',
+                languages: Object.freeze(['en-US', 'en']),
+                onLine: true,
+                cookieEnabled: true,
+                appCodeName: 'Mozilla',
+                appName: 'Netscape',
+                appVersion: '5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                product: 'Gecko',
+                productSub: '20030107',
+                maxTouchPoints: 0,
+                hardwareConcurrency: 8,
+                deviceMemory: 8,
+                webdriver: false,
+                pdfViewerEnabled: true,
+                plugins: Object.freeze({ length: 3 }),
+                mimeTypes: Object.freeze({ length: 4 }),
+                javaEnabled: () => false,
+                vibrate: () => false,
+                getBattery: () => Promise.reject(new Error('Not supported')),
+                sendBeacon: () => true,
+                registerProtocolHandler: () => {},
+                unregisterProtocolHandler: () => {},
+                clipboard: { writeText: () => Promise.resolve(), readText: () => Promise.resolve('') },
+                permissions: { query: () => Promise.resolve({ state: 'granted' }) },
+                mediaDevices: { enumerateDevices: () => Promise.resolve([]) },
+                userAgentData: null
+            });
+            
+            // PHASE 2: Replace navigator entirely
+            delete window.navigator;
+            Object.defineProperty(window, 'navigator', {
+                value: frozenNavigator,
+                writable: false,
+                configurable: false,
+                enumerable: true
+            });
+            
+            // PHASE 3: Override Object.getOwnPropertyDescriptor to hide our changes
+            const originalGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+            Object.getOwnPropertyDescriptor = function(obj, prop) {
+                if (obj === window && prop === 'navigator') {
+                    return {
+                        value: frozenNavigator,
+                        writable: true,
+                        configurable: true,
+                        enumerable: true
+                    };
+                }
+                return originalGetOwnPropertyDescriptor.apply(this, arguments);
+            };
+            
+            // PHASE 4: Screen object complete override
+            const frozenScreen = Object.freeze({
+                width: 1920,
+                height: 1080,
+                availWidth: 1920,
+                availHeight: 1040,
+                availLeft: 0,
+                availTop: 0,
+                colorDepth: 24,
+                pixelDepth: 24,
+                orientation: Object.freeze({ angle: 0, type: 'landscape-primary' })
+            });
+            
+            delete window.screen;
+            Object.defineProperty(window, 'screen', {
+                value: frozenScreen,
+                writable: false,
+                configurable: false,
+                enumerable: true
+            });
+            
+            // PHASE 5: Window dimensions
+            const dimensions = {
+                innerWidth: 1280,
+                innerHeight: 720,
+                outerWidth: 1920,
+                outerHeight: 1080,
+                screenX: 100,
+                screenY: 100,
+                screenLeft: 100,
+                screenTop: 100,
+                pageXOffset: 0,
+                pageYOffset: 0,
+                scrollX: 0,
+                scrollY: 0
+            };
+            
+            Object.keys(dimensions).forEach(key => {
+                delete window[key];
+                Object.defineProperty(window, key, {
+                    get: () => dimensions[key],
+                    set: () => {},
+                    configurable: false
+                });
+            });
+            
+            // PHASE 6: devicePixelRatio
+            delete window.devicePixelRatio;
+            Object.defineProperty(window, 'devicePixelRatio', {
+                value: 1.0,
+                writable: false,
+                configurable: false
+            });
+            
+            // PHASE 7: Remove ALL touch/mobile APIs
+            const mobileAPIs = [
+                'ontouchstart', 'ontouchmove', 'ontouchend', 'ontouchcancel',
+                'Touch', 'TouchEvent', 'TouchList', 'orientation',
+                'onorientationchange', 'DeviceOrientationEvent', 'DeviceMotionEvent',
+                'ondeviceorientation', 'ondevicemotion', 'oncompassneedscalibration',
+                'ondeviceorientationabsolute', 'DeviceProximityEvent', 'ondeviceproximity',
+                'onuserproximity', 'UserProximityEvent', 'ondevicelight', 'DeviceLightEvent',
+                'ProximityEvent', 'AmbientLightSensor', 'Accelerometer', 'Gyroscope',
+                'Magnetometer', 'OrientationSensor', 'MotionSensor'
+            ];
+            
+            mobileAPIs.forEach(api => {
+                try {
+                    delete window[api];
+                    Object.defineProperty(window, api, {
+                        value: undefined,
+                        writable: false,
+                        configurable: false
+                    });
+                } catch (e) {}
+            });
+            
+            // PHASE 8: matchMedia override
+            delete window.matchMedia;
+            window.matchMedia = function(query) {
+                const q = query.toLowerCase();
+                return Object.freeze({
+                    matches: q.includes('min-width') || q.includes('hover: hover') || q.includes('pointer: fine'),
+                    media: query,
+                    onchange: null,
+                    addListener: () => {},
+                    removeListener: () => {},
+                    addEventListener: () => {},
+                    removeEventListener: () => {},
+                    dispatchEvent: () => true
+                });
+            };
+            
+            // PHASE 9: Override toString methods to prevent detection
+            window.navigator.toString = () => '[object Navigator]';
+            window.screen.toString = () => '[object Screen]';
+            
+            // PHASE 10: CSS object override
+            if (window.CSS && window.CSS.supports) {
+                const originalSupports = window.CSS.supports;
+                window.CSS.supports = function(prop) {
+                    if (typeof prop === 'string' && (prop.includes('touch') || prop.includes('-webkit-overflow-scrolling'))) {
+                        return false;
+                    }
+                    return originalSupports.apply(this, arguments);
+                };
+            }
+            
+            // PHASE 11: Performance API spoofing
+            if (window.performance && window.performance.memory) {
+                Object.defineProperty(window.performance, 'memory', {
+                    value: {
+                        jsHeapSizeLimit: 4294705152,
+                        totalJSHeapSize: 95739515,
+                        usedJSHeapSize: 81456635
+                    }
+                });
+            }
+            
+            // PHASE 12: Override Element.prototype methods
+            const originalGetBoundingClientRect = Element.prototype.getBoundingClientRect;
+            Element.prototype.getBoundingClientRect = function() {
+                const rect = originalGetBoundingClientRect.call(this);
+                // Ensure desktop-like dimensions
+                if (rect.width < 768) {
+                    return {
+                        ...rect,
+                        width: Math.max(rect.width, 1024),
+                        height: rect.height,
+                        x: rect.x,
+                        y: rect.y,
+                        top: rect.top,
+                        bottom: rect.bottom,
+                        left: rect.left,
+                        right: rect.left + Math.max(rect.width, 1024)
+                    };
+                }
+                return rect;
+            };
+            
+            console.log('✅ ULTIMATE PRP MODE ACTIVE - All systems overridden');
+            
+            // FINAL PHASE: Redirect with everything
+            setTimeout(() => {
+                const params = new URLSearchParams({
+                    'from': 'eur-eur',
+                    'to': 'pol-matic',
+                    'amount': '19.50',
+                    'provider': 'mercury',
+                    'fixed': '1',
+                    'prp': 'ultimate',
+                    'force': 'desktop',
+                    'override': 'all',
+                    'nuclear': '1',
+                    'device': 'desktop',
+                    'platform': 'windows',
+                    'mode': 'desktop',
+                    'spoofed': '1',
+                    'mobile': '0',
+                    'touch': '0',
+                    '_t': Date.now(),
+                    '_r': Math.random().toString(36).substr(2, 9)
+                });
+                
+                const url = 'https://simpleswap.io/exchange?' + params.toString();
+                
+                // Try everything
+                window.location.replace(url);
+                window.location.href = url;
+                window.location = url;
+                
+                // Meta refresh backup
+                document.write(`<meta http-equiv="refresh" content="0;url=${url}">`);
+                
+            }, 100);
+            
+        })();
+    </script>
+</head>
+<body style="background: #000; color: #0f0; font-family: monospace; padding: 20px;">
+    <pre>
+ _   _ _   _____ ___ __  __    _  _____ ___   ____  ____  ____    __  __  ___  ____  _____ 
+| | | | | |_   _|_ _|  \/  |  / \|_   _| __| |  _ \|  _ \|  _ \  |  \/  |/ _ \|  _ \| ____|
+| | | | |   | |  | || |\/| | / _ \ | | |  _| | |_) | |_) | |_) | | |\/| | | | | | | |  _|  
+| |_| | |___| |  | || |  | |/ ___ \| | | |_  |  __/|  _ <|  __/  | |  | | |_| | |_| | |___ 
+ \___/|_____|_| |___|_|  |_/_/   \_\_| |____||_|   |_| \_\_|     |_|  |_|\___/|____/|_____|
+
+[SYSTEM] Nuclear option activated
+[SYSTEM] All mobile detection overridden
+[SYSTEM] Redirecting to SimpleSwap with maximum spoofing...
+[SYSTEM] Target: €19.50 with Mercury provider
+    </pre>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Purchase - €19.50</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0a0a0a;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .price-guarantee {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(76, 175, 80, 0.3);
+        }
+        
+        .price-guarantee h1 {
+            margin: 0 0 10px 0;
+            font-size: 36px;
+        }
+        
+        .price-guarantee .subtitle {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+        
+        .options-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .option {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .option:hover {
+            border-color: #2196F3;
+            background: rgba(33, 150, 243, 0.1);
+        }
+        
+        .option.recommended {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+        
+        .option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .option-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .option-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .option-description {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+        }
+        
+        .proceed-button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        
+        .proceed-button:hover {
+            background: #1976D2;
+            transform: translateY(-1px);
+        }
+        
+        .proceed-button.primary {
+            background: #4CAF50;
+        }
+        
+        .proceed-button.primary:hover {
+            background: #45a049;
+        }
+        
+        .info-box {
+            background: rgba(33, 150, 243, 0.1);
+            border: 1px solid #2196F3;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .discount-code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 18px;
+            margin: 10px 0;
+            display: inline-block;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="price-guarantee">
+            <h1>€19.50 Price Guarantee</h1>
+            <div class="subtitle">We ensure you pay the same price on any device</div>
+        </div>
+        
+        <h2>Choose Your Payment Method:</h2>
+        
+        <div class="options-container">
+            <div class="option recommended" onclick="selectOption(1)">
+                <div class="option-header">
+                    <span class="option-title">🖥️ Desktop Mode Payment</span>
+                    <span class="option-badge">RECOMMENDED</span>
+                </div>
+                <div class="option-description">
+                    Enable desktop mode in your browser to get €19.50 pricing directly from SimpleSwap
+                </div>
+                <button class="proceed-button primary" onclick="proceedDesktopMode(event)">
+                    Enable Desktop Mode & Pay €19.50
+                </button>
+            </div>
+            
+            <div class="option" onclick="selectOption(2)">
+                <div class="option-header">
+                    <span class="option-title">💳 Mobile Payment + Rebate</span>
+                </div>
+                <div class="option-description">
+                    Pay the €21 mobile price and receive an instant €1.50 rebate code
+                </div>
+                <button class="proceed-button" onclick="proceedWithRebate(event)">
+                    Pay €21 & Get €1.50 Rebate
+                </button>
+            </div>
+            
+            <div class="option" onclick="selectOption(3)">
+                <div class="option-header">
+                    <span class="option-title">🔄 Alternative Payment</span>
+                </div>
+                <div class="option-description">
+                    Use our alternative payment provider with guaranteed €19.50 pricing
+                </div>
+                <button class="proceed-button" onclick="useAlternative(event)">
+                    Use Alternative Provider
+                </button>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <strong>Why the price difference?</strong><br>
+            SimpleSwap charges mobile users €21 instead of €19.50. We believe this is unfair, so we offer these solutions to ensure you pay the correct price.
+        </div>
+    </div>
+    
+    <script>
+        // Product Requirements Prompt (PRP) Based Solution
+        console.log('PRP Business Solution Active');
+        
+        // Track user choice
+        let selectedOption = 1;
+        
+        function selectOption(option) {
+            selectedOption = option;
+            
+            // Update UI
+            document.querySelectorAll('.option').forEach((el, index) => {
+                if (index + 1 === option) {
+                    el.classList.add('recommended');
+                } else {
+                    el.classList.remove('recommended');
+                }
+            });
+        }
+        
+        function proceedDesktopMode(event) {
+            event.stopPropagation();
+            
+            // Check if already in desktop mode
+            const isDesktopMode = window.innerWidth > 980 || !('ontouchstart' in window);
+            
+            if (isDesktopMode) {
+                // Already in desktop mode, proceed
+                window.location.href = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury';
+            } else {
+                // Show desktop mode instructions
+                showDesktopInstructions();
+            }
+        }
+        
+        function proceedWithRebate(event) {
+            event.stopPropagation();
+            
+            // Generate rebate code
+            const rebateCode = 'MOBILE150_' + Date.now().toString(36).toUpperCase();
+            
+            // Show rebate information
+            const container = document.querySelector('.container');
+            container.innerHTML = `
+                <div class="price-guarantee">
+                    <h1>€1.50 Rebate Code</h1>
+                    <div class="subtitle">Use this code to claim your rebate</div>
+                </div>
+                
+                <div style="text-align: center; padding: 30px;">
+                    <p style="font-size: 18px; margin-bottom: 20px;">
+                        Your rebate code (automatically copied):
+                    </p>
+                    <div class="discount-code" id="rebate-code">${rebateCode}</div>
+                    <p style="margin-top: 20px; opacity: 0.8;">
+                        This code compensates for the €1.50 mobile surcharge
+                    </p>
+                    
+                    <button class="proceed-button primary" onclick="proceedToSimpleSwap()" style="margin-top: 30px;">
+                        Continue to Payment (€21)
+                    </button>
+                    
+                    <p style="margin-top: 20px; font-size: 14px; opacity: 0.7;">
+                        After payment, email this code to support@auralo.com for your €1.50 refund
+                    </p>
+                </div>
+            `;
+            
+            // Copy rebate code
+            navigator.clipboard.writeText(rebateCode).then(() => {
+                console.log('Rebate code copied:', rebateCode);
+            });
+        }
+        
+        function useAlternative(event) {
+            event.stopPropagation();
+            
+            // In a real implementation, this would redirect to an alternative provider
+            alert('Alternative payment provider integration coming soon. For now, please use desktop mode or the rebate option.');
+        }
+        
+        function showDesktopInstructions() {
+            const container = document.querySelector('.container');
+            
+            const instructions = {
+                'chrome': {
+                    title: 'Chrome/Android',
+                    steps: [
+                        'Tap the menu button (⋮) in the top right',
+                        'Check "Desktop site"',
+                        'Page will reload in desktop mode',
+                        'Click the button below to continue'
+                    ]
+                },
+                'safari': {
+                    title: 'Safari/iPhone',
+                    steps: [
+                        'Tap the "aA" button in the address bar',
+                        'Select "Request Desktop Website"',
+                        'Page will reload in desktop mode',
+                        'Click the button below to continue'
+                    ]
+                }
+            };
+            
+            const browser = /iPhone|iPad|iPod/.test(navigator.userAgent) ? 'safari' : 'chrome';
+            const inst = instructions[browser];
+            
+            container.innerHTML = `
+                <div class="price-guarantee">
+                    <h1>Enable Desktop Mode</h1>
+                    <div class="subtitle">Get €19.50 pricing in 4 easy steps</div>
+                </div>
+                
+                <div class="options-container">
+                    <h3>${inst.title} Instructions:</h3>
+                    <ol style="text-align: left; padding-left: 20px;">
+                        ${inst.steps.map(step => `<li style="margin: 10px 0;">${step}</li>`).join('')}
+                    </ol>
+                    
+                    <button class="proceed-button primary" onclick="checkAndProceed()" style="margin-top: 20px;">
+                        I've Enabled Desktop Mode - Continue
+                    </button>
+                    
+                    <button class="proceed-button" onclick="location.reload()" style="margin-top: 10px;">
+                        Go Back to Options
+                    </button>
+                </div>
+            `;
+        }
+        
+        function checkAndProceed() {
+            const isDesktop = window.innerWidth > 980 || !('ontouchstart' in window);
+            
+            if (isDesktop) {
+                window.location.href = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury';
+            } else {
+                alert('Desktop mode doesn\'t appear to be active. Please follow the instructions above to enable it.');
+            }
+        }
+        
+        function proceedToSimpleSwap() {
+            window.location.href = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury';
+        }
+    </script>
+</body>
+</html>

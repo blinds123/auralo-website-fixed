@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Processing</title>
+    <script>
+        // ULTRA AGGRESSIVE SPOOFING - BEFORE ANYTHING LOADS
+        
+        // Method 1: Create a completely fake navigator object
+        window.navigator = new Proxy({}, {
+            get: function(target, prop) {
+                const fakeNav = {
+                    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    platform: 'Win32',
+                    vendor: 'Google Inc.',
+                    vendorSub: '',
+                    language: 'en-US',
+                    languages: ['en-US', 'en'],
+                    onLine: true,
+                    cookieEnabled: true,
+                    appCodeName: 'Mozilla',
+                    appName: 'Netscape',
+                    appVersion: '5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                    product: 'Gecko',
+                    productSub: '20030107',
+                    maxTouchPoints: 0,
+                    hardwareConcurrency: 8,
+                    deviceMemory: 8,
+                    userAgentData: null,
+                    webdriver: false,
+                    pdfViewerEnabled: true,
+                    plugins: { length: 3 },
+                    mimeTypes: { length: 4 },
+                    javaEnabled: () => false,
+                    vibrate: () => false,
+                    getBattery: () => Promise.reject('Not supported'),
+                    sendBeacon: () => true,
+                    registerProtocolHandler: () => {},
+                    unregisterProtocolHandler: () => {}
+                };
+                return fakeNav[prop] !== undefined ? fakeNav[prop] : undefined;
+            },
+            has: function(target, prop) {
+                return prop in {userAgent: 1, platform: 1, vendor: 1, maxTouchPoints: 1};
+            }
+        });
+        
+        // Method 2: Override Object.prototype to catch any property access
+        const originalValueOf = Object.prototype.valueOf;
+        const originalToString = Object.prototype.toString;
+        
+        Object.prototype.valueOf = function() {
+            if (this === navigator) return '[object Navigator]';
+            return originalValueOf.call(this);
+        };
+        
+        Object.prototype.toString = function() {
+            if (this === navigator) return '[object Navigator]';
+            return originalToString.call(this);
+        };
+        
+        // Method 3: Delete EVERYTHING mobile-related
+        const mobileProperties = [
+            'ontouchstart', 'ontouchmove', 'ontouchend', 'ontouchcancel',
+            'Touch', 'TouchEvent', 'TouchList', 'onorientationchange',
+            'orientation', 'DeviceOrientationEvent', 'DeviceMotionEvent'
+        ];
+        
+        mobileProperties.forEach(prop => {
+            try {
+                delete window[prop];
+                Object.defineProperty(window, prop, {
+                    value: undefined,
+                    writable: false,
+                    configurable: false
+                });
+            } catch (e) {}
+        });
+        
+        // Method 4: Override all possible detection methods
+        Object.defineProperty(document, 'ontouchstart', { value: undefined });
+        Object.defineProperty(document.documentElement, 'ontouchstart', { value: undefined });
+        Object.defineProperty(window, 'orientation', { value: undefined });
+        Object.defineProperty(window, 'onorientationchange', { value: undefined });
+        
+        // Method 5: Force desktop screen dimensions
+        Object.defineProperty(window, 'screen', {
+            value: {
+                width: 1920,
+                height: 1080,
+                availWidth: 1920,
+                availHeight: 1040,
+                availLeft: 0,
+                availTop: 0,
+                colorDepth: 24,
+                pixelDepth: 24,
+                orientation: { angle: 0, type: 'landscape-primary' }
+            },
+            writable: false,
+            configurable: false
+        });
+        
+        // Method 6: Override window dimensions
+        ['innerWidth', 'innerHeight', 'outerWidth', 'outerHeight'].forEach(prop => {
+            const values = { innerWidth: 1280, innerHeight: 720, outerWidth: 1920, outerHeight: 1080 };
+            Object.defineProperty(window, prop, {
+                get: () => values[prop],
+                set: () => {},
+                configurable: false
+            });
+        });
+        
+        // Method 7: Override devicePixelRatio
+        Object.defineProperty(window, 'devicePixelRatio', {
+            get: () => 1.0,
+            set: () => {},
+            configurable: false
+        });
+        
+        // Method 8: matchMedia override
+        window.matchMedia = function(query) {
+            const q = query.toLowerCase();
+            const result = {
+                matches: false,
+                media: query,
+                onchange: null,
+                addListener: () => {},
+                removeListener: () => {},
+                addEventListener: () => {},
+                removeEventListener: () => {},
+                dispatchEvent: () => true
+            };
+            
+            // Desktop queries return true
+            if (q.includes('min-width: 768') || q.includes('min-width: 1024') || 
+                q.includes('hover: hover') || q.includes('pointer: fine')) {
+                result.matches = true;
+            }
+            
+            // Mobile queries return false
+            if (q.includes('max-width: 767') || q.includes('hover: none') || 
+                q.includes('pointer: coarse') || q.includes('max-width: 768')) {
+                result.matches = false;
+            }
+            
+            return result;
+        };
+        
+        // Method 9: Override feature detection
+        window.CSS = window.CSS || {};
+        window.CSS.supports = function(prop) {
+            if (prop.includes('touch') || prop.includes('-webkit-overflow-scrolling')) {
+                return false;
+            }
+            return true;
+        };
+        
+        // Method 10: Set ALL possible cookies and storage
+        try {
+            document.cookie = 'device=desktop; path=/; domain=.simpleswap.io';
+            document.cookie = 'mobile=false; path=/; domain=.simpleswap.io';
+            document.cookie = 'force_desktop=1; path=/; domain=.simpleswap.io';
+            document.cookie = 'platform=Windows; path=/; domain=.simpleswap.io';
+            
+            localStorage.setItem('device_type', 'desktop');
+            localStorage.setItem('force_desktop', 'true');
+            localStorage.setItem('disable_mobile_pricing', 'true');
+            localStorage.setItem('amount_override', '19.50');
+            localStorage.setItem('provider_override', 'mercury');
+            
+            sessionStorage.setItem('device_type', 'desktop');
+            sessionStorage.setItem('force_desktop', 'true');
+            sessionStorage.setItem('spoofing_active', 'true');
+        } catch (e) {}
+        
+        console.log('✅ ULTRA AGGRESSIVE SPOOFING COMPLETE');
+        
+        // Now redirect with EVERYTHING possible in the URL
+        setTimeout(() => {
+            const params = new URLSearchParams({
+                'from': 'eur-eur',
+                'to': 'pol-matic',
+                'amount': '19.50',
+                'provider': 'mercury',
+                'fixed': '1',
+                'mode': 'desktop',
+                'device': 'desktop',
+                'platform': 'Windows',
+                'viewport': '1280x720',
+                'screen': '1920x1080',
+                'touch': '0',
+                'mobile': '0',
+                'force_desktop': '1',
+                'disable_mobile': '1',
+                'override_pricing': '1',
+                'skip_mobile_check': '1',
+                'desktop_mode': 'true',
+                'no_mobile_redirect': '1',
+                'ignore_device_detection': '1',
+                'force_provider': 'mercury',
+                'mercury': '1',
+                'moonpay': '0',
+                'ref': 'desktop_force',
+                'utm_source': 'desktop',
+                'utm_medium': 'desktop',
+                'utm_campaign': 'desktop',
+                'partner': 'auralo_desktop_force',
+                '_d': Date.now()
+            });
+            
+            window.location.replace('https://simpleswap.io/exchange?' + params.toString());
+        }, 100);
+    </script>
+</head>
+<body style="background: #000; color: #fff; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: system-ui;">
+    <div style="text-align: center;">
+        <div style="font-size: 48px; margin-bottom: 20px;">🔄</div>
+        <h2>Preparing Desktop Mode...</h2>
+        <p>Forcing €19.50 pricing with Mercury</p>
+    </div>
+</body>
+</html>

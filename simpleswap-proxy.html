@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Processing...</title>
+    <script>
+        // AGGRESSIVE DESKTOP SPOOFING BEFORE ANYTHING LOADS
+        
+        // Override ALL navigator properties
+        const fakeNavigator = {
+            userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            platform: 'Win32',
+            vendor: 'Google Inc.',
+            language: 'en-US',
+            languages: ['en-US', 'en'],
+            onLine: true,
+            cookieEnabled: true,
+            maxTouchPoints: 0,
+            hardwareConcurrency: 8,
+            deviceMemory: 8,
+            userAgentData: {
+                brands: [{brand: "Chromium", version: "120"}, {brand: "Google Chrome", version: "120"}],
+                mobile: false,
+                platform: "Windows"
+            }
+        };
+        
+        // Replace navigator
+        Object.keys(fakeNavigator).forEach(key => {
+            Object.defineProperty(navigator, key, {
+                get: () => fakeNavigator[key],
+                configurable: false
+            });
+        });
+        
+        // Delete ALL touch support
+        delete window.ontouchstart;
+        delete window.ontouchmove;
+        delete window.ontouchend;
+        delete window.ontouchcancel;
+        delete window.Touch;
+        delete window.TouchEvent;
+        delete window.TouchList;
+        
+        // Override screen completely
+        Object.defineProperty(screen, 'width', { get: () => 1920 });
+        Object.defineProperty(screen, 'height', { get: () => 1080 });
+        Object.defineProperty(screen, 'availWidth', { get: () => 1920 });
+        Object.defineProperty(screen, 'availHeight', { get: () => 1040 });
+        Object.defineProperty(window, 'innerWidth', { get: () => 1280 });
+        Object.defineProperty(window, 'innerHeight', { get: () => 720 });
+        Object.defineProperty(window, 'devicePixelRatio', { get: () => 1.0 });
+        
+        // Override matchMedia
+        const originalMatchMedia = window.matchMedia;
+        window.matchMedia = function(query) {
+            if (query.includes('pointer: coarse') || query.includes('hover: none')) {
+                return { matches: false, media: query, addListener: () => {}, removeListener: () => {} };
+            }
+            if (query.includes('pointer: fine') || query.includes('hover: hover')) {
+                return { matches: true, media: query, addListener: () => {}, removeListener: () => {} };
+            }
+            return originalMatchMedia.call(this, query);
+        };
+        
+        // Immediately redirect to SimpleSwap with all parameters
+        window.location.replace('https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury&fixed=1&widget=1&embed=1&source=desktop&partner=auralo&ref=desktop_proxy&platform=web&device=desktop&mobile=0');
+    </script>
+</head>
+<body>
+    <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+        <h2>Redirecting to secure payment...</h2>
+        <p>Please wait...</p>
+    </div>
+</body>
+</html>

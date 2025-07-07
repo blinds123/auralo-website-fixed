@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment Processing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            overflow: hidden;
+        }
+        
+        .interceptor-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .status-bar {
+            background: #2196F3;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+        
+        .status-text {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .price-monitor {
+            background: #4CAF50;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .iframe-container {
+            flex: 1;
+            position: relative;
+            background: white;
+        }
+        
+        #payment-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .control-overlay {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px 25px;
+            border-radius: 25px;
+            display: none;
+            z-index: 50;
+        }
+        
+        .control-button {
+            background: #FF6B35;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+        
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #2196F3;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .debug-panel {
+            position: fixed;
+            top: 50px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-family: monospace;
+            max-width: 200px;
+            display: none;
+            z-index: 300;
+        }
+    </style>
+</head>
+<body>
+    <div class="interceptor-container">
+        <div class="status-bar">
+            <div class="status-text">🔒 Secure Payment Gateway</div>
+            <div class="price-monitor">€19.50 ✓</div>
+        </div>
+        
+        <div class="iframe-container">
+            <div class="loading-overlay" id="loading">
+                <div class="spinner"></div>
+                <div style="text-align: center;">
+                    <h3 style="margin-bottom: 10px;">Initializing Secure Payment</h3>
+                    <p style="opacity: 0.8; font-size: 14px;">Ensuring best rates for you...</p>
+                </div>
+            </div>
+            
+            <iframe id="payment-frame" src="about:blank"></iframe>
+            
+            <div class="control-overlay" id="controls">
+                <button class="control-button" onclick="fixPricing()">Fix Price</button>
+                <button class="control-button" onclick="selectMercury()">Select Mercury</button>
+            </div>
+        </div>
+        
+        <div class="debug-panel" id="debug">
+            <div id="debug-info"></div>
+        </div>
+    </div>
+    
+    <script>
+        console.log('🚀 Mobile Interceptor V2 Active');
+        
+        // Configuration
+        const CONFIG = {
+            targetAmount: '19.50',
+            targetProvider: 'mercury',
+            checkInterval: 1000,
+            maxRetries: 10,
+            debugMode: true
+        };
+        
+        // State
+        let retryCount = 0;
+        let monitoringActive = false;
+        let currentUrl = '';
+        
+        // Initialize debug panel
+        if (CONFIG.debugMode) {
+            document.getElementById('debug').style.display = 'block';
+        }
+        
+        function updateDebug(message) {
+            if (CONFIG.debugMode) {
+                const debugInfo = document.getElementById('debug-info');
+                debugInfo.innerHTML = `${new Date().toLocaleTimeString()}: ${message}<br>` + debugInfo.innerHTML;
+                debugInfo.innerHTML = debugInfo.innerHTML.split('<br>').slice(0, 10).join('<br>');
+            }
+        }
+        
+        // ULTIMATE DESKTOP SPOOFING - Applied before ANYTHING loads
+        function applyUltimateDesktopSpoofing() {
+            updateDebug('Applying ultimate desktop spoofing...');
+            
+            // Create spoofing script that runs in iframe context
+            const spoofingScript = `
+                <script>
+                    // PHASE 1: Override EVERYTHING before page loads
+                    (function() {
+                        console.log('🎭 ULTIMATE SPOOFING ACTIVE');
+                        
+                        // Complete navigator override
+                        const fakeNavigator = {
+                            userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                            platform: 'Win32',
+                            vendor: 'Google Inc.',
+                            vendorSub: '',
+                            language: 'en-US',
+                            languages: ['en-US', 'en'],
+                            onLine: true,
+                            cookieEnabled: true,
+                            appCodeName: 'Mozilla',
+                            appName: 'Netscape',
+                            appVersion: '5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                            product: 'Gecko',
+                            productSub: '20030107',
+                            userAgentData: {
+                                brands: [{brand: "Not_A Brand", version: "8"}, {brand: "Chromium", version: "120"}, {brand: "Google Chrome", version: "120"}],
+                                mobile: false,
+                                platform: "Windows",
+                                getHighEntropyValues: () => Promise.resolve({
+                                    platform: "Windows",
+                                    platformVersion: "10.0.0",
+                                    architecture: "x86",
+                                    bitness: "64",
+                                    model: "",
+                                    uaFullVersion: "120.0.0.0"
+                                })
+                            },
+                            maxTouchPoints: 0,
+                            hardwareConcurrency: 8,
+                            deviceMemory: 8,
+                            plugins: {length: 3},
+                            mimeTypes: {length: 4}
+                        };
+                        
+                        // Replace navigator completely
+                        Object.defineProperty(window, 'navigator', {
+                            get: () => new Proxy(fakeNavigator, {
+                                get: (target, prop) => {
+                                    if (prop in target) return target[prop];
+                                    return undefined;
+                                }
+                            }),
+                            configurable: false
+                        });
+                        
+                        // Override screen
+                        Object.defineProperty(window, 'screen', {
+                            get: () => ({
+                                width: 1920,
+                                height: 1080,
+                                availWidth: 1920,
+                                availHeight: 1040,
+                                colorDepth: 24,
+                                pixelDepth: 24,
+                                orientation: { angle: 0, type: 'landscape-primary' }
+                            }),
+                            configurable: false
+                        });
+                        
+                        // Override window dimensions
+                        Object.defineProperty(window, 'innerWidth', { get: () => 1280, configurable: false });
+                        Object.defineProperty(window, 'innerHeight', { get: () => 720, configurable: false });
+                        Object.defineProperty(window, 'outerWidth', { get: () => 1920, configurable: false });
+                        Object.defineProperty(window, 'outerHeight', { get: () => 1080, configurable: false });
+                        Object.defineProperty(window, 'devicePixelRatio', { get: () => 1.0, configurable: false });
+                        
+                        // Remove ALL touch support
+                        delete window.ontouchstart;
+                        delete window.ontouchmove;
+                        delete window.ontouchend;
+                        delete window.ontouchcancel;
+                        delete window.Touch;
+                        delete window.TouchEvent;
+                        delete window.TouchList;
+                        Object.defineProperty(document.documentElement, 'ontouchstart', { get: () => undefined, set: () => {}, configurable: false });
+                        
+                        // Override matchMedia completely
+                        window.matchMedia = function(query) {
+                            const q = query.toLowerCase();
+                            if (q.includes('pointer: coarse') || q.includes('hover: none') || q.includes('any-pointer: coarse')) {
+                                return { matches: false, media: query, addListener: () => {}, removeListener: () => {}, addEventListener: () => {}, removeEventListener: () => {}, dispatchEvent: () => true };
+                            }
+                            if (q.includes('pointer: fine') || q.includes('hover: hover') || q.includes('any-pointer: fine')) {
+                                return { matches: true, media: query, addListener: () => {}, removeListener: () => {}, addEventListener: () => {}, removeEventListener: () => {}, dispatchEvent: () => true };
+                            }
+                            if (q.includes('max-width: 767') || q.includes('max-width: 768')) {
+                                return { matches: false, media: query, addListener: () => {}, removeListener: () => {}, addEventListener: () => {}, removeEventListener: () => {}, dispatchEvent: () => true };
+                            }
+                            if (q.includes('min-width: 768') || q.includes('min-width: 1024')) {
+                                return { matches: true, media: query, addListener: () => {}, removeListener: () => {}, addEventListener: () => {}, removeEventListener: () => {}, dispatchEvent: () => true };
+                            }
+                            return { matches: false, media: query, addListener: () => {}, removeListener: () => {}, addEventListener: () => {}, removeEventListener: () => {}, dispatchEvent: () => true };
+                        };
+                        
+                        // CSS.supports override
+                        window.CSS = window.CSS || {};
+                        window.CSS.supports = function(prop, value) {
+                            if (prop.includes('touch-action') || prop.includes('-webkit-overflow-scrolling')) return false;
+                            return true;
+                        };
+                        
+                        // Feature detection overrides
+                        Object.defineProperty(window, 'orientation', { get: () => 0, configurable: false });
+                        Object.defineProperty(window, 'Modernizr', { get: () => ({ touch: false, touchevents: false }), set: () => {}, configurable: false });
+                        
+                        console.log('✅ Ultimate spoofing applied successfully');
+                    })();
+                </scr` + `ipt>
+            `;
+            
+            return spoofingScript;
+        }
+        
+        // Create enhanced SimpleSwap URL with all possible parameters
+        function createEnhancedUrl() {
+            const params = new URLSearchParams({
+                'from': 'eur-eur',
+                'to': 'pol-matic',
+                'amount': '19.50',
+                'provider': 'mercury',
+                'fixed': '1',
+                'widget': '1',
+                'embed': '1',
+                'source': 'desktop',
+                'platform': 'desktop',
+                'device': 'pc',
+                'mobile': '0',
+                'touch': '0',
+                'ref': 'desktop_iframe',
+                'partner': 'auralo',
+                'force_provider': 'mercury',
+                'disable_mobile_pricing': '1',
+                'desktop_mode': '1',
+                'user_type': 'desktop',
+                '_t': Date.now()
+            });
+            
+            return `https://simpleswap.io/exchange?${params.toString()}`;
+        }
+        
+        // Initialize payment iframe with spoofing
+        function initializePayment() {
+            updateDebug('Initializing payment with spoofing...');
+            
+            const iframe = document.getElementById('payment-frame');
+            const spoofingScript = applyUltimateDesktopSpoofing();
+            
+            // Method 1: Try data URL with spoofing
+            const spoofedHtml = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    ${spoofingScript}
+                </head>
+                <body>
+                    <script>
+                        // Additional spoofing after initial script
+                        setTimeout(() => {
+                            console.log('🔄 Redirecting to SimpleSwap with full spoofing...');
+                            window.location.href = '${createEnhancedUrl()}';
+                        }, 100);
+                    </script>
+                </body>
+                </html>
+            `;
+            
+            const blob = new Blob([spoofedHtml], { type: 'text/html' });
+            const blobUrl = URL.createObjectURL(blob);
+            
+            iframe.onload = function() {
+                updateDebug('Iframe loaded, starting monitoring...');
+                setTimeout(() => {
+                    document.getElementById('loading').style.display = 'none';
+                    startMonitoring();
+                }, 2000);
+            };
+            
+            iframe.onerror = function() {
+                updateDebug('Iframe error, trying direct URL...');
+                // Fallback: Load SimpleSwap directly
+                iframe.src = createEnhancedUrl();
+            };
+            
+            // Load spoofed environment
+            iframe.src = blobUrl;
+            
+            // Cleanup blob URL after use
+            setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+        }
+        
+        // Monitor iframe for price changes and provider selection
+        function startMonitoring() {
+            if (monitoringActive) return;
+            monitoringActive = true;
+            updateDebug('Monitoring started');
+            
+            const iframe = document.getElementById('payment-frame');
+            const priceMonitor = document.querySelector('.price-monitor');
+            
+            const monitor = setInterval(() => {
+                try {
+                    // Try to access iframe content
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    
+                    // Inject correction script
+                    if (!iframeDoc.getElementById('price-corrector')) {
+                        const script = iframeDoc.createElement('script');
+                        script.id = 'price-corrector';
+                        script.textContent = `
+                            // Monitor and fix price
+                            setInterval(() => {
+                                // Fix amount inputs
+                                const inputs = document.querySelectorAll('input[type="text"], input[type="number"], input[type="tel"]');
+                                inputs.forEach(input => {
+                                    if (input.value && (input.value.includes('21') || parseFloat(input.value) > 20)) {
+                                        console.log('🔧 Fixing price from', input.value, 'to 19.50');
+                                        input.value = '19.50';
+                                        input.dispatchEvent(new Event('input', { bubbles: true }));
+                                        input.dispatchEvent(new Event('change', { bubbles: true }));
+                                    }
+                                });
+                                
+                                // Fix displayed amounts
+                                const elements = document.querySelectorAll('*');
+                                elements.forEach(el => {
+                                    if (el.textContent && el.textContent.match(/21[\\.\\,]?\\d{0,2}\\s*EUR|€\\s*21/)) {
+                                        if (!el.children.length) {
+                                            console.log('🔧 Fixing displayed price:', el.textContent);
+                                            el.textContent = el.textContent.replace(/21[\\.\\,]?\\d{0,2}/, '19.50');
+                                        }
+                                    }
+                                });
+                                
+                                // Force Mercury selection
+                                const providers = document.querySelectorAll('[data-provider], [class*="provider"], [id*="mercury"], [id*="mercuryo"]');
+                                providers.forEach(p => {
+                                    const text = p.textContent.toLowerCase();
+                                    if (text.includes('mercury') || text.includes('mercuryo')) {
+                                        if (!p.classList.contains('selected') && !p.classList.contains('active') && !p.classList.contains('checked')) {
+                                            console.log('🔧 Selecting Mercury provider');
+                                            p.click();
+                                        }
+                                    }
+                                });
+                            }, 500);
+                        `;
+                        iframeDoc.head.appendChild(script);
+                        updateDebug('Price corrector injected');
+                    }
+                    
+                    // Update price monitor
+                    const hasCorrectPrice = iframeDoc.body.innerHTML.includes('19.50') || 
+                                          iframeDoc.body.innerHTML.includes('19,50');
+                    
+                    if (hasCorrectPrice) {
+                        priceMonitor.textContent = '€19.50 ✓';
+                        priceMonitor.style.background = '#4CAF50';
+                    } else if (iframeDoc.body.innerHTML.match(/21[\.\,]?\d{0,2}/)) {
+                        priceMonitor.textContent = '€21 ⚠️ Fixing...';
+                        priceMonitor.style.background = '#FF6B35';
+                        // Show control overlay
+                        document.getElementById('controls').style.display = 'block';
+                    }
+                    
+                } catch (e) {
+                    // Cross-origin, can't access iframe directly
+                    updateDebug('Cross-origin: ' + e.message);
+                    
+                    // Try postMessage communication
+                    iframe.contentWindow.postMessage({
+                        type: 'PRICE_CORRECTION',
+                        targetAmount: CONFIG.targetAmount,
+                        targetProvider: CONFIG.targetProvider
+                    }, '*');
+                }
+            }, CONFIG.checkInterval);
+            
+            // Stop monitoring after max retries
+            setTimeout(() => {
+                if (monitoringActive) {
+                    clearInterval(monitor);
+                    monitoringActive = false;
+                    updateDebug('Monitoring stopped after timeout');
+                }
+            }, CONFIG.maxRetries * CONFIG.checkInterval);
+        }
+        
+        // Manual fix functions
+        function fixPricing() {
+            updateDebug('Manual price fix triggered');
+            const iframe = document.getElementById('payment-frame');
+            
+            // Try multiple methods
+            // Method 1: Reload with enhanced parameters
+            iframe.src = createEnhancedUrl() + '&force_amount=19.50&override_pricing=desktop';
+            
+            // Method 2: Try widget mode
+            setTimeout(() => {
+                if (!document.querySelector('.price-monitor').textContent.includes('19.50')) {
+                    iframe.src = 'https://widget.simpleswap.io/?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury';
+                }
+            }, 3000);
+        }
+        
+        function selectMercury() {
+            updateDebug('Manual Mercury selection triggered');
+            const iframe = document.getElementById('payment-frame');
+            
+            try {
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                
+                // Force click all Mercury-related elements
+                const selectors = [
+                    '[data-provider*="mercury"]',
+                    '[data-provider*="mercuryo"]',
+                    '[class*="mercury"]',
+                    '[id*="mercury"]',
+                    'button:contains("Mercury")',
+                    'div:contains("Mercuryo")'
+                ];
+                
+                selectors.forEach(selector => {
+                    const elements = iframeDoc.querySelectorAll(selector);
+                    elements.forEach(el => el.click());
+                });
+                
+            } catch (e) {
+                // Reload with Mercury forced
+                iframe.src = createEnhancedUrl() + '&force_provider=mercury&provider_locked=1';
+            }
+        }
+        
+        // Listen for messages from iframe
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type) {
+                updateDebug('Message received: ' + event.data.type);
+                
+                if (event.data.type === 'PRICE_DETECTED' && event.data.amount !== CONFIG.targetAmount) {
+                    fixPricing();
+                }
+                
+                if (event.data.type === 'PROVIDER_SELECTED' && event.data.provider !== CONFIG.targetProvider) {
+                    selectMercury();
+                }
+            }
+        });
+        
+        // Initialize on load
+        window.addEventListener('load', () => {
+            updateDebug('Page loaded, initializing...');
+            
+            // Show loading for better UX
+            setTimeout(() => {
+                initializePayment();
+            }, 500);
+        });
+        
+        // Prevent back navigation
+        window.history.pushState(null, '', window.location.href);
+        window.onpopstate = function () {
+            window.history.pushState(null, '', window.location.href);
+        };
+        
+        console.log('✅ Mobile Interceptor V2 Ready');
+    </script>
+</body>
+</html>

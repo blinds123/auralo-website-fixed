@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment Gateway</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #1a1a1a;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .gateway-container {
+            text-align: center;
+            padding: 20px;
+            max-width: 400px;
+        }
+        
+        .logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .status {
+            font-size: 16px;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #2196F3;
+            width: 0%;
+            animation: progress 3s ease-out forwards;
+        }
+        
+        @keyframes progress {
+            to { width: 100%; }
+        }
+        
+        .info-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .provider {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: #4CAF50;
+            display: inline-block;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .debug {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 10px;
+            font-family: monospace;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="gateway-container">
+        <div class="logo">🔒</div>
+        <h1>Preparing Secure Payment</h1>
+        <p class="status" id="status">Initializing payment gateway...</p>
+        
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        
+        <div class="info-box">
+            <div class="price">€19.50</div>
+            <div class="provider">Mercury (Best Rate)</div>
+        </div>
+        
+        <p style="font-size: 14px; opacity: 0.7;">
+            You'll be redirected to our secure payment partner in a moment...
+        </p>
+    </div>
+    
+    <div class="debug" id="debug"></div>
+    
+    <script>
+        console.log('🚀 Mobile Gateway Spoofer Active');
+        
+        const debug = (msg) => {
+            console.log(msg);
+            document.getElementById('debug').innerHTML += msg + '<br>';
+        };
+        
+        // PHASE 1: AGGRESSIVE PRE-SPOOFING
+        debug('Phase 1: Pre-spoofing initialization');
+        
+        // Override ALL navigator properties IMMEDIATELY
+        const navProps = {
+            userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            platform: 'Win32',
+            vendor: 'Google Inc.',
+            vendorSub: '',
+            language: 'en-US',
+            languages: ['en-US', 'en'],
+            onLine: true,
+            cookieEnabled: true,
+            appCodeName: 'Mozilla',
+            appName: 'Netscape',
+            appVersion: '5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            product: 'Gecko',
+            productSub: '20030107',
+            maxTouchPoints: 0,
+            hardwareConcurrency: 8,
+            deviceMemory: 8
+        };
+        
+        // Apply navigator overrides
+        Object.keys(navProps).forEach(prop => {
+            try {
+                Object.defineProperty(navigator, prop, {
+                    get: () => navProps[prop],
+                    configurable: true
+                });
+            } catch (e) {
+                debug(`Failed to override ${prop}`);
+            }
+        });
+        
+        // Override userAgentData for modern browsers
+        if ('userAgentData' in navigator) {
+            Object.defineProperty(navigator, 'userAgentData', {
+                get: () => ({
+                    brands: [
+                        {brand: "Not_A Brand", version: "8"},
+                        {brand: "Chromium", version: "120"},
+                        {brand: "Google Chrome", version: "120"}
+                    ],
+                    mobile: false,
+                    platform: "Windows",
+                    getHighEntropyValues: () => Promise.resolve({
+                        platform: "Windows",
+                        platformVersion: "10.0.0",
+                        architecture: "x86",
+                        bitness: "64",
+                        model: "",
+                        uaFullVersion: "120.0.0.0"
+                    })
+                }),
+                configurable: true
+            });
+        }
+        
+        // PHASE 2: SCREEN AND WINDOW SPOOFING
+        debug('Phase 2: Screen dimension spoofing');
+        
+        const screenProps = {
+            width: 1920,
+            height: 1080,
+            availWidth: 1920,
+            availHeight: 1040,
+            colorDepth: 24,
+            pixelDepth: 24
+        };
+        
+        Object.keys(screenProps).forEach(prop => {
+            try {
+                Object.defineProperty(screen, prop, {
+                    get: () => screenProps[prop],
+                    configurable: true
+                });
+            } catch (e) {}
+        });
+        
+        // Window dimensions
+        Object.defineProperty(window, 'innerWidth', { get: () => 1280, configurable: true });
+        Object.defineProperty(window, 'innerHeight', { get: () => 720, configurable: true });
+        Object.defineProperty(window, 'outerWidth', { get: () => 1920, configurable: true });
+        Object.defineProperty(window, 'outerHeight', { get: () => 1080, configurable: true });
+        Object.defineProperty(window, 'devicePixelRatio', { get: () => 1.0, configurable: true });
+        
+        // PHASE 3: REMOVE TOUCH SUPPORT
+        debug('Phase 3: Removing touch support');
+        
+        delete window.ontouchstart;
+        delete window.ontouchmove;
+        delete window.ontouchend;
+        delete window.ontouchcancel;
+        delete window.Touch;
+        delete window.TouchEvent;
+        delete window.TouchList;
+        
+        // PHASE 4: MEDIA QUERY SPOOFING
+        debug('Phase 4: Media query override');
+        
+        const originalMatchMedia = window.matchMedia;
+        window.matchMedia = function(query) {
+            const q = query.toLowerCase();
+            
+            // Desktop indicators
+            if (q.includes('pointer: fine') || q.includes('hover: hover')) {
+                return { 
+                    matches: true, 
+                    media: query,
+                    addListener: () => {},
+                    removeListener: () => {},
+                    addEventListener: () => {},
+                    removeEventListener: () => {},
+                    dispatchEvent: () => true
+                };
+            }
+            
+            // Mobile indicators - return false
+            if (q.includes('pointer: coarse') || 
+                q.includes('hover: none') || 
+                q.includes('max-width: 767') || 
+                q.includes('max-width: 768')) {
+                return { 
+                    matches: false, 
+                    media: query,
+                    addListener: () => {},
+                    removeListener: () => {},
+                    addEventListener: () => {},
+                    removeEventListener: () => {},
+                    dispatchEvent: () => true
+                };
+            }
+            
+            // Desktop breakpoints
+            if (q.includes('min-width: 768') || q.includes('min-width: 1024')) {
+                return { 
+                    matches: true, 
+                    media: query,
+                    addListener: () => {},
+                    removeListener: () => {},
+                    addEventListener: () => {},
+                    removeEventListener: () => {},
+                    dispatchEvent: () => true
+                };
+            }
+            
+            return originalMatchMedia.call(this, query);
+        };
+        
+        // PHASE 5: STORAGE PREPARATION
+        debug('Phase 5: Storage preparation');
+        
+        // Set desktop indicators in all storage types
+        try {
+            localStorage.setItem('device_type', 'desktop');
+            localStorage.setItem('force_desktop', 'true');
+            localStorage.setItem('mercury_selected', 'true');
+            localStorage.setItem('amount_override', '19.50');
+            
+            sessionStorage.setItem('device_type', 'desktop');
+            sessionStorage.setItem('force_desktop', 'true');
+            sessionStorage.setItem('mercury_selected', 'true');
+            sessionStorage.setItem('amount_override', '19.50');
+            
+            // Set cookies if possible
+            document.cookie = 'device_type=desktop; path=/';
+            document.cookie = 'force_desktop=true; path=/';
+            document.cookie = 'mercury_provider=true; path=/';
+        } catch (e) {
+            debug('Storage error: ' + e.message);
+        }
+        
+        // PHASE 6: NETWORK REQUEST PREPARATION
+        debug('Phase 6: Network preparation');
+        
+        // Override fetch to add desktop headers
+        const originalFetch = window.fetch;
+        window.fetch = function(...args) {
+            let [url, options = {}] = args;
+            
+            options.headers = options.headers || {};
+            options.headers['X-Device-Type'] = 'desktop';
+            options.headers['X-Force-Desktop'] = 'true';
+            options.headers['X-Requested-Platform'] = 'Windows';
+            
+            return originalFetch.call(this, url, options);
+        };
+        
+        // Override XMLHttpRequest
+        const XHR = XMLHttpRequest.prototype;
+        const originalOpen = XHR.open;
+        const originalSetRequestHeader = XHR.setRequestHeader;
+        
+        XHR.open = function(method, url) {
+            this._url = url;
+            return originalOpen.apply(this, arguments);
+        };
+        
+        XHR.setRequestHeader = function(name, value) {
+            if (name.toLowerCase() === 'user-agent') {
+                value = navProps.userAgent;
+            }
+            return originalSetRequestHeader.apply(this, arguments);
+        };
+        
+        // PHASE 7: POPUP WINDOW PREPARATION
+        debug('Phase 7: Preparing redirect strategy');
+        
+        // Create comprehensive URL with all parameters
+        function createSimpleSwapUrl() {
+            const params = {
+                'from': 'eur-eur',
+                'to': 'pol-matic',
+                'amount': '19.50',
+                'provider': 'mercury',
+                'fixed': '1',
+                'source': 'desktop',
+                'platform': 'desktop',
+                'device': 'desktop',
+                'viewport': '1280x720',
+                'screen': '1920x1080',
+                'mobile': '0',
+                'touch': '0',
+                'ref': 'desktop_spoof',
+                'partner': 'auralo_desktop',
+                'force_provider': 'mercury',
+                'disable_mobile_pricing': '1',
+                'desktop_mode': '1',
+                'user_type': 'desktop',
+                'no_mobile_redirect': '1',
+                'force_desktop_ui': '1',
+                '_device': 'desktop',
+                '_platform': 'Windows',
+                '_t': Date.now()
+            };
+            
+            const queryString = Object.entries(params)
+                .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+                .join('&');
+                
+            return `https://simpleswap.io/exchange?${queryString}`;
+        }
+        
+        // Update status
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+        
+        // PHASE 8: REDIRECT WITH MULTIPLE STRATEGIES
+        debug('Phase 8: Initiating redirect');
+        
+        setTimeout(() => {
+            updateStatus('Opening secure payment gateway...');
+            
+            const targetUrl = createSimpleSwapUrl();
+            
+            // Strategy 1: Try popup window with desktop dimensions
+            try {
+                const popupFeatures = 'width=1280,height=720,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes';
+                const popup = window.open(targetUrl, 'SimpleSwapDesktop', popupFeatures);
+                
+                if (popup) {
+                    debug('Popup opened successfully');
+                    
+                    // Try to inject spoofing into popup
+                    setTimeout(() => {
+                        try {
+                            popup.navigator = window.navigator;
+                            popup.screen = window.screen;
+                        } catch (e) {
+                            debug('Cross-origin injection blocked');
+                        }
+                    }, 100);
+                    
+                    // Close this window after delay
+                    setTimeout(() => {
+                        updateStatus('Payment window opened. You can close this tab.');
+                    }, 2000);
+                    
+                    return;
+                }
+            } catch (e) {
+                debug('Popup blocked: ' + e.message);
+            }
+            
+            // Strategy 2: Fallback to location.replace
+            debug('Using location.replace fallback');
+            updateStatus('Redirecting to payment gateway...');
+            
+            // One final spoofing attempt
+            window.name = JSON.stringify({
+                device: 'desktop',
+                platform: 'Windows',
+                spoofed: true,
+                amount: '19.50',
+                provider: 'mercury'
+            });
+            
+            // Redirect
+            setTimeout(() => {
+                window.location.replace(targetUrl);
+            }, 1000);
+            
+        }, 3000); // 3 second delay for spoofing to settle
+        
+        debug('✅ All spoofing layers active');
+    </script>
+</body>
+</html>

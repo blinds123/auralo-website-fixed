@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Gateway</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0a0a0a;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        
+        .status-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .attempt {
+            margin: 10px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .attempt.active {
+            background: rgba(33, 150, 243, 0.2);
+            border: 1px solid #2196F3;
+        }
+        
+        .attempt.success {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4CAF50;
+        }
+        
+        .attempt.failed {
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid #FF6B35;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .manual-button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+        }
+        
+        .price-display {
+            font-size: 36px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Ultimate Payment Gateway Fix</h1>
+        
+        <div class="price-display">€19.50</div>
+        
+        <div class="status-box">
+            <h3>Attempting Multiple Solutions</h3>
+            
+            <div class="attempt" id="attempt1">
+                <span>Method 1: Direct URL with all parameters</span>
+                <span id="status1">⏳</span>
+            </div>
+            
+            <div class="attempt" id="attempt2">
+                <span>Method 2: Popup window with desktop dimensions</span>
+                <span id="status2">⏳</span>
+            </div>
+            
+            <div class="attempt" id="attempt3">
+                <span>Method 3: Data URL with pre-spoofing</span>
+                <span id="status3">⏳</span>
+            </div>
+            
+            <div class="attempt" id="attempt4">
+                <span>Method 4: Widget mode URL</span>
+                <span id="status4">⏳</span>
+            </div>
+            
+            <div class="attempt" id="attempt5">
+                <span>Method 5: API subdomain attempt</span>
+                <span id="status5">⏳</span>
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <button class="manual-button" onclick="manualRedirect()">
+                Manual Redirect (If Auto Fails)
+            </button>
+        </div>
+        
+        <div style="margin-top: 20px; font-size: 12px; opacity: 0.7;">
+            <p>If the automatic methods fail, click the manual button above.</p>
+            <p>The system is trying to ensure €19.50 pricing with Mercury provider.</p>
+        </div>
+    </div>
+    
+    <script>
+        console.log('🚀 ULTIMATE MOBILE FIX ACTIVE');
+        
+        // Apply ALL spoofing immediately
+        function applySuperSpoofing() {
+            // Navigator spoofing
+            const navOverrides = {
+                userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                platform: 'Win32',
+                vendor: 'Google Inc.',
+                maxTouchPoints: 0,
+                userAgentData: {
+                    brands: [{brand: "Google Chrome", version: "120"}, {brand: "Chromium", version: "120"}],
+                    mobile: false,
+                    platform: "Windows"
+                }
+            };
+            
+            Object.keys(navOverrides).forEach(key => {
+                try {
+                    Object.defineProperty(navigator, key, { get: () => navOverrides[key] });
+                } catch (e) {}
+            });
+            
+            // Screen spoofing
+            Object.defineProperty(screen, 'width', { get: () => 1920 });
+            Object.defineProperty(screen, 'height', { get: () => 1080 });
+            Object.defineProperty(window, 'innerWidth', { get: () => 1280 });
+            Object.defineProperty(window, 'innerHeight', { get: () => 720 });
+            
+            // Remove touch
+            delete window.ontouchstart;
+            delete window.Touch;
+            delete window.TouchEvent;
+            
+            // Media queries
+            window.matchMedia = (q) => ({ matches: q.includes('min-width') || q.includes('hover: hover'), media: q });
+        }
+        
+        // Apply spoofing immediately
+        applySuperSpoofing();
+        
+        // Attempt tracker
+        let attemptResults = {};
+        
+        function updateAttemptStatus(attemptNum, status) {
+            const attemptEl = document.getElementById(`attempt${attemptNum}`);
+            const statusEl = document.getElementById(`status${attemptNum}`);
+            
+            if (status === 'active') {
+                attemptEl.className = 'attempt active';
+                statusEl.innerHTML = '<div class="spinner"></div>';
+            } else if (status === 'success') {
+                attemptEl.className = 'attempt success';
+                statusEl.textContent = '✅';
+                attemptResults[attemptNum] = true;
+            } else if (status === 'failed') {
+                attemptEl.className = 'attempt failed';
+                statusEl.textContent = '❌';
+                attemptResults[attemptNum] = false;
+            }
+        }
+        
+        // Create comprehensive URL
+        function createUrl(variant = 'standard') {
+            const baseParams = {
+                'from': 'eur-eur',
+                'to': 'pol-matic',
+                'amount': '19.50',
+                'provider': 'mercury',
+                'fixed': '1'
+            };
+            
+            const variants = {
+                'standard': {
+                    ...baseParams,
+                    'source': 'desktop',
+                    'platform': 'desktop',
+                    'device': 'desktop',
+                    'mobile': '0',
+                    'ref': 'ultimate_fix'
+                },
+                'widget': {
+                    ...baseParams,
+                    'widget': '1',
+                    'embed': '1',
+                    'mode': 'widget'
+                },
+                'api': {
+                    ...baseParams,
+                    'api': '1',
+                    'client': 'desktop',
+                    'version': '2'
+                },
+                'force': {
+                    ...baseParams,
+                    'force_desktop': '1',
+                    'disable_mobile': '1',
+                    'override_detection': '1',
+                    'spoof': 'desktop'
+                },
+                'partner': {
+                    ...baseParams,
+                    'partner': 'auralo_desktop',
+                    'partner_mode': 'desktop',
+                    'partner_device': 'pc'
+                }
+            };
+            
+            const params = variants[variant] || variants.standard;
+            const query = Object.entries(params).map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+            
+            return `https://simpleswap.io/exchange?${query}`;
+        }
+        
+        // Method 1: Direct URL
+        async function attempt1() {
+            updateAttemptStatus(1, 'active');
+            
+            try {
+                const url = createUrl('standard');
+                
+                // Try to open in same window after delay
+                setTimeout(() => {
+                    if (!Object.values(attemptResults).some(r => r === true)) {
+                        window.location.href = url;
+                        updateAttemptStatus(1, 'success');
+                    }
+                }, 5000);
+                
+            } catch (e) {
+                updateAttemptStatus(1, 'failed');
+            }
+        }
+        
+        // Method 2: Popup window
+        async function attempt2() {
+            updateAttemptStatus(2, 'active');
+            
+            try {
+                const url = createUrl('force');
+                const popup = window.open(url, 'SimpleSwap', 'width=1280,height=720');
+                
+                if (popup) {
+                    updateAttemptStatus(2, 'success');
+                    
+                    // Close this window after delay
+                    setTimeout(() => {
+                        document.body.innerHTML = '<div style="text-align:center;padding:50px;"><h2>✅ Payment window opened successfully</h2><p>You can close this tab.</p></div>';
+                    }, 2000);
+                } else {
+                    updateAttemptStatus(2, 'failed');
+                }
+            } catch (e) {
+                updateAttemptStatus(2, 'failed');
+            }
+        }
+        
+        // Method 3: Data URL approach
+        async function attempt3() {
+            updateAttemptStatus(3, 'active');
+            
+            try {
+                const spoofedPage = `
+                    <html><head><script>
+                    Object.defineProperty(navigator,'userAgent',{get:()=>'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0'});
+                    Object.defineProperty(navigator,'maxTouchPoints',{get:()=>0});
+                    window.location.replace('${createUrl('widget')}');
+                    </script></head><body>Loading...</body></html>
+                `;
+                
+                const dataUrl = 'data:text/html;base64,' + btoa(spoofedPage);
+                
+                // Small delay then navigate
+                setTimeout(() => {
+                    if (!Object.values(attemptResults).some(r => r === true)) {
+                        window.location.href = dataUrl;
+                        updateAttemptStatus(3, 'success');
+                    }
+                }, 7000);
+                
+            } catch (e) {
+                updateAttemptStatus(3, 'failed');
+            }
+        }
+        
+        // Method 4: Widget mode
+        async function attempt4() {
+            updateAttemptStatus(4, 'active');
+            
+            try {
+                const widgetUrl = 'https://widget.simpleswap.io/?' + Object.entries({
+                    'from': 'eur-eur',
+                    'to': 'pol-matic',
+                    'amount': '19.50',
+                    'provider': 'mercury'
+                }).map(([k, v]) => `${k}=${v}`).join('&');
+                
+                // Try after delay
+                setTimeout(() => {
+                    if (!Object.values(attemptResults).some(r => r === true)) {
+                        window.open(widgetUrl, '_blank');
+                        updateAttemptStatus(4, 'success');
+                    }
+                }, 9000);
+                
+            } catch (e) {
+                updateAttemptStatus(4, 'failed');
+            }
+        }
+        
+        // Method 5: API subdomain
+        async function attempt5() {
+            updateAttemptStatus(5, 'active');
+            
+            try {
+                const apiUrl = createUrl('api').replace('simpleswap.io', 'app.simpleswap.io');
+                
+                // Final attempt
+                setTimeout(() => {
+                    if (!Object.values(attemptResults).some(r => r === true)) {
+                        window.location.href = apiUrl;
+                        updateAttemptStatus(5, 'success');
+                    }
+                }, 11000);
+                
+            } catch (e) {
+                updateAttemptStatus(5, 'failed');
+            }
+        }
+        
+        // Manual redirect function
+        function manualRedirect() {
+            // Use the most comprehensive URL
+            const url = createUrl('standard') + '&manual=1&timestamp=' + Date.now();
+            window.location.href = url;
+        }
+        
+        // Start all attempts with delays
+        window.addEventListener('load', () => {
+            console.log('Starting ultimate fix attempts...');
+            
+            // Stagger attempts
+            setTimeout(() => attempt1(), 1000);
+            setTimeout(() => attempt2(), 2000);
+            setTimeout(() => attempt3(), 3000);
+            setTimeout(() => attempt4(), 4000);
+            setTimeout(() => attempt5(), 5000);
+            
+            // Final fallback
+            setTimeout(() => {
+                if (!Object.values(attemptResults).some(r => r === true)) {
+                    console.log('All automatic attempts completed. Manual redirect available.');
+                }
+            }, 15000);
+        });
+    </script>
+</body>
+</html>

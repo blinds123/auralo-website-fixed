@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PRP Sandbox Mode</title>
+    <script>
+        // PRP SANDBOX MODE - Create isolated desktop environment
+        
+        // Create sandboxed context
+        const createSandbox = () => {
+            // Create a sandboxed iframe that thinks it's desktop
+            const sandbox = document.createElement('iframe');
+            sandbox.style.display = 'none';
+            sandbox.sandbox = 'allow-scripts allow-same-origin';
+            document.body.appendChild(sandbox);
+            
+            // Get sandbox window
+            const sandboxWindow = sandbox.contentWindow;
+            
+            // Override everything in sandbox
+            sandboxWindow.eval(`
+                // Complete desktop environment in sandbox
+                Object.defineProperty(navigator, 'userAgent', {
+                    value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    writable: false,
+                    configurable: false
+                });
+                
+                Object.defineProperty(navigator, 'platform', {
+                    value: 'Win32',
+                    writable: false,
+                    configurable: false
+                });
+                
+                Object.defineProperty(navigator, 'maxTouchPoints', {
+                    value: 0,
+                    writable: false,
+                    configurable: false
+                });
+                
+                // Remove touch
+                delete window.ontouchstart;
+                delete window.Touch;
+                delete window.TouchEvent;
+                
+                // Override screen
+                window.screen = {
+                    width: 1920,
+                    height: 1080,
+                    availWidth: 1920,
+                    availHeight: 1040,
+                    colorDepth: 24,
+                    pixelDepth: 24
+                };
+                
+                // Override dimensions
+                Object.defineProperty(window, 'innerWidth', { value: 1280 });
+                Object.defineProperty(window, 'innerHeight', { value: 720 });
+                
+                console.log('Sandbox desktop environment ready');
+            `);
+            
+            return sandboxWindow;
+        };
+        
+        // PRP URL Generator with cache busting
+        const generatePRPUrl = () => {
+            const timestamp = Date.now();
+            const random = Math.random().toString(36).substring(7);
+            
+            const params = {
+                // Standard params
+                'from': 'eur-eur',
+                'to': 'pol-matic',
+                'amount': '19.50',
+                'provider': 'mercury',
+                'fixed': '1',
+                
+                // PRP params
+                'prp': '1',
+                'sandbox': '1',
+                'desktop': '1',
+                'no_mobile': '1',
+                
+                // Device spoofing
+                'device': 'desktop',
+                'platform': 'windows',
+                'browser': 'chrome',
+                'viewport': '1280x720',
+                'screen': '1920x1080',
+                
+                // Cache busting
+                '_t': timestamp,
+                '_r': random,
+                '_prp': 'sandbox',
+                
+                // Additional params
+                'force_provider': 'mercury',
+                'disable_mobile_pricing': '1',
+                'skip_device_check': '1',
+                'desktop_ui': '1'
+            };
+            
+            return 'https://simpleswap.io/exchange?' + 
+                   Object.entries(params).map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+        };
+        
+        // Try multiple redirect methods
+        const multiRedirect = (url) => {
+            console.log('PRP Redirect to:', url);
+            
+            // Method 1: Location replace
+            try {
+                window.location.replace(url);
+            } catch (e) {
+                console.log('Replace failed:', e);
+            }
+            
+            // Method 2: Location href
+            setTimeout(() => {
+                window.location.href = url;
+            }, 100);
+            
+            // Method 3: Meta refresh
+            const meta = document.createElement('meta');
+            meta.httpEquiv = 'refresh';
+            meta.content = `0; url=${url}`;
+            document.head.appendChild(meta);
+            
+            // Method 4: Window open
+            setTimeout(() => {
+                const newWin = window.open(url, '_self');
+                if (!newWin) {
+                    window.open(url, '_blank');
+                }
+            }, 200);
+        };
+        
+        // Initialize PRP Sandbox
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 PRP Sandbox Mode Initializing...');
+            
+            // Create sandbox
+            try {
+                const sandbox = createSandbox();
+                console.log('✅ Sandbox created');
+            } catch (e) {
+                console.log('Sandbox creation failed:', e);
+            }
+            
+            // Apply local overrides
+            try {
+                Object.defineProperty(navigator, 'userAgent', {
+                    get: () => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                });
+                Object.defineProperty(navigator, 'platform', {
+                    get: () => 'Win32'
+                });
+                Object.defineProperty(navigator, 'maxTouchPoints', {
+                    get: () => 0
+                });
+            } catch (e) {}
+            
+            // Generate URL
+            const prpUrl = generatePRPUrl();
+            
+            // Show status
+            document.getElementById('status').textContent = 'Redirecting with PRP Sandbox...';
+            
+            // Execute redirect after short delay
+            setTimeout(() => {
+                multiRedirect(prpUrl);
+            }, 1000);
+        });
+    </script>
+</head>
+<body style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: -apple-system, system-ui, sans-serif;">
+    <div style="text-align: center; padding: 40px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+        <h1 style="margin: 0 0 20px 0; font-size: 32px;">🔒 PRP Sandbox Mode</h1>
+        <p id="status" style="margin: 0 0 30px 0; opacity: 0.9;">Creating isolated desktop environment...</p>
+        <div style="display: flex; justify-content: center; gap: 10px;">
+            <div style="width: 8px; height: 30px; background: white; border-radius: 4px; animation: pulse 1s ease-in-out infinite;"></div>
+            <div style="width: 8px; height: 30px; background: white; border-radius: 4px; animation: pulse 1s ease-in-out infinite 0.2s;"></div>
+            <div style="width: 8px; height: 30px; background: white; border-radius: 4px; animation: pulse 1s ease-in-out infinite 0.4s;"></div>
+        </div>
+        <p style="margin-top: 30px; font-size: 18px; font-weight: 600;">Target: €19.50 with Mercury</p>
+    </div>
+    <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(0.5); }
+            50% { opacity: 1; transform: scaleY(1); }
+        }
+    </style>
+</body>
+</html>

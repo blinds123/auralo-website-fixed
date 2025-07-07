@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PRP Gateway</title>
+    <script>
+        // ADVANCED PRP (Pre-Render Proxy) MODE
+        
+        // Step 1: Override EVERYTHING before DOM loads
+        (function() {
+            // Create fake document
+            const fakeDocument = {
+                createElement: function(tag) {
+                    const elem = document.createElement(tag);
+                    // Override any mobile detection on created elements
+                    if (tag === 'script') {
+                        const originalAppendChild = elem.appendChild;
+                        elem.appendChild = function(child) {
+                            if (child && child.textContent) {
+                                // Modify any mobile detection code
+                                child.textContent = child.textContent
+                                    .replace(/mobile|android|iphone|ipad/gi, 'desktop')
+                                    .replace(/touch/gi, 'mouse')
+                                    .replace(/ontouchstart/g, 'onmousedown');
+                            }
+                            return originalAppendChild.call(this, child);
+                        };
+                    }
+                    return elem;
+                },
+                querySelector: document.querySelector.bind(document),
+                querySelectorAll: document.querySelectorAll.bind(document),
+                getElementById: document.getElementById.bind(document),
+                getElementsByTagName: document.getElementsByTagName.bind(document),
+                body: document.body,
+                head: document.head,
+                documentElement: document.documentElement
+            };
+            
+            // Override document
+            Object.defineProperty(window, 'document', {
+                get: () => new Proxy(fakeDocument, {
+                    get(target, prop) {
+                        if (prop in target) return target[prop];
+                        return document[prop];
+                    }
+                }),
+                configurable: true
+            });
+            
+            // Create desktop window environment
+            const desktopEnv = {
+                navigator: {
+                    userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    platform: 'Linux x86_64',
+                    vendor: 'Google Inc.',
+                    vendorSub: '',
+                    language: 'en-US',
+                    languages: ['en-US', 'en'],
+                    onLine: true,
+                    cookieEnabled: true,
+                    maxTouchPoints: 0,
+                    hardwareConcurrency: 16,
+                    deviceMemory: 32,
+                    connection: { effectiveType: '4g', rtt: 50 },
+                    getBattery: () => Promise.resolve({
+                        charging: true,
+                        chargingTime: 0,
+                        dischargingTime: Infinity,
+                        level: 1.0
+                    })
+                },
+                screen: {
+                    width: 2560,
+                    height: 1440,
+                    availWidth: 2560,
+                    availHeight: 1400,
+                    colorDepth: 24,
+                    pixelDepth: 24,
+                    orientation: { angle: 0, type: 'landscape-primary' }
+                },
+                innerWidth: 1920,
+                innerHeight: 1080,
+                outerWidth: 2560,
+                outerHeight: 1440,
+                devicePixelRatio: 1.0,
+                matchMedia: (query) => ({
+                    matches: query.includes('min-width') || query.includes('hover: hover'),
+                    media: query,
+                    addListener: () => {},
+                    removeListener: () => {}
+                })
+            };
+            
+            // Apply all overrides
+            Object.keys(desktopEnv).forEach(key => {
+                try {
+                    if (key === 'navigator' || key === 'screen') {
+                        Object.defineProperty(window, key, {
+                            get: () => desktopEnv[key],
+                            configurable: true
+                        });
+                    } else {
+                        Object.defineProperty(window, key, {
+                            value: desktopEnv[key],
+                            writable: false,
+                            configurable: true
+                        });
+                    }
+                } catch (e) {}
+            });
+            
+            // Override fetch to add desktop headers
+            const originalFetch = window.fetch;
+            window.fetch = function(...args) {
+                let [url, options = {}] = args;
+                
+                if (url.includes('simpleswap')) {
+                    options.headers = {
+                        ...options.headers,
+                        'User-Agent': desktopEnv.navigator.userAgent,
+                        'sec-ch-ua': '"Chromium";v="120", "Google Chrome";v="120"',
+                        'sec-ch-ua-mobile': '?0',
+                        'sec-ch-ua-platform': '"Linux"'
+                    };
+                }
+                
+                return originalFetch(url, options);
+            };
+            
+            // Override XMLHttpRequest
+            const XHR = XMLHttpRequest.prototype;
+            const originalOpen = XHR.open;
+            XHR.open = function(method, url) {
+                this._url = url;
+                this._method = method;
+                return originalOpen.apply(this, arguments);
+            };
+            
+            const originalSend = XHR.send;
+            XHR.send = function() {
+                if (this._url && this._url.includes('simpleswap')) {
+                    this.setRequestHeader('User-Agent', desktopEnv.navigator.userAgent);
+                }
+                return originalSend.apply(this, arguments);
+            };
+            
+            // Override all possible detection methods
+            delete window.ontouchstart;
+            delete window.ontouchmove;
+            delete window.ontouchend;
+            delete window.Touch;
+            delete window.TouchEvent;
+            delete window.TouchList;
+            delete window.orientation;
+            delete window.onorientationchange;
+            delete window.DeviceOrientationEvent;
+            delete window.DeviceMotionEvent;
+            
+            // Set up MutationObserver to catch any dynamic changes
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'childList') {
+                        mutation.addedNodes.forEach((node) => {
+                            if (node.nodeType === 1) { // Element node
+                                // Remove any touch event listeners
+                                ['ontouchstart', 'ontouchmove', 'ontouchend'].forEach(attr => {
+                                    if (node.hasAttribute(attr)) {
+                                        node.removeAttribute(attr);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+            
+            // Start observing when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    observer.observe(document.body, {
+                        childList: true,
+                        subtree: true,
+                        attributes: true,
+                        attributeFilter: ['ontouchstart', 'ontouchmove', 'ontouchend']
+                    });
+                });
+            }
+            
+            console.log('✅ PRP Advanced Mode Active');
+        })();
+        
+        // Step 2: Create pre-rendered SimpleSwap URL
+        setTimeout(() => {
+            const params = new URLSearchParams({
+                'from': 'eur-eur',
+                'to': 'pol-matic',
+                'amount': '19.50',
+                'provider': 'mercury',
+                'fixed': '1',
+                'ref': 'prp_advanced',
+                'device': 'desktop',
+                'platform': 'linux',
+                'screen': '2560x1440',
+                'viewport': '1920x1080',
+                'dpr': '1.0',
+                'touch': 'false',
+                'mobile': 'false',
+                '_t': Date.now()
+            });
+            
+            // Use meta refresh as backup
+            const meta = document.createElement('meta');
+            meta.httpEquiv = 'refresh';
+            meta.content = `2; url=https://simpleswap.io/exchange?${params.toString()}`;
+            document.head.appendChild(meta);
+            
+            // Also use JavaScript redirect
+            setTimeout(() => {
+                window.location.replace(`https://simpleswap.io/exchange?${params.toString()}`);
+            }, 1500);
+            
+        }, 500);
+    </script>
+</head>
+<body style="background: #1a1a1a; color: #fff; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: -apple-system, system-ui, sans-serif;">
+    <div style="text-align: center;">
+        <div style="font-size: 64px; margin-bottom: 20px;">🔐</div>
+        <h1 style="margin: 0 0 10px 0;">PRP Advanced Mode</h1>
+        <p style="opacity: 0.8; margin: 0 0 30px 0;">Pre-rendering desktop environment...</p>
+        <div style="width: 60px; height: 60px; border: 4px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: rotate 1s linear infinite; margin: 0 auto;"></div>
+    </div>
+    <style>
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Gateway</title>
+    <script>
+        // PRE-RENDER PROXY APPROACH
+        // This creates a pre-rendered desktop environment before SimpleSwap loads
+        
+        (function() {
+            'use strict';
+            
+            // Phase 1: Create a completely new window context
+            const createDesktopContext = () => {
+                // Store original window
+                const originalWindow = window;
+                
+                // Create proxy window with all desktop properties
+                const desktopWindow = new Proxy(originalWindow, {
+                    get(target, prop) {
+                        // Navigator overrides
+                        if (prop === 'navigator') {
+                            return new Proxy(target.navigator, {
+                                get(navTarget, navProp) {
+                                    const overrides = {
+                                        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                                        platform: 'Win32',
+                                        vendor: 'Google Inc.',
+                                        maxTouchPoints: 0,
+                                        userAgentData: {
+                                            brands: [{brand: "Chrome", version: "120"}],
+                                            mobile: false,
+                                            platform: "Windows"
+                                        }
+                                    };
+                                    return overrides[navProp] !== undefined ? overrides[navProp] : navTarget[navProp];
+                                }
+                            });
+                        }
+                        
+                        // Screen overrides
+                        if (prop === 'screen') {
+                            return {
+                                width: 1920,
+                                height: 1080,
+                                availWidth: 1920,
+                                availHeight: 1040,
+                                colorDepth: 24,
+                                pixelDepth: 24
+                            };
+                        }
+                        
+                        // Window dimension overrides
+                        const dimensionOverrides = {
+                            innerWidth: 1280,
+                            innerHeight: 720,
+                            outerWidth: 1920,
+                            outerHeight: 1080,
+                            devicePixelRatio: 1.0
+                        };
+                        
+                        if (dimensionOverrides[prop] !== undefined) {
+                            return dimensionOverrides[prop];
+                        }
+                        
+                        // Remove touch support
+                        if (prop.toLowerCase().includes('touch')) {
+                            return undefined;
+                        }
+                        
+                        return target[prop];
+                    }
+                });
+                
+                // Replace global window
+                return desktopWindow;
+            };
+            
+            // Phase 2: Pre-render SimpleSwap URL with desktop context
+            const preRenderSimpleSwap = () => {
+                // Create pre-render frame
+                const preRenderFrame = document.createElement('link');
+                preRenderFrame.rel = 'prerender';
+                preRenderFrame.href = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury&prerender=1';
+                document.head.appendChild(preRenderFrame);
+                
+                // Also try prefetch
+                const prefetchFrame = document.createElement('link');
+                prefetchFrame.rel = 'prefetch';
+                prefetchFrame.href = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury';
+                document.head.appendChild(prefetchFrame);
+                
+                // DNS prefetch
+                const dnsPrefetch = document.createElement('link');
+                dnsPrefetch.rel = 'dns-prefetch';
+                dnsPrefetch.href = 'https://simpleswap.io';
+                document.head.appendChild(dnsPrefetch);
+            };
+            
+            // Phase 3: Create proxy iframe that loads SimpleSwap
+            const createProxyFrame = () => {
+                // Create blob URL with desktop environment
+                const proxyHTML = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <script>
+                            // Complete desktop environment
+                            Object.defineProperty(navigator, 'userAgent', {
+                                value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                                writable: false
+                            });
+                            Object.defineProperty(navigator, 'platform', {
+                                value: 'Win32',
+                                writable: false
+                            });
+                            Object.defineProperty(navigator, 'maxTouchPoints', {
+                                value: 0,
+                                writable: false
+                            });
+                            
+                            // Redirect to SimpleSwap
+                            window.location.href = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury&ref=prp';
+                        </script>
+                    </head>
+                    <body>Loading...</body>
+                    </html>
+                `;
+                
+                const blob = new Blob([proxyHTML], { type: 'text/html' });
+                const proxyUrl = URL.createObjectURL(blob);
+                
+                // Navigate to proxy
+                window.location.href = proxyUrl;
+            };
+            
+            // Phase 4: Worker-based approach
+            const createWorkerProxy = () => {
+                const workerCode = `
+                    // Worker that fetches SimpleSwap with desktop headers
+                    self.addEventListener('message', async (e) => {
+                        if (e.data.action === 'fetch') {
+                            const response = await fetch(e.data.url, {
+                                headers: {
+                                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0',
+                                    'Accept': 'text/html,application/xhtml+xml',
+                                    'Accept-Language': 'en-US,en;q=0.9',
+                                    'Sec-Ch-Ua': '"Chrome";v="120"',
+                                    'Sec-Ch-Ua-Mobile': '?0',
+                                    'Sec-Ch-Ua-Platform': '"Windows"'
+                                }
+                            });
+                            
+                            const text = await response.text();
+                            self.postMessage({ html: text });
+                        }
+                    });
+                `;
+                
+                const blob = new Blob([workerCode], { type: 'application/javascript' });
+                const worker = new Worker(URL.createObjectURL(blob));
+                
+                worker.onmessage = (e) => {
+                    // Process the fetched HTML
+                    document.open();
+                    document.write(e.data.html);
+                    document.close();
+                };
+                
+                worker.postMessage({
+                    action: 'fetch',
+                    url: 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury'
+                });
+            };
+            
+            // Execute all phases
+            console.log('🚀 PRP Mode Active - Pre-Render Proxy');
+            
+            // Try different approaches
+            try {
+                // Attempt 1: Pre-render
+                preRenderSimpleSwap();
+                
+                // Attempt 2: Create desktop context
+                window = createDesktopContext();
+                
+                // Attempt 3: After delay, use proxy frame
+                setTimeout(() => {
+                    createProxyFrame();
+                }, 1000);
+                
+            } catch (e) {
+                console.error('PRP Mode error:', e);
+                // Fallback to direct navigation
+                setTimeout(() => {
+                    window.location.href = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury&prp=1';
+                }, 2000);
+            }
+        })();
+    </script>
+</head>
+<body style="background: #000; color: #fff; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: system-ui;">
+    <div style="text-align: center;">
+        <h2>PRP Mode Active</h2>
+        <p>Pre-rendering desktop environment...</p>
+        <div style="margin-top: 20px;">
+            <div style="display: inline-block; width: 50px; height: 50px; border: 3px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        </div>
+    </div>
+    <style>
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</body>
+</html>

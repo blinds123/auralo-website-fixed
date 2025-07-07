@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desktop Mode Activation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0a0a0a;
+            color: white;
+            font-family: system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        .status-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        
+        .message {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s;
+        }
+        
+        .button:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+        }
+        
+        .manual-steps {
+            background: rgba(255, 152, 0, 0.1);
+            border: 1px solid #FF9800;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status-icon">🖥️</div>
+        <h1>Activating Desktop Mode</h1>
+        
+        <div class="message">
+            <p>Attempting to activate desktop mode to ensure €19.50 pricing...</p>
+            <div id="status">Checking browser capabilities...</div>
+        </div>
+        
+        <div id="auto-section" style="display: none;">
+            <h3>✅ Desktop Mode Available</h3>
+            <button class="button" onclick="activateDesktopMode()">
+                Activate Desktop Mode & Continue
+            </button>
+        </div>
+        
+        <div id="manual-section" style="display: none;">
+            <h3>⚠️ Manual Activation Required</h3>
+            <div class="manual-steps">
+                <h4>For your browser:</h4>
+                <div id="browser-instructions"></div>
+            </div>
+            <button class="button" onclick="checkAndProceed()">
+                I've Enabled Desktop Mode - Continue
+            </button>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <button class="button" style="background: #666;" onclick="skipToPayment()">
+                Skip & Try Anyway
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // Check browser and capabilities
+        function detectBrowser() {
+            const ua = navigator.userAgent;
+            
+            if (ua.includes('Chrome') && ua.includes('Android')) {
+                return 'chrome-android';
+            } else if (ua.includes('Safari') && ua.includes('iPhone')) {
+                return 'safari-ios';
+            } else if (ua.includes('Firefox') && ua.includes('Android')) {
+                return 'firefox-android';
+            } else if (ua.includes('Samsung')) {
+                return 'samsung';
+            }
+            
+            return 'unknown';
+        }
+        
+        // Check if we can programmatically request desktop mode
+        function checkDesktopModeAPI() {
+            // Check for various APIs that might exist
+            const apis = [
+                'navigator.requestDesktopSite',
+                'window.chrome?.requestDesktopSite',
+                'window.webkit?.messageHandlers?.requestDesktopSite',
+                'navigator.setMobileMode',
+                'window.DesktopModeAPI'
+            ];
+            
+            for (const api of apis) {
+                try {
+                    const parts = api.split('.');
+                    let obj = window;
+                    
+                    for (const part of parts) {
+                        if (part.includes('?')) {
+                            const cleanPart = part.replace('?', '');
+                            obj = obj?.[cleanPart];
+                        } else {
+                            obj = obj[part];
+                        }
+                        
+                        if (!obj) break;
+                    }
+                    
+                    if (typeof obj === 'function') {
+                        console.log('Found desktop mode API:', api);
+                        return obj;
+                    }
+                } catch (e) {}
+            }
+            
+            return null;
+        }
+        
+        // Try to activate desktop mode programmatically
+        async function activateDesktopMode() {
+            const api = checkDesktopModeAPI();
+            
+            if (api) {
+                try {
+                    await api();
+                    document.getElementById('status').textContent = 'Desktop mode activated! Redirecting...';
+                    setTimeout(() => {
+                        window.location.href = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury';
+                    }, 1500);
+                } catch (e) {
+                    console.error('Desktop mode API error:', e);
+                    showManualInstructions();
+                }
+            } else {
+                // Try alternative methods
+                tryAlternativeMethods();
+            }
+        }
+        
+        // Alternative methods to trigger desktop mode
+        function tryAlternativeMethods() {
+            // Method 1: Try modifying viewport
+            const viewport = document.querySelector('meta[name="viewport"]');
+            if (viewport) {
+                viewport.content = 'width=1024';
+            }
+            
+            // Method 2: Try reloading with desktop parameters
+            if (window.location.search.includes('desktop=1')) {
+                // Already tried, show manual instructions
+                showManualInstructions();
+            } else {
+                // Add desktop parameter and reload
+                window.location.href = window.location.pathname + '?desktop=1';
+            }
+        }
+        
+        // Show manual instructions based on browser
+        function showManualInstructions() {
+            document.getElementById('auto-section').style.display = 'none';
+            document.getElementById('manual-section').style.display = 'block';
+            
+            const browser = detectBrowser();
+            const instructions = document.getElementById('browser-instructions');
+            
+            const browserInstructions = {
+                'chrome-android': `
+                    <ol>
+                        <li>Tap the menu button <code>⋮</code> (three dots) in the top right</li>
+                        <li>Check the <strong>"Desktop site"</strong> checkbox</li>
+                        <li>The page will reload automatically</li>
+                        <li>Click the continue button below</li>
+                    </ol>
+                `,
+                'safari-ios': `
+                    <ol>
+                        <li>Tap the <code>aA</code> button in the address bar</li>
+                        <li>Select <strong>"Request Desktop Website"</strong></li>
+                        <li>The page will reload automatically</li>
+                        <li>Click the continue button below</li>
+                    </ol>
+                `,
+                'firefox-android': `
+                    <ol>
+                        <li>Tap the menu button <code>⋮</code> (three dots)</li>
+                        <li>Toggle <strong>"Desktop site"</strong> option</li>
+                        <li>The page will reload</li>
+                        <li>Click the continue button below</li>
+                    </ol>
+                `,
+                'samsung': `
+                    <ol>
+                        <li>Tap the menu button in the browser</li>
+                        <li>Look for <strong>"Desktop version"</strong> or similar</li>
+                        <li>Enable the option</li>
+                        <li>Click the continue button below</li>
+                    </ol>
+                `,
+                'unknown': `
+                    <p>Look for a "Desktop site" or "Request desktop version" option in your browser's menu.</p>
+                    <p>This is usually found in the browser's settings or options menu.</p>
+                `
+            };
+            
+            instructions.innerHTML = browserInstructions[browser] || browserInstructions['unknown'];
+            document.getElementById('status').textContent = 'Please follow the instructions below:';
+        }
+        
+        // Check if desktop mode is active and proceed
+        function checkAndProceed() {
+            // Simple check for desktop mode
+            const isDesktop = window.innerWidth > 980 || 
+                             window.screen.width > 980 ||
+                             !('ontouchstart' in window) ||
+                             navigator.maxTouchPoints === 0;
+            
+            if (isDesktop) {
+                window.location.href = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury&ref=desktop_enabled';
+            } else {
+                alert('Desktop mode doesn\'t appear to be active yet. Please make sure you\'ve enabled it in your browser settings, then try again.');
+            }
+        }
+        
+        // Skip and proceed anyway
+        function skipToPayment() {
+            window.location.href = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury';
+        }
+        
+        // Initialize on load
+        window.addEventListener('load', () => {
+            const api = checkDesktopModeAPI();
+            
+            if (api) {
+                document.getElementById('auto-section').style.display = 'block';
+                document.getElementById('status').textContent = 'Desktop mode API detected!';
+            } else {
+                showManualInstructions();
+            }
+        });
+    </script>
+</body>
+</html>

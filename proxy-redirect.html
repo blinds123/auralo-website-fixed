@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury&fixed=1&ref=desktop_proxy&source=external&platform=windows&device=desktop&mobile=false&force_desktop=1&user_agent=desktop&skip_detection=1&partner_override=desktop&disable_mobile_check=1&_cache_bust=TIMESTAMP">
+    <meta name="referrer" content="no-referrer">
+    <title>Redirecting...</title>
+    <script>
+        // Replace TIMESTAMP with actual timestamp
+        const url = document.querySelector('meta[http-equiv="refresh"]').content.replace('TIMESTAMP', Date.now());
+        document.querySelector('meta[http-equiv="refresh"]').content = url;
+        
+        // Also try JavaScript redirect with modified referrer
+        setTimeout(() => {
+            // Method 1: Create a form submission (might bypass some detection)
+            const form = document.createElement('form');
+            form.method = 'GET';
+            form.action = 'https://simpleswap.io/exchange';
+            
+            const params = {
+                'from': 'eur-eur',
+                'to': 'pol-matic', 
+                'amount': '19.50',
+                'provider': 'mercury',
+                'fixed': '1',
+                'desktop_mode': '1'
+            };
+            
+            Object.entries(params).forEach(([key, value]) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                form.appendChild(input);
+            });
+            
+            document.body.appendChild(form);
+            form.submit();
+        }, 100);
+        
+        // Method 2: Try opening as data URL
+        setTimeout(() => {
+            const html = `<html><head><meta http-equiv="refresh" content="0; url=https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury"></head></html>`;
+            const dataUrl = 'data:text/html,' + encodeURIComponent(html);
+            window.location.href = dataUrl;
+        }, 200);
+    </script>
+</head>
+<body style="background: #000; color: #fff; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+    <div style="text-align: center;">
+        <h2>Redirecting to payment gateway...</h2>
+        <p>Please wait...</p>
+    </div>
+</body>
+</html>

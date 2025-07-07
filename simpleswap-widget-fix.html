@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a0a0a;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 500px;
+        }
+        
+        .price-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+        
+        .price {
+            font-size: 48px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+        
+        .provider {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .method-list {
+            text-align: left;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+        }
+        
+        .method {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .method:hover {
+            background: rgba(33, 150, 243, 0.2);
+        }
+        
+        .method.active {
+            background: rgba(33, 150, 243, 0.3);
+            border: 1px solid #2196F3;
+        }
+        
+        .redirect-button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .redirect-button:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(33, 150, 243, 0.4);
+        }
+        
+        .warning {
+            background: rgba(255, 152, 0, 0.2);
+            border: 1px solid #FF9800;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Alternative Payment Methods</h1>
+        <p>Since mobile detection is active, try these alternative approaches:</p>
+        
+        <div class="price-box">
+            <div class="price">€19.50</div>
+            <div>Target Amount</div>
+            <div class="provider">Mercury (Best Rate)</div>
+        </div>
+        
+        <div class="method-list">
+            <h3>Select Method:</h3>
+            
+            <div class="method" onclick="tryMethod(1)">
+                <strong>Method 1: Widget Mode</strong><br>
+                <small>Uses SimpleSwap widget interface which may bypass mobile pricing</small>
+            </div>
+            
+            <div class="method" onclick="tryMethod(2)">
+                <strong>Method 2: Partner URL</strong><br>
+                <small>Uses partner parameters that might have fixed pricing</small>
+            </div>
+            
+            <div class="method" onclick="tryMethod(3)">
+                <strong>Method 3: Direct API</strong><br>
+                <small>Attempts to use API endpoint directly</small>
+            </div>
+            
+            <div class="method" onclick="tryMethod(4)">
+                <strong>Method 4: Desktop Request</strong><br>
+                <small>Opens SimpleSwap and lets you manually ensure €19.50</small>
+            </div>
+            
+            <div class="method" onclick="tryMethod(5)">
+                <strong>Method 5: QR Code Mode</strong><br>
+                <small>Generate QR code for desktop scanning</small>
+            </div>
+        </div>
+        
+        <button class="redirect-button" onclick="executeMethod()">
+            Try Selected Method
+        </button>
+        
+        <div class="warning">
+            ⚠️ <strong>Important:</strong> If SimpleSwap shows €21, do NOT proceed. 
+            Close and try another method. The correct amount must be €19.50 with Mercury selected.
+        </div>
+        
+        <div id="qr-container" style="display: none; margin-top: 20px;">
+            <h3>Scan with Desktop Browser:</h3>
+            <div id="qr-code" style="background: white; padding: 20px; display: inline-block; border-radius: 10px;"></div>
+        </div>
+    </div>
+    
+    <script>
+        let selectedMethod = 1;
+        
+        function tryMethod(method) {
+            selectedMethod = method;
+            
+            // Update UI
+            document.querySelectorAll('.method').forEach((el, index) => {
+                if (index + 1 === method) {
+                    el.classList.add('active');
+                } else {
+                    el.classList.remove('active');
+                }
+            });
+            
+            console.log('Selected method:', method);
+        }
+        
+        function executeMethod() {
+            console.log('Executing method:', selectedMethod);
+            
+            const baseParams = {
+                'from': 'eur-eur',
+                'to': 'pol-matic',
+                'amount': '19.50',
+                'provider': 'mercury',
+                'fixed': '1'
+            };
+            
+            let url = '';
+            
+            switch (selectedMethod) {
+                case 1: // Widget Mode
+                    url = 'https://widget.simpleswap.io/?' + new URLSearchParams({
+                        ...baseParams,
+                        'hideSelectionFrom': 'false',
+                        'hideSelectionTo': 'false',
+                        'hideAddress': 'false',
+                        'api': 'true'
+                    }).toString();
+                    break;
+                    
+                case 2: // Partner URL
+                    url = 'https://simpleswap.io/exchange?' + new URLSearchParams({
+                        ...baseParams,
+                        'partner': 'auralo',
+                        'partner_payment': 'card',
+                        'utm_source': 'partner',
+                        'utm_medium': 'auralo',
+                        'utm_campaign': 'fixed_rate'
+                    }).toString();
+                    break;
+                    
+                case 3: // Direct API
+                    url = 'https://app.simpleswap.io/exchange?' + new URLSearchParams({
+                        ...baseParams,
+                        'api_mode': '1',
+                        'client': 'auralo',
+                        'version': '2.0'
+                    }).toString();
+                    break;
+                    
+                case 4: // Desktop Request
+                    url = 'https://simpleswap.io/exchange?' + new URLSearchParams({
+                        ...baseParams,
+                        'request_desktop': '1'
+                    }).toString();
+                    
+                    alert('IMPORTANT: After SimpleSwap opens, check that:\n\n1. Amount shows €19.50 (NOT €21)\n2. Mercury is selected (green border)\n\nIf it shows €21, close and try another method!');
+                    break;
+                    
+                case 5: // QR Code
+                    generateQRCode();
+                    return;
+            }
+            
+            // Open URL
+            if (url) {
+                console.log('Opening:', url);
+                
+                // Try popup first
+                const popup = window.open(url, 'SimpleSwap', 'width=500,height=700');
+                
+                if (!popup || popup.closed) {
+                    // Fallback to redirect
+                    window.location.href = url;
+                }
+            }
+        }
+        
+        function generateQRCode() {
+            // Show QR container
+            document.getElementById('qr-container').style.display = 'block';
+            
+            // Create desktop URL
+            const desktopUrl = 'https://simpleswap.io/exchange?' + new URLSearchParams({
+                'from': 'eur-eur',
+                'to': 'pol-matic',
+                'amount': '19.50',
+                'provider': 'mercury',
+                'fixed': '1',
+                'qr': '1'
+            }).toString();
+            
+            // Simple QR placeholder (in real implementation, use QR library)
+            document.getElementById('qr-code').innerHTML = `
+                <div style="color: black; padding: 20px;">
+                    <p style="margin-bottom: 10px;"><strong>Desktop URL:</strong></p>
+                    <p style="word-break: break-all; font-size: 12px; font-family: monospace;">
+                        ${desktopUrl}
+                    </p>
+                    <p style="margin-top: 15px; font-size: 14px;">
+                        Copy this URL to your desktop browser<br>
+                        to get €19.50 pricing with Mercury
+                    </p>
+                </div>
+            `;
+        }
+        
+        // Auto-select first method
+        tryMethod(1);
+    </script>
+</body>
+</html>

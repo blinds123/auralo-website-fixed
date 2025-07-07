@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Payment Guide</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0a0a0a;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .alert {
+            background: rgba(255, 152, 0, 0.1);
+            border: 2px solid #FF9800;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .alert h2 {
+            margin-top: 0;
+            color: #FF9800;
+        }
+        
+        .solution {
+            background: rgba(76, 175, 80, 0.1);
+            border: 2px solid #4CAF50;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .solution h3 {
+            margin-top: 0;
+            color: #4CAF50;
+        }
+        
+        .steps {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .steps ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .steps li {
+            margin: 10px 0;
+        }
+        
+        .button {
+            display: inline-block;
+            background: #2196F3;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px 10px 10px 0;
+            transition: all 0.3s;
+        }
+        
+        .button:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+        }
+        
+        .button.secondary {
+            background: #666;
+        }
+        
+        .button.secondary:hover {
+            background: #555;
+        }
+        
+        .price-comparison {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            gap: 20px;
+        }
+        
+        .price-box {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+        }
+        
+        .price-box.bad {
+            background: rgba(244, 67, 54, 0.1);
+            border: 2px solid #f44336;
+        }
+        
+        .price-box.good {
+            background: rgba(76, 175, 80, 0.1);
+            border: 2px solid #4CAF50;
+        }
+        
+        .price-box .amount {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .browser-icons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin: 10px 0;
+        }
+        
+        .browser-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="alert">
+            <h2>⚠️ Mobile Pricing Detected</h2>
+            <p>SimpleSwap applies different pricing for mobile devices. You're seeing this because their system detected you're on a mobile device.</p>
+            
+            <div class="price-comparison">
+                <div class="price-box bad">
+                    <div>Mobile Price</div>
+                    <div class="amount">€21.00</div>
+                    <div>❌ 8% Higher</div>
+                </div>
+                <div class="price-box good">
+                    <div>Desktop Price</div>
+                    <div class="amount">€19.50</div>
+                    <div>✅ Best Price</div>
+                </div>
+            </div>
+        </div>
+        
+        <h2>✅ How to Get €19.50 Pricing</h2>
+        
+        <div class="solution">
+            <h3>🖥️ Solution 1: Enable Desktop Mode (Recommended)</h3>
+            <p>Your mobile browser can request the desktop version of websites:</p>
+            
+            <div class="steps">
+                <h4>For Chrome/Android:</h4>
+                <ol>
+                    <li>Tap the menu button (⋮) in the top right</li>
+                    <li>Check "Desktop site" option</li>
+                    <li>The page will reload in desktop mode</li>
+                    <li>Click the button below to proceed</li>
+                </ol>
+            </div>
+            
+            <div class="steps">
+                <h4>For Safari/iPhone:</h4>
+                <ol>
+                    <li>Tap the "aA" button in the address bar</li>
+                    <li>Select "Request Desktop Website"</li>
+                    <li>The page will reload in desktop mode</li>
+                    <li>Click the button below to proceed</li>
+                </ol>
+            </div>
+            
+            <a href="#" class="button" onclick="proceedToPayment(); return false;">
+                Proceed to Payment (After Enabling Desktop Mode)
+            </a>
+        </div>
+        
+        <div class="solution">
+            <h3>🔗 Solution 2: Try Alternative URLs</h3>
+            <p>These special URLs might bypass mobile detection:</p>
+            
+            <a href="https://widget.simpleswap.io/?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury" 
+               class="button" target="_blank">
+                Try Widget Interface
+            </a>
+            
+            <a href="https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury&partner=auralo" 
+               class="button secondary" target="_blank">
+                Try Partner URL
+            </a>
+        </div>
+        
+        <div class="solution">
+            <h3>💻 Solution 3: Use a Computer</h3>
+            <p>For guaranteed €19.50 pricing, complete your purchase on a desktop or laptop computer.</p>
+            
+            <div class="steps">
+                <p><strong>Save this link to continue on your computer:</strong></p>
+                <code style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; display: block; word-break: break-all;">
+                    https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury
+                </code>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 15px;">
+            <h3>📱 Why Does This Happen?</h3>
+            <p>SimpleSwap detects mobile devices on their servers, not in your browser. This means JavaScript cannot override their detection. The only reliable solutions are using desktop mode or an actual computer.</p>
+        </div>
+    </div>
+    
+    <script>
+        function proceedToPayment() {
+            // Check if desktop mode might be enabled
+            const isDesktopMode = window.innerWidth > 980 || !('ontouchstart' in window);
+            
+            if (isDesktopMode) {
+                // Likely in desktop mode, proceed
+                window.location.href = 'https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercury&ref=desktop_mode';
+            } else {
+                // Still in mobile mode
+                alert('Please enable Desktop Mode first!\n\nFollow the instructions above for your browser, then try again.');
+            }
+        }
+        
+        // Log current state
+        console.log('Current viewport width:', window.innerWidth);
+        console.log('Touch support:', 'ontouchstart' in window);
+        console.log('User Agent:', navigator.userAgent);
+    </script>
+</body>
+</html>
