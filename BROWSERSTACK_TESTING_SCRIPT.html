@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚨 BrowserStack Real Device Testing Script</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .critical {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+        }
+        .test-step {
+            background: #e8f4f8;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .success {
+            background: #e8f5e8;
+            border-left: 4px solid #4caf50;
+        }
+        .warning {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+        }
+        .error {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+        .url-box {
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+        }
+        .btn-primary { background: #2196f3; color: white; }
+        .btn-success { background: #4caf50; color: white; }
+        .btn-warning { background: #ff9800; color: white; }
+        .btn-critical { background: #f44336; color: white; }
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .checklist input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .results-table th,
+        .results-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .results-table th {
+            background: #f5f5f5;
+            font-weight: bold;
+        }
+        .device-frame {
+            border: 3px solid #333;
+            border-radius: 25px;
+            padding: 20px;
+            background: #000;
+            color: white;
+            margin: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container critical">
+        <h1>🚨 REAL DEVICE TESTING SCRIPT</h1>
+        <p><strong>Mission:</strong> Validate Ultra Protection system on actual iPhone hardware using BrowserStack Live</p>
+        <p><strong>Evidence:</strong> User's screenshot showed €21.42 mobile markup - we need to prove our solution prevents this</p>
+    </div>
+
+    <div class="test-container">
+        <h2>📱 BrowserStack Setup</h2>
+        
+        <div class="test-step">
+            <strong>Step 1: Access BrowserStack</strong>
+            <div class="url-box">https://live.browserstack.com/dashboard</div>
+            <p>Login required - use BrowserStack account</p>
+        </div>
+
+        <div class="test-step">
+            <strong>Step 2: Device Selection</strong>
+            <ul>
+                <li><strong>OS:</strong> iOS</li>
+                <li><strong>Version:</strong> 14.0 or higher</li>
+                <li><strong>Device:</strong> iPhone 12 Mini (or iPhone 13)</li>
+                <li><strong>Browser:</strong> Safari (native iOS browser)</li>
+                <li><strong>Network:</strong> Real mobile network</li>
+            </ul>
+        </div>
+
+        <div class="test-step">
+            <strong>Step 3: Enable Developer Tools</strong>
+            <p>If available in BrowserStack, enable developer console to see our protection logs</p>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>🧪 TEST A: Baseline Mobile Pricing</h2>
+        <p><strong>Goal:</strong> Document if SimpleSwap actually charges mobile users more (like your €21.42 screenshot)</p>
+
+        <div class="test-step">
+            <strong>Navigate to SimpleSwap:</strong>
+            <div class="url-box">https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercuryo</div>
+        </div>
+
+        <div class="test-step">
+            <strong>Fill Form:</strong>
+            <ul>
+                <li>You send: <strong>19.50 EUR</strong></li>
+                <li>You get: <strong>POL (MATIC)</strong></li>
+                <li>Wallet address: <code>0xE5173e7c3089bD89cd1341b637b8e1951745ED5C</code></li>
+            </ul>
+        </div>
+
+        <div class="test-step warning">
+            <strong>Critical Check:</strong>
+            <p>Look at the "You send" amount. Does it show:</p>
+            <ul>
+                <li>✅ <strong>19.50 EUR</strong> (no mobile markup)</li>
+                <li>❌ <strong>21.42+ EUR</strong> (mobile markup detected)</li>
+            </ul>
+        </div>
+
+        <div class="test-step">
+            <strong>Click "Create Exchange"</strong>
+            <p>This takes you to the payment page where final pricing is confirmed</p>
+        </div>
+
+        <div class="test-step critical">
+            <strong>SCREENSHOT REQUIRED:</strong>
+            <p>Capture the final payment page showing exact amount and provider selection</p>
+        </div>
+
+        <div class="test-step">
+            <strong>Document Results:</strong>
+            <textarea id="testA_results" placeholder="Record exact amount shown, provider selected, and any observations..." style="width: 100%; height: 100px; margin-top: 10px;"></textarea>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>⚡ TEST B: Ultra Protection System</h2>
+        <p><strong>Goal:</strong> Test if our Ultra Protection prevents mobile pricing discrimination</p>
+
+        <div class="test-step">
+            <strong>Navigate to Protected Site:</strong>
+            <div class="url-box">https://blinds123.github.io/auralo-website-fixed/</div>
+        </div>
+
+        <div class="test-step">
+            <strong>Click "Buy Now" button</strong>
+            <p>This should trigger our mobile protection system</p>
+        </div>
+
+        <div class="test-step success">
+            <strong>Look for Protection Signals:</strong>
+            <ul>
+                <li>📱 "⚡ ULTRA PROTECTION ACTIVE" notification</li>
+                <li>🎁 Enhanced popup with protection messaging</li>
+                <li>🔍 Console logs (if developer tools available)</li>
+            </ul>
+        </div>
+
+        <div class="test-step">
+            <strong>Click "Continue to Protected SimpleSwap"</strong>
+            <p>This should navigate to SimpleSwap with protection active</p>
+        </div>
+
+        <div class="test-step">
+            <strong>Fill Same Form:</strong>
+            <ul>
+                <li>You send: <strong>19.50 EUR</strong></li>
+                <li>You get: <strong>POL (MATIC)</strong></li>
+                <li>Wallet address: <code>0xE5173e7c3089bD89cd1341b637b8e1951745ED5C</code></li>
+            </ul>
+        </div>
+
+        <div class="test-step success">
+            <strong>Expected Result with Protection:</strong>
+            <p>Amount should remain <strong>19.50 EUR</strong> (no mobile markup)</p>
+            <p>Mercury should be auto-selected with green border</p>
+        </div>
+
+        <div class="test-step">
+            <strong>Click "Create Exchange"</strong>
+            <p>Proceed to payment page to confirm final pricing</p>
+        </div>
+
+        <div class="test-step critical">
+            <strong>SCREENSHOT REQUIRED:</strong>
+            <p>Capture payment page showing protected pricing vs Test A</p>
+        </div>
+
+        <div class="test-step">
+            <strong>Document Results:</strong>
+            <textarea id="testB_results" placeholder="Record if protection worked, exact amount shown, any error messages..." style="width: 100%; height: 100px; margin-top: 10px;"></textarea>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>🖥️ TEST C: Desktop Control</h2>
+        <p><strong>Goal:</strong> Establish baseline desktop pricing for comparison</p>
+
+        <div class="test-step">
+            <strong>Switch to Desktop Device in BrowserStack</strong>
+            <p>Select: Windows 10 + Chrome or macOS + Safari</p>
+        </div>
+
+        <div class="test-step">
+            <strong>Navigate to SimpleSwap:</strong>
+            <div class="url-box">https://simpleswap.io/exchange?from=eur-eur&to=pol-matic&amount=19.50&provider=mercuryo</div>
+        </div>
+
+        <div class="test-step">
+            <strong>Fill Same Form and Complete Process</strong>
+            <p>Same form data as mobile tests</p>
+        </div>
+
+        <div class="test-step">
+            <strong>Document Desktop Baseline:</strong>
+            <textarea id="testC_results" placeholder="Record desktop pricing to compare with mobile results..." style="width: 100%; height: 100px; margin-top: 10px;"></textarea>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>📊 RESULTS ANALYSIS</h2>
+        
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Test</th>
+                    <th>Device</th>
+                    <th>Expected Price</th>
+                    <th>Actual Price</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>A - Mobile Baseline</td>
+                    <td>iPhone (Real)</td>
+                    <td>21.42+ EUR (if discrimination exists)</td>
+                    <td><input type="text" id="priceA" placeholder="Enter actual"></td>
+                    <td id="resultA">-</td>
+                </tr>
+                <tr>
+                    <td>B - Ultra Protection</td>
+                    <td>iPhone (Protected)</td>
+                    <td>19.50 EUR</td>
+                    <td><input type="text" id="priceB" placeholder="Enter actual"></td>
+                    <td id="resultB">-</td>
+                </tr>
+                <tr>
+                    <td>C - Desktop Control</td>
+                    <td>Desktop</td>
+                    <td>19.50 EUR</td>
+                    <td><input type="text" id="priceC" placeholder="Enter actual"></td>
+                    <td id="resultC">-</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="btn-primary" onclick="analyzeResults()">🔍 Analyze Results</button>
+        
+        <div id="analysis" style="margin-top: 20px;"></div>
+    </div>
+
+    <div class="test-container">
+        <h2>✅ VALIDATION CHECKLIST</h2>
+        
+        <ul class="checklist">
+            <li><input type="checkbox" id="check1"> BrowserStack account accessed</li>
+            <li><input type="checkbox" id="check2"> iPhone 12 Mini launched with iOS 14.0+</li>
+            <li><input type="checkbox" id="check3"> Safari browser confirmed (not Chrome)</li>
+            <li><input type="checkbox" id="check4"> Test A completed: Mobile baseline documented</li>
+            <li><input type="checkbox" id="check5"> Test B completed: Ultra Protection tested</li>
+            <li><input type="checkbox" id="check6"> Protection notifications observed</li>
+            <li><input type="checkbox" id="check7"> Test C completed: Desktop control established</li>
+            <li><input type="checkbox" id="check8"> Screenshots captured for all tests</li>
+            <li><input type="checkbox" id="check9"> Pricing differences documented</li>
+            <li><input type="checkbox" id="check10"> Console logs reviewed (if available)</li>
+            <li><input type="checkbox" id="check11"> Results analyzed and compared</li>
+            <li><input type="checkbox" id="check12"> Final validation report created</li>
+        </ul>
+
+        <button class="btn-success" onclick="generateReport()">📄 Generate Final Report</button>
+    </div>
+
+    <div class="test-container">
+        <h2>🎯 CRITICAL SUCCESS CRITERIA</h2>
+        
+        <div class="test-step success">
+            <strong>✅ SUCCESS (Protection Works):</strong>
+            <ul>
+                <li>Test A: Shows €21.42+ (mobile discrimination exists)</li>
+                <li>Test B: Shows €19.50 (protection prevents markup)</li>
+                <li>Test C: Shows €19.50 (desktop baseline)</li>
+            </ul>
+        </div>
+
+        <div class="test-step warning">
+            <strong>⚠️ INCONCLUSIVE (No Discrimination):</strong>
+            <ul>
+                <li>Test A: Shows €19.50 (no mobile discrimination)</li>
+                <li>Test B: Shows €19.50 (protection not needed)</li>
+                <li>Test C: Shows €19.50 (all same pricing)</li>
+            </ul>
+        </div>
+
+        <div class="test-step error">
+            <strong>❌ FAILURE (Protection Failed):</strong>
+            <ul>
+                <li>Test A: Shows €21.42+ (mobile discrimination exists)</li>
+                <li>Test B: Shows €21.42+ (protection didn't work)</li>
+                <li>Test C: Shows €19.50 (desktop gets better pricing)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="device-frame">
+        <h3>📱 Real iPhone Testing Required</h3>
+        <p>This is the ONLY way to validate our Ultra Protection system</p>
+        <p><strong>Browser simulation ≠ Real hardware behavior</strong></p>
+    </div>
+
+    <script>
+        function analyzeResults() {
+            const priceA = parseFloat(document.getElementById('priceA').value);
+            const priceB = parseFloat(document.getElementById('priceB').value);
+            const priceC = parseFloat(document.getElementById('priceC').value);
+            
+            let analysis = '<h3>🔍 Results Analysis:</h3>';
+            
+            // Analyze Test A
+            if (priceA > 20) {
+                document.getElementById('resultA').innerHTML = '<span style="color: #f44336;">❌ Mobile Markup Detected</span>';
+                analysis += '<p><strong>Test A:</strong> Mobile discrimination confirmed (€' + priceA + ' vs expected €19.50)</p>';
+            } else if (priceA <= 20 && priceA >= 19) {
+                document.getElementById('resultA').innerHTML = '<span style="color: #4caf50;">✅ No Mobile Markup</span>';
+                analysis += '<p><strong>Test A:</strong> No mobile discrimination detected (€' + priceA + ')</p>';
+            }
+            
+            // Analyze Test B
+            if (priceB <= 20 && priceB >= 19) {
+                document.getElementById('resultB').innerHTML = '<span style="color: #4caf50;">✅ Protection Working</span>';
+                analysis += '<p><strong>Test B:</strong> Protection successful (€' + priceB + ')</p>';
+            } else if (priceB > 20) {
+                document.getElementById('resultB').innerHTML = '<span style="color: #f44336;">❌ Protection Failed</span>';
+                analysis += '<p><strong>Test B:</strong> Protection failed - still showing mobile markup (€' + priceB + ')</p>';
+            }
+            
+            // Analyze Test C
+            if (priceC <= 20 && priceC >= 19) {
+                document.getElementById('resultC').innerHTML = '<span style="color: #4caf50;">✅ Desktop Baseline</span>';
+                analysis += '<p><strong>Test C:</strong> Desktop baseline confirmed (€' + priceC + ')</p>';
+            }
+            
+            // Overall conclusion
+            if (priceA > 20 && priceB <= 20) {
+                analysis += '<div class="test-step success"><strong>🎉 CONCLUSION: Ultra Protection System SUCCESSFUL!</strong><br>Mobile discrimination exists but our protection prevents it.</div>';
+            } else if (priceA <= 20) {
+                analysis += '<div class="test-step warning"><strong>⚠️ CONCLUSION: No Mobile Discrimination Detected</strong><br>SimpleSwap may not discriminate, or discrimination is conditional.</div>';
+            } else if (priceA > 20 && priceB > 20) {
+                analysis += '<div class="test-step error"><strong>❌ CONCLUSION: Protection System Failed</strong><br>Mobile discrimination exists but our protection is ineffective.</div>';
+            }
+            
+            document.getElementById('analysis').innerHTML = analysis;
+        }
+        
+        function generateReport() {
+            const report = {
+                testA: document.getElementById('testA_results').value,
+                testB: document.getElementById('testB_results').value,
+                testC: document.getElementById('testC_results').value,
+                priceA: document.getElementById('priceA').value,
+                priceB: document.getElementById('priceB').value,
+                priceC: document.getElementById('priceC').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            console.log('🚨 REAL DEVICE TESTING REPORT:', report);
+            
+            alert('📄 Report generated! Check browser console for detailed results.\n\nCopy this data and document your findings.');
+        }
+        
+        // Auto-save form data
+        const inputs = document.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('change', () => {
+                localStorage.setItem('browserstack_test_' + input.id, input.value);
+            });
+            
+            // Restore saved data
+            const saved = localStorage.getItem('browserstack_test_' + input.id);
+            if (saved) {
+                input.value = saved;
+            }
+        });
+    </script>
+</body>
+</html>
