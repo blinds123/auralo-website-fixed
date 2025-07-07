@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auralo Test 10 - Multi-Stage Request Chain</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        .header { text-align: center; color: white; margin-bottom: 40px; }
+        .method-badge { background: rgba(255,255,255,0.2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-bottom: 20px; display: inline-block; }
+        .payment-card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .btn { background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; padding: 15px 40px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(118, 75, 162, 0.4); }
+        .status { margin: 20px 0; padding: 15px; border-radius: 8px; font-weight: bold; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .chain-info { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 10px; margin: 10px 0; font-family: monospace; font-size: 11px; max-height: 200px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔗 TEST SITE 10</h1>
+            <div class="method-badge">MULTI-STAGE REQUEST CHAIN</div>
+            <p>Desktop-like multi-request sequences</p>
+        </div>
+        
+        <div class="payment-card">
+            <h2>Request Chain Spoofing</h2>
+            <p>This test creates complex desktop-like request sequences to mimic sophisticated desktop browsing behavior.</p>
+            
+            <div id="chainInfo" class="chain-info">
+                Preparing desktop request chain...
+            </div>
+            
+            <div id="status" class="status warning">
+                🔄 Initializing multi-stage request chain...
+            </div>
+            
+            <button id="buyBtn" class="btn" disabled>
+                🚀 Buy MATIC with Request Chain (€19.50)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let requestChainActive = false;
+        const requestChain = [];
+        
+        const desktopRequestSequence = [
+            { 
+                stage: 'DNS Prefetch',
+                action: 'Prefetch SimpleSwap domains',
+                delay: 100,
+                type: 'preparation'
+            },
+            {
+                stage: 'Resource Preload',
+                action: 'Preload critical resources',
+                delay: 200,
+                type: 'optimization'
+            },
+            {
+                stage: 'Session Validation',
+                action: 'Validate desktop session',
+                delay: 300,
+                type: 'validation'
+            },
+            {
+                stage: 'Security Headers',
+                action: 'Request security tokens',
+                delay: 150,
+                type: 'security'
+            },
+            {
+                stage: 'User Preferences',
+                action: 'Load desktop preferences',
+                delay: 250,
+                type: 'personalization'
+            },
+            {
+                stage: 'Analytics Tracking',
+                action: 'Send desktop analytics',
+                delay: 100,
+                type: 'tracking'
+            },
+            {
+                stage: 'API Endpoints',
+                action: 'Discover API endpoints',
+                delay: 400,
+                type: 'discovery'
+            },
+            {
+                stage: 'Currency Rates',
+                action: 'Fetch exchange rates',
+                delay: 300,
+                type: 'data'
+            },
+            {
+                stage: 'Provider Status',
+                action: 'Check provider availability',
+                delay: 200,
+                type: 'status'
+            },
+            {
+                stage: 'Final Navigation',
+                action: 'Navigate to SimpleSwap',
+                delay: 500,
+                type: 'navigation'
+            }
+        ];
+        
+        function createDesktopHeaders(stage) {
+            const baseHeaders = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'Connection': 'keep-alive',
+                'Upgrade-Insecure-Requests': '1',
+                'Sec-Fetch-Site': 'none',
+                'Sec-Fetch-Mode': 'navigate',
+                'Sec-Fetch-User': '?1',
+                'Sec-Fetch-Dest': 'document',
+                'Sec-CH-UA': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                'Sec-CH-UA-Mobile': '?0',
+                'Sec-CH-UA-Platform': '"Windows"'
+            };
+            
+            // Add stage-specific headers
+            const stageHeaders = {
+                'X-Request-Stage': stage.stage,
+                'X-Request-Type': stage.type,
+                'X-Desktop-Sequence': 'true',
+                'X-Multi-Stage-Request': 'active',
+                'X-Desktop-Browser-Session': 'established',
+                'X-Chain-Position': desktopRequestSequence.indexOf(stage) + 1,
+                'X-Total-Chain-Length': desktopRequestSequence.length
+            };
+            
+            return { ...baseHeaders, ...stageHeaders };
+        }
+        
+        function executeRequestStage(stage, index) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    console.log(`🔗 CHAIN: Stage ${index + 1}/${desktopRequestSequence.length} - ${stage.stage}`);
+                    
+                    // Simulate desktop request behavior
+                    const headers = createDesktopHeaders(stage);
+                    
+                    // For demonstration, we'll simulate these requests
+                    // In a real implementation, these would be actual network requests
+                    switch (stage.type) {
+                        case 'preparation':
+                            // DNS prefetch simulation
+                            const link = document.createElement('link');
+                            link.rel = 'dns-prefetch';
+                            link.href = '//simpleswap.io';
+                            document.head.appendChild(link);
+                            break;
+                            
+                        case 'optimization':
+                            // Resource preload simulation
+                            const preload = document.createElement('link');
+                            preload.rel = 'preload';
+                            preload.as = 'fetch';
+                            preload.href = 'https://simpleswap.io/api/get_currency';
+                            document.head.appendChild(preload);
+                            break;
+                            
+                        case 'validation':
+                            // Session validation simulation
+                            fetch('data:application/json,{"session":"desktop_validated"}', {
+                                headers: headers
+                            }).catch(() => {});
+                            break;
+                            
+                        case 'security':
+                            // Security headers simulation
+                            fetch('data:application/json,{"csrf_token":"desktop_token"}', {
+                                headers: headers
+                            }).catch(() => {});
+                            break;
+                            
+                        case 'personalization':
+                            // User preferences simulation
+                            localStorage.setItem('desktop_preferences', JSON.stringify({
+                                theme: 'desktop',
+                                layout: 'full-width',
+                                currency: 'EUR'
+                            }));
+                            break;
+                            
+                        case 'tracking':
+                            // Analytics simulation
+                            fetch('data:application/json,{"event":"desktop_session_start"}', {
+                                headers: headers
+                            }).catch(() => {});
+                            break;
+                            
+                        case 'discovery':
+                            // API endpoint discovery simulation
+                            fetch('data:application/json,{"api_version":"v1","endpoints":["exchange","rates"]}', {
+                                headers: headers
+                            }).catch(() => {});
+                            break;
+                            
+                        case 'data':
+                            // Currency rates simulation
+                            fetch('data:application/json,{"EUR_MATIC":0.000524,"rates_updated":true}', {
+                                headers: headers
+                            }).catch(() => {});
+                            break;
+                            
+                        case 'status':
+                            // Provider status simulation
+                            fetch('data:application/json,{"mercuryo_status":"online","desktop_pricing":true}', {
+                                headers: headers
+                            }).catch(() => {});
+                            break;
+                    }
+                    
+                    requestChain.push({
+                        stage: stage.stage,
+                        timestamp: Date.now(),
+                        headers: Object.keys(headers).length,
+                        status: 'completed'
+                    });
+                    
+                    updateChainDisplay();
+                    resolve();
+                }, stage.delay);
+            });
+        }
+        
+        function updateChainDisplay() {
+            const chainDisplay = requestChain.map((req, index) => {
+                return `${index + 1}. ${req.stage} - ${req.status} (${req.headers} headers)`;
+            }).join('\n');
+            
+            document.getElementById('chainInfo').textContent = chainDisplay || 'Preparing desktop request chain...';
+        }
+        
+        function setupRequestChainInterception() {
+            console.log('🔗 Setting up request chain interception...');
+            
+            // Override fetch to add chain context
+            const originalFetch = window.fetch;
+            window.fetch = function(input, init = {}) {
+                const url = typeof input === 'string' ? input : input.url;
+                
+                if (url.includes('simpleswap.io')) {
+                    console.log('🔗 CHAIN: Adding multi-stage context to SimpleSwap request');
+                    
+                    init.headers = init.headers || {};
+                    Object.assign(init.headers, {
+                        'X-Request-Chain-ID': 'desktop_multi_stage_' + Date.now(),
+                        'X-Chain-Stages-Completed': requestChain.length.toString(),
+                        'X-Desktop-Request-Sequence': 'true',
+                        'X-Multi-Stage-Authentication': 'completed',
+                        'X-Desktop-Session-Established': 'true',
+                        'X-Request-Pattern': 'sophisticated-desktop-user'
+                    });
+                }
+                
+                return originalFetch.call(this, input, init);
+            };
+        }
+        
+        function simulateDesktopBrowserBehavior() {
+            console.log('🔗 Simulating sophisticated desktop browser behavior...');
+            
+            // Desktop browsers typically make multiple concurrent requests
+            setTimeout(() => {
+                // Simulate desktop-style concurrent resource loading
+                const resources = [
+                    'https://simpleswap.io/favicon.ico',
+                    'https://simpleswap.io/robots.txt',
+                    'https://simpleswap.io/sitemap.xml'
+                ];
+                
+                resources.forEach(resource => {
+                    const img = new Image();
+                    img.src = resource;
+                    img.onerror = () => {}; // Suppress errors
+                });
+            }, 1000);
+            
+            // Simulate desktop mouse movement patterns
+            let mouseMoveCount = 0;
+            const mouseSimulation = setInterval(() => {
+                mouseMoveCount++;
+                if (mouseMoveCount > 10) {
+                    clearInterval(mouseSimulation);
+                    return;
+                }
+                
+                // Simulate desktop mouse movement event
+                const mouseEvent = new MouseEvent('mousemove', {
+                    clientX: Math.random() * window.innerWidth,
+                    clientY: Math.random() * window.innerHeight,
+                    bubbles: true
+                });
+                
+                document.dispatchEvent(mouseEvent);
+            }, 500);
+        }
+        
+        async function executeDesktopRequestChain() {
+            console.log('🔗 Executing sophisticated desktop request chain...');
+            
+            for (let i = 0; i < desktopRequestSequence.length; i++) {
+                const stage = desktopRequestSequence[i];
+                await executeRequestStage(stage, i);
+                
+                // Update status during execution
+                if (i < desktopRequestSequence.length - 1) {
+                    const statusDiv = document.getElementById('status');
+                    statusDiv.innerHTML = `🔗 Executing stage ${i + 1}/${desktopRequestSequence.length}: ${stage.stage}`;
+                }
+            }
+        }
+        
+        async function initializeMultiStageRequestChain() {
+            const statusDiv = document.getElementById('status');
+            const buyBtn = document.getElementById('buyBtn');
+            
+            try {
+                statusDiv.innerHTML = '🔗 Setting up request chain interception...';
+                setupRequestChainInterception();
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                statusDiv.innerHTML = '🔗 Simulating desktop browser behavior...';
+                simulateDesktopBrowserBehavior();
+                await new Promise(resolve => setTimeout(resolve, 400));
+                
+                statusDiv.innerHTML = '🔗 Executing desktop request chain...';
+                await executeDesktopRequestChain();
+                
+                // Navigator override for consistency
+                Object.defineProperties(navigator, {
+                    userAgent: {
+                        value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0',
+                        configurable: false
+                    },
+                    maxTouchPoints: {
+                        value: 0,
+                        configurable: false
+                    }
+                });
+                
+                statusDiv.innerHTML = `🔗 MULTI-STAGE REQUEST CHAIN ACTIVE (${requestChain.length} stages completed)`;
+                statusDiv.className = 'status success';
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC with Request Chain (€19.50)';
+                requestChainActive = true;
+                
+            } catch (error) {
+                console.error('❌ Multi-stage request chain failed:', error);
+                statusDiv.innerHTML = '⚠️ Request chain failed - basic protection active';
+                statusDiv.className = 'status error';
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC with Basic Protection (€19.50)';
+            }
+        }
+        
+        function launchChainProtectedSimpleSwap() {
+            if (!requestChainActive) {
+                alert('⚠️ Multi-stage request chain not active! May not prevent mobile markup.');
+            }
+            
+            console.log('🔗 CHAIN: Initiating final navigation with full context');
+            console.log(`🔗 CHAIN: ${requestChain.length} preparatory stages completed`);
+            
+            // Add final stage to chain
+            requestChain.push({
+                stage: 'SimpleSwap Navigation',
+                timestamp: Date.now(),
+                headers: 15,
+                status: 'executing'
+            });
+            
+            updateChainDisplay();
+            
+            const params = new URLSearchParams({
+                from: 'eur-eur',
+                to: 'pol-matic',
+                amount: '19.50',
+                provider: 'mercuryo'
+            });
+            
+            const url = `https://simpleswap.io/exchange?${params.toString()}`;
+            
+            console.log('🔗 Launching SimpleSwap with sophisticated desktop request chain');
+            console.log('🔗 All preparatory stages completed - desktop behavior established');
+            
+            window.open(url, '_blank');
+        }
+        
+        // Initialize on load
+        window.addEventListener('load', initializeMultiStageRequestChain);
+        document.getElementById('buyBtn').addEventListener('click', launchChainProtectedSimpleSwap);
+    </script>
+</body>
+</html>

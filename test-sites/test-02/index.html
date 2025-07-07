@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auralo Test 02 - Extension Simulation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #ffa726 0%, #ff7043 100%); min-height: 100vh; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        .header { text-align: center; color: white; margin-bottom: 40px; }
+        .method-badge { background: rgba(255,255,255,0.2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-bottom: 20px; display: inline-block; }
+        .payment-card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .btn { background: linear-gradient(45deg, #ff7043, #ff5722); color: white; border: none; padding: 15px 40px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 87, 34, 0.4); }
+        .status { margin: 20px 0; padding: 15px; border-radius: 8px; font-weight: bold; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .extension-status { background: #e3f2fd; color: #0d47a1; border: 1px solid #bbdefb; padding: 10px; border-radius: 5px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 TEST SITE 02</h1>
+            <div class="method-badge">BROWSER EXTENSION SIMULATION</div>
+            <p>Simulate extension-level privileges and capabilities</p>
+        </div>
+        
+        <div class="payment-card">
+            <h2>Extension-Style Protection</h2>
+            <p>This test simulates browser extension behavior with advanced DOM manipulation and request interception.</p>
+            
+            <div id="extensionStatus" class="extension-status">
+                🔄 Simulating extension installation...
+            </div>
+            
+            <div id="status" class="status warning">
+                🔄 Initializing extension-style protection...
+            </div>
+            
+            <button id="buyBtn" class="btn" disabled>
+                🚀 Buy MATIC with Extension Protection (€19.50)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let extensionActive = false;
+        
+        // Simulate extension environment
+        function simulateExtensionEnvironment() {
+            console.log('🔧 Simulating browser extension environment...');
+            
+            // Create fake extension API objects
+            window.chrome = window.chrome || {};
+            window.chrome.runtime = window.chrome.runtime || {
+                id: 'auralo-anti-mobile-discrimination',
+                onMessage: { addListener: () => {} },
+                sendMessage: (message, callback) => {
+                    console.log('📤 Extension message:', message);
+                    if (callback) callback({ success: true });
+                }
+            };
+            
+            window.chrome.storage = window.chrome.storage || {
+                local: {
+                    set: (data, callback) => {
+                        localStorage.setItem('chrome_storage', JSON.stringify(data));
+                        if (callback) callback();
+                    },
+                    get: (keys, callback) => {
+                        const data = JSON.parse(localStorage.getItem('chrome_storage') || '{}');
+                        if (callback) callback(data);
+                    }
+                }
+            };
+            
+            window.chrome.tabs = window.chrome.tabs || {
+                query: (queryInfo, callback) => {
+                    if (callback) callback([{ url: window.location.href, active: true }]);
+                },
+                executeScript: (tabId, details, callback) => {
+                    console.log('📜 Extension script injection:', details);
+                    if (callback) callback();
+                }
+            };
+            
+            return true;
+        }
+        
+        // Extension-style request interception
+        function setupExtensionInterception() {
+            console.log('🛡️ Setting up extension-style request interception...');
+            
+            // Override XMLHttpRequest
+            const originalXHR = window.XMLHttpRequest;
+            window.XMLHttpRequest = function() {
+                const xhr = new originalXHR();
+                const originalOpen = xhr.open;
+                const originalSend = xhr.send;
+                
+                xhr.open = function(method, url, ...args) {
+                    if (url.includes('simpleswap.io')) {
+                        console.log('🎯 EXT: Intercepting XHR to SimpleSwap:', url);
+                        
+                        // Add desktop headers via extension
+                        xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0');
+                        xhr.setRequestHeader('X-Extension-Source', 'auralo-protection');
+                        xhr.setRequestHeader('Sec-CH-UA-Mobile', '?0');
+                    }
+                    return originalOpen.apply(this, [method, url, ...args]);
+                };
+                
+                return xhr;
+            };
+            
+            // Override fetch with extension-style headers
+            const originalFetch = window.fetch;
+            window.fetch = function(input, init = {}) {
+                const url = typeof input === 'string' ? input : input.url;
+                
+                if (url.includes('simpleswap.io')) {
+                    console.log('🎯 EXT: Intercepting fetch to SimpleSwap:', url);
+                    
+                    init.headers = init.headers || {};
+                    Object.assign(init.headers, {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0',
+                        'X-Extension-ID': 'auralo-anti-mobile-discrimination',
+                        'Sec-CH-UA-Mobile': '?0',
+                        'Sec-CH-UA-Platform': '"Windows"'
+                    });
+                }
+                
+                return originalFetch.call(this, input, init);
+            };
+        }
+        
+        // Extension-style DOM manipulation
+        function setupExtensionDOMControl() {
+            console.log('🔧 Setting up extension-style DOM control...');
+            
+            // Inject extension-style CSS
+            const extensionCSS = document.createElement('style');
+            extensionCSS.textContent = `
+                /* Extension-injected mobile override */
+                @media (max-width: 768px) {
+                    * { 
+                        -webkit-appearance: none !important;
+                        -moz-appearance: none !important;
+                    }
+                }
+                
+                /* Force desktop viewport */
+                html { 
+                    min-width: 1024px !important;
+                    overflow-x: auto !important;
+                }
+            `;
+            document.head.appendChild(extensionCSS);
+            
+            // Extension-style content script behavior
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'childList') {
+                        const addedNodes = Array.from(mutation.addedNodes);
+                        addedNodes.forEach(node => {
+                            if (node.nodeType === 1 && node.tagName) {
+                                // Extension-style element manipulation
+                                if (node.textContent && node.textContent.includes('mobile')) {
+                                    console.log('🔧 EXT: Found mobile reference, applying desktop override');
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+            
+            observer.observe(document.body, { childList: true, subtree: true });
+        }
+        
+        // Initialize extension simulation
+        async function initializeExtensionProtection() {
+            const extensionStatusDiv = document.getElementById('extensionStatus');
+            const statusDiv = document.getElementById('status');
+            const buyBtn = document.getElementById('buyBtn');
+            
+            try {
+                // Step 1: Simulate extension environment
+                extensionStatusDiv.innerHTML = '🔧 Installing simulated extension environment...';
+                simulateExtensionEnvironment();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Step 2: Setup request interception
+                extensionStatusDiv.innerHTML = '🛡️ Configuring extension request interception...';
+                setupExtensionInterception();
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Step 3: Setup DOM control
+                extensionStatusDiv.innerHTML = '🔧 Activating extension DOM control...';
+                setupExtensionDOMControl();
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Step 4: Advanced navigator spoofing (extension-style)
+                Object.defineProperties(navigator, {
+                    userAgent: {
+                        value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                        configurable: false
+                    },
+                    platform: {
+                        value: 'Win32',
+                        configurable: false
+                    },
+                    maxTouchPoints: {
+                        value: 0,
+                        configurable: false
+                    }
+                });
+                
+                extensionStatusDiv.innerHTML = '✅ Extension simulation active (ID: auralo-anti-mobile-discrimination)';
+                statusDiv.innerHTML = '🔧 EXTENSION-STYLE PROTECTION ACTIVE';
+                statusDiv.className = 'status success';
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC with Extension Protection (€19.50)';
+                extensionActive = true;
+                
+                // Send extension activation message
+                if (window.chrome && window.chrome.runtime) {
+                    window.chrome.runtime.sendMessage({
+                        action: 'protection_activated',
+                        timestamp: Date.now()
+                    });
+                }
+                
+            } catch (error) {
+                console.error('❌ Extension simulation failed:', error);
+                extensionStatusDiv.innerHTML = '⚠️ Extension simulation failed';
+                statusDiv.innerHTML = '⚠️ Protection failed - basic fallback active';
+                statusDiv.className = 'status error';
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC with Basic Protection (€19.50)';
+            }
+        }
+        
+        // Launch protected SimpleSwap with extension behavior
+        function launchExtensionProtectedSimpleSwap() {
+            if (!extensionActive) {
+                alert('⚠️ Extension simulation not active! May not prevent mobile markup.');
+            }
+            
+            // Extension-style URL modification
+            const params = new URLSearchParams({
+                from: 'eur-eur',
+                to: 'pol-matic',
+                amount: '19.50',
+                provider: 'mercuryo',
+                extension_source: 'auralo_protection'
+            });
+            
+            const url = `https://simpleswap.io/exchange?${params.toString()}`;
+            
+            console.log('🚀 Launching SimpleSwap with extension-style protection');
+            
+            // Simulate extension tab opening
+            if (window.chrome && window.chrome.tabs) {
+                window.chrome.tabs.query({ active: true }, (tabs) => {
+                    console.log('🔧 Extension opening new tab');
+                });
+            }
+            
+            window.open(url, '_blank');
+        }
+        
+        // Initialize on load
+        window.addEventListener('load', initializeExtensionProtection);
+        document.getElementById('buyBtn').addEventListener('click', launchExtensionProtectedSimpleSwap);
+    </script>
+</body>
+</html>

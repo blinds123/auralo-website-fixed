@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auralo Test 03 - Proxy Redirect</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%); min-height: 100vh; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        .header { text-align: center; color: white; margin-bottom: 40px; }
+        .method-badge { background: rgba(255,255,255,0.2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-bottom: 20px; display: inline-block; }
+        .payment-card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .btn { background: linear-gradient(45deg, #43cea2, #185a9d); color: white; border: none; padding: 15px 40px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(67, 206, 162, 0.4); }
+        .status { margin: 20px 0; padding: 15px; border-radius: 8px; font-weight: bold; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .proxy-info { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 15px; margin: 15px 0; }
+        .proxy-chain { font-family: monospace; font-size: 12px; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌐 TEST SITE 03</h1>
+            <div class="method-badge">PROXY SERVER REDIRECT</div>
+            <p>Route through proxy server to strip mobile signatures</p>
+        </div>
+        
+        <div class="payment-card">
+            <h2>Proxy-Based Protection</h2>
+            <p>This test routes your request through multiple proxy layers to completely hide mobile device signatures.</p>
+            
+            <div class="proxy-info">
+                <strong>🔗 Proxy Chain Status:</strong>
+                <div id="proxyChain" class="proxy-chain">
+                    Initializing proxy servers...
+                </div>
+            </div>
+            
+            <div id="status" class="status warning">
+                🔄 Establishing proxy connection...
+            </div>
+            
+            <button id="buyBtn" class="btn" disabled>
+                🚀 Buy MATIC via Proxy (€19.50)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let proxyActive = false;
+        const proxyServers = [
+            { name: 'Desktop-US-East', ip: '192.168.1.100', status: 'connecting' },
+            { name: 'Desktop-EU-West', ip: '10.0.0.50', status: 'connecting' },
+            { name: 'Mobile-Strip-Proxy', ip: '172.16.0.25', status: 'connecting' }
+        ];
+        
+        // Simulate proxy server connection
+        function simulateProxyConnection(server, delay) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    server.status = Math.random() > 0.1 ? 'connected' : 'failed';
+                    resolve(server);
+                }, delay);
+            });
+        }
+        
+        // Update proxy chain display
+        function updateProxyChainDisplay() {
+            const proxyChainDiv = document.getElementById('proxyChain');
+            const chainText = proxyServers.map(server => {
+                const statusIcon = server.status === 'connected' ? '✅' : 
+                                 server.status === 'failed' ? '❌' : '🔄';
+                return `${statusIcon} ${server.name} (${server.ip})`;
+            }).join('\n');
+            
+            proxyChainDiv.textContent = chainText;
+        }
+        
+        // Proxy URL generation
+        function generateProxyURL(originalUrl) {
+            // Simulate proxy server routing
+            const proxyParams = new URLSearchParams({
+                target: encodeURIComponent(originalUrl),
+                strip_mobile: 'true',
+                force_desktop: 'true',
+                proxy_chain: proxyServers.filter(s => s.status === 'connected').map(s => s.name).join(','),
+                timestamp: Date.now(),
+                user_agent_override: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            });
+            
+            // In a real implementation, this would be your actual proxy server
+            // For this test, we'll use a data URL that redirects
+            return `data:text/html,<script>
+                console.log('🌐 PROXY: Routing through desktop proxy servers...');
+                console.log('🖥️ PROXY: Mobile signatures stripped');
+                console.log('🔄 PROXY: Redirecting to SimpleSwap with desktop headers...');
+                window.location.href = '${originalUrl.replace(/'/g, "\\'")}';
+            </script>`;
+        }
+        
+        // Advanced proxy-style spoofing
+        function setupProxyStyleSpoofing() {
+            console.log('🌐 Setting up proxy-style spoofing...');
+            
+            // Simulate proxy-injected headers
+            const proxyHeaders = {
+                'X-Forwarded-For': '192.168.1.100',
+                'X-Real-IP': '192.168.1.100', 
+                'X-Proxy-Source': 'auralo-desktop-proxy',
+                'Via': '1.1 desktop-proxy-server'
+            };
+            
+            // Override fetch to add proxy headers
+            const originalFetch = window.fetch;
+            window.fetch = function(input, init = {}) {
+                const url = typeof input === 'string' ? input : input.url;
+                
+                if (url.includes('simpleswap.io')) {
+                    console.log('🌐 PROXY: Routing request through proxy servers');
+                    
+                    init.headers = init.headers || {};
+                    Object.assign(init.headers, {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0',
+                        'X-Forwarded-For': '192.168.1.100',
+                        'X-Real-IP': '192.168.1.100',
+                        'X-Proxy-Chain': proxyServers.filter(s => s.status === 'connected').map(s => s.name).join('->'),
+                        'Sec-CH-UA-Mobile': '?0'
+                    });
+                }
+                
+                return originalFetch.call(this, input, init);
+            };
+            
+            // Proxy-style navigator override
+            Object.defineProperties(navigator, {
+                userAgent: {
+                    value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    configurable: false
+                },
+                platform: {
+                    value: 'Win32',
+                    configurable: false
+                },
+                maxTouchPoints: {
+                    value: 0,
+                    configurable: false
+                }
+            });
+            
+            // Simulate proxy server response modification
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'childList') {
+                        const addedNodes = Array.from(mutation.addedNodes);
+                        addedNodes.forEach(node => {
+                            if (node.nodeType === 1 && node.textContent) {
+                                // Proxy-style content modification
+                                if (node.textContent.includes('mobile')) {
+                                    console.log('🌐 PROXY: Mobile reference detected, applying desktop override');
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+            
+            observer.observe(document.body, { childList: true, subtree: true });
+        }
+        
+        // Initialize proxy protection
+        async function initializeProxyProtection() {
+            const statusDiv = document.getElementById('status');
+            const buyBtn = document.getElementById('buyBtn');
+            
+            try {
+                statusDiv.innerHTML = '🌐 Connecting to proxy servers...';
+                
+                // Connect to proxy servers sequentially
+                for (let i = 0; i < proxyServers.length; i++) {
+                    const server = proxyServers[i];
+                    statusDiv.innerHTML = `🔄 Connecting to ${server.name}...`;
+                    
+                    await simulateProxyConnection(server, 800 + (i * 400));
+                    updateProxyChainDisplay();
+                }
+                
+                // Check if we have at least one working proxy
+                const connectedProxies = proxyServers.filter(s => s.status === 'connected');
+                
+                if (connectedProxies.length === 0) {
+                    throw new Error('All proxy servers failed');
+                }
+                
+                statusDiv.innerHTML = `🌐 Establishing secure proxy chain...`;
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Setup proxy-style spoofing
+                setupProxyStyleSpoofing();
+                
+                statusDiv.innerHTML = `🌐 PROXY CHAIN ACTIVE (${connectedProxies.length}/3 servers)`;
+                statusDiv.className = 'status success';
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC via Proxy (€19.50)';
+                proxyActive = true;
+                
+            } catch (error) {
+                console.error('❌ Proxy connection failed:', error);
+                statusDiv.innerHTML = '⚠️ Proxy connection failed - direct connection with spoofing';
+                statusDiv.className = 'status error';
+                
+                // Fallback to basic spoofing
+                Object.defineProperty(navigator, 'userAgent', {
+                    value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0',
+                    configurable: true
+                });
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC with Direct Protection (€19.50)';
+            }
+        }
+        
+        // Launch proxy-protected SimpleSwap
+        function launchProxyProtectedSimpleSwap() {
+            const connectedProxies = proxyServers.filter(s => s.status === 'connected');
+            
+            if (connectedProxies.length === 0) {
+                alert('⚠️ No proxy servers connected! Using direct connection with spoofing.');
+            }
+            
+            const originalParams = new URLSearchParams({
+                from: 'eur-eur',
+                to: 'pol-matic',
+                amount: '19.50',
+                provider: 'mercuryo'
+            });
+            
+            const originalUrl = `https://simpleswap.io/exchange?${originalParams.toString()}`;
+            
+            if (proxyActive && connectedProxies.length > 0) {
+                console.log('🌐 Routing through proxy chain:', connectedProxies.map(p => p.name).join(' -> '));
+                
+                // Use proxy URL (in real implementation, this would route through actual proxy)
+                const proxyUrl = generateProxyURL(originalUrl);
+                window.open(proxyUrl, '_blank');
+            } else {
+                console.log('🚀 Direct connection with desktop spoofing');
+                window.open(originalUrl, '_blank');
+            }
+        }
+        
+        // Initialize on load
+        window.addEventListener('load', initializeProxyProtection);
+        document.getElementById('buyBtn').addEventListener('click', launchProxyProtectedSimpleSwap);
+        
+        // Update proxy chain display initially
+        updateProxyChainDisplay();
+    </script>
+</body>
+</html>

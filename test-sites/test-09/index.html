@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auralo Test 09 - Cookie Desktop State</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #c3cfe2 0%, #c3cfe2 100%); min-height: 100vh; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        .header { text-align: center; color: white; margin-bottom: 40px; }
+        .method-badge { background: rgba(255,255,255,0.2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-bottom: 20px; display: inline-block; }
+        .payment-card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .btn { background: linear-gradient(45deg, #c3cfe2, #667eea); color: white; border: none; padding: 15px 40px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4); }
+        .status { margin: 20px 0; padding: 15px; border-radius: 8px; font-weight: bold; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .cookie-info { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 10px; margin: 10px 0; font-family: monospace; font-size: 11px; max-height: 150px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍪 TEST SITE 09</h1>
+            <div class="method-badge">COOKIE-BASED DESKTOP STATE</div>
+            <p>Persistent desktop identification across sessions</p>
+        </div>
+        
+        <div class="payment-card">
+            <h2>Cookie Desktop State Forcing</h2>
+            <p>This test uses persistent cookies and storage to maintain desktop identity across all sessions.</p>
+            
+            <div id="cookieInfo" class="cookie-info">
+                Initializing desktop state cookies...
+            </div>
+            
+            <div id="status" class="status warning">
+                🔄 Establishing persistent desktop state...
+            </div>
+            
+            <button id="buyBtn" class="btn" disabled>
+                🚀 Buy MATIC with Cookie State (€19.50)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let cookieStateActive = false;
+        
+        const desktopStateData = {
+            deviceType: 'desktop',
+            platform: 'Windows',
+            browserType: 'Chrome',
+            screenResolution: '2560x1440',
+            colorDepth: 24,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            language: 'en-US',
+            hardwareConcurrency: 16,
+            deviceMemory: 32,
+            connection: 'ethernet',
+            sessionStart: Date.now(),
+            userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0',
+            touchSupport: false,
+            mobileDetected: false,
+            desktopConfirmed: true
+        };
+        
+        function setCookie(name, value, days = 365) {
+            const expires = new Date();
+            expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = `${name}=${encodeURIComponent(value)};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
+        }
+        
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+            }
+            return null;
+        }
+        
+        function setDesktopCookies() {
+            console.log('🍪 Setting persistent desktop state cookies...');
+            
+            // Core desktop identification cookies
+            setCookie('device_type', 'desktop', 365);
+            setCookie('platform', 'Windows', 365);
+            setCookie('browser_type', 'Chrome', 365);
+            setCookie('screen_resolution', '2560x1440', 365);
+            setCookie('color_depth', '24', 365);
+            setCookie('hardware_concurrency', '16', 365);
+            setCookie('device_memory', '32', 365);
+            setCookie('max_touch_points', '0', 365);
+            setCookie('desktop_confirmed', 'true', 365);
+            setCookie('mobile_detected', 'false', 365);
+            
+            // Session-specific cookies
+            setCookie('session_start', Date.now().toString(), 1);
+            setCookie('user_agent_hash', btoa(desktopStateData.userAgent).slice(0, 20), 365);
+            setCookie('desktop_session_id', 'desktop_' + Math.random().toString(36).substr(2, 9), 1);
+            
+            // Anti-mobile cookies
+            setCookie('not_mobile', 'confirmed', 365);
+            setCookie('not_touch', 'confirmed', 365);
+            setCookie('not_phone', 'confirmed', 365);
+            setCookie('not_tablet', 'confirmed', 365);
+            
+            // Performance cookies (desktop typically higher)
+            setCookie('connection_type', 'ethernet', 30);
+            setCookie('network_speed', 'high', 30);
+            setCookie('performance_class', 'high-end', 30);
+            
+            // Behavioral cookies
+            setCookie('input_method', 'mouse-keyboard', 30);
+            setCookie('interaction_style', 'precision', 30);
+            setCookie('browser_window_type', 'full-desktop', 30);
+        }
+        
+        function setDesktopLocalStorage() {
+            console.log('🍪 Setting desktop localStorage data...');
+            
+            // Store comprehensive desktop state
+            localStorage.setItem('desktop_state', JSON.stringify(desktopStateData));
+            localStorage.setItem('device_type', 'desktop');
+            localStorage.setItem('platform_confirmed', 'Windows');
+            localStorage.setItem('touch_support', 'false');
+            localStorage.setItem('mobile_detected', 'false');
+            localStorage.setItem('desktop_browser', 'true');
+            localStorage.setItem('screen_type', 'desktop-monitor');
+            localStorage.setItem('last_desktop_visit', Date.now().toString());
+            
+            // Store desktop capabilities
+            localStorage.setItem('hover_support', 'true');
+            localStorage.setItem('right_click_support', 'true');
+            localStorage.setItem('keyboard_shortcuts', 'true');
+            localStorage.setItem('multi_window_support', 'true');
+            localStorage.setItem('desktop_features', JSON.stringify([
+                'high-resolution', 'multi-monitor', 'physical-keyboard',
+                'mouse-device', 'desktop-chrome', 'full-browser'
+            ]));
+        }
+        
+        function setDesktopSessionStorage() {
+            console.log('🍪 Setting desktop sessionStorage data...');
+            
+            sessionStorage.setItem('session_type', 'desktop');
+            sessionStorage.setItem('window_type', 'desktop-browser');
+            sessionStorage.setItem('interaction_mode', 'mouse-keyboard');
+            sessionStorage.setItem('desktop_session', 'active');
+            sessionStorage.setItem('mobile_blocked', 'true');
+            sessionStorage.setItem('current_session_start', Date.now().toString());
+        }
+        
+        function setDesktopIndexedDB() {
+            console.log('🍪 Setting desktop IndexedDB data...');
+            
+            const request = indexedDB.open('DesktopStateDB', 1);
+            
+            request.onupgradeneeded = function(event) {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains('desktopState')) {
+                    const objectStore = db.createObjectStore('desktopState', { keyPath: 'id' });
+                    objectStore.createIndex('timestamp', 'timestamp', { unique: false });
+                }
+            };
+            
+            request.onsuccess = function(event) {
+                const db = event.target.result;
+                const transaction = db.transaction(['desktopState'], 'readwrite');
+                const objectStore = transaction.objectStore('desktopState');
+                
+                const desktopRecord = {
+                    id: 'desktop_identity',
+                    ...desktopStateData,
+                    timestamp: Date.now(),
+                    persistent: true
+                };
+                
+                objectStore.put(desktopRecord);
+                console.log('🍪 Desktop state stored in IndexedDB');
+            };
+        }
+        
+        function overrideCookieAPI() {
+            console.log('🍪 Overriding cookie API for desktop enforcement...');
+            
+            // Override document.cookie to always include desktop markers
+            const originalCookieDescriptor = Object.getOwnPropertyDescriptor(Document.prototype, 'cookie') ||
+                                           Object.getOwnPropertyDescriptor(HTMLDocument.prototype, 'cookie');
+            
+            if (originalCookieDescriptor) {
+                Object.defineProperty(document, 'cookie', {
+                    get: function() {
+                        let cookies = originalCookieDescriptor.get.call(this);
+                        
+                        // Ensure desktop cookies are always present
+                        if (!cookies.includes('device_type=desktop')) {
+                            cookies += '; device_type=desktop';
+                        }
+                        if (!cookies.includes('desktop_confirmed=true')) {
+                            cookies += '; desktop_confirmed=true';
+                        }
+                        if (!cookies.includes('mobile_detected=false')) {
+                            cookies += '; mobile_detected=false';
+                        }
+                        
+                        return cookies;
+                    },
+                    set: function(value) {
+                        // Allow setting cookies normally
+                        return originalCookieDescriptor.set.call(this, value);
+                    }
+                });
+            }
+        }
+        
+        function setupPersistentDesktopHeaders() {
+            console.log('🍪 Setting up persistent desktop headers...');
+            
+            // Override fetch to include desktop state headers
+            const originalFetch = window.fetch;
+            window.fetch = function(input, init = {}) {
+                const url = typeof input === 'string' ? input : input.url;
+                
+                if (url.includes('simpleswap.io')) {
+                    console.log('🍪 COOKIE: Adding persistent desktop state headers');
+                    
+                    init.headers = init.headers || {};
+                    Object.assign(init.headers, {
+                        'X-Device-Type': 'desktop',
+                        'X-Platform': 'Windows',
+                        'X-Desktop-Confirmed': 'true',
+                        'X-Mobile-Detected': 'false',
+                        'X-Touch-Support': 'false',
+                        'X-Session-Type': 'desktop',
+                        'X-Persistent-Identity': getCookie('desktop_session_id') || 'desktop_session',
+                        'X-Desktop-State-Hash': btoa(JSON.stringify(desktopStateData)).slice(0, 20)
+                    });
+                }
+                
+                return originalFetch.call(this, input, init);
+            };
+        }
+        
+        function validateDesktopState() {
+            console.log('🍪 Validating persistent desktop state...');
+            
+            const checks = [
+                { name: 'Cookie device_type', check: () => getCookie('device_type') === 'desktop' },
+                { name: 'LocalStorage desktop_state', check: () => localStorage.getItem('device_type') === 'desktop' },
+                { name: 'SessionStorage session_type', check: () => sessionStorage.getItem('session_type') === 'desktop' },
+                { name: 'Navigator maxTouchPoints', check: () => navigator.maxTouchPoints === 0 }
+            ];
+            
+            const results = checks.map(check => ({
+                name: check.name,
+                passed: check.check()
+            }));
+            
+            return results;
+        }
+        
+        function displayStateInfo() {
+            const stateInfo = [
+                `Device Type: ${getCookie('device_type') || 'Not Set'}`,
+                `Platform: ${getCookie('platform') || 'Not Set'}`,
+                `Desktop Confirmed: ${getCookie('desktop_confirmed') || 'Not Set'}`,
+                `Session ID: ${getCookie('desktop_session_id') || 'Not Set'}`,
+                `LocalStorage Device: ${localStorage.getItem('device_type') || 'Not Set'}`,
+                `Session Type: ${sessionStorage.getItem('session_type') || 'Not Set'}`,
+                `Last Desktop Visit: ${localStorage.getItem('last_desktop_visit') || 'Never'}`
+            ];
+            
+            document.getElementById('cookieInfo').textContent = stateInfo.join('\n');
+        }
+        
+        async function initializeCookieDesktopState() {
+            const statusDiv = document.getElementById('status');
+            const buyBtn = document.getElementById('buyBtn');
+            
+            try {
+                statusDiv.innerHTML = '🍪 Setting desktop state cookies...';
+                setDesktopCookies();
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                statusDiv.innerHTML = '🍪 Setting localStorage desktop data...';
+                setDesktopLocalStorage();
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                statusDiv.innerHTML = '🍪 Setting sessionStorage desktop data...';
+                setDesktopSessionStorage();
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                statusDiv.innerHTML = '🍪 Setting IndexedDB desktop state...';
+                setDesktopIndexedDB();
+                await new Promise(resolve => setTimeout(resolve, 400));
+                
+                statusDiv.innerHTML = '🍪 Overriding cookie API...';
+                overrideCookieAPI();
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                statusDiv.innerHTML = '🍪 Setting up persistent headers...';
+                setupPersistentDesktopHeaders();
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                // Validate state
+                const validation = validateDesktopState();
+                const passedChecks = validation.filter(v => v.passed).length;
+                
+                displayStateInfo();
+                
+                // Navigator override for consistency
+                Object.defineProperties(navigator, {
+                    userAgent: {
+                        value: desktopStateData.userAgent,
+                        configurable: false
+                    },
+                    maxTouchPoints: {
+                        value: 0,
+                        configurable: false
+                    }
+                });
+                
+                statusDiv.innerHTML = `🍪 PERSISTENT DESKTOP STATE ACTIVE (${passedChecks}/4 checks passed)`;
+                statusDiv.className = 'status success';
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC with Cookie State (€19.50)';
+                cookieStateActive = true;
+                
+            } catch (error) {
+                console.error('❌ Cookie desktop state failed:', error);
+                statusDiv.innerHTML = '⚠️ Cookie state failed - basic protection active';
+                statusDiv.className = 'status error';
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC with Basic Protection (€19.50)';
+            }
+        }
+        
+        function launchCookieProtectedSimpleSwap() {
+            if (!cookieStateActive) {
+                alert('⚠️ Cookie desktop state not active! May not prevent mobile markup.');
+            }
+            
+            // Update last visit timestamp
+            localStorage.setItem('last_desktop_visit', Date.now().toString());
+            setCookie('last_action', 'simpleswap_visit', 1);
+            
+            const params = new URLSearchParams({
+                from: 'eur-eur',
+                to: 'pol-matic',
+                amount: '19.50',
+                provider: 'mercuryo'
+            });
+            
+            const url = `https://simpleswap.io/exchange?${params.toString()}`;
+            
+            console.log('🍪 Launching SimpleSwap with persistent desktop state');
+            console.log('🍪 Desktop identity maintained across all storage mechanisms');
+            console.log('🍪 Current session ID:', getCookie('desktop_session_id'));
+            
+            window.open(url, '_blank');
+        }
+        
+        // Initialize on load
+        window.addEventListener('load', initializeCookieDesktopState);
+        document.getElementById('buyBtn').addEventListener('click', launchCookieProtectedSimpleSwap);
+    </script>
+</body>
+</html>

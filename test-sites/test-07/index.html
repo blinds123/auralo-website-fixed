@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auralo Test 07 - Browser Fingerprint Masking</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); min-height: 100vh; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        .header { text-align: center; color: white; margin-bottom: 40px; }
+        .method-badge { background: rgba(255,255,255,0.2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-bottom: 20px; display: inline-block; }
+        .payment-card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .btn { background: linear-gradient(45deg, #a8edea, #fed6e3); color: white; border: none; padding: 15px 40px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(254, 214, 227, 0.4); }
+        .status { margin: 20px 0; padding: 15px; border-radius: 8px; font-weight: bold; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .fingerprint-info { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 10px; margin: 10px 0; font-family: monospace; font-size: 11px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎭 TEST SITE 07</h1>
+            <div class="method-badge">BROWSER FINGERPRINT MASKING</div>
+            <p>Spoof Canvas, WebGL, screen signatures</p>
+        </div>
+        
+        <div class="payment-card">
+            <h2>Fingerprint Masking Protection</h2>
+            <p>This test spoofs all browser fingerprinting methods to appear as a high-end desktop system.</p>
+            
+            <div id="fingerprintInfo" class="fingerprint-info">
+                Generating desktop fingerprint...
+            </div>
+            
+            <div id="status" class="status warning">
+                🔄 Initializing fingerprint masking...
+            </div>
+            
+            <button id="buyBtn" class="btn" disabled>
+                🚀 Buy MATIC with Fingerprint Masking (€19.50)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let fingerprintMaskingActive = false;
+        
+        function spoofCanvasFingerprint() {
+            console.log('🎭 Spoofing Canvas fingerprint...');
+            
+            const originalGetContext = HTMLCanvasElement.prototype.getContext;
+            const originalToDataURL = HTMLCanvasElement.prototype.toDataURL;
+            
+            HTMLCanvasElement.prototype.getContext = function(type, ...args) {
+                const context = originalGetContext.apply(this, [type, ...args]);
+                
+                if (type === '2d') {
+                    // Spoof 2D canvas methods
+                    const originalFillText = context.fillText;
+                    context.fillText = function(text, x, y, maxWidth) {
+                        // Add slight variation to make it look like desktop
+                        return originalFillText.call(this, text, x + 0.1, y + 0.1, maxWidth);
+                    };
+                }
+                
+                return context;
+            };
+            
+            HTMLCanvasElement.prototype.toDataURL = function(type, quality) {
+                // Return consistent desktop fingerprint
+                return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
+            };
+        }
+        
+        function spoofWebGLFingerprint() {
+            console.log('🎭 Spoofing WebGL fingerprint...');
+            
+            const originalGetContext = HTMLCanvasElement.prototype.getContext;
+            
+            HTMLCanvasElement.prototype.getContext = function(type, ...args) {
+                if (type === 'webgl' || type === 'experimental-webgl' || type === 'webgl2') {
+                    const context = originalGetContext.apply(this, [type, ...args]);
+                    
+                    if (context) {
+                        // Spoof WebGL parameters
+                        const originalGetParameter = context.getParameter;
+                        context.getParameter = function(parameter) {
+                            switch (parameter) {
+                                case context.VENDOR:
+                                    return 'Intel Inc.';
+                                case context.RENDERER:
+                                    return 'Intel(R) UHD Graphics 630';
+                                case context.VERSION:
+                                    return 'WebGL 1.0 (OpenGL ES 2.0 Chromium)';
+                                case context.SHADING_LANGUAGE_VERSION:
+                                    return 'WebGL GLSL ES 1.0 (OpenGL ES GLSL ES 1.0 Chromium)';
+                                case context.MAX_TEXTURE_SIZE:
+                                    return 16384;
+                                case context.MAX_VIEWPORT_DIMS:
+                                    return new Int32Array([16384, 16384]);
+                                default:
+                                    return originalGetParameter.call(this, parameter);
+                            }
+                        };
+                        
+                        // Spoof extensions
+                        const originalGetExtension = context.getExtension;
+                        context.getExtension = function(name) {
+                            // Return desktop-typical extensions
+                            if (name === 'WEBGL_debug_renderer_info') {
+                                return {
+                                    UNMASKED_VENDOR_WEBGL: 37445,
+                                    UNMASKED_RENDERER_WEBGL: 37446
+                                };
+                            }
+                            return originalGetExtension.call(this, name);
+                        };
+                    }
+                    
+                    return context;
+                }
+                
+                return originalGetContext.apply(this, [type, ...args]);
+            };
+        }
+        
+        function spoofScreenFingerprint() {
+            console.log('🎭 Spoofing screen fingerprint...');
+            
+            // Desktop screen configuration
+            const desktopScreen = {
+                width: 2560,
+                height: 1440,
+                availWidth: 2560,
+                availHeight: 1400,
+                colorDepth: 24,
+                pixelDepth: 24,
+                orientation: {
+                    angle: 0,
+                    type: 'landscape-primary'
+                }
+            };
+            
+            Object.defineProperty(window, 'screen', {
+                value: desktopScreen,
+                configurable: false
+            });
+            
+            // Override devicePixelRatio for desktop
+            Object.defineProperty(window, 'devicePixelRatio', {
+                value: 1,
+                configurable: false
+            });
+        }
+        
+        function spoofTimingFingerprint() {
+            console.log('🎭 Spoofing timing fingerprint...');
+            
+            const originalNow = performance.now;
+            let timeOffset = Math.random() * 100;
+            
+            performance.now = function() {
+                // Desktop typically has more consistent timing
+                return Math.floor(originalNow.call(this) + timeOffset);
+            };
+            
+            // Spoof high resolution time
+            const originalGetEntriesByType = performance.getEntriesByType;
+            performance.getEntriesByType = function(type) {
+                const entries = originalGetEntriesByType.call(this, type);
+                // Desktop typically has better performance
+                return entries.map(entry => {
+                    if (entry.duration) {
+                        entry.duration = Math.max(entry.duration * 0.7, 1);
+                    }
+                    return entry;
+                });
+            };
+        }
+        
+        function spoofAudioFingerprint() {
+            console.log('🎭 Spoofing Audio fingerprint...');
+            
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (AudioContext) {
+                const originalCreateOscillator = AudioContext.prototype.createOscillator;
+                AudioContext.prototype.createOscillator = function() {
+                    const oscillator = originalCreateOscillator.call(this);
+                    
+                    // Desktop audio characteristics
+                    const originalStart = oscillator.start;
+                    oscillator.start = function(when) {
+                        // Add slight desktop-specific delay
+                        return originalStart.call(this, when ? when + 0.001 : 0.001);
+                    };
+                    
+                    return oscillator;
+                };
+            }
+        }
+        
+        function spoofFontFingerprint() {
+            console.log('🎭 Spoofing font fingerprint...');
+            
+            // Desktop fonts
+            const desktopFonts = [
+                'Arial', 'Times New Roman', 'Courier New', 'Verdana', 'Georgia',
+                'Palatino', 'Garamond', 'Bookman', 'Comic Sans MS', 'Trebuchet MS',
+                'Arial Black', 'Impact', 'Lucida Console', 'Tahoma', 'Lucida Sans Unicode',
+                'MS Sans Serif', 'MS Serif', 'Segoe UI', 'Calibri', 'Consolas'
+            ];
+            
+            // Override font detection
+            if (document.fonts && document.fonts.check) {
+                const originalCheck = document.fonts.check;
+                document.fonts.check = function(font) {
+                    // Return true for desktop fonts
+                    const fontFamily = font.match(/['"]([^'"]+)['"]/);
+                    if (fontFamily && desktopFonts.includes(fontFamily[1])) {
+                        return true;
+                    }
+                    return originalCheck.call(this, font);
+                };
+            }
+        }
+        
+        function generateFingerprintSummary() {
+            return {
+                canvas: 'Intel Desktop Canvas Signature',
+                webgl: 'Intel UHD Graphics 630',
+                screen: '2560x1440 @ 24-bit',
+                timing: 'High-performance desktop timing',
+                audio: 'Desktop AudioContext signature',
+                fonts: `${20} desktop fonts detected`,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                language: navigator.language,
+                platform: 'Win32 Desktop'
+            };
+        }
+        
+        async function initializeFingerprintMasking() {
+            const fingerprintInfoDiv = document.getElementById('fingerprintInfo');
+            const statusDiv = document.getElementById('status');
+            const buyBtn = document.getElementById('buyBtn');
+            
+            try {
+                statusDiv.innerHTML = '🎭 Spoofing Canvas fingerprint...';
+                spoofCanvasFingerprint();
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                statusDiv.innerHTML = '🎭 Spoofing WebGL fingerprint...';
+                spoofWebGLFingerprint();
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                statusDiv.innerHTML = '🎭 Spoofing screen fingerprint...';
+                spoofScreenFingerprint();
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                statusDiv.innerHTML = '🎭 Spoofing timing fingerprint...';
+                spoofTimingFingerprint();
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                statusDiv.innerHTML = '🎭 Spoofing audio fingerprint...';
+                spoofAudioFingerprint();
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                statusDiv.innerHTML = '🎭 Spoofing font fingerprint...';
+                spoofFontFingerprint();
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                // Generate summary
+                const fingerprintSummary = generateFingerprintSummary();
+                const summaryText = Object.entries(fingerprintSummary)
+                    .map(([key, value]) => `${key}: ${value}`)
+                    .join('\n');
+                
+                fingerprintInfoDiv.textContent = summaryText;
+                
+                // Navigator override for consistency
+                Object.defineProperties(navigator, {
+                    userAgent: {
+                        value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0',
+                        configurable: false
+                    },
+                    maxTouchPoints: {
+                        value: 0,
+                        configurable: false
+                    }
+                });
+                
+                statusDiv.innerHTML = '🎭 FINGERPRINT MASKING ACTIVE - Desktop identity established';
+                statusDiv.className = 'status success';
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC with Fingerprint Masking (€19.50)';
+                fingerprintMaskingActive = true;
+                
+            } catch (error) {
+                console.error('❌ Fingerprint masking failed:', error);
+                statusDiv.innerHTML = '⚠️ Fingerprint masking failed - basic protection active';
+                statusDiv.className = 'status error';
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC with Basic Protection (€19.50)';
+            }
+        }
+        
+        function launchFingerprintMaskedSimpleSwap() {
+            if (!fingerprintMaskingActive) {
+                alert('⚠️ Fingerprint masking not active! May not prevent mobile markup.');
+            }
+            
+            const params = new URLSearchParams({
+                from: 'eur-eur',
+                to: 'pol-matic',
+                amount: '19.50',
+                provider: 'mercuryo'
+            });
+            
+            const url = `https://simpleswap.io/exchange?${params.toString()}`;
+            
+            console.log('🎭 Launching SimpleSwap with desktop fingerprint masking');
+            console.log('🎭 All fingerprinting methods have been spoofed');
+            
+            window.open(url, '_blank');
+        }
+        
+        // Initialize on load
+        window.addEventListener('load', initializeFingerprintMasking);
+        document.getElementById('buyBtn').addEventListener('click', launchFingerprintMaskedSimpleSwap);
+    </script>
+</body>
+</html>

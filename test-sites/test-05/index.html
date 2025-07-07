@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auralo Test 05 - CSS Media Query Hijacking</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        .header { text-align: center; color: white; margin-bottom: 40px; }
+        .method-badge { background: rgba(255,255,255,0.2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-bottom: 20px; display: inline-block; }
+        .payment-card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .btn { background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; padding: 15px 40px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(118, 75, 162, 0.4); }
+        .status { margin: 20px 0; padding: 15px; border-radius: 8px; font-weight: bold; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .css-override { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 10px; margin: 10px 0; font-family: monospace; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 TEST SITE 05</h1>
+            <div class="method-badge">CSS MEDIA QUERY HIJACKING</div>
+            <p>Override all mobile CSS detection and viewport</p>
+        </div>
+        
+        <div class="payment-card">
+            <h2>CSS Media Query Override</h2>
+            <p>This test hijacks all CSS media queries to force desktop layout and prevent mobile CSS detection.</p>
+            
+            <div id="cssOverrides" class="css-override">
+                Injecting CSS overrides: 0 rules applied
+            </div>
+            
+            <div id="status" class="status warning">
+                🔄 Preparing CSS hijacking system...
+            </div>
+            
+            <button id="buyBtn" class="btn" disabled>
+                🚀 Buy MATIC with CSS Override (€19.50)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let cssHijackingActive = false;
+        
+        function injectCSSOverrides() {
+            console.log('🎨 Injecting aggressive CSS media query overrides...');
+            
+            const cssOverrides = `
+                /* FORCE DESKTOP MEDIA QUERIES */
+                @media (max-width: 9999px) {
+                    * {
+                        /* Force desktop behavior */
+                        pointer-events: auto !important;
+                        cursor: default !important;
+                        -webkit-user-select: text !important;
+                        -moz-user-select: text !important;
+                        user-select: text !important;
+                        -webkit-touch-callout: none !important;
+                        -webkit-tap-highlight-color: transparent !important;
+                    }
+                    
+                    html {
+                        /* Force desktop viewport */
+                        min-width: 1024px !important;
+                        overflow-x: auto !important;
+                    }
+                    
+                    body {
+                        /* Desktop-only styles */
+                        min-width: 1024px !important;
+                        touch-action: none !important;
+                    }
+                }
+                
+                /* OVERRIDE MOBILE MEDIA QUERIES */
+                @media (max-width: 768px) {
+                    * {
+                        /* Cancel mobile styles */
+                        width: auto !important;
+                        min-width: auto !important;
+                        max-width: none !important;
+                        flex-direction: row !important;
+                        display: inline-block !important;
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    * {
+                        /* Cancel small mobile styles */
+                        font-size: inherit !important;
+                        padding: inherit !important;
+                        margin: inherit !important;
+                    }
+                }
+                
+                /* FORCE DESKTOP POINTER DETECTION */
+                @media (pointer: coarse) {
+                    * {
+                        /* Override touch pointer */
+                        pointer-events: auto !important;
+                        cursor: default !important;
+                    }
+                }
+                
+                @media (hover: none) {
+                    * {
+                        /* Force hover capability */
+                        transition: all 0.3s ease !important;
+                    }
+                }
+                
+                /* VIEWPORT META OVERRIDE */
+                meta[name="viewport"] {
+                    content: "width=1024, initial-scale=1.0" !important;
+                }
+                
+                /* ANTI-MOBILE CLASSES */
+                .mobile, [class*="mobile"], [id*="mobile"] {
+                    display: none !important;
+                }
+                
+                .desktop, [class*="desktop"], [id*="desktop"] {
+                    display: block !important;
+                }
+                
+                /* FORCE DESKTOP FORM ELEMENTS */
+                input, select, textarea, button {
+                    -webkit-appearance: none !important;
+                    -moz-appearance: none !important;
+                    appearance: none !important;
+                    font-size: 16px !important; /* Prevent zoom on iOS */
+                }
+            `;
+            
+            const styleElement = document.createElement('style');
+            styleElement.textContent = cssOverrides;
+            document.head.appendChild(styleElement);
+            
+            return cssOverrides.split('\n').filter(line => line.trim()).length;
+        }
+        
+        function overrideViewportMeta() {
+            console.log('🎨 Overriding viewport meta tag...');
+            
+            // Remove existing viewport tags
+            const existingViewports = document.querySelectorAll('meta[name="viewport"]');
+            existingViewports.forEach(tag => tag.remove());
+            
+            // Inject desktop viewport
+            const desktopViewport = document.createElement('meta');
+            desktopViewport.name = 'viewport';
+            desktopViewport.content = 'width=1024, initial-scale=1.0, user-scalable=yes';
+            document.head.appendChild(desktopViewport);
+            
+            // Add desktop-specific meta tags
+            const desktopMetas = [
+                { name: 'mobile-web-app-capable', content: 'no' },
+                { name: 'apple-mobile-web-app-capable', content: 'no' },
+                { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
+                { name: 'format-detection', content: 'telephone=no' },
+                { name: 'msapplication-tap-highlight', content: 'no' }
+            ];
+            
+            desktopMetas.forEach(meta => {
+                const metaElement = document.createElement('meta');
+                metaElement.name = meta.name;
+                metaElement.content = meta.content;
+                document.head.appendChild(metaElement);
+            });
+        }
+        
+        function hijackMediaQueries() {
+            console.log('🎨 Hijacking CSS media query functions...');
+            
+            // Override window.matchMedia
+            const originalMatchMedia = window.matchMedia;
+            window.matchMedia = function(query) {
+                console.log('🎨 CSS: Media query intercepted:', query);
+                
+                // Force desktop results for mobile queries
+                if (query.includes('max-width') || query.includes('mobile') || query.includes('touch')) {
+                    return {
+                        matches: false,
+                        media: query,
+                        addListener: () => {},
+                        removeListener: () => {},
+                        addEventListener: () => {},
+                        removeEventListener: () => {},
+                        dispatchEvent: () => true
+                    };
+                }
+                
+                // Force positive results for desktop queries
+                if (query.includes('min-width') || query.includes('desktop') || query.includes('hover')) {
+                    return {
+                        matches: true,
+                        media: query,
+                        addListener: () => {},
+                        removeListener: () => {},
+                        addEventListener: () => {},
+                        removeEventListener: () => {},
+                        dispatchEvent: () => true
+                    };
+                }
+                
+                return originalMatchMedia.call(this, query);
+            };
+            
+            // Override CSS.supports for touch detection
+            if (window.CSS && window.CSS.supports) {
+                const originalSupports = window.CSS.supports;
+                window.CSS.supports = function(property, value) {
+                    if (property.includes('touch') || value.includes('touch')) {
+                        console.log('🎨 CSS: Touch support query blocked');
+                        return false;
+                    }
+                    return originalSupports.call(this, property, value);
+                };
+            }
+        }
+        
+        function forceDesktopStyles() {
+            console.log('🎨 Applying force desktop style mutations...');
+            
+            // Monitor for new elements and apply desktop styles
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'childList') {
+                        const addedNodes = Array.from(mutation.addedNodes);
+                        addedNodes.forEach(node => {
+                            if (node.nodeType === 1) { // Element node
+                                // Force desktop classes
+                                if (node.classList) {
+                                    node.classList.remove('mobile', 'm-', 'sm-', 'xs-');
+                                    node.classList.add('desktop', 'lg-', 'xl-');
+                                }
+                                
+                                // Remove mobile-specific attributes
+                                if (node.hasAttribute) {
+                                    ['data-mobile', 'data-touch', 'ontouchstart'].forEach(attr => {
+                                        if (node.hasAttribute(attr)) {
+                                            node.removeAttribute(attr);
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+            
+            observer.observe(document.body, { childList: true, subtree: true });
+        }
+        
+        async function initializeCSSHijacking() {
+            const cssOverridesDiv = document.getElementById('cssOverrides');
+            const statusDiv = document.getElementById('status');
+            const buyBtn = document.getElementById('buyBtn');
+            
+            try {
+                statusDiv.innerHTML = '🎨 Injecting CSS media query overrides...';
+                
+                // Step 1: Inject CSS overrides
+                const ruleCount = injectCSSOverrides();
+                cssOverridesDiv.innerHTML = `CSS overrides injected: ${ruleCount} rules applied ✅`;
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Step 2: Override viewport
+                statusDiv.innerHTML = '🎨 Overriding viewport meta tags...';
+                overrideViewportMeta();
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                // Step 3: Hijack media queries
+                statusDiv.innerHTML = '🎨 Hijacking media query functions...';
+                hijackMediaQueries();
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                // Step 4: Force desktop styles
+                statusDiv.innerHTML = '🎨 Activating desktop style enforcement...';
+                forceDesktopStyles();
+                await new Promise(resolve => setTimeout(resolve, 400));
+                
+                // Step 5: Navigator override for consistency
+                Object.defineProperties(navigator, {
+                    userAgent: {
+                        value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0',
+                        configurable: false
+                    },
+                    maxTouchPoints: {
+                        value: 0,
+                        configurable: false
+                    }
+                });
+                
+                statusDiv.innerHTML = '🎨 CSS HIJACKING ACTIVE - All mobile queries overridden';
+                statusDiv.className = 'status success';
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC with CSS Override (€19.50)';
+                cssHijackingActive = true;
+                
+            } catch (error) {
+                console.error('❌ CSS hijacking failed:', error);
+                statusDiv.innerHTML = '⚠️ CSS hijacking failed - basic protection active';
+                statusDiv.className = 'status error';
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC with Basic Protection (€19.50)';
+            }
+        }
+        
+        function launchCSSProtectedSimpleSwap() {
+            if (!cssHijackingActive) {
+                alert('⚠️ CSS hijacking not active! May not prevent mobile markup.');
+            }
+            
+            const params = new URLSearchParams({
+                from: 'eur-eur',
+                to: 'pol-matic',
+                amount: '19.50',
+                provider: 'mercuryo'
+            });
+            
+            const url = `https://simpleswap.io/exchange?${params.toString()}`;
+            
+            console.log('🎨 Launching SimpleSwap with CSS media query hijacking');
+            console.log('🎨 All mobile CSS queries have been overridden');
+            console.log('🎨 Viewport forced to desktop dimensions');
+            
+            window.open(url, '_blank');
+        }
+        
+        // Initialize on load
+        window.addEventListener('load', initializeCSSHijacking);
+        document.getElementById('buyBtn').addEventListener('click', launchCSSProtectedSimpleSwap);
+    </script>
+</body>
+</html>

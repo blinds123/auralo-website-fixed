@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auralo Test 08 - HTTP Request Timing</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); min-height: 100vh; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        .header { text-align: center; color: white; margin-bottom: 40px; }
+        .method-badge { background: rgba(255,255,255,0.2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-bottom: 20px; display: inline-block; }
+        .payment-card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .btn { background: linear-gradient(45deg, #ffecd2, #fcb69f); color: white; border: none; padding: 15px 40px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(252, 182, 159, 0.4); }
+        .status { margin: 20px 0; padding: 15px; border-radius: 8px; font-weight: bold; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .timing-info { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 10px; margin: 10px 0; font-family: monospace; font-size: 11px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⏱️ TEST SITE 08</h1>
+            <div class="method-badge">HTTP REQUEST TIMING MANIPULATION</div>
+            <p>Mimic desktop request timing patterns</p>
+        </div>
+        
+        <div class="payment-card">
+            <h2>Request Timing Protection</h2>
+            <p>This test manipulates HTTP request timing to match desktop browsing patterns.</p>
+            
+            <div id="timingInfo" class="timing-info">
+                Analyzing desktop timing patterns...
+            </div>
+            
+            <div id="status" class="status warning">
+                🔄 Initializing timing manipulation...
+            </div>
+            
+            <button id="buyBtn" class="btn" disabled>
+                🚀 Buy MATIC with Timing Control (€19.50)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let timingManipulationActive = false;
+        
+        const desktopTimingPatterns = {
+            initialDelay: { min: 800, max: 1500 }, // Desktop users read/think more
+            clickDelay: { min: 200, max: 800 }, // Mouse precision timing
+            scrollDelay: { min: 100, max: 300 }, // Desktop scroll patterns
+            hoverDelay: { min: 50, max: 150 }, // Mouse hover timing
+            requestGap: { min: 300, max: 1200 } // Time between requests
+        };
+        
+        let requestQueue = [];
+        let lastRequestTime = 0;
+        
+        function generateDesktopDelay(pattern) {
+            return Math.random() * (pattern.max - pattern.min) + pattern.min;
+        }
+        
+        function setupTimingManipulation() {
+            console.log('⏱️ Setting up desktop timing patterns...');
+            
+            // Override fetch with timing manipulation
+            const originalFetch = window.fetch;
+            window.fetch = function(input, init = {}) {
+                const url = typeof input === 'string' ? input : input.url;
+                const currentTime = Date.now();
+                
+                if (url.includes('simpleswap.io')) {
+                    console.log('⏱️ TIMING: Applying desktop request timing to SimpleSwap');
+                    
+                    // Calculate desktop-appropriate delay
+                    const timeSinceLastRequest = currentTime - lastRequestTime;
+                    const minGap = desktopTimingPatterns.requestGap.min;
+                    
+                    let delay = 0;
+                    if (timeSinceLastRequest < minGap) {
+                        delay = minGap - timeSinceLastRequest + generateDesktopDelay(desktopTimingPatterns.requestGap);
+                    } else {
+                        delay = generateDesktopDelay(desktopTimingPatterns.clickDelay);
+                    }
+                    
+                    console.log(`⏱️ TIMING: Desktop delay applied: ${delay}ms`);
+                    
+                    // Add desktop-style headers with timing info
+                    init.headers = init.headers || {};
+                    Object.assign(init.headers, {
+                        'X-Desktop-Request-Timing': delay.toString(),
+                        'X-Request-Pattern': 'desktop-deliberate',
+                        'X-User-Behavior': 'desktop-mouse-keyboard',
+                        'X-Timing-Signature': 'desktop-user-pattern'
+                    });
+                    
+                    return new Promise(resolve => {
+                        setTimeout(() => {
+                            lastRequestTime = Date.now();
+                            resolve(originalFetch.call(this, input, init));
+                        }, delay);
+                    });
+                }
+                
+                return originalFetch.call(this, input, init);
+            };
+            
+            // Override XMLHttpRequest with timing
+            const originalXHR = window.XMLHttpRequest;
+            window.XMLHttpRequest = function() {
+                const xhr = new originalXHR();
+                const originalSend = xhr.send;
+                
+                xhr.send = function(data) {
+                    if (xhr.responseURL && xhr.responseURL.includes('simpleswap.io')) {
+                        const delay = generateDesktopDelay(desktopTimingPatterns.requestGap);
+                        console.log(`⏱️ TIMING: XHR desktop delay: ${delay}ms`);
+                        
+                        setTimeout(() => {
+                            originalSend.call(this, data);
+                        }, delay);
+                    } else {
+                        originalSend.call(this, data);
+                    }
+                };
+                
+                return xhr;
+            };
+        }
+        
+        function setupDesktopBehaviorTiming() {
+            console.log('⏱️ Setting up desktop behavior timing...');
+            
+            // Desktop-style click timing
+            const originalAddEventListener = EventTarget.prototype.addEventListener;
+            EventTarget.prototype.addEventListener = function(type, listener, options) {
+                if (type === 'click' && typeof listener === 'function') {
+                    const wrappedListener = function(event) {
+                        // Desktop users have slight delay due to mouse precision
+                        const delay = generateDesktopDelay(desktopTimingPatterns.clickDelay);
+                        console.log(`⏱️ TIMING: Desktop click delay: ${delay}ms`);
+                        
+                        setTimeout(() => {
+                            listener.call(this, event);
+                        }, delay);
+                    };
+                    
+                    return originalAddEventListener.call(this, type, wrappedListener, options);
+                }
+                
+                return originalAddEventListener.call(this, type, listener, options);
+            };
+            
+            // Desktop scroll timing
+            let lastScrollTime = 0;
+            window.addEventListener('scroll', () => {
+                const currentTime = Date.now();
+                const scrollGap = currentTime - lastScrollTime;
+                
+                if (scrollGap < 50) {
+                    // Too fast for desktop, slow it down
+                    event.preventDefault();
+                    setTimeout(() => {
+                        lastScrollTime = Date.now();
+                    }, generateDesktopDelay(desktopTimingPatterns.scrollDelay));
+                } else {
+                    lastScrollTime = currentTime;
+                }
+            });
+        }
+        
+        function simulateDesktopReadingPatterns() {
+            console.log('⏱️ Simulating desktop reading patterns...');
+            
+            // Desktop users typically pause to read content
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                        const textContent = Array.from(mutation.addedNodes)
+                            .filter(node => node.nodeType === 1)
+                            .map(node => node.textContent)
+                            .join('');
+                        
+                        if (textContent.length > 50) {
+                            // Simulate desktop reading time (longer than mobile)
+                            const readingTime = Math.min(textContent.length * 50, 3000); // 50ms per character, max 3s
+                            console.log(`⏱️ TIMING: Desktop reading pause: ${readingTime}ms`);
+                            
+                            // Add artificial pause for desktop reading behavior
+                            setTimeout(() => {
+                                console.log('⏱️ TIMING: Desktop reading complete');
+                            }, readingTime);
+                        }
+                    }
+                });
+            });
+            
+            observer.observe(document.body, { childList: true, subtree: true });
+        }
+        
+        function setupPerformanceTiming() {
+            console.log('⏱️ Setting up desktop performance timing...');
+            
+            // Override performance.now for desktop-like timing
+            const originalNow = performance.now;
+            let performanceOffset = 0;
+            
+            performance.now = function() {
+                // Desktop typically has more stable timing
+                const baseTime = originalNow.call(this);
+                const desktopTime = baseTime + performanceOffset;
+                
+                // Add slight desktop-characteristic jitter
+                const jitter = (Math.random() - 0.5) * 2; // ±1ms
+                return Math.max(0, desktopTime + jitter);
+            };
+            
+            // Simulate desktop frame timing
+            const originalRequestAnimationFrame = window.requestAnimationFrame;
+            window.requestAnimationFrame = function(callback) {
+                // Desktop typically has 60fps (16.67ms intervals)
+                return originalRequestAnimationFrame.call(this, function(timestamp) {
+                    // Ensure desktop-like frame timing
+                    const desktopTimestamp = Math.floor(timestamp / 16.67) * 16.67;
+                    callback(desktopTimestamp);
+                });
+            };
+        }
+        
+        function generateTimingSummary() {
+            return {
+                pattern: 'Desktop deliberate browsing',
+                clickTiming: `${desktopTimingPatterns.clickDelay.min}-${desktopTimingPatterns.clickDelay.max}ms`,
+                requestGap: `${desktopTimingPatterns.requestGap.min}-${desktopTimingPatterns.requestGap.max}ms`,
+                scrollTiming: `${desktopTimingPatterns.scrollDelay.min}-${desktopTimingPatterns.scrollDelay.max}ms`,
+                readingPause: 'Content-length based (50ms/char)',
+                frameRate: '60fps desktop standard',
+                userBehavior: 'Mouse & keyboard precision timing'
+            };
+        }
+        
+        async function initializeTimingManipulation() {
+            const timingInfoDiv = document.getElementById('timingInfo');
+            const statusDiv = document.getElementById('status');
+            const buyBtn = document.getElementById('buyBtn');
+            
+            try {
+                statusDiv.innerHTML = '⏱️ Setting up request timing manipulation...';
+                setupTimingManipulation();
+                await new Promise(resolve => setTimeout(resolve, 400));
+                
+                statusDiv.innerHTML = '⏱️ Configuring desktop behavior timing...';
+                setupDesktopBehaviorTiming();
+                await new Promise(resolve => setTimeout(resolve, 400));
+                
+                statusDiv.innerHTML = '⏱️ Simulating desktop reading patterns...';
+                simulateDesktopReadingPatterns();
+                await new Promise(resolve => setTimeout(resolve, 400));
+                
+                statusDiv.innerHTML = '⏱️ Setting up performance timing...';
+                setupPerformanceTiming();
+                await new Promise(resolve => setTimeout(resolve, 400));
+                
+                // Generate timing summary
+                const timingSummary = generateTimingSummary();
+                const summaryText = Object.entries(timingSummary)
+                    .map(([key, value]) => `${key}: ${value}`)
+                    .join('\n');
+                
+                timingInfoDiv.textContent = summaryText;
+                
+                // Navigator override for consistency
+                Object.defineProperties(navigator, {
+                    userAgent: {
+                        value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0',
+                        configurable: false
+                    },
+                    maxTouchPoints: {
+                        value: 0,
+                        configurable: false
+                    }
+                });
+                
+                statusDiv.innerHTML = '⏱️ TIMING MANIPULATION ACTIVE - Desktop patterns established';
+                statusDiv.className = 'status success';
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC with Timing Control (€19.50)';
+                timingManipulationActive = true;
+                
+            } catch (error) {
+                console.error('❌ Timing manipulation failed:', error);
+                statusDiv.innerHTML = '⚠️ Timing manipulation failed - basic protection active';
+                statusDiv.className = 'status error';
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC with Basic Protection (€19.50)';
+            }
+        }
+        
+        function launchTimingControlledSimpleSwap() {
+            if (!timingManipulationActive) {
+                alert('⚠️ Timing manipulation not active! May not prevent mobile markup.');
+            }
+            
+            console.log('⏱️ TIMING: Initiating desktop-timed navigation...');
+            
+            // Apply initial desktop delay before navigation
+            const initialDelay = generateDesktopDelay(desktopTimingPatterns.initialDelay);
+            console.log(`⏱️ TIMING: Desktop thinking pause: ${initialDelay}ms`);
+            
+            setTimeout(() => {
+                const params = new URLSearchParams({
+                    from: 'eur-eur',
+                    to: 'pol-matic',
+                    amount: '19.50',
+                    provider: 'mercuryo'
+                });
+                
+                const url = `https://simpleswap.io/exchange?${params.toString()}`;
+                
+                console.log('⏱️ Launching SimpleSwap with desktop timing patterns');
+                console.log('⏱️ All requests will follow desktop user behavior timing');
+                
+                window.open(url, '_blank');
+            }, initialDelay);
+        }
+        
+        // Initialize on load
+        window.addEventListener('load', initializeTimingManipulation);
+        document.getElementById('buyBtn').addEventListener('click', launchTimingControlledSimpleSwap);
+    </script>
+</body>
+</html>

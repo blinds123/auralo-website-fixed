@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auralo Test 01 - Service Worker Interceptor</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        .header { text-align: center; color: white; margin-bottom: 40px; }
+        .method-badge { background: rgba(255,255,255,0.2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-bottom: 20px; display: inline-block; }
+        .payment-card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .btn { background: linear-gradient(45deg, #ff6b6b, #ee5a52); color: white; border: none; padding: 15px 40px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(238, 90, 82, 0.4); }
+        .status { margin: 20px 0; padding: 15px; border-radius: 8px; font-weight: bold; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ TEST SITE 01</h1>
+            <div class="method-badge">SERVICE WORKER NETWORK INTERCEPTOR</div>
+            <p>Network-level header modification to prevent mobile detection</p>
+        </div>
+        
+        <div class="payment-card">
+            <h2>Anti-Mobile-Discrimination Protection</h2>
+            <p>This test uses aggressive Service Worker to intercept ALL network requests and modify headers before they reach SimpleSwap.</p>
+            
+            <div id="status" class="status warning">
+                🔄 Initializing Service Worker protection...
+            </div>
+            
+            <button id="buyBtn" class="btn" disabled>
+                🚀 Buy MATIC with Protected Network (€19.50)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let protectionActive = false;
+        
+        // Service Worker Registration and Network Interception
+        async function initializeProtection() {
+            const statusDiv = document.getElementById('status');
+            const buyBtn = document.getElementById('buyBtn');
+            
+            try {
+                // Register Service Worker
+                if ('serviceWorker' in navigator) {
+                    statusDiv.innerHTML = '⚡ Registering Service Worker Network Interceptor...';
+                    
+                    const registration = await navigator.serviceWorker.register('./sw-interceptor.js');
+                    console.log('✅ Service Worker registered:', registration);
+                    
+                    // Wait for Service Worker to be ready
+                    await navigator.serviceWorker.ready;
+                    
+                    statusDiv.innerHTML = '🛡️ SERVICE WORKER NETWORK PROTECTION ACTIVE';
+                    statusDiv.className = 'status success';
+                    
+                    buyBtn.disabled = false;
+                    buyBtn.innerHTML = '🚀 Buy MATIC with Protected Network (€19.50)';
+                    protectionActive = true;
+                    
+                } else {
+                    throw new Error('Service Worker not supported');
+                }
+                
+            } catch (error) {
+                console.error('❌ Protection failed:', error);
+                statusDiv.innerHTML = '⚠️ Protection failed - fallback to basic spoofing';
+                statusDiv.className = 'status error';
+                
+                // Fallback: Basic navigator spoofing
+                Object.defineProperty(navigator, 'userAgent', {
+                    value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    configurable: true
+                });
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC with Basic Protection (€19.50)';
+            }
+        }
+        
+        // Launch protected SimpleSwap
+        function launchProtectedSimpleSwap() {
+            if (!protectionActive) {
+                alert('⚠️ Service Worker protection not active! May not prevent mobile markup.');
+            }
+            
+            const params = new URLSearchParams({
+                from: 'eur-eur',
+                to: 'pol-matic', 
+                amount: '19.50',
+                provider: 'mercuryo'
+            });
+            
+            const url = `https://simpleswap.io/exchange?${params.toString()}`;
+            
+            console.log('🚀 Launching protected SimpleSwap with Service Worker interception');
+            window.open(url, '_blank');
+        }
+        
+        // Initialize on load
+        window.addEventListener('load', initializeProtection);
+        document.getElementById('buyBtn').addEventListener('click', launchProtectedSimpleSwap);
+    </script>
+</body>
+</html>

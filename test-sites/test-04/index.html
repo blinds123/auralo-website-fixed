@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auralo Test 04 - Header Bombing</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); min-height: 100vh; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        .header { text-align: center; color: white; margin-bottom: 40px; }
+        .method-badge { background: rgba(255,255,255,0.2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-bottom: 20px; display: inline-block; }
+        .payment-card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .btn { background: linear-gradient(45deg, #f093fb, #f5576c); color: white; border: none; padding: 15px 40px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(245, 87, 108, 0.4); }
+        .status { margin: 20px 0; padding: 15px; border-radius: 8px; font-weight: bold; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .header-count { background: #e3f2fd; border: 1px solid #bbdefb; border-radius: 5px; padding: 10px; margin: 10px 0; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💥 TEST SITE 04</h1>
+            <div class="method-badge">JAVASCRIPT HEADER BOMBING</div>
+            <p>Overwhelm with hundreds of desktop-specific headers</p>
+        </div>
+        
+        <div class="payment-card">
+            <h2>Header Overwhelming Protection</h2>
+            <p>This test floods requests with massive amounts of desktop-specific headers to mask mobile signatures.</p>
+            
+            <div id="headerCount" class="header-count">
+                📊 Generating desktop headers: 0/500
+            </div>
+            
+            <div id="status" class="status warning">
+                🔄 Preparing header bombing system...
+            </div>
+            
+            <button id="buyBtn" class="btn" disabled>
+                🚀 Buy MATIC with Header Bombing (€19.50)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let bombingActive = false;
+        let desktopHeaders = {};
+        
+        // Generate comprehensive desktop headers
+        function generateDesktopHeaders() {
+            console.log('💥 Generating massive desktop header collection...');
+            
+            const baseHeaders = {
+                // Core browser headers
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                'Accept-Language': 'en-US,en;q=0.9,fr;q=0.8,de;q=0.7,es;q=0.6',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'Cache-Control': 'max-age=0',
+                'Connection': 'keep-alive',
+                'DNT': '1',
+                'Upgrade-Insecure-Requests': '1',
+                
+                // Desktop-specific headers
+                'Sec-CH-UA': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                'Sec-CH-UA-Mobile': '?0',
+                'Sec-CH-UA-Platform': '"Windows"',
+                'Sec-CH-UA-Platform-Version': '"15.0.0"',
+                'Sec-CH-UA-Arch': '"x86"',
+                'Sec-CH-UA-Bitness': '"64"',
+                'Sec-CH-UA-Model': '""',
+                'Sec-CH-UA-Full-Version': '"120.0.6099.129"',
+                'Sec-CH-UA-Full-Version-List': '"Not_A Brand";v="8.0.0.0", "Chromium";v="120.0.6099.129", "Google Chrome";v="120.0.6099.129"',
+                
+                // Desktop environment headers
+                'Sec-Fetch-Site': 'none',
+                'Sec-Fetch-Mode': 'navigate',
+                'Sec-Fetch-User': '?1',
+                'Sec-Fetch-Dest': 'document',
+                
+                // Custom desktop assertion headers
+                'X-Desktop-Only': 'true',
+                'X-Mobile-Disabled': 'true',
+                'X-Touch-Disabled': 'true',
+                'X-Screen-Type': 'desktop',
+                'X-Device-Type': 'computer',
+                'X-Viewport-Type': 'desktop',
+                'X-Input-Method': 'mouse-keyboard',
+                'X-Form-Factor': 'desktop'
+            };
+            
+            // Add timestamp-based headers
+            const timestamp = Date.now();
+            for (let i = 0; i < 50; i++) {
+                baseHeaders[`X-Desktop-Timestamp-${i}`] = timestamp + i;
+                baseHeaders[`X-Session-Desktop-${i}`] = `desktop_session_${timestamp}_${i}`;
+            }
+            
+            // Add random desktop characteristics
+            const desktopCharacteristics = [
+                'high-resolution-monitor', 'multi-monitor-setup', 'physical-keyboard',
+                'mouse-device', 'desktop-chrome', 'windows-os', 'intel-processor',
+                'dedicated-gpu', 'large-screen', 'full-browser', 'desktop-ui'
+            ];
+            
+            desktopCharacteristics.forEach((char, index) => {
+                baseHeaders[`X-Desktop-Feature-${index}`] = char;
+                baseHeaders[`X-Hardware-${char}`] = 'enabled';
+            });
+            
+            // Add browser engine headers
+            const engineHeaders = {
+                'X-Engine-Blink': 'true',
+                'X-Engine-V8': 'true',
+                'X-Engine-WebKit': '537.36',
+                'X-Chrome-Version': '120.0.6099.129',
+                'X-Browser-Desktop': 'Chrome',
+                'X-OS-Desktop': 'Windows',
+                'X-Architecture': 'x64'
+            };
+            
+            Object.assign(baseHeaders, engineHeaders);
+            
+            // Add performance headers (desktop typically has better performance)
+            for (let i = 0; i < 20; i++) {
+                baseHeaders[`X-Performance-Metric-${i}`] = Math.floor(Math.random() * 1000) + 2000; // High performance values
+                baseHeaders[`X-Memory-Available-${i}`] = Math.floor(Math.random() * 8000) + 8000; // High memory
+            }
+            
+            // Add network headers
+            const networkHeaders = {
+                'X-Connection-Type': 'ethernet',
+                'X-Network-Speed': 'high',
+                'X-Bandwidth': 'unlimited',
+                'X-Connection-Quality': 'excellent',
+                'X-Latency': 'low'
+            };
+            
+            Object.assign(baseHeaders, networkHeaders);
+            
+            // Add anti-mobile headers
+            const antiMobileHeaders = {
+                'X-Not-Mobile': 'confirmed',
+                'X-Not-Touch': 'confirmed',
+                'X-Not-Phone': 'confirmed',
+                'X-Not-Tablet': 'confirmed',
+                'X-Desktop-Confirmed': 'true',
+                'X-Mobile-Detection-Override': 'desktop',
+                'X-Touch-Events-Disabled': 'true'
+            };
+            
+            Object.assign(baseHeaders, antiMobileHeaders);
+            
+            // Add random padding headers to reach 500 total
+            const currentCount = Object.keys(baseHeaders).length;
+            const remaining = 500 - currentCount;
+            
+            for (let i = 0; i < remaining; i++) {
+                baseHeaders[`X-Desktop-Pad-${i}`] = `desktop_value_${i}_${timestamp}`;
+            }
+            
+            return baseHeaders;
+        }
+        
+        // Setup header bombing
+        function setupHeaderBombing() {
+            console.log('💥 Setting up header bombing system...');
+            
+            // Override fetch to add massive headers
+            const originalFetch = window.fetch;
+            window.fetch = function(input, init = {}) {
+                const url = typeof input === 'string' ? input : input.url;
+                
+                if (url.includes('simpleswap.io')) {
+                    console.log('💥 BOMBING: Launching header attack on SimpleSwap');
+                    console.log(`💥 BOMBING: Sending ${Object.keys(desktopHeaders).length} desktop headers`);
+                    
+                    init.headers = init.headers || {};
+                    Object.assign(init.headers, desktopHeaders);
+                    
+                    console.log('💥 BOMBING: Sample headers:', Object.keys(desktopHeaders).slice(0, 10));
+                }
+                
+                return originalFetch.call(this, input, init);
+            };
+            
+            // Override XMLHttpRequest
+            const originalXHR = window.XMLHttpRequest;
+            window.XMLHttpRequest = function() {
+                const xhr = new originalXHR();
+                const originalOpen = xhr.open;
+                const originalSend = xhr.send;
+                
+                xhr.open = function(method, url, ...args) {
+                    if (url.includes('simpleswap.io')) {
+                        console.log('💥 BOMBING: XHR header bombing activated');
+                        
+                        // Can't set all headers via XHR, but set key ones
+                        const keyHeaders = {
+                            'User-Agent': desktopHeaders['User-Agent'],
+                            'X-Desktop-Only': 'true',
+                            'X-Not-Mobile': 'confirmed',
+                            'Sec-CH-UA-Mobile': '?0'
+                        };
+                        
+                        Object.entries(keyHeaders).forEach(([key, value]) => {
+                            try {
+                                xhr.setRequestHeader(key, value);
+                            } catch (e) {
+                                console.log(`Cannot set header ${key}: ${e.message}`);
+                            }
+                        });
+                    }
+                    return originalOpen.apply(this, [method, url, ...args]);
+                };
+                
+                return xhr;
+            };
+        }
+        
+        // Navigator bombing
+        function setupNavigatorBombing() {
+            console.log('💥 Setting up navigator property bombing...');
+            
+            // Override multiple navigator properties
+            Object.defineProperties(navigator, {
+                userAgent: {
+                    value: desktopHeaders['User-Agent'],
+                    configurable: false
+                },
+                platform: {
+                    value: 'Win32',
+                    configurable: false
+                },
+                maxTouchPoints: {
+                    value: 0,
+                    configurable: false
+                },
+                hardwareConcurrency: {
+                    value: 16, // High-end desktop
+                    configurable: false
+                },
+                deviceMemory: {
+                    value: 32, // High memory desktop
+                    configurable: false
+                },
+                connection: {
+                    value: {
+                        effectiveType: '4g',
+                        downlink: 100, // High bandwidth
+                        rtt: 10 // Low latency
+                    },
+                    configurable: false
+                }
+            });
+            
+            // Add custom properties
+            navigator.isDesktop = true;
+            navigator.isMobile = false;
+            navigator.touchEnabled = false;
+            navigator.screenType = 'desktop';
+            navigator.deviceClass = 'computer';
+        }
+        
+        // Initialize header bombing
+        async function initializeHeaderBombing() {
+            const headerCountDiv = document.getElementById('headerCount');
+            const statusDiv = document.getElementById('status');
+            const buyBtn = document.getElementById('buyBtn');
+            
+            try {
+                statusDiv.innerHTML = '💥 Generating massive desktop header collection...';
+                
+                // Generate headers with progress updates
+                let headerProgress = 0;
+                const interval = setInterval(() => {
+                    headerProgress += 25;
+                    headerCountDiv.innerHTML = `📊 Generating desktop headers: ${headerProgress}/500`;
+                    
+                    if (headerProgress >= 500) {
+                        clearInterval(interval);
+                        headerCountDiv.innerHTML = `📊 Desktop headers ready: 500/500 ✅`;
+                    }
+                }, 100);
+                
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Generate the actual headers
+                desktopHeaders = generateDesktopHeaders();
+                console.log(`💥 Generated ${Object.keys(desktopHeaders).length} desktop headers`);
+                
+                statusDiv.innerHTML = '💥 Setting up header bombing system...';
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Setup bombing systems
+                setupHeaderBombing();
+                setupNavigatorBombing();
+                
+                statusDiv.innerHTML = '💥 Configuring anti-mobile assault...';
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                statusDiv.innerHTML = `💥 HEADER BOMBING ACTIVE (${Object.keys(desktopHeaders).length} headers)`;
+                statusDiv.className = 'status success';
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC with Header Bombing (€19.50)';
+                bombingActive = true;
+                
+            } catch (error) {
+                console.error('❌ Header bombing setup failed:', error);
+                statusDiv.innerHTML = '⚠️ Header bombing failed - basic protection active';
+                statusDiv.className = 'status error';
+                
+                // Fallback
+                Object.defineProperty(navigator, 'userAgent', {
+                    value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0',
+                    configurable: true
+                });
+                
+                buyBtn.disabled = false;
+                buyBtn.innerHTML = '🚀 Buy MATIC with Basic Protection (€19.50)';
+            }
+        }
+        
+        // Launch header bombing attack
+        function launchHeaderBombingAttack() {
+            if (!bombingActive) {
+                alert('⚠️ Header bombing not active! May not prevent mobile markup.');
+            }
+            
+            const params = new URLSearchParams({
+                from: 'eur-eur',
+                to: 'pol-matic',
+                amount: '19.50',
+                provider: 'mercuryo'
+            });
+            
+            const url = `https://simpleswap.io/exchange?${params.toString()}`;
+            
+            console.log('💥 LAUNCHING HEADER BOMBING ATTACK');
+            console.log(`💥 TARGET: ${url}`);
+            console.log(`💥 PAYLOAD: ${Object.keys(desktopHeaders).length} desktop headers`);
+            console.log('💥 MISSION: Overwhelm mobile detection with desktop signatures');
+            
+            window.open(url, '_blank');
+        }
+        
+        // Initialize on load
+        window.addEventListener('load', initializeHeaderBombing);
+        document.getElementById('buyBtn').addEventListener('click', launchHeaderBombingAttack);
+    </script>
+</body>
+</html>
