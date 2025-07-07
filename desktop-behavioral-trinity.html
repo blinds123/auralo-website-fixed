@@ -264,10 +264,11 @@
                 return originalFetch.call(this, input, init);
             };
             
-            // Desktop click timing
+            // Desktop click timing - only for SimpleSwap domain
             const originalAddEventListener = EventTarget.prototype.addEventListener;
             EventTarget.prototype.addEventListener = function(type, listener, options) {
-                if (type === 'click' && typeof listener === 'function') {
+                if (type === 'click' && typeof listener === 'function' && 
+                    window.location.hostname.includes('simpleswap.io')) {
                     const wrappedListener = function(event) {
                         const delay = generateDesktopDelay(desktopTimingPatterns.clickDelay);
                         setTimeout(() => {
@@ -469,8 +470,15 @@
         }
         
         // Initialize on load
-        window.addEventListener('load', initializeTrinity);
-        document.getElementById('buyBtn').addEventListener('click', launchTrinityProtectedSimpleSwap);
+        window.addEventListener('load', () => {
+            initializeTrinity();
+            
+            // Set up button click handler after DOM is ready
+            const buyBtn = document.getElementById('buyBtn');
+            if (buyBtn) {
+                buyBtn.onclick = launchTrinityProtectedSimpleSwap;
+            }
+        });
     </script>
 </body>
 </html>
